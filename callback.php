@@ -88,7 +88,16 @@ try {
 foreach ($events as $event) {
 	// Message Event
  if ($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage) {
-  $rawText = $event->getText();$text = strtolower($rawText);$explodeText=explode(" ",$text);$textReplyMessage="";
+  $rawText = $event->getText();$text = strtolower($rawText); $explodeText=explode(" ",$text);$textReplyMessage="";
+	 $firstCharacter=$text[0];
+	 if($text[0]=='#'){
+	 $textReplyMessage= "ดูเหมือนคุณจะถามลิซ่าใช่ไหมค่ะ";
+	 }else{   
+	 $textReplyMessage= "ดูเหมือนคุณไม่ได้สอบถามลิซ่านะคะ \n\n ลิซ่าจะอยู่เงียบๆ";	 
+	 }
+	 $textMessage = new TextMessageBuilder($textReplyMessage);
+			        $multiMessage->add($textMessage);
+                                $replyData = $multiMessage;
 	$log_note=$text;
 	 $tz_object = new DateTimeZone('Asia/Bangkok');
          $datetime = new DateTime();
@@ -145,7 +154,7 @@ foreach ($events as $event) {
 		 /*---- prove user by update status from 0 to 1---*/
 		 
 		 /*---- prove user by update status from 0 to 1---*/
-		if(($explodeText[0]=='#prove') and ($userId=='Ua300e9b08826b655e221d12b446d34e5')){ 
+		if(($explodeText[0]=='#prove') and ($userId=='U4acff231b87ace2fa827aea5b01baa6a')){ 
 				$toProveUserId = str_replace("#prove ","", $rawText);  
 			// get $_id
 				$json = file_get_contents('https://api.mlab.com/api/1/databases/hooqline/collections/user_register?apiKey='.MLAB_API_KEY.'&q={"userId":"'.$toProveUserId.'"}');
