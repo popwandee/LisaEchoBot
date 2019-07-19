@@ -161,10 +161,13 @@ foreach ($events as $event) {
                                 $isData=sizeof($data);
                                 if($isData >0){
                                    foreach($data as $rec){
-                                          $picFullSize= "https://thaitimes.online/wp-content/uploads/".$rec->answer;
+                                          $picFullSize= "https://thaitimes.online/wp-content/uploads/".$rec->img;
                                            }//end for each
 					 $imageMessage = new ImageMessageBuilder($picFullSize,$picFullSize);
 	                               $multiMessage->add($imageMessage);
+					
+					 $textMessage = new TextMessageBuilder($picFullSize);
+		                    $multiMessage->add($textMessage);
 				} // end no data
 				
 				       $replyData = $multiMessage;
