@@ -125,6 +125,7 @@ foreach ($events as $event) {
                                 //$replyData = $flexData->get($textReplyMessage,$photoUrl);
 				       $imageMessage = new ImageMessageBuilder($picFullSize,$picFullSize);
 	                               $multiMessage->add($imageMessage);
+				       $replyData = $multiMessage;
                                     }// no answer,
 					
 				}else{ // new learning, input '#lisa Question Answer' pattern
