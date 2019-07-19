@@ -120,10 +120,11 @@ foreach ($events as $event) {
                                    foreach($data as $rec){
                                            $textReplyMessage= $textReplyMessage."\n".$explodeText[1]." คือ\n".$rec->answer."\n";
                                            }//end for each
-				    $textMessage = new TextMessageBuilder($textReplyMessage);
-		                    $multiMessage->add($textMessage);
-		                    $replyData = $multiMessage;
+				   $PhotoUrl ="https://i1.wp.com/thaitimes.online/wp-content/uploads/D_MINu3VAAAmRw5.jpg";
+				$flexData = new ReplyPhotoMessage;
+                                $replyData = $flexData->get($explodeText[1],$textReplyMessage,$PhotoUrl);
                                     }// no answer,
+					
 				}else{ // new learning, input '#lisa Question Answer' pattern
 		                $indexCount=1;$answer='';
 	                        foreach($explodeText as $rec){
@@ -152,6 +153,7 @@ foreach ($events as $event) {
 		                    $multiMessage->add($textMessage);
 		                    $replyData = $multiMessage;
 				}// end no answer, just question only
+				
                                  break;
 			   
 			   case '#tran':
@@ -165,17 +167,7 @@ foreach ($events as $event) {
 		                break;
 			
 			   default: 
-				
-				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[0].'"}');
-                                $data = json_decode($json);
-                                $isData=sizeof($data);
-                                if($isData >0){
-                                   foreach($data as $rec){
-                                           $textReplyMessage= $textReplyMessage.$rec->answer."\n";
-                                           }//end for each
-				    $textMessage = new TextMessageBuilder($textReplyMessage);
-		                    $multiMessage->add($textMessage);
-		                    $replyData = $multiMessage;
+		                    $replyData = '';
                                     }// no answer,
 				break;
                         }//end switch 
@@ -296,14 +288,14 @@ class ReplyTranslateMessage
             ->setContents([$websiteButton, $spacer]);
     }
 } 
-class ReplyCarRegisterMessage
+class ReplyPhotoMessage
 {
     /**
      * Create  flex message
      *
      * @return \LINE\LINEBot\MessageBuilder\FlexMessageBuilder
      */
-    public static function get($question,$answer,$picUrl)
+    public static function get($question,$answer,$PhotoUrl)
     {
         return FlexMessageBuilder::builder()
             ->setAltText('Lisa')
@@ -311,18 +303,18 @@ class ReplyCarRegisterMessage
                 BubbleContainerBuilder::builder()
                     ->setHero(self::createHeroBlock($picUrl))
                     ->setBody(self::createBodyBlock($question,$answer))
-                    ->setFooter(self::createFooterBlock($picUrl))
+                    ->setFooter(self::createFooterBlock($PhotoUrl))
             );
     }
-    private static function createHeroBlock($picUrl)
+    private static function createHeroBlock($PhotoUrl)
     {
 	   
         return ImageComponentBuilder::builder()
-            ->setUrl($picUrl)
+            ->setUrl($PhotoUrl)
             ->setSize(ComponentImageSize::FULL)
             ->setAspectRatio(ComponentImageAspectRatio::R20TO13)
             ->setAspectMode(ComponentImageAspectMode::FIT)
-            ->setAction(new UriTemplateActionBuilder(null, $picUrl));
+            ->setAction(new UriTemplateActionBuilder(null, $PhotoUrl));
     }
     private static function createBodyBlock($question,$answer)
     {
@@ -398,7 +390,7 @@ class ReplyCarRegisterMessage
             ->setStyle(ComponentButtonStyle::LINK)
             ->setHeight(ComponentButtonHeight::SM)
             ->setFlex(0)
-            ->setAction(new UriTemplateActionBuilder('เพิ่มเติม','https://www.hooq.info'));
+            ->setAction(new UriTemplateActionBuilder('เพิ่มเติม','https://www.thaitimes.online'));
         $spacer = new SpacerComponentBuilder(ComponentSpaceSize::SM);
         return BoxComponentBuilder::builder()
             ->setLayout(ComponentLayout::VERTICAL)
