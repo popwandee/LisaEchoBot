@@ -120,9 +120,9 @@ foreach ($events as $event) {
                                    foreach($data as $rec){
                                            $textReplyMessage= $textReplyMessage."\n".$explodeText[1]." คือ\n".$rec->answer."\n";
                                            }//end for each
-				$PhotoUrl ="https://i1.wp.com/thaitimes.online/wp-content/uploads/D_MINu3VAAAmRw5.jpg";
+				$photoUrl ="https://i1.wp.com/thaitimes.online/wp-content/uploads/D_MINu3VAAAmRw5.jpg";
 				$flexData = new ReplyPhotoMessage;
-                                $replyData = $flexData->get($textReplyMessage,$PhotoUrl);
+                                $replyData = $flexData->get($textReplyMessage,$photoUrl);
                                     }// no answer,
 					
 				}else{ // new learning, input '#lisa Question Answer' pattern
@@ -272,6 +272,7 @@ class ReplyTranslateMessage
             ->setLayout(ComponentLayout::VERTICAL)
             ->setContents([$review]);
     }
+	
     private static function createFooterBlock()
     {
         
@@ -288,6 +289,7 @@ class ReplyTranslateMessage
             ->setContents([$websiteButton, $spacer]);
     }
 } 
+
 class ReplyPhotoMessage
 {
     /**
@@ -295,26 +297,26 @@ class ReplyPhotoMessage
      *
      * @return \LINE\LINEBot\MessageBuilder\FlexMessageBuilder
      */
-    public static function get($answer,$PhotoUrl)
+    public static function get($answer,$photoUrl)
     {
         return FlexMessageBuilder::builder()
             ->setAltText('Lisa')
             ->setContents(
                 BubbleContainerBuilder::builder()
-                    ->setHero(self::createHeroBlock($PhotoUrl))
+                    ->setHero(self::createHeroBlock($photoUrl))
                     ->setBody(self::createBodyBlock($answer))
-                    ->setFooter(self::createFooterBlock($PhotoUrl))
+                    ->setFooter(self::createFooterBlock($photoUrl))
             );
     }
-    private static function createHeroBlock($PhotoUrl)
+    private static function createHeroBlock($photoUrl)
     {
 	   
         return ImageComponentBuilder::builder()
-            ->setUrl($PhotoUrl)
+            ->setUrl($photoUrl)
             ->setSize(ComponentImageSize::FULL)
             ->setAspectRatio(ComponentImageAspectRatio::R20TO13)
             ->setAspectMode(ComponentImageAspectMode::FIT)
-            ->setAction(new UriTemplateActionBuilder(null, $PhotoUrl));
+            ->setAction(new UriTemplateActionBuilder(null, $photoUrl));
     }
     private static function createBodyBlock($answer)
     {
@@ -379,7 +381,7 @@ class ReplyPhotoMessage
             //->setContents([$review, $info]);
             ->setContents([$review]);
     }
-    private static function createFooterBlock($PhotoUrl)
+    private static function createFooterBlock($photoUrl)
     {
         
         $websiteButton = ButtonComponentBuilder::builder()
