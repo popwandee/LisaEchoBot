@@ -125,7 +125,6 @@ foreach ($events as $event) {
 		                    $replyData = $multiMessage;
                                     }// no answer,
 				}else{ // new learning, input '#lisa Question Answer' pattern
-                                //Post New Data
 		                $indexCount=1;$answer='';
 	                        foreach($explodeText as $rec){
 		                       $indexCount++;
@@ -133,6 +132,8 @@ foreach ($events as $event) {
 		                           $answer= $answer." ".$explodeText[$indexCount];
 		                          }
 	                                }
+					
+                                //Post New Data
                                 $newData = json_encode(array('question' => $explodeText[1],'answer'=> $answer) );
                                 $opts = array('http' => array( 'method' => "POST",
                                           'header' => "Content-type: application/json",
@@ -164,8 +165,8 @@ foreach ($events as $event) {
 		                break;
 			
 			   default: 
-				if(!isset($explodeText[2])){ // just question, 
-				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[1].'"}');
+				
+				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[0].'"}');
                                 $data = json_decode($json);
                                 $isData=sizeof($data);
                                 if($isData >0){
