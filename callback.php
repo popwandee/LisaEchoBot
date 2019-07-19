@@ -120,9 +120,9 @@ foreach ($events as $event) {
                                    foreach($data as $rec){
                                            $textReplyMessage= $textReplyMessage."\n".$explodeText[1]." คือ\n".$rec->answer."\n";
                                            }//end for each
-				   $PhotoUrl ="https://i1.wp.com/thaitimes.online/wp-content/uploads/D_MINu3VAAAmRw5.jpg";
+				$PhotoUrl ="https://i1.wp.com/thaitimes.online/wp-content/uploads/D_MINu3VAAAmRw5.jpg";
 				$flexData = new ReplyPhotoMessage;
-                                $replyData = $flexData->get($explodeText[1],$textReplyMessage,$PhotoUrl);
+                                $replyData = $flexData->get($textReplyMessage,$PhotoUrl);
                                     }// no answer,
 					
 				}else{ // new learning, input '#lisa Question Answer' pattern
@@ -295,14 +295,14 @@ class ReplyPhotoMessage
      *
      * @return \LINE\LINEBot\MessageBuilder\FlexMessageBuilder
      */
-    public static function get($question,$answer,$PhotoUrl)
+    public static function get($answer,$PhotoUrl)
     {
         return FlexMessageBuilder::builder()
             ->setAltText('Lisa')
             ->setContents(
                 BubbleContainerBuilder::builder()
                     ->setHero(self::createHeroBlock($PhotoUrl))
-                    ->setBody(self::createBodyBlock($question,$answer))
+                    ->setBody(self::createBodyBlock($answer))
                     ->setFooter(self::createFooterBlock($PhotoUrl))
             );
     }
@@ -316,13 +316,9 @@ class ReplyPhotoMessage
             ->setAspectMode(ComponentImageAspectMode::FIT)
             ->setAction(new UriTemplateActionBuilder(null, $PhotoUrl));
     }
-    private static function createBodyBlock($question,$answer)
+    private static function createBodyBlock($answer)
     {
-        $title = TextComponentBuilder::builder()
-            ->setText($question)
-            ->setWeight(ComponentFontWeight::BOLD)
-	    ->setwrap(true)
-            ->setSize(ComponentFontSize::SM);
+       
         
         $textDetail = TextComponentBuilder::builder()
             ->setText($answer)
@@ -337,7 +333,7 @@ class ReplyPhotoMessage
             ->setMargin(ComponentMargin::LG)
             //->setMargin(ComponentMargin::SM)
             ->setSpacing(ComponentSpacing::SM)
-            ->setContents([$title,$textDetail]);
+            ->setContents([$textDetail]);
 	
 	    /*    
         $place = BoxComponentBuilder::builder()
@@ -383,7 +379,7 @@ class ReplyPhotoMessage
             //->setContents([$review, $info]);
             ->setContents([$review]);
     }
-    private static function createFooterBlock($picUrl)
+    private static function createFooterBlock($PhotoUrl)
     {
         
         $websiteButton = ButtonComponentBuilder::builder()
