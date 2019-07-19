@@ -117,7 +117,7 @@ foreach ($events as $event) {
                         'header' => "Content-type: application/json",
                         'content' => $newUserData ) );
            
-                        $url = 'https://api.mlab.com/api/1/databases/hooqline/collections/user_register?apiKey='.MLAB_API_KEY.'';
+                        $url = 'https://api.mlab.com/api/1/databases/crma51/collections/user_register?apiKey='.MLAB_API_KEY.'';
                         $context = stream_context_create($opts);
                         $returnValue = file_get_contents($url,false,$context);
 			if($returnValue){
@@ -148,7 +148,7 @@ foreach ($events as $event) {
 		if(($explodeText[0]=='#prove') and ($userId=='U4acff231b87ace2fa827aea5b01baa6a')){ 
 				$toProveUserId = str_replace("#prove ","", $rawText);  
 			// get $_id
-				$json = file_get_contents('https://api.mlab.com/api/1/databases/hooqline/collections/user_register?apiKey='.MLAB_API_KEY.'&q={"userId":"'.$toProveUserId.'"}');
+				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/user_register?apiKey='.MLAB_API_KEY.'&q={"userId":"'.$toProveUserId.'"}');
                                   $data = json_decode($json);
                                   $isGet_id=sizeof($data);
                                  if($isGet_id >0){
@@ -168,7 +168,7 @@ foreach ($events as $event) {
                                            )
                                         );
            
-                                  $url = 'https://api.mlab.com/api/1/databases/hooqline/collections/user_register/'.$updateId.'?apiKey='.MLAB_API_KEY;
+                                  $url = 'https://api.mlab.com/api/1/databases/crma51/collections/user_register/'.$updateId.'?apiKey='.MLAB_API_KEY;
                                   $context = stream_context_create($opts);
                                   $returnValue = file_get_contents($url,false,$context);
 				 }else{// end isGet_id
@@ -210,7 +210,7 @@ foreach ($events as $event) {
                                           'header' => "Content-type: application/json",
                                           'content' => $newUserData ) );
            
-                                       $url = 'https://api.mlab.com/api/1/databases/hooqline/collections/user_register?apiKey='.MLAB_API_KEY.'';
+                                       $url = 'https://api.mlab.com/api/1/databases/crma51/collections/user_register?apiKey='.MLAB_API_KEY.'';
                                        $context = stream_context_create($opts);
                                        $returnValue = file_get_contents($url,false,$context);
 			               if($returnValue){
@@ -236,7 +236,7 @@ foreach ($events as $event) {
 		 } // can not get displayName and //end of #register by userId 
 	 }// end can not get displayName
 	if(!is_null($userId)){
-	    $json = file_get_contents('https://api.mlab.com/api/1/databases/hooqline/collections/user_register?apiKey='.MLAB_API_KEY.'&q={"userId":"'.$userId.'"}');
+	    $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/user_register?apiKey='.MLAB_API_KEY.'&q={"userId":"'.$userId.'"}');
             $data = json_decode($json);
             $isUserRegister=sizeof($data);
 		if($isUserRegister <=0){
@@ -254,7 +254,7 @@ foreach ($events as $event) {
 			
 		case '#':
 				if(!isset($explodeText[2])){ // just question, 
-				$json = file_get_contents('https://api.mlab.com/api/1/databases/hooqline/collections/knowledge?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[1].'"}');
+				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[1].'"}');
                                 $data = json_decode($json);
                                 $isData=sizeof($data);
                                 if($isData >0){
@@ -280,7 +280,7 @@ foreach ($events as $event) {
                                           'content' => $newData
                                            )
                                         );
-                                $url = 'https://api.mlab.com/api/1/databases/hooqline/collections/knowledge?apiKey='.MLAB_API_KEY.'';
+                                $url = 'https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'';
                                 $context = stream_context_create($opts);
                                 $returnValue = file_get_contents($url,false,$context);
                                        if($returnValue){
@@ -306,7 +306,7 @@ foreach ($events as $event) {
 			
 			   default: 
 				if(!isset($explodeText[2])){ // just question, 
-				$json = file_get_contents('https://api.mlab.com/api/1/databases/hooqline/collections/knowledge?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[1].'"}');
+				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[1].'"}');
                                 $data = json_decode($json);
                                 $isData=sizeof($data);
                                 if($isData >0){
@@ -342,7 +342,7 @@ foreach ($events as $event) {
                                            )
                                         );
            
-            $url = 'https://api.mlab.com/api/1/databases/hooqline/collections/use_log?apiKey='.MLAB_API_KEY.'';
+            $url = 'https://api.mlab.com/api/1/databases/crma51/collections/use_log?apiKey='.MLAB_API_KEY.'';
             $context = stream_context_create($opts);
             $returnValue = file_get_contents($url,false,$context);
 		
