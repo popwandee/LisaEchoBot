@@ -297,26 +297,26 @@ class ReplyPhotoMessage
      *
      * @return \LINE\LINEBot\MessageBuilder\FlexMessageBuilder
      */
-    public static function get($answer,$photoUrl)
+    public static function get($answer)
     {
         return FlexMessageBuilder::builder()
             ->setAltText('Lisa')
             ->setContents(
                 BubbleContainerBuilder::builder()
-                    ->setHero(self::createHeroBlock($photoUrl))
+                    ->setHero(self::createHeroBlock('https://thaitimes.online/wp-content/uploads/51724484_1191703040978591_8791088534904635392_n.jpg'))
                     ->setBody(self::createBodyBlock($answer))
-                    ->setFooter(self::createFooterBlock($photoUrl))
+                    ->setFooter(self::createFooterBlock('https://thaitimes.online/wp-content/uploads/51724484_1191703040978591_8791088534904635392_n.jpg'))
             );
     }
     private static function createHeroBlock($photoUrl)
     {
 	   
         return ImageComponentBuilder::builder()
-            ->setUrl($photoUrl)
+            ->setUrl('https://thaitimes.online/wp-content/uploads/51724484_1191703040978591_8791088534904635392_n.jpg')
             ->setSize(ComponentImageSize::FULL)
             ->setAspectRatio(ComponentImageAspectRatio::R20TO13)
             ->setAspectMode(ComponentImageAspectMode::FIT)
-            ->setAction(new UriTemplateActionBuilder(null, $photoUrl));
+            ->setAction(new UriTemplateActionBuilder(null, 'https://thaitimes.online/wp-content/uploads/51724484_1191703040978591_8791088534904635392_n.jpg'));
     }
     private static function createBodyBlock($answer)
     {
