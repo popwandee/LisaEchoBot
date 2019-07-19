@@ -120,9 +120,9 @@ foreach ($events as $event) {
                                    foreach($data as $rec){
                                            $textReplyMessage= $textReplyMessage."\n".$explodeText[1]." คือ\n".$rec->answer."\n";
                                            }//end for each
-				 $textMessage = new TextMessageBuilder($textReplyMessage);
-		                    $multiMessage->add($textMessage);
-		                    $replyData = $multiMessage;
+					$photoUrl = 'https://i1.wp.com/thaitimes.online/wp-content/uploads/D_MINu3VAAAmRw5.jpg';
+				 $flexData = new ReplyTranslateMessage;
+                                $replyData = $flexData->get($textReplyMessage,$photoUrl);
                                     }// no answer,
 					
 				}else{ // new learning, input '#lisa Question Answer' pattern
@@ -168,7 +168,7 @@ foreach ($events as $event) {
 			
 			   default: 
 		                    $replyData = '';
-                                    }// no answer,
+                                   
 				break;
                         }//end switch 
 			
@@ -290,3 +290,110 @@ class ReplyTranslateMessage
     }
 } 
 
+class ReplyPhotoMessage
+{
+    /**
+     * Create  flex message
+     *
+     * @return \LINE\LINEBot\MessageBuilder\FlexMessageBuilder
+     */
+    public static function get($answer,$photoUrl)
+    {
+        return FlexMessageBuilder::builder()
+            ->setAltText('Lisa')
+            ->setContents(
+                BubbleContainerBuilder::builder()
+                    ->setHero(self::createHeroBlock($photoUrl))
+                    ->setBody(self::createBodyBlock($answer))
+                    ->setFooter(self::createFooterBlock($photoUrl))
+            );
+    }
+    private static function createHeroBlock($photoUrl)
+    {
+	   
+        return ImageComponentBuilder::builder()
+            ->setUrl($photoUrl)
+            ->setSize(ComponentImageSize::FULL)
+            ->setAspectRatio(ComponentImageAspectRatio::R20TO13)
+            ->setAspectMode(ComponentImageAspectMode::FIT)
+            ->setAction(new UriTemplateActionBuilder(null, $photoUrl));
+    }
+    private static function createBodyBlock($answer)
+    {
+       
+        
+        $textDetail = TextComponentBuilder::builder()
+            ->setText($answer)
+            ->setSize(ComponentFontSize::LG)
+            ->setColor('#000000')
+            ->setMargin(ComponentMargin::MD)
+	    ->setwrap(true)
+            ->setFlex(2);
+        $review = BoxComponentBuilder::builder()
+            ->setLayout(ComponentLayout::VERTICAL)
+            //->setLayout(ComponentLayout::BASELINE)
+            ->setMargin(ComponentMargin::LG)
+            //->setMargin(ComponentMargin::SM)
+            ->setSpacing(ComponentSpacing::SM)
+            ->setContents([$textDetail]);
+	
+	    /*    
+        $place = BoxComponentBuilder::builder()
+            ->setLayout(ComponentLayout::BASELINE)
+            ->setSpacing(ComponentSpacing::SM)
+            ->setContents([
+                TextComponentBuilder::builder()
+                    ->setText('ที่อยู่')
+                    ->setColor('#aaaaaa')
+                    ->setSize(ComponentFontSize::SM)
+                    ->setFlex(1),
+                TextComponentBuilder::builder()
+                    ->setText('Samsen, Bangkok')
+                    ->setWrap(true)
+                    ->setColor('#666666')
+                    ->setSize(ComponentFontSize::SM)
+                    ->setFlex(5)
+            ]);
+        $time = BoxComponentBuilder::builder()
+            ->setLayout(ComponentLayout::BASELINE)
+            ->setSpacing(ComponentSpacing::SM)
+            ->setContents([
+                TextComponentBuilder::builder()
+                    ->setText('Time')
+                    ->setColor('#aaaaaa')
+                    ->setSize(ComponentFontSize::SM)
+                    ->setFlex(1),
+                TextComponentBuilder::builder()
+                    ->setText('10:00 - 23:00')
+                    ->setWrap(true)
+                    ->setColor('#666666')
+                    ->setSize(ComponentFontSize::SM)
+                    ->setFlex(5)
+            ]);
+	    
+        $info = BoxComponentBuilder::builder()
+            ->setLayout(ComponentLayout::VERTICAL)
+            ->setMargin(ComponentMargin::LG)
+            ->setSpacing(ComponentSpacing::SM)
+            ->setContents([$place, $time]);*/
+        return BoxComponentBuilder::builder()
+            ->setLayout(ComponentLayout::VERTICAL)
+            //->setContents([$review, $info]);
+            ->setContents([$review]);
+    }
+    private static function createFooterBlock($photoUrl)
+    {
+        
+        $websiteButton = ButtonComponentBuilder::builder()
+            ->setStyle(ComponentButtonStyle::LINK)
+            ->setHeight(ComponentButtonHeight::SM)
+            ->setFlex(0)
+            ->setAction(new UriTemplateActionBuilder('เพิ่มเติม','https://www.thaitimes.online'));
+        $spacer = new SpacerComponentBuilder(ComponentSpaceSize::SM);
+        return BoxComponentBuilder::builder()
+            ->setLayout(ComponentLayout::VERTICAL)
+            ->setSpacing(ComponentSpacing::SM)
+            ->setFlex(0)
+            ->setContents([$websiteButton, $spacer]);
+    }
+} 
