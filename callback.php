@@ -120,7 +120,7 @@ foreach ($events as $event) {
                                    foreach($data as $rec){
                                            $textReplyMessage= $textReplyMessage."\n".$explodeText[1]." คือ\n".$rec->answer."\n";
                                            }//end for each
-					$photoUrl = "https://thaitimes.online/wp-content/uploads/receptionist-free-img-1.jpg";
+					$photoUrl = "https://thaitimes.online/wp-content/uploads/51724484_1191703040978591_8791088534904635392_n.jpg";
 				 $flexData = new ReplyTranslateMessage;
                                 $replyData = $flexData->get($textReplyMessage,$photoUrl);
                                     }// no answer,
