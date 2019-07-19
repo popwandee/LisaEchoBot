@@ -123,9 +123,9 @@ foreach ($events as $event) {
 					$picFullSize = "https://thaitimes.online/wp-content/uploads/51724484_1191703040978591_8791088534904635392_n.jpg";
 				 //$flexData = new ReplyTranslateMessage;
                                 //$replyData = $flexData->get($textReplyMessage,$photoUrl);
-				       $imageMessage = new ImageMessageBuilder($picFullSize,$picFullSize);
-	                               $multiMessage->add($imageMessage);
-				       $replyData = $multiMessage;
+					 $textMessage = new TextMessageBuilder($textReplyMessage);
+		                    $multiMessage->add($textMessage);
+				       
                                     }// no answer,
 					
 				}else{ // new learning, input '#lisa Question Answer' pattern
@@ -156,7 +156,18 @@ foreach ($events as $event) {
 		                    $multiMessage->add($textMessage);
 		                    $replyData = $multiMessage;
 				}// end no answer, just question only
+				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/img?apiKey='.MLAB_API_KEY.'&q={"no":"1"}');
+                                $data = json_decode($json);
+                                $isData=sizeof($data);
+                                if($isData >0){
+                                   foreach($data as $rec){
+                                          $picFullSize= "https://thaitimes.online/wp-content/uploads/".$rec->answer;
+                                           }//end for each
+					 $imageMessage = new ImageMessageBuilder($picFullSize,$picFullSize);
+	                               $multiMessage->add($imageMessage);
+				} // end no data
 				
+				       $replyData = $multiMessage;
                                  break;
 			   
 			   case '#tran':
