@@ -301,7 +301,7 @@ class ReplyPhotoMessage
             ->setAltText('Lisa')
             ->setContents(
                 BubbleContainerBuilder::builder()
-                    ->setHero(self::createHeroBlock($picUrl))
+                    ->setHero(self::createHeroBlock($PhotoUrl))
                     ->setBody(self::createBodyBlock($question,$answer))
                     ->setFooter(self::createFooterBlock($PhotoUrl))
             );
