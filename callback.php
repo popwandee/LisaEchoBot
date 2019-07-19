@@ -120,9 +120,9 @@ foreach ($events as $event) {
                                    foreach($data as $rec){
                                            $textReplyMessage= $textReplyMessage."\n".$explodeText[1]." คือ\n".$rec->answer."\n";
                                            }//end for each
-				$photoUrl ="https://i1.wp.com/thaitimes.online/wp-content/uploads/D_MINu3VAAAmRw5.jpg";
-				$flexData = new ReplyPhotoMessage;
-                                $replyData = $flexData->get($textReplyMessage,$photoUrl);
+				 $textMessage = new TextMessageBuilder($textReplyMessage);
+		                    $multiMessage->add($textMessage);
+		                    $replyData = $multiMessage;
                                     }// no answer,
 					
 				}else{ // new learning, input '#lisa Question Answer' pattern
