@@ -105,151 +105,10 @@ foreach ($events as $event) {
               if(!is_null($profile['statusMessage'])){$statusMessage = $profile['statusMessage'];}else{$statusMessage ='';}
               if(!is_null($profile['pictureUrl'])){$pictureUrl = $profile['pictureUrl'];}else{$pictureUrl ='';}
 	      $textReplyMessage= "คุณ ".$displayName;
-	      //$textMessage = new TextMessageBuilder($textReplyMessage);
-	      //$multiMessage->add($textMessage);  
-		 
-		 if(($explodeText[0]=='#register') and (isset($explodeText[1]))){ // เก็บข้อมูลผู้สมัคร แต่ยังคงให้ status =0
-			$text_parameter = str_replace("#register ","", $text); 
-			$newUserData = json_encode(array('userName' => $text_parameter,'displayName' => $displayName,
-					'userId'=> $userId,'statusMessage'=> $statusMessage,
-					'pictureUrl'=>$pictureUrl,'status'=>0) );
-                        $opts = array('http' => array( 'method' => "POST",
-                        'header' => "Content-type: application/json",
-                        'content' => $newUserData ) );
-           
-                        $url = 'https://api.mlab.com/api/1/databases/crma51/collections/user_register?apiKey='.MLAB_API_KEY.'';
-                        $context = stream_context_create($opts);
-                        $returnValue = file_get_contents($url,false,$context);
-			if($returnValue){
-		              $textReplyMessage= "คุณ".$displayName." ได้ส่ง รหัสเครื่องให้ Lisa แล้วนะคะ\n\n รอการอนุมัติสักครู่นะคะ เพื่อให้การลงทะเบียนสมบูรณ์ (ปกติจะใช้เวลาไม่นานถ้าไม่ลืมนะคะ คริคริ) หลังจากที่ท่านลงทะเบียนแล้วถึงจะสามารถตรวจสอบข้อมูลกับ Lisa ได้นะค่ะ";
-			      $textReplyMessage= $textReplyMessage."\n\n เพื่อป้องกันการเข้ามาใช้งานโดยไม่ได้รับอนุญาต และปกป้องข้อมูลของหน่วย ซึ่งเป็นเรื่องที่สำคัญ \n\n ผู้ใช้จำเป็นต้องลงทะเบียน เมื่อท่านพิมพ์ #register และข้อมูลส่วนตัวของท่าน แสดงว่าท่านยินยอมให้ Lisa เก็บรหัสของ LINE กับอุปกรณ์ที่ท่านใช้งาน เพื่อยืนยันตัวบุคคลก่อน";
-			      $textReplyMessage= $textReplyMessage."\n\n พิมพ์ #help เพื่อสอบถามวิธีการตั้งคำถามให้นกฮูกช่วยตอบ";
-                              $textReplyMessage= $textReplyMessage."\n\n รหัสของคุณคือ ".$userId."\n\n รหัสของคุณจะใช้ได้จนกว่าคุณจะสมัคร LINE ใหม่ หรือเปลี่ยนเครื่อง \n\n ";
-			      $textMessage = new TextMessageBuilder($textReplyMessage);
-			      $multiMessage->add($textMessage);		                           
-			      $textReplyMessage= $userId;
-                              $textMessage = new TextMessageBuilder($textReplyMessage);
-			      $multiMessage->add($textMessage);
-			      $replyData = $multiMessage;
-			      $response = $bot->replyMessage($replyToken,$replyData);
-			      $userId = NULL;
-				 }else{
-				$textReplyMessage= "คุณ".$displayName." ไม่สามารถลงทะเบียน ID ".$userId." ได้ค่ะ\n\n กรุณาลองใหม่อีกครั้งค่ะ \n\nหรือแจ้งผู้ดูแลระบบโดยตรงนะคะ";
-                                $textMessage = new TextMessageBuilder($textReplyMessage);
-			        $multiMessage->add($textMessage);
-                                $replyData = $multiMessage;
-				$userId = NULL;
-			}
-		 } // end #register
-		 
-		 /*---- prove user by update status from 0 to 1---*/
-		 
-		 /*---- prove user by update status from 0 to 1---*/
-		if(($explodeText[0]=='#prove') and ($userId=='U4acff231b87ace2fa827aea5b01baa6a')){ 
-				$toProveUserId = str_replace("#prove ","", $rawText);  
-			// get $_id
-				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/user_register?apiKey='.MLAB_API_KEY.'&q={"userId":"'.$toProveUserId.'"}');
-                                  $data = json_decode($json);
-                                  $isGet_id=sizeof($data);
-                                 if($isGet_id >0){
-                                    foreach($data as &$rec){
-                                       $documentId= $rec->_id;
-					    foreach($documentId as $key => $value){
-						    if($key === '$oid'){
-							    $updateId=$value;
-					                   $textReplyMessage="อนุมัติ Id ".$rec->userId." แล้วค่ะ";
-					                    }
-					             } // end for each $key=>$value
-					    }//end for each
-			  $updateUserData = json_encode(array('$set' => array('status' => '1')));
-			  $opts = array('http' => array( 'method' => "PUT",
-                                          'header' => "Content-type: application/json",
-                                          'content' => $updateUserData
-                                           )
-                                        );
-           
-                                  $url = 'https://api.mlab.com/api/1/databases/crma51/collections/user_register/'.$updateId.'?apiKey='.MLAB_API_KEY;
-                                  $context = stream_context_create($opts);
-                                  $returnValue = file_get_contents($url,false,$context);
-				 }else{// end isGet_id
-					$textReplyMessage=$explodeText[1]." No User ID";
-				 }// end isGet_id
-				 $textMessage = new TextMessageBuilder($textReplyMessage);
-			          $multiMessage->add($textMessage);
-			          $replyData = $multiMessage;
-			           $response = $bot->replyMessage($replyToken,$replyData);
-			 } // end #prove
-		 /*--------------------------*/
-		 if($explodeText[0]=='#help'){
-			 
-			 $textReplyMessage= $textReplyMessage."\n\n#lisa คำถาม คำตอบ";
-			 $textReplyMessage= $textReplyMessage."\n พิมพ์ #lisa เพื่อสอนความรู้ใหม่ให้ Lisa เช่น #lisa ยะลา จังหวัดหนึ่งในประเทศไทย) ";
-			 $textReplyMessage= $textReplyMessage."\n\n#lisa คำถาม ";
-			 $textReplyMessage= $textReplyMessage."\n พิมพ์ #lisa ค เพื่อสอบถามข้อมูลจาก Lisa  (เช่น #lisa ยะลา )";
-			 $textReplyMessage= $textReplyMessage."\n\n พิมพ์ #tran รหัสประเทศต้นทาง ปลายทาง คำที่ต้องการแปล (เช่น #tran ms th hello แปลคำว่า hello จากมาเลเซียเป็นไทย) เพื่อแปลภาษา";
-			 $textReplyMessage= $textReplyMessage."\n\n th ไทย ms มาเลเซีย id อินโดนีเซีย zh-CN จีน en อังกฤษ";			 
-			 	 $textMessage = new TextMessageBuilder($textReplyMessage);
-			          $multiMessage->add($textMessage);
-			          $replyData = $multiMessage;
-			          $response = $bot->replyMessage($replyToken,$replyData);
-		 }// end of help
-		 
-              }else{ // end get displayName succeed
-		 /*-----------------  register by no data --*/
-		  if(($explodeText[0]=='#register') and (isset($explodeText[1]))){ // เก็บข้อมูลผู้สมัคร แต่ยังคงให้ status =0
-			  
-			                $text_parameter = str_replace("#register ","", $text); 
-			               $displayName ='';
-                                       $statusMessage ='';
-                                       $pictureUrl ='';
-			                $text_parameter = str_replace("#register ","", $text); 
-					$newUserData = json_encode(array('userName' => $text_parameter,'displayName' => $displayName,
-									 'userId'=> $userId,'statusMessage'=> $statusMessage,
-									 'pictureUrl'=>$pictureUrl,'status'=>0) );
-                                        $opts = array('http' => array( 'method' => "POST",
-                                          'header' => "Content-type: application/json",
-                                          'content' => $newUserData ) );
-           
-                                       $url = 'https://api.mlab.com/api/1/databases/crma51/collections/user_register?apiKey='.MLAB_API_KEY.'';
-                                       $context = stream_context_create($opts);
-                                       $returnValue = file_get_contents($url,false,$context);
-			               if($returnValue){
-		                           $textReplyMessage= "คุณ".$displayName." ได้ส่ง รหัสเครื่องให้น้อง Lisa แล้วนะคะ\n\n รอการอนุมัติสักครู่นะคะ เพื่อให้การลงทะเบียนสมบูรณ์ (ปกติจะใช้เวลาไม่นานถ้าไม่ลืมนะคะ คริคริ) หลังจากที่ท่านลงทะเบียนแล้วถึงจะสามารถตรวจสอบข้อมูลกับน้อง Lisa ได้นะค่ะ";
-			                    $textReplyMessage= $textReplyMessage."\n\n เพื่อป้องกันการเข้ามาใช้งานโดยไม่ได้รับอนุญาต และปกป้องข้อมูลของหน่วย ซึ่งเป็นเรื่องที่สำคัญ \n\n ผู้ใช้จำเป็นต้องลงทะเบียน เมื่อท่านพิมพ์ #register และข้อมูลส่วนตัวของท่าน แสดงว่าท่านยินยอมให้น้อง Lisa เก็บรหัสของ LINE กับอุปกรณ์ที่ท่านใช้งาน เพื่อยืนยันตัวบุคคลก่อน";
-			                    $textReplyMessage= $textReplyMessage."\n\n พิมพ์ #help เพื่อสอบถามวิธีการตั้งคำถามให้น้อง Lisa ช่วยตอบ";
-                                            $textReplyMessage= $textReplyMessage."\n\n รหัสของคุณคือ ".$userId."\n\n รหัสของคุณจะใช้ได้จนกว่าคุณจะสมัคร LINE ใหม่ หรือเปลี่ยนเครื่อง ";
-			                   $textMessage = new TextMessageBuilder($textReplyMessage);
-			                   $multiMessage->add($textMessage);		                           
-					   $textReplyMessage= $userId;
-                                           $textMessage = new TextMessageBuilder($textReplyMessage);
-			                   $multiMessage->add($textMessage);
-					   $replyData = $multiMessage;
-			                   $response = $bot->replyMessage($replyToken,$replyData);
-					   $userId = NULL;
-				           }else{
-					   $textReplyMessage= "คุณ".$displayName." ไม่สามารถลงทะเบียน ID ".$userId." ได้ค่ะ\n\n กรุณาลองใหม่อีกครั้งค่ะ \n\nหรือแจ้งผู้ดูแลระบบโดยตรงนะคะ";
-                                           $textMessage = new TextMessageBuilder($textReplyMessage);
-			                   $multiMessage->add($textMessage);
-                                           $replyData = $multiMessage;
-					   $userId = NULL;
-				       }
-		 } // can not get displayName and //end of #register by userId 
-	 }// end can not get displayName
+	      $textMessage = new TextMessageBuilder($textReplyMessage);
+	      $multiMessage->add($textMessage);   
+              }
 	if(!is_null($userId)){
-	    $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/user_register?apiKey='.MLAB_API_KEY.'&q={"userId":"'.$userId.'"}');
-            $data = json_decode($json);
-            $isUserRegister=sizeof($data);
-		if($isUserRegister <=0){
-		           $notRegisterReplyMessage= "คุณ".$displayName." ยังไม่ได้ลงทะเบียน ID ".$userId." ไม่สามารถเข้าถึงฐานข้อมูลได้นะคะ\n กรุณาพิมพ์ #register ยศ ชื่อ นามสกุล ตำแหน่ง สังกัด หมายเลขโทรศัพท์ เพื่อลงทะเบียนค่ะ";
-                          //$log_note = $log_note.$notRegisterReplyMessage;
-	         }else{ // User registered
-                    foreach($data as $rec){
-			    $registerUserReplyMessage="From phone \nDisplayname ".$displayName."\n User Id ".$userId;
-			    $userName=$rec->userName;
-                           //$log_note = $log_note."From phone \nDisplayname ".$displayName."\n User Id ".$userId;
-                           //$log_note= $log_note."\nFrom DB\nDisplayname ".$rec->displayName."\n Registered Id ".$rec->userId;
-			     }//end for each
-	if($rec->status==1){ // อนุมัติตัวบุคคลแล้ว
 		switch ($explodeText[0]) { 
 			
 		case '#':
@@ -320,9 +179,7 @@ foreach ($events as $event) {
 				break;
                         }//end switch 
 			
-			}// end check user status == 1
-		   
-	              }// end User Registered 
+			
 		
 		//-- บันทึกการเข้าใช้งานระบบ ---//
 		
