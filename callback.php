@@ -156,9 +156,8 @@ foreach ($events as $event) {
 		                    $multiMessage->add($textMessage);
 		                    $replyData = $multiMessage;
 				}// end no answer, just question only
-				$numImg=mt_rand(0,2);
-				$numImg=1;
-				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/img?apiKey='.MLAB_API_KEY.'&q={"no":$numImg}');
+
+				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/img?apiKey='.MLAB_API_KEY.'&q={"no": {"$bt": [1, 2]}}');
                                 $data = json_decode($json);
                                 $isData=sizeof($data);
                                 if($isData >0){
