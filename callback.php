@@ -120,7 +120,7 @@ foreach ($events as $event) {
                                    foreach($data as $rec){
                                            $textReplyMessage= $textReplyMessage."\n".$explodeText[1]." คือ\n".$rec->answer."\n";
                                            }//end for each
-					$photoUrl = 'https://i1.wp.com/thaitimes.online/wp-content/uploads/D_MINu3VAAAmRw5.jpg';
+					$photoUrl = "https://thaitimes.online/wp-content/uploads/receptionist-free-img-1.jpg";
 				 $flexData = new ReplyTranslateMessage;
                                 $replyData = $flexData->get($textReplyMessage,$photoUrl);
                                     }// no answer,
@@ -246,7 +246,7 @@ class ReplyTranslateMessage
             ->setSize(ComponentImageSize::FULL)
             ->setAspectRatio(ComponentImageAspectRatio::R20TO13)
             ->setAspectMode(ComponentImageAspectMode::FIT)
-            ->setAction(new UriTemplateActionBuilder(null, 'https://www.hooq.info'));
+            ->setAction(new UriTemplateActionBuilder(null, 'https://www.thaitimes.online'));
     }
     private static function createBodyBlock($question,$answer)
     {
@@ -280,7 +280,7 @@ class ReplyTranslateMessage
             ->setStyle(ComponentButtonStyle::LINK)
             ->setHeight(ComponentButtonHeight::SM)
             ->setFlex(0)
-            ->setAction(new UriTemplateActionBuilder('เพิ่มเติม','https://www.hooq.info'));
+            ->setAction(new UriTemplateActionBuilder('เพิ่มเติม','https://www.thaitimes.online'));
         $spacer = new SpacerComponentBuilder(ComponentSpaceSize::SM);
         return BoxComponentBuilder::builder()
             ->setLayout(ComponentLayout::VERTICAL)
