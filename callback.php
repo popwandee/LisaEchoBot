@@ -136,14 +136,13 @@ foreach ($events as $event) {
 		                       $founduser= NULL;
 			               $textReplyMessage=".... ";
 	                               }
-				
-				$kmText=explode("# ",$text);
-				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$kmText[0].'"}}');
+			
+				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$explodeText[1].'"}}');
                                 $data = json_decode($json);
                                 $isData=sizeof($data);
                                 if($isData >0){
                                    foreach($data as $rec){
-                                           $textReplyMessage=$kmText[1].".......\n".$rec->answer."\n";
+                                           $textReplyMessage=$explodeText[1].".......\n".$rec->answer."\n";
                                            }//end for each
 					if(isset($rec->Image)){
 		 	                  $picFullSize="https://thaitimes.online/wp-content/uploads/".$rec->Image;
