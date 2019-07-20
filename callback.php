@@ -142,7 +142,7 @@ foreach ($events as $event) {
                                 $isData=sizeof($data);
                                 if($isData >0){
                                    foreach($data as $rec){
-                                           $textReplyMessage=$explodeText[1].".......\n".$rec->answer."\n";
+                                           $textReplyMessage=$rec->question.".......\n".$rec->answer."\n";
                                            }//end for each
 					if(isset($rec->Image)){
 		 	                  $picFullSize="https://thaitimes.online/wp-content/uploads/".$rec->Image;
