@@ -129,6 +129,7 @@ foreach ($events as $event) {
                                     }// no answer,
 					
 				}else{ // new learning, input '#lisa Question Answer' pattern
+					
 		                $indexCount=1;$answer='';
 	                        foreach($explodeText as $rec){
 		                       $indexCount++;
@@ -158,7 +159,7 @@ foreach ($events as $event) {
 				}// end no answer, just question only
 				
 				$numImg=rand(1,2);
-				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/img?apiKey='.MLAB_API_KEY.'&q={"no":"$numImg"}&max=1');
+				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/img?apiKey='.MLAB_API_KEY.'&q={"no":'.$numImg.'}&max=1');
                                 $data = json_decode($json);
                                 $isData=sizeof($data);
                                 if($isData >0){
@@ -171,7 +172,7 @@ foreach ($events as $event) {
 					 $textMessage = new TextMessageBuilder($picFullSize);
 		                    $multiMessage->add($textMessage);
 				}else{ // end no data
-					
+					$replyTextUrl="Number form random is ".$numImg;
 				 $textMessage = new TextMessageBuilder($numImg);
 		                    $multiMessage->add($textMessage);
 				}
