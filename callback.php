@@ -165,13 +165,17 @@ foreach ($events as $event) {
                                    foreach($data as $rec){
                                            $textReplyMessage="\n".$explodeText[1].".......\n".$rec->answer."\n";
                                            }//end for each
-			            $picFullSize = "https://thaitimes.online/wp-content/uploads/51724484_1191703040978591_8791088534904635392_n.jpg";
-				 
+					if(isset($rec->Image)){
+		 	                  $picFullSize="https://thaitimes.online/wp-content/uploads/".$rec->Image;
+	                                  $imageMessage = new ImageMessageBuilder($picFullSize,$picFullSize);
+	                                  $multiMessage->add($imageMessage);
+		                            }
+			            
 				    $textMessage = new TextMessageBuilder($textReplyMessage);
 		                    $multiMessage->add($textMessage);
 				       
                                     }// no answer,
-					
+				if(!isset($picFullSize)){	// กรณียังไม่มีรูป จะ Random รูปภาพจากฐานข้อมูลมาแสดง
 				$numImg=rand(1,21);
 				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/img?apiKey='.MLAB_API_KEY.'&q={"no":'.$numImg.'}&max=1');
                                 $data = json_decode($json);
@@ -184,6 +188,7 @@ foreach ($events as $event) {
 	                               $multiMessage->add($imageMessage);
 					
 				}// end no data
+				}// end isset $picFullSize // มีรูปภาพจาก KM แล้ว
 				       $replyData = $multiMessage;
                                  break;
 				
