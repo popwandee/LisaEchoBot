@@ -152,7 +152,7 @@ foreach ($events as $event) {
 		                         $founduser2= 1;
 	                              }else{//don't found data
 				         $founduser2=NULL;
-					 $textReplyMessage=$textReplyMessage." ไม่พบในฐานข้อมูล2"; $statusReport=$statusReport."\n Don't Found user_register";
+					 $textReplyMessage=$textReplyMessage." "; $statusReport=$statusReport."\n Don't Found user_register";
 				         }
 		                       $textMessage = new TextMessageBuilder($textReplyMessage);
 		                       $multiMessage->add($textMessage);
@@ -175,7 +175,7 @@ foreach ($events as $event) {
 				       
                                    }else{//don't found data
 					$foundkm=NULL;
-					 $textReplyMessage="ไม่พบในฐานข้อมูล3 ";$statusReport=$statusReport."\n Don't Found km";
+					 $textReplyMessage=" ";$statusReport=$statusReport."\n Don't Found km";
 				         }
 				    $textMessage = new TextMessageBuilder($textReplyMessage);
 		                    $multiMessage->add($textMessage);
@@ -194,7 +194,7 @@ foreach ($events as $event) {
 					$statusReport=$statusReport."\n Found image";
 				 }else{//don't found data
 					$foundimg=NULL;
-					 $textReplyMessage="ไม่พบในฐานข้อมูล4 ";$statusReport=$statusReport."\n Don't Found img";
+					 $textReplyMessage=" ";$statusReport=$statusReport."\n Don't Found img";
 				         }
 				}// end isset $picFullSize // มีรูปภาพจาก KM แล้ว
 				 
