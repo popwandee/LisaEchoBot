@@ -148,14 +148,14 @@ foreach ($events as $event) {
                                             $textReplyMessage= $textReplyMessage.$count.'. '.$rec2->userName."\n\n";                                  	   
 			                    $count++;
                                              }//end for each
-		                         $textMessage = new TextMessageBuilder($textReplyMessage);
-		                         $multiMessage->add($textMessage);
+		                        
 		                         $founduser2= 1;
 	                              }else{//don't found data
 				         $founduser2=NULL;
-					 $textReplyMessage=" ไม่พบในฐานข้อมูล1"; $statusReport=$statusReport."\n Don't Found user_register";
+					 $textReplyMessage=$textReplyMessage." ไม่พบในฐานข้อมูล2"; $statusReport=$statusReport."\n Don't Found user_register";
 				         }
-		              
+		                       $textMessage = new TextMessageBuilder($textReplyMessage);
+		                       $multiMessage->add($textMessage);
 				 
 				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[1].'"}');
                                 $data = json_decode($json);
@@ -171,13 +171,14 @@ foreach ($events as $event) {
 	                                  $multiMessage->add($imageMessage);
 		                            }
 			            $foundkm=1;
-				    $textMessage = new TextMessageBuilder($textReplyMessage);
-		                    $multiMessage->add($textMessage);
+
 				       
                                    }else{//don't found data
 					$foundkm=NULL;
-					 $textReplyMessage="ไม่พบในฐานข้อมูล2 ";$statusReport=$statusReport."\n Don't Found km";
+					 $textReplyMessage="ไม่พบในฐานข้อมูล3 ";$statusReport=$statusReport."\n Don't Found km";
 				         }
+				    $textMessage = new TextMessageBuilder($textReplyMessage);
+		                    $multiMessage->add($textMessage);
 				
 				if(!isset($picFullSize)){	// กรณียังไม่มีรูป จะ Random รูปภาพจากฐานข้อมูลมาแสดง
 				$numImg=rand(1,21);
@@ -193,7 +194,7 @@ foreach ($events as $event) {
 					$statusReport=$statusReport."\n Found image";
 				 }else{//don't found data
 					$foundimg=NULL;
-					 $textReplyMessage="ไม่พบในฐานข้อมูล3 ";$statusReport=$statusReport."\n Don't Found img";
+					 $textReplyMessage="ไม่พบในฐานข้อมูล4 ";$statusReport=$statusReport."\n Don't Found img";
 				         }
 				}// end isset $picFullSize // มีรูปภาพจาก KM แล้ว
 				 
