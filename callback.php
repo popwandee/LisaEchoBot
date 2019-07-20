@@ -137,7 +137,7 @@ foreach ($events as $event) {
 			               $textReplyMessage=".... ";
 	                               }
 				
-				$kmText=explode("# ",$text)
+				$kmText=explode("# ",$text);
 				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$kmText[1].'"}}');
                                 $data = json_decode($json);
                                 $isData=sizeof($data);
