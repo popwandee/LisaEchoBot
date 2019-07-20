@@ -107,7 +107,7 @@ foreach ($events as $event) {
 	      $textReplyMessage= "คุณ".$displayName." คะ\n";
 	     
               }
-	 $statusReport="";
+
 	 // count image in database
 	 
 	 // end count image in database
@@ -120,51 +120,30 @@ foreach ($events as $event) {
                                      $isData=sizeof($data);
 			             $count = 1;
                                      if($isData >0){
-		                       $founduser= 1;$statusReport=$statusReport."\nFound phonebook";
-		                       $hasImageUrlStatus = false;
+		                       $founduser= 1;
                                        foreach($data as $rec){
                                          $textReplyMessage= $textReplyMessage.$count.' '.$rec->rank.$rec->name.' '.$rec->lastname.' ('.$rec->position.' '.$rec->deploy_position.') '.$rec->Email.' โทร '.$rec->Tel1." ค่ะ\n\n";
 				         if(isset($rec->Image) and (!$hasImageUrlStatus) and ($count<5)){
-			                  $imageUrlStatus=true;
 		 	                  $imageUrl="https://thaitimes.online/wp-content/uploads/".$rec->Image;
 	                                  $imageMessage = new ImageMessageBuilder($imageUrl,$imageUrl);
 	                                  $multiMessage->add($imageMessage);
 		                            }
 			                  $count++;
                                          }//end for each
-		                         
-	                              }else{
-		                       $founduser= NULL;
-			               $textReplyMessage=" ";$founduser= 1;$statusReport=$statusReport."\n Don't Found phonebook";
-	                               }
-				//ตรวจสอบในฐานข้อมูล register ใหม่
-				/*
-                                       $json2 = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/user_register?apiKey='.MLAB_API_KEY.'&q={"userName":{"$regex":"'.$explodeText[1].'"}}');
-			               $data2 = json_decode($json2);
-                                       $isData2=sizeof($data2);
-                                       if($isData2 >0){
-		                         $hasImageUrlStatus = false;
-					 $statusReport=$statusReport."\n Found user_register";
-                                         foreach($data2 as $rec2){
-                                            $textReplyMessage= $textReplyMessage.$count.'. '.$rec2->userName."\n\n";                                  	   
-			                    $count++;
-                                             }//end for each
-		                        
-		                         $founduser2= 1;
-	                              }else{//don't found data
-				         $founduser2=NULL;
-					 $textReplyMessage=$textReplyMessage." "; $statusReport=$statusReport."\n Don't Found user_register";
-				         }
 		                       $textMessage = new TextMessageBuilder($textReplyMessage);
 		                       $multiMessage->add($textMessage);
-				 */
+	                              }else{
+		                       $founduser= NULL;
+			               $textReplyMessage="Sorry ";
+	                               }
+				
+
 				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[1].'"}');
                                 $data = json_decode($json);
                                 $isData=sizeof($data);
                                 if($isData >0){
-					 $statusReport=$statusReport."\n Found km";
                                    foreach($data as $rec){
-                                           $textReplyMessage="\n".$explodeText[1].".......\n".$rec->answer."\n";
+                                           $textReplyMessage=$explodeText[1].".......\n".$rec->answer."\n";
                                            }//end for each
 					if(isset($rec->Image)){
 		 	                  $picFullSize="https://thaitimes.online/wp-content/uploads/".$rec->Image;
@@ -172,14 +151,12 @@ foreach ($events as $event) {
 	                                  $multiMessage->add($imageMessage);
 		                            }
 			            $foundkm=1;
-
-				       
-                                   }else{//don't found data
-					$foundkm=NULL;
-					 $textReplyMessage=" ";$statusReport=$statusReport."\n Don't Found km";
-				         }
 				    $textMessage = new TextMessageBuilder($textReplyMessage);
 		                    $multiMessage->add($textMessage);
+                                   }else{//don't found data
+					$foundkm=NULL;
+					 $textReplyMessage="Sorry ";
+				         }
 				
 				if(!isset($picFullSize)){	// กรณียังไม่มีรูป จะ Random รูปภาพจากฐานข้อมูลมาแสดง
 				$numImg=rand(1,21);
@@ -192,20 +169,18 @@ foreach ($events as $event) {
                                            }//end for each
 				       $imageMessage = new ImageMessageBuilder($picFullSize,$picFullSize);
 	                               $multiMessage->add($imageMessage);
-					$statusReport=$statusReport."\n Found image";
 				 }else{//don't found data
 					$foundimg=NULL;
-					 $textReplyMessage=" ";$statusReport=$statusReport."\n Don't Found img";
+					 $textReplyMessage="Sorry ";
 				         }
 				}// end isset $picFullSize // มีรูปภาพจาก KM แล้ว
 				 
 				if($founduser1 or $founduser2 or $foundkm){
-					//$textMessage = new TextMessageBuilder($statusReport);
-		                    //$multiMessage->add($textMessage);
+					
 				       $replyData = $multiMessage;
 		                 }else{
-					//$textMessage = new TextMessageBuilder($statusReport);
-		                    //$multiMessage->add($textMessage);
+				       $textMessage = new TextMessageBuilder($textReplyMessage);
+		                       $multiMessage->add($textMessage);
 					$replyData = $multiMessage;
 				}
                                  break;
