@@ -138,6 +138,7 @@ foreach ($events as $event) {
 			               $textReplyMessage=" ";$founduser= 1;$statusReport=$statusReport."\n Don't Found phonebook";
 	                               }
 				//ตรวจสอบในฐานข้อมูล register ใหม่
+				/*
                                        $json2 = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/user_register?apiKey='.MLAB_API_KEY.'&q={"userName":{"$regex":"'.$explodeText[1].'"}}');
 			               $data2 = json_decode($json2);
                                        $isData2=sizeof($data2);
@@ -156,7 +157,7 @@ foreach ($events as $event) {
 				         }
 		                       $textMessage = new TextMessageBuilder($textReplyMessage);
 		                       $multiMessage->add($textMessage);
-				 
+				 */
 				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[1].'"}');
                                 $data = json_decode($json);
                                 $isData=sizeof($data);
