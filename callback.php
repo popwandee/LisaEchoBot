@@ -193,11 +193,14 @@ foreach ($events as $event) {
 					$statusReport=$statusReport."\n Found image";
 				}// end no data
 				}// end isset $picFullSize // มีรูปภาพจาก KM แล้ว
-				 $textMessage = new TextMessageBuilder($statusReport);
-		                    $multiMessage->add($textMessage);
+				 
 				if($founduser1 or $founduser2 or $foundkm){
 				       $replyData = $multiMessage;
-		                 }
+		                 }else{
+					$textMessage = new TextMessageBuilder($statusReport);
+		                    $multiMessage->add($textMessage);
+					$replyData = $multiMessage;
+				}
                                  break;
 				
 			   case '#lisa':
