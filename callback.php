@@ -157,15 +157,7 @@ foreach ($events as $event) {
 				         $founduser2=NULL;
 					 $textReplyMessage2="\nไม่พบข้อมูลใน Register\n";
 				         }
-		               if((is_null($founduser)) and (is_null($founduser2))) {
-				$textReplyMessage2= "ลิซ่า หาชื่อ ".$explodeText[1]." ไม่พบค่ะ";
-		                $textMessage2 = new TextMessageBuilder($textReplyMessage2);
-		                $multiMessage->add($textMessage2);
-	                       }
-		                $replyData = $multiMessage;
-                                 break;
-				
-		case '#lisa':
+		              
 				 
 				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[1].'"}');
                                 $data = json_decode($json);
@@ -196,7 +188,7 @@ foreach ($events as $event) {
 				       $replyData = $multiMessage;
                                  break;
 				
-			   case '#สอน':
+			   case '#lisa':
 				
 					
 		                $indexCount=1;$answer='';
