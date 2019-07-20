@@ -132,12 +132,11 @@ foreach ($events as $event) {
 		                            }
 			                  $count++;
                                          }//end for each
-		                         $textMessage = new TextMessageBuilder($textReplyMessage);
-		                         $multiMessage->add($textMessage);
+		                         
 		                         $founduser= 1;
 	                              }else{
 		                       $founduser= NULL;
-			               $textReplyMessage="\nไม่พบข้อมูลใน ฐานข้อมูลบุคคล\n";
+			               //$textReplyMessage="\nไม่พบข้อมูลใน ฐานข้อมูลบุคคล\n";
 	                               }
 				//ตรวจสอบในฐานข้อมูล register ใหม่
                                        $json2 = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/user_register?apiKey='.MLAB_API_KEY.'&q={"userName":{"$regex":"'.$explodeText[1].'"}}');
@@ -145,17 +144,17 @@ foreach ($events as $event) {
                                        $isData2=sizeof($data2);
                                        if($isData2 >0){
 		                         $hasImageUrlStatus = false;
-					 $textReplyMessage2="";
+					 
                                          foreach($data2 as $rec2){
-                                            $textReplyMessage2= $textReplyMessage2.$count.'. '.$rec2->userName."\n\n";                                  	   
+                                            $textReplyMessage= $textReplyMessage.$count.'. '.$rec2->userName."\n\n";                                  	   
 			                    $count++;
                                              }//end for each
-		                         $textMessage2 = new TextMessageBuilder($textReplyMessage2);
-		                         $multiMessage->add($textMessage2);
+		                         $textMessage = new TextMessageBuilder($textReplyMessage);
+		                         $multiMessage->add($textMessage);
 		                         $founduser2= 1;
 	                              }else{//don't found data
 				         $founduser2=NULL;
-					 $textReplyMessage2="\nไม่พบข้อมูลใน Register\n";
+					 
 				         }
 		              
 				 
@@ -164,7 +163,7 @@ foreach ($events as $event) {
                                 $isData=sizeof($data);
                                 if($isData >0){
                                    foreach($data as $rec){
-                                           $textReplyMessage= $textReplyMessage."\n".$explodeText[1]." คือ\n".$rec->answer."\n";
+                                           $textReplyMessage="\n".$explodeText[1].".......\n".$rec->answer."\n";
                                            }//end for each
 			            $picFullSize = "https://thaitimes.online/wp-content/uploads/51724484_1191703040978591_8791088534904635392_n.jpg";
 				 
