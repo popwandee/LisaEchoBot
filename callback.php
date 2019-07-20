@@ -120,7 +120,7 @@ foreach ($events as $event) {
                                      $isData=sizeof($data);
 			             $count = 1;
                                      if($isData >0){
-		                  
+		                       $founduser= 1;
 		                       $hasImageUrlStatus = false;
                                        foreach($data as $rec){
                                          $textReplyMessage= $textReplyMessage.$count.' '.$rec->rank.$rec->name.' '.$rec->lastname.' ('.$rec->position.' '.$rec->deploy_position.') '.$rec->Email.' โทร '.$rec->Tel1." ค่ะ\n\n";
@@ -133,10 +133,9 @@ foreach ($events as $event) {
 			                  $count++;
                                          }//end for each
 		                         
-		                         $founduser= 1;
 	                              }else{
 		                       $founduser= NULL;
-			               //$textReplyMessage="\nไม่พบข้อมูลใน ฐานข้อมูลบุคคล\n";
+			               $textReplyMessage=" ";
 	                               }
 				//ตรวจสอบในฐานข้อมูล register ใหม่
                                        $json2 = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/user_register?apiKey='.MLAB_API_KEY.'&q={"userName":{"$regex":"'.$explodeText[1].'"}}');
@@ -154,7 +153,7 @@ foreach ($events as $event) {
 		                         $founduser2= 1;
 	                              }else{//don't found data
 				         $founduser2=NULL;
-					 
+					 $textReplyMessage=" ";
 				         }
 		              
 				 
@@ -170,11 +169,15 @@ foreach ($events as $event) {
 	                                  $imageMessage = new ImageMessageBuilder($picFullSize,$picFullSize);
 	                                  $multiMessage->add($imageMessage);
 		                            }
-			            
+			            $foundkm=1;
 				    $textMessage = new TextMessageBuilder($textReplyMessage);
 		                    $multiMessage->add($textMessage);
 				       
-                                    }// no answer,
+                                   }else{//don't found data
+					$foundkm=NULL;
+					 $textReplyMessage=" ";
+				         }
+				
 				if(!isset($picFullSize)){	// กรณียังไม่มีรูป จะ Random รูปภาพจากฐานข้อมูลมาแสดง
 				$numImg=rand(1,21);
 				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/img?apiKey='.MLAB_API_KEY.'&q={"no":'.$numImg.'}&max=1');
@@ -189,7 +192,9 @@ foreach ($events as $event) {
 					
 				}// end no data
 				}// end isset $picFullSize // มีรูปภาพจาก KM แล้ว
+				if($founduser1 or $founduser2 or $foundkm){
 				       $replyData = $multiMessage;
+		                 }
                                  break;
 				
 			   case '#lisa':
