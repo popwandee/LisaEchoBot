@@ -166,7 +166,7 @@ foreach ($events as $event) {
                                  break;
 				
 		case '#lisa':
-				if(!isset($explodeText[2])){ // just question, 
+				 
 				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[1].'"}');
                                 $data = json_decode($json);
                                 $isData=sizeof($data);
@@ -181,7 +181,23 @@ foreach ($events as $event) {
 				       
                                     }// no answer,
 					
-				}else{ // new learning, input '#lisa Question Answer' pattern
+				$numImg=rand(1,21);
+				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/img?apiKey='.MLAB_API_KEY.'&q={"no":'.$numImg.'}&max=1');
+                                $data = json_decode($json);
+                                $isData=sizeof($data);
+                                if($isData >0){
+                                   foreach($data as $rec){
+                                          $picFullSize= "https://thaitimes.online/wp-content/uploads/".$rec->img;
+                                           }//end for each
+				       $imageMessage = new ImageMessageBuilder($picFullSize,$picFullSize);
+	                               $multiMessage->add($imageMessage);
+					
+				}// end no data
+				       $replyData = $multiMessage;
+                                 break;
+				
+			   case '#สอน':
+				
 					
 		                $indexCount=1;$answer='';
 	                        foreach($explodeText as $rec){
@@ -209,7 +225,7 @@ foreach ($events as $event) {
 				    $textMessage = new TextMessageBuilder($textReplyMessage);
 		                    $multiMessage->add($textMessage);
 		                    $replyData = $multiMessage;
-				}// end no answer, just question only
+				
 				
 				$numImg=rand(1,21);
 				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/img?apiKey='.MLAB_API_KEY.'&q={"no":'.$numImg.'}&max=1');
@@ -225,7 +241,6 @@ foreach ($events as $event) {
 				}// end no data
 				       $replyData = $multiMessage;
                                  break;
-			   
 			   case '#tran':
 			        $text_parameter = str_replace("#tran ","", $text);  
                                 if (!is_null($explodeText[1])){ $source =$explodeText[1];}else{$source ='en';}
