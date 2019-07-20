@@ -107,7 +107,7 @@ foreach ($events as $event) {
 	      $textReplyMessage= "คุณ".$displayName." คะ\n";
 	     
               }
-	 
+	 $statusReport="";
 	 // count image in database
 	 
 	 // end count image in database
@@ -120,7 +120,7 @@ foreach ($events as $event) {
                                      $isData=sizeof($data);
 			             $count = 1;
                                      if($isData >0){
-		                       $founduser= 1;
+		                       $founduser= 1;$statusReport=$statusReport."\nFound phonebook";
 		                       $hasImageUrlStatus = false;
                                        foreach($data as $rec){
                                          $textReplyMessage= $textReplyMessage.$count.' '.$rec->rank.$rec->name.' '.$rec->lastname.' ('.$rec->position.' '.$rec->deploy_position.') '.$rec->Email.' โทร '.$rec->Tel1." ค่ะ\n\n";
@@ -135,7 +135,7 @@ foreach ($events as $event) {
 		                         
 	                              }else{
 		                       $founduser= NULL;
-			               $textReplyMessage=" ";
+			               $textReplyMessage=" ";$founduser= 1;$statusReport=$statusReport."\n Don't Found phonebook";
 	                               }
 				//ตรวจสอบในฐานข้อมูล register ใหม่
                                        $json2 = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/user_register?apiKey='.MLAB_API_KEY.'&q={"userName":{"$regex":"'.$explodeText[1].'"}}');
@@ -143,7 +143,7 @@ foreach ($events as $event) {
                                        $isData2=sizeof($data2);
                                        if($isData2 >0){
 		                         $hasImageUrlStatus = false;
-					 
+					 $statusReport=$statusReport."\n Found user_register";
                                          foreach($data2 as $rec2){
                                             $textReplyMessage= $textReplyMessage.$count.'. '.$rec2->userName."\n\n";                                  	   
 			                    $count++;
@@ -153,7 +153,7 @@ foreach ($events as $event) {
 		                         $founduser2= 1;
 	                              }else{//don't found data
 				         $founduser2=NULL;
-					 $textReplyMessage=" ";
+					 $textReplyMessage=" "; $statusReport=$statusReport."\n Don't Found user_register";
 				         }
 		              
 				 
@@ -161,6 +161,7 @@ foreach ($events as $event) {
                                 $data = json_decode($json);
                                 $isData=sizeof($data);
                                 if($isData >0){
+					 $statusReport=$statusReport."\n Found km";
                                    foreach($data as $rec){
                                            $textReplyMessage="\n".$explodeText[1].".......\n".$rec->answer."\n";
                                            }//end for each
@@ -175,7 +176,7 @@ foreach ($events as $event) {
 				       
                                    }else{//don't found data
 					$foundkm=NULL;
-					 $textReplyMessage=" ";
+					 $textReplyMessage=" ";$statusReport=$statusReport."\n Don't Found km";
 				         }
 				
 				if(!isset($picFullSize)){	// กรณียังไม่มีรูป จะ Random รูปภาพจากฐานข้อมูลมาแสดง
@@ -189,9 +190,11 @@ foreach ($events as $event) {
                                            }//end for each
 				       $imageMessage = new ImageMessageBuilder($picFullSize,$picFullSize);
 	                               $multiMessage->add($imageMessage);
-					
+					$statusReport=$statusReport."\n Found image";
 				}// end no data
 				}// end isset $picFullSize // มีรูปภาพจาก KM แล้ว
+				 $textMessage = new TextMessageBuilder($statusReport);
+		                    $multiMessage->add($textMessage);
 				if($founduser1 or $founduser2 or $foundkm){
 				       $replyData = $multiMessage;
 		                 }
