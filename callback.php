@@ -134,11 +134,11 @@ foreach ($events as $event) {
 		                       $multiMessage->add($textMessage);
 	                              }else{
 		                       $founduser= NULL;
-			               $textReplyMessage="Sorry ";
+			               $textReplyMessage=".... ";
 	                               }
 				
-
-				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[1].'"}');
+				$kmText=explode("# ",$text)
+				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$kmText[1].'"}}');
                                 $data = json_decode($json);
                                 $isData=sizeof($data);
                                 if($isData >0){
@@ -155,7 +155,7 @@ foreach ($events as $event) {
 		                    $multiMessage->add($textMessage);
                                    }else{//don't found data
 					$foundkm=NULL;
-					 $textReplyMessage="Sorry ";
+					 $textReplyMessage=".... ";
 				         }
 				
 				if(!isset($picFullSize)){	// กรณียังไม่มีรูป จะ Random รูปภาพจากฐานข้อมูลมาแสดง
@@ -171,7 +171,7 @@ foreach ($events as $event) {
 	                               $multiMessage->add($imageMessage);
 				 }else{//don't found data
 					$foundimg=NULL;
-					 $textReplyMessage="Sorry ";
+					 $textReplyMessage=".... ";
 				         }
 				}// end isset $picFullSize // มีรูปภาพจาก KM แล้ว
 				 
