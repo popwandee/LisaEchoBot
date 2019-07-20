@@ -104,7 +104,7 @@ foreach ($events as $event) {
               if(!is_null($profile['displayName'])){$displayName = $profile['displayName'];}else{$displayName ='';}
               if(!is_null($profile['statusMessage'])){$statusMessage = $profile['statusMessage'];}else{$statusMessage ='';}
               if(!is_null($profile['pictureUrl'])){$pictureUrl = $profile['pictureUrl'];}else{$pictureUrl ='';}
-	      $textReplyMessage= "คุณ".$displayName." คะ";
+	      $textReplyMessage= "คุณ".$displayName." คะ\n";
 	     
               }
 	if(!is_null($userId)){
