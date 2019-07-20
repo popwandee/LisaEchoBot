@@ -107,6 +107,10 @@ foreach ($events as $event) {
 	      $textReplyMessage= "คุณ".$displayName." คะ\n";
 	     
               }
+	 
+	 // count image in database
+	 
+	 // end count image in database
 	if(!is_null($userId)){
 		switch ($explodeText[0]) { 
 			case '#':
@@ -207,7 +211,7 @@ foreach ($events as $event) {
 		                    $replyData = $multiMessage;
 				}// end no answer, just question only
 				
-				$numImg=rand(1,2);
+				$numImg=rand(1,21);
 				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/img?apiKey='.MLAB_API_KEY.'&q={"no":'.$numImg.'}&max=1');
                                 $data = json_decode($json);
                                 $isData=sizeof($data);
