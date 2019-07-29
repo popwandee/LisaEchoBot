@@ -569,6 +569,7 @@ if(!is_null($events)){
 			       //$datetime->setTimezone(new DateTimeZone('Asia/Bangkok'));
                               // $timeNow= $datetime->format('Y-m-d H:i:s (e)');
 	                      date_default_timezone_set("Asia/Bangkok");
+			      $dateTimeNow=date('Y-m-d H:i:s');
                               $timeNow=date("H:i:s");
 			      $timeStart=date("21:00:00");
 	                      $timeEnd=date("21:55:00");
@@ -579,7 +580,22 @@ if(!is_null($events)){
 				}else if($timeNow>$timeEnd){
 					$textReplyMessage= "คูณมารายงานตัวเร็วช้ากว่าเวลาที่กำหนด\nเวลาที่กำหนดคือ".$timeStart." - ".$timeEnd."\nคุณมารายงานตัวเวลา".$timeNow;
 				}
-			      
+			      $newUserLog = json_encode(array('userId'=> $userId,'log_time'=> $dateTimeNow,
+						    'log_note'=>$textReplyMessage) );
+                           $opts = array('http' => array( 'method' => "POST",
+                                          'header' => "Content-type: application/json",
+                                          'content' => $newUserLog
+                                           )
+                                        );
+           
+            $url = 'https://api.mlab.com/api/1/databases/crma51/collections/daily_register?apiKey='.MLAB_API_KEY.'';
+            $context = stream_context_create($opts);
+            $returnValue = file_get_contents($url,false,$context);
+				if($returnValue){
+					$textReplyMessage=$textReplyMessage."\nลงทะเบียนรายงานตัว ประจำวันที่ ".$dateTimeNow."\nเรียบร้อย";
+				}else{
+					$textReplyMessage=$textReplyMessage."\nลงทะเบียนรายงานตัว ประจำวันที่ ".$dateTimeNow."\nไม่สำเร็จ กรุณารายงานตัวด้วยวิธีอื่น";
+				}
 			      $textMessage = new TextMessageBuilder($textReplyMessage);
 		              $replyData = $textMessage;
 		              break;	
