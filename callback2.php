@@ -537,8 +537,8 @@ if(!is_null($events)){
 		                break;	
 				
                     default:
-                        $textReplyMessage = " คุณไม่ได้พิมพ์ ค่า ตามที่กำหนด";
-                        $replyData = new TextMessageBuilder($textReplyMessage);         
+                        //$textReplyMessage = " คุณไม่ได้พิมพ์ ค่า ตามที่กำหนด";
+                       // $replyData = new TextMessageBuilder($textReplyMessage);         
                         break;                                      
                 }
                 break;                                                  
@@ -547,8 +547,8 @@ if(!is_null($events)){
                      
                 }else{
                     // กรณีทดสอบเงื่อนไขอื่นๆ ผู้ใช้ไม่ได้ส่งเป็นข้อความ
-                    $textReplyMessage = 'สวัสดีครับ คุณ '.$typeMessage;         
-                    $replyData = new TextMessageBuilder($textReplyMessage);         
+                   // $textReplyMessage = 'สวัสดีครับ คุณ '.$typeMessage;         
+                    //$replyData = new TextMessageBuilder($textReplyMessage);         
                 }
                 break;  
         }
