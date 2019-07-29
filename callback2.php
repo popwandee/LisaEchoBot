@@ -191,7 +191,26 @@ if(!is_null($events)){
     if(!is_null($eventMemberLeft)){
      
     }   
- 
+	
+  // ถ้า bot รับสัญญาณ Beacon
+    if(!is_null($eventBeacon)){
+	     $beaconHwid = $eventObj->getHwid(); 
+	     $beaconType = $eventObj->getBeaconEventType(); 
+	     $beaconMessage = $eventObj->getDeviceMessage(); 
+	    if($beaconType=='enter'){
+		    if(($beaconHwid=='')and($beaconMessage=='e22e34e19e14e35e15e49e2de19e23e31e1ae40e02e49e32e2ae39e4820e1ee31e192ee02e01e172e')){
+			   $textReplyMessage = "รับสัญญาณ Beacon ".$beaconHwid.$beaconMessage;
+                           $replyData = new TextMessageBuilder($textReplyMessage);    
+		    }else{
+			 $textReplyMessage = "รับสัญญาณ Beacon ".$beaconHwid.$beaconMessage;
+                           $replyData = new TextMessageBuilder($textReplyMessage);       
+		    }
+		}else{// end not enter
+		    $textReplyMessage = "สัญญาณ Beacon ไม่ใช่ enter ";
+                    $replyData = new TextMessageBuilder($textReplyMessage);    
+	    }
+    }// ไม่มีสัญญาณ Beacon
+	
     // ถ้ามีกาาเชื่อมกับบัญชี LINE กับระบบสมาชิกของเว็บไซต์เรา
     if(!is_null($eventAccountLink)){
         // หลักๆ ส่วนนี้ใช้สำรหบัเพิ่มความภัยในการเชื่อมบัญตี LINE กับระบบสมาชิกของเว็บไซต์เรา 
