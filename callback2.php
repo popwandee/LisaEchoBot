@@ -199,6 +199,8 @@ if(!is_null($events)){
 	     $beaconMessage = $eventObj->getDeviceMessage(); 
 	     $datetime->setTimezone(new DateTimeZone('Asia/Bangkok'));
              $timeNow= $datetime->format('Y-m-d H:i:s (e)');
+	   // date_default_timezone_set("Asia/Bangkok");
+           // echo "The time is " . date("Y-m-d H:i:s");
 	    if($beaconType=='enter'){
 		    if(($beaconHwid=='012ea74f7c')and($beaconMessage=='MI Bn')){
 			    
