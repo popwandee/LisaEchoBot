@@ -85,6 +85,7 @@ try {
 } catch(\LINE\LINEBot\Exception\InvalidEventRequestException $e) {
 	error_log('parseEventRequest failed. InvalidEventRequestException => '.var_export($e, true));
 }
+$log_note='';
 $eventObj = $events[0];
 $eventType = $eventObj->getType();
 switch($eventType){
@@ -119,7 +120,7 @@ if($eventObj->isRoomEvent()){
 // เก็บค่า sourceId ปกติจะเป็นค่าเดียวกันกับ userId หรือ roomId หรือ groupId ขึ้นกับว่าเป็น event แบบใด
 $sourceId = $eventObj->getEventSourceId();
 // ดึงค่า replyToken มาไว้ใช้งาน ทุกๆ Event ที่ไม่ใช่ Leave และ Unfollow Event และ  MemberLeft
-// replyToken ไว้สำหรับส่งข้อความจอบกลับ 
+// replyToken ไว้สำหรับส่งข้อความตอบกลับ 
 if(is_null($eventLeave) && is_null($eventUnfollow) && is_null($eventMemberLeft)){
     $replyToken = $eventObj->getReplyToken();    
 }
@@ -175,11 +176,11 @@ if(!is_null($events)){
             }
             if ($response->isSucceeded()) {
                 $userData = $response->getJSONDecodedBody(); // return array     
-                // $userData['userId']
-                // $userData['displayName']
-                // $userData['pictureUrl']
-                // $userData['statusMessage']
-                $textReplyMessage = 'สวัสดีครับ คุณ '.$userData['displayName'];     
+                $userId= $userData['userId'];
+                $displayName= $userData['displayName'];
+                $pictureUrl= $userData['pictureUrl'];
+                $statusMessage= $userData['statusMessage'];
+                $textReplyMessage = 'สวัสดีครับ คุณ '.$displayName;     
             }else{
                 $textReplyMessage = 'สวัสดีครับ ยินดีต้อนรับ';
             }
@@ -305,7 +306,15 @@ if(!is_null($events)){
          
         switch ($typeMessage){ // กำหนดเงื่อนไขการทำงานจาก ประเภทของ message
             case 'text':  // ถ้าเป็นข้อความ
+			
+	 $tz_object = new DateTimeZone('Asia/Bangkok');
+         $datetime = new DateTime();
+         $datetime->setTimezone($tz_object);
+         $dateTimeNow = $datetime->format('Y\-m\-d\ H:i:s');
+        $multiMessage =     new MultiMessageBuilder;
                 $userMessage = strtolower($userMessage); // แปลงเป็นตัวเล็ก สำหรับทดสอบ
+	 $explodeText=explode(" ",$userMessage);
+			$log_note=$userMessage;
                 switch ($userMessage) {
                     case "t_b":
                         // กำหนด action 4 ปุ่ม 4 ประเภท
@@ -400,67 +409,8 @@ if(!is_null($events)){
                                     $actionBuilder  // กำหนด action object
                             )
                         );       
-                        break;                                                                     
-                    default:
-                        $textReplyMessage = " คุณไม่ได้พิมพ์ ค่า ตามที่กำหนด";
-                        $replyData = new TextMessageBuilder($textReplyMessage);         
-                        break;                                      
-                }
-                break;                                                  
-            default:
-                if(!is_null($replyData)){
-                     
-                }else{
-                    // กรณีทดสอบเงื่อนไขอื่นๆ ผู้ใช้ไม่ได้ส่งเป็นข้อความ
-                    $textReplyMessage = 'สวัสดีครับ คุณ '.$typeMessage;         
-                    $replyData = new TextMessageBuilder($textReplyMessage);         
-                }
-                break;  
-        }
-    }
-}
- 
-$response = $bot->replyMessage($replyToken,$replyData);
-if ($response->isSucceeded()) {
-    echo 'Succeeded!';
-    return;
-}
-// Failed
-echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
-?>
-
-foreach ($events as $event) {
-	
- if ($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage) {
-         $rawText = $event->getText();
-	 $text = strtolower($rawText); 
-	 $explodeText=explode(" ",$text);
-	 $textReplyMessage="";
-	$log_note=$text;
-	 $tz_object = new DateTimeZone('Asia/Bangkok');
-         $datetime = new DateTime();
-         $datetime->setTimezone($tz_object);
-         $dateTimeNow = $datetime->format('Y\-m\-d\ H:i:s');
-	$replyToken = $event->getReplyToken();	
-        $multiMessage =     new MultiMessageBuilder;
-	$replyData='No Data';
-        $userId=$event->getUserId();
-	$res = $bot->getProfile($userId);
-         if ($res->isSucceeded()) {
-              $profile = $res->getJSONDecodedBody();
-              if(!is_null($profile['displayName'])){$displayName = $profile['displayName'];}else{$displayName ='';}
-              if(!is_null($profile['statusMessage'])){$statusMessage = $profile['statusMessage'];}else{$statusMessage ='';}
-              if(!is_null($profile['pictureUrl'])){$pictureUrl = $profile['pictureUrl'];}else{$pictureUrl ='';}
-	      $textReplyMessage= "คุณ".$displayName." คะ\n";
-	     
-              }
-
-	 // count image in database
-	 
-	 // end count image in database
-	if(!is_null($userId)){
-		switch ($explodeText[0]) { 
-			case '#':
+                        break;         
+		case '#':
 				
 				 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/phonebook?apiKey='.MLAB_API_KEY.'&q={"$or":[{"name":{"$regex":"'.$explodeText[1].'"}},{"lastname":{"$regex":"'.$explodeText[1].'"}},{"nickname":{"$regex":"'.$explodeText[1].'"}},{"nickname2":{"$regex":"'.$explodeText[1].'"}},{"position":{"$regex":"'.$explodeText[1].'"}}]}');
                                      $data = json_decode($json);
@@ -584,17 +534,27 @@ foreach ($events as $event) {
 				$flexData = new ReplyTranslateMessage;
                                 $replyData = $flexData->get($text_parameter,$result);
 				//$log_note=$log_note."\n User select #tran ".$text_parameter.$result;
-		                break;
-			
-			   default: 
-		                    $replyData = '';
-                                   
-				break;
-                        }//end switch 
-			
-			
-		
-		//-- บันทึกการเข้าใช้งานระบบ ---//
+		                break;	
+				
+                    default:
+                        $textReplyMessage = " คุณไม่ได้พิมพ์ ค่า ตามที่กำหนด";
+                        $replyData = new TextMessageBuilder($textReplyMessage);         
+                        break;                                      
+                }
+                break;                                                  
+            default:
+                if(!is_null($replyData)){
+                     
+                }else{
+                    // กรณีทดสอบเงื่อนไขอื่นๆ ผู้ใช้ไม่ได้ส่งเป็นข้อความ
+                    $textReplyMessage = 'สวัสดีครับ คุณ '.$typeMessage;         
+                    $replyData = new TextMessageBuilder($textReplyMessage);         
+                }
+                break;  
+        }
+    }
+}
+ //-- บันทึกการเข้าใช้งานระบบ ---//
 		
               if(!is_null($displayName)){
 		      $displayName =$displayName;
@@ -615,23 +575,15 @@ foreach ($events as $event) {
             $url = 'https://api.mlab.com/api/1/databases/crma51/collections/use_log?apiKey='.MLAB_API_KEY.'';
             $context = stream_context_create($opts);
             $returnValue = file_get_contents($url,false,$context);
-		
-	} // end of !is_null($userId)
-	
-	
-	
-            // ส่งกลับข้อมูล
-	    // ส่วนส่งกลับข้อมูลให้ LINE
-           $response = $bot->replyMessage($replyToken,$replyData);
-           if ($response->isSucceeded()) { echo 'Succeeded!'; return;}
-              // Failed ส่งข้อความไม่สำเร็จ
-             $statusMessage = $response->getHTTPStatus() . ' ' . $response->getRawBody(); echo $statusMessage;
-             $bot->replyText($replyToken, $statusMessage);   
-	}//end if event is textMessage
-	
-}// end foreach event
+$response = $bot->replyMessage($replyToken,$replyData);
+if ($response->isSucceeded()) {
+    echo 'Succeeded!';
+    return;
+}
+// Failed
+echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
 
-
+// function
 
 function tranlateLang($source, $target, $text_parameter)
 {
