@@ -197,20 +197,11 @@ if(!is_null($events)){
 	     $beaconHwid = $eventObj->getHwid();
 	     $beaconType = $eventObj->getBeaconEventType();
 	     $beaconMessage = $eventObj->getDeviceMessage(); 
-	     //$datetime->setTimezone(new DateTimeZone('Asia/Bangkok'));
-            // $timeNow= $datetime->format('Y-m-d H:i:s (e)');
-	   // date_default_timezone_set("Asia/Bangkok");
-           // echo "The time is " . date("Y-m-d H:i:s");
+	    
 	    if($beaconType=='enter'){
 		    if(($beaconHwid=='012ea74f7c')and($beaconMessage=='MI Bn')){
-			    
-			     
-		                          $textReplyMessage = "ยินดีต้อนรับ".$displayName.$userId."\nเข้าสู่ กองพันข่าวกรองทางทหาร \nวันที่ ";
-	                                     
-		                                     
-				    $replyData = new TextMessageBuilder($textReplyMessage);  
-			  
-                          
+			$textReplyMessage = "ยินดีต้อนรับ".$displayName.$userId."\nเข้าสู่ กองพันข่าวกรองทางทหาร \nวันที่ ";
+	                $replyData = new TextMessageBuilder($textReplyMessage);  
 		    }else{
 			 $textReplyMessage = "รับสัญญาณ Beacon ".$beaconHwid.$beaconMessage;
                            $replyData = new TextMessageBuilder($textReplyMessage);       
@@ -568,7 +559,16 @@ if(!is_null($events)){
                                 $replyData = $flexData->get($text_parameter,$result);
 				//$log_note=$log_note."\n User select #tran ".$text_parameter.$result;
 		                break;	
-				
+			 case 'test':
+			       //$datetime->setTimezone(new DateTimeZone('Asia/Bangkok'));
+                              // $timeNow= $datetime->format('Y-m-d H:i:s (e)');
+	                      date_default_timezone_set("Asia/Bangkok");
+                              $timeNow=date("Y-m-d H:i:s");
+			      $textReplyMessage= $timeNow;
+			      $textMessage = new TextMessageBuilder($textReplyMessage);
+		              $replyData = $textMessage;
+		              break;	
+				 
                     default:
                         //$textReplyMessage = " คุณไม่ได้พิมพ์ ค่า ตามที่กำหนด";
                        // $replyData = new TextMessageBuilder($textReplyMessage);         
