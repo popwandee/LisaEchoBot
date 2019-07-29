@@ -87,8 +87,20 @@ try {
 }
 foreach ($events as $event) {
 	// Message Event
+	 if ($event instanceof \LINE\LINEBot\Event\BeaconDetectionEvent) {
+	     $beaconHwid = $event->getHwid();
+	     $beaconEventType = $event->getBeaconEventType();
+	     $beaconMessage = $event->getDeviceMessage();
+		  $textReplyMessage=  "Hwid is ".$beaconHwid." Type ".$beaconEventType." Message ".$beaconMessage;
+		  $textMessage = new TextMessageBuilder($textReplyMessage);
+		  $multiMessage->add($textMessage);
+		 $textReplyMessage= " ";
+	 }// end of beacon detection
  if ($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage) {
-  $rawText = $event->getText();$text = strtolower($rawText); $explodeText=explode(" ",$text);$textReplyMessage="";
+         $rawText = $event->getText();
+	 $text = strtolower($rawText); 
+	 $explodeText=explode(" ",$text);
+	 $textReplyMessage="";
 	$log_note=$text;
 	 $tz_object = new DateTimeZone('Asia/Bangkok');
          $datetime = new DateTime();
@@ -281,6 +293,7 @@ foreach ($events as $event) {
              $statusMessage = $response->getHTTPStatus() . ' ' . $response->getRawBody(); echo $statusMessage;
              $bot->replyText($replyToken, $statusMessage);   
 	}//end if event is textMessage
+	
 }// end foreach event
 
 
