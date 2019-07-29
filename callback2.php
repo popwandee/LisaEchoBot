@@ -194,9 +194,9 @@ if(!is_null($events)){
 	
   // ถ้า bot รับสัญญาณ Beacon
     if(!is_null($eventBeacon)){
-	     $beaconHwid = $bot->event['beacon']['hwid'];
-	     $beaconType = $bot->event['beacon']['type'];
-	     $beaconMessage = $bot->event['beacon']['dm']; 
+	     $beaconHwid = $eventObj->getHwid();
+	     $beaconType = $eventObj->getBeaconEventType();
+	     $beaconMessage = $eventObj->getDeviceMessage(); 
 	    if($beaconType=='enter'){
 		    if(($beaconHwid=='012ea74f7c')and($beaconMessage=='e22e34e19e14e35e15e49e2de19e23e31e1ae40e02e49e32e2ae39e4820e1ee31e192ee02e01e172e')){
 			   $textReplyMessage = "รับสัญญาณ Beacon ".$beaconHwid.$beaconMessage;
