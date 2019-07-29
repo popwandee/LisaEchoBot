@@ -197,16 +197,17 @@ if(!is_null($events)){
 	     $beaconHwid = $eventObj->getHwid();
 	     $beaconType = $eventObj->getBeaconEventType();
 	     $beaconMessage = $eventObj->getDeviceMessage(); 
+	    
 	    if($beaconType=='enter'){
 		    if(($beaconHwid=='012ea74f7c')and($beaconMessage=='MI Bn')){
-			   $textReplyMessage = "ยินดีต้อนรับเข้าสู่ กองพันข่าวกรองทางทหาร";
+			   $textReplyMessage = "ยินดีต้อนรับ".$displayName.$userId."เข้าสู่ กองพันข่าวกรองทางทหาร "." วันที่ ".date("Y/m/d")." เวลา ".date("H:i:s");
                            $replyData = new TextMessageBuilder($textReplyMessage);    
 		    }else{
 			 $textReplyMessage = "รับสัญญาณ Beacon ".$beaconHwid.$beaconMessage;
                            $replyData = new TextMessageBuilder($textReplyMessage);       
 		    }
 		}else if($beaconType=='leave'){// end not enter
-		    $textReplyMessage = "ขอให้มีความสุขนะคะ";
+		    $textReplyMessage = "ขอให้มีความสุขในชีวิตประจำวัน มีความมุ่งมั่นในการทำงานเพื่อประเทศชาตินะคะ";
                     $replyData = new TextMessageBuilder($textReplyMessage);    
 	    }
     }// ไม่มีสัญญาณ Beacon
