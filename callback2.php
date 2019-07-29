@@ -265,7 +265,7 @@ if(!is_null($events)){
         $textReplyMessage.= json_encode($dataPostback);
         $textReplyMessage.= json_encode($paramPostback);
 	*/
-	    $textReplyMessage=json_encode($dataPostback);
+	    $textReplyMessage=$dataPostback;
         $replyData = new TextMessageBuilder($textReplyMessage);     
     }
     // ถ้าเป้น Message Event 
