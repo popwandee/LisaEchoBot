@@ -372,11 +372,20 @@ if(!is_null($events)){
 			$log_note=$userMessage;
                 switch ($explodeText[0]) {
                     case "qa":
+				$question="นายกท่านปัจจุบันคือใคร?";
+				$detail="กรุณาเลือกคำตอบว่านายกรัฐมันตรีคนปัจจุบันของประเทศไทยคือใคร";
+				$hint="เป็นอดีตทหาร";
+				$answer1="นายกประยุทธ์";
+				$result1="Correct!";
+				$score1=1;
+				$answer2="นายกอภิสิทธิ์";
+				$result2="False!";
+				$score1=0;
                         // กำหนด action 4 ปุ่ม 4 ประเภท
                         $actionBuilder = array(
                             new MessageTemplateActionBuilder(
                                 'ขอคำใบ้',// ข้อความให้คลิกคำใบ้
-                                'เป็นอดีตทหาร' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือกเป็นคำใบ้
+                                "$hint" // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือกเป็นคำใบ้
                             ),
                             /*
                             new DatetimePickerTemplateActionBuilder(
@@ -392,18 +401,18 @@ if(!is_null($events)){
                             ),   
 			    */
                             new PostbackTemplateActionBuilder(
-                                'นายกประยุทธ์', // ข้อความแสดงในปุ่ม
+                                "$answer1", // ข้อความแสดงในปุ่ม
                                 http_build_query(array(
-                                    'action'=>'Correct!',
-                                    'Score'=>1
+                                    "Result"=>"$result1",
+                                    'Score'=>"$score1"
                                 )) // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
     //                          'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                             ), 
 			    new PostbackTemplateActionBuilder(
-                                'นายกอภิสิทธิ์', // ข้อความแสดงในปุ่ม
+                                "$answer2", // ข้อความแสดงในปุ่ม
                                 http_build_query(array(
-                                    'action'=>'False!',
-                                    'Score'=>0
+                                    "Result"=>"$result2",
+                                    'Score'=>"$score2"
                                 )) // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
     //                          'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                             ), 
@@ -415,8 +424,8 @@ if(!is_null($events)){
                         $imageUrl = 'https://thaitimes.online/wp-content/uploads/51724484_1191703040978591_8791088534904635392_n.jpg';
                         $replyData = new TemplateMessageBuilder('Button Template',
                             new ButtonTemplateBuilder(
-                                    'นายกคนปัจจุบันคือใคร', // กำหนดหัวเรื่อง
-                                    'กรุณาเลือกคำตอบว่านายกรัฐมันตรีคนปัจจุบันของประเทศไทยคือใคร', // กำหนดรายละเอียด
+                                    "$question", // กำหนดหัวเรื่อง
+                                    "$detail", // กำหนดรายละเอียด
                                     $imageUrl, // กำหนด url รุปภาพ
                                     $actionBuilder  // กำหนด action object
                             )
