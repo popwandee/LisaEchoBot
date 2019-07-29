@@ -379,7 +379,7 @@ if(!is_null($events)){
 				    */
 				$randomNumber=rand(1,4);
 				// random คำถามจาก ฐานข้อมูล
-				 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/qa?apiKey='.MLAB_API_KEY.'&q={"id":4}');
+				 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/qa?apiKey='.MLAB_API_KEY.'&q={"id":2}');
                                      $data = json_decode($json);
                                      $isData=sizeof($data);
                                      if($isData >0){
