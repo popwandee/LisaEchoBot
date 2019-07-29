@@ -87,7 +87,7 @@ try {
 }
 foreach ($events as $event) {
 	// Message Event
-	 if ($event instanceof \LINE\LINEBot\Event\BeaconDetectionEvent) {
+	 if ($event =='beacon') {
 	     $beaconHwid = $event->getHwid();
 	     $beaconEventType = $event->getBeaconEventType();
 	     $beaconMessage = $event->getDeviceMessage();
