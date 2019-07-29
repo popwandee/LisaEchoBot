@@ -201,6 +201,7 @@ if(!is_null($events)){
              $timeNow= $datetime->format('Y-m-d H:i:s (e)');
 	    if($beaconType=='enter'){
 		    if(($beaconHwid=='012ea74f7c')and($beaconMessage=='MI Bn')){
+			    
 			     $newData = json_encode(array('userId' => $userId,'time'=> $timeNow) );
                                 $opts = array('http' => array( 'method' => "POST",
                                           'header' => "Content-type: application/json",
@@ -211,7 +212,7 @@ if(!is_null($events)){
                                 $context = stream_context_create($opts);
                                 $returnValue = file_get_contents($url,false,$context);
                                        if($returnValue){
-		                          $textReplyMessage = "ยินดีต้อนรับ".$displayName.$userId."\nเข้าสู่ กองพันข่าวกรองทางทหาร "."\nวันที่ ".$timeNow;
+		                          $textReplyMessage = "ยินดีต้อนรับ".$displayName.$userId."\nเข้าสู่ กองพันข่าวกรองทางทหาร \nวันที่ ".$timeNow;
 	                                      }else{ $textReplyMessage= "ยินดีต้อนรับ".$displayName.$userId."\nเข้าสู่ กองพันข่าวกรองทางทหาร "."\nวันที่ ".$timeNow."\nไม่สามารถรายงานตัวได้ กรุณารายงานตัวด้วยวิธีอื่นค่ะ";
 		                                     }
 				    $replyData = new TextMessageBuilder($textReplyMessage);  
