@@ -265,7 +265,7 @@ if(!is_null($events)){
         $textReplyMessage.= json_encode($dataPostback);
         $textReplyMessage.= json_encode($paramPostback);
 	*/
-	    $textReplyMessage=$dataPostback['action'];
+	    $textReplyMessage=$dataPostback['Result'];
         $replyData = new TextMessageBuilder($textReplyMessage);     
     }
     // ถ้าเป้น Message Event 
@@ -401,18 +401,18 @@ if(!is_null($events)){
                             ),   
 			    */
                             new PostbackTemplateActionBuilder(
-                                "$answer1", // ข้อความแสดงในปุ่ม
+                                $answer1, // ข้อความแสดงในปุ่ม
                                 http_build_query(array(
-                                    "Result"=>"$result1",
-                                    'Score'=>"$score1"
+                                    'Result'=>$result1,
+                                    'Score'=>$score1
                                 )) // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
     //                          'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                             ), 
 			    new PostbackTemplateActionBuilder(
-                                "$answer2", // ข้อความแสดงในปุ่ม
+                                $answer2, // ข้อความแสดงในปุ่ม
                                 http_build_query(array(
-                                    "Result"=>"$result2",
-                                    'Score'=>"$score2"
+                                    'Result'=>$result2,
+                                    'Score'=>$score2
                                 )) // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
     //                          'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                             ), 
