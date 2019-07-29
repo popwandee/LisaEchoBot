@@ -201,8 +201,24 @@ if(!is_null($events)){
              $timeNow= $datetime->format('Y-m-d H:i:s (e)');
 	    if($beaconType=='enter'){
 		    if(($beaconHwid=='012ea74f7c')and($beaconMessage=='MI Bn')){
-			   $textReplyMessage = "ยินดีต้อนรับ".$displayName.$userId."เข้าสู่ กองพันข่าวกรองทางทหาร "." วันที่ ".$timeNow;
-                           $replyData = new TextMessageBuilder($textReplyMessage);    
+			     $newData = json_encode(array('userId' => $userId,'time'=> $timeNow) );
+                                $opts = array('http' => array( 'method' => "POST",
+                                          'header' => "Content-type: application/json",
+                                          'content' => $newData
+                                           )
+                                        );
+                                $url = 'https://api.mlab.com/api/1/databases/crma51/collections/daily_register?apiKey='.MLAB_API_KEY.'';
+                                $context = stream_context_create($opts);
+                                $returnValue = file_get_contents($url,false,$context);
+                                       if($returnValue){
+		                          $textReplyMessage = "ยินดีต้อนรับ".$displayName.$userId."\nเข้าสู่ กองพันข่าวกรองทางทหาร "."\nวันที่ ".$timeNow;
+	                                      }else{ $textReplyMessage= "ยินดีต้อนรับ".$displayName.$userId."\nเข้าสู่ กองพันข่าวกรองทางทหาร "."\nวันที่ ".$timeNow."\nไม่สามารถรายงานตัวได้ กรุณารายงานตัวด้วยวิธีอื่นค่ะ";
+		                                     }
+				    $textMessage = new TextMessageBuilder($textReplyMessage);
+		                    $multiMessage->add($textMessage);
+		                    $replyData = $multiMessage;
+			  
+                          
 		    }else{
 			 $textReplyMessage = "รับสัญญาณ Beacon ".$beaconHwid.$beaconMessage;
                            $replyData = new TextMessageBuilder($textReplyMessage);       
