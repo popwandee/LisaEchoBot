@@ -570,9 +570,16 @@ if(!is_null($events)){
                               // $timeNow= $datetime->format('Y-m-d H:i:s (e)');
 	                      date_default_timezone_set("Asia/Bangkok");
                               $timeNow=date("Y-m-d H:i:s");
-			      $timeStart=date("08:00:00");
-	                      $timeEnd=date("08:40:00");
-			      $textReplyMessage= $timeNow.$timeStart.$timeEnd;
+			      $timeStart=date("21:00:00");
+	                      $timeEnd=date("21:48:00");
+				if(($timeNow>$timeStart)and($timeNow<$timeEnd)){
+					$textReplyMessage= "คูณมารายงานตัวตามเวลาที่กำหนด";
+				}else if($timeNow<$timeStart){
+					$textReplyMessage= "คูณมารายงานตัวเร็วกว่าเวลาที่กำหนด";
+				}else if($timeNow>$timeEnd){
+					$textReplyMessage= "คูณมารายงานตัวเร็วช้ากว่าเวลาที่กำหนด";
+				}
+			      
 			      $textMessage = new TextMessageBuilder($textReplyMessage);
 		              $replyData = $textMessage;
 		              break;	
