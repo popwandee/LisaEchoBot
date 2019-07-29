@@ -197,10 +197,11 @@ if(!is_null($events)){
 	     $beaconHwid = $eventObj->getHwid();
 	     $beaconType = $eventObj->getBeaconEventType();
 	     $beaconMessage = $eventObj->getDeviceMessage(); 
-	    
+	     $datetime->setTimezone(new DateTimeZone('Asia/Bangkok'));
+             $timeNow= $datetime->format('Y-m-d H:i:s (e)');
 	    if($beaconType=='enter'){
 		    if(($beaconHwid=='012ea74f7c')and($beaconMessage=='MI Bn')){
-			   $textReplyMessage = "ยินดีต้อนรับ".$displayName.$userId."เข้าสู่ กองพันข่าวกรองทางทหาร "." วันที่ ".date("Y/m/d")." เวลา ".date("H:i:s");
+			   $textReplyMessage = "ยินดีต้อนรับ".$displayName.$userId."เข้าสู่ กองพันข่าวกรองทางทหาร "." วันที่ ".$timeNow;
                            $replyData = new TextMessageBuilder($textReplyMessage);    
 		    }else{
 			 $textReplyMessage = "รับสัญญาณ Beacon ".$beaconHwid.$beaconMessage;
