@@ -315,7 +315,7 @@ if(!is_null($events)){
                 $userMessage = strtolower($userMessage); // แปลงเป็นตัวเล็ก สำหรับทดสอบ
 	 $explodeText=explode(" ",$userMessage);
 			$log_note=$userMessage;
-                switch ($userMessage) {
+                switch ($explodeText[0]) {
                     case "t_b":
                         // กำหนด action 4 ปุ่ม 4 ประเภท
                         $actionBuilder = array(
@@ -380,7 +380,8 @@ if(!is_null($events)){
                             $textReplyMessage = 'สวัสดีครับ คุณคือใคร';
                         }
                         $replyData = new TextMessageBuilder($textReplyMessage);                                                 
-                        break;                          
+                        break;       
+				/*
                     case "l": // เงื่อนไขทดสอบถ้ามีใครพิมพ์ L ใน GROUP / ROOM แล้วให้ bot ออกจาก GROUP / ROOM
                             $sourceId = $eventObj->getEventSourceId();
                             if($eventObj->isGroupEvent()){
@@ -390,6 +391,8 @@ if(!is_null($events)){
                                 $bot->leaveRoom($sourceId);  
                             }                                                                                         
                         break;
+			*/
+				/*
                     case "a":  // เงื่อนไขกรณีต้องการ เชื่อม Line  account กับ ระบบสมาชิกของเว็บไซต์เรา
                         $response = $httpClient->post("https://api.line.me/v2/bot/user/".urlencode($userId)."/linkToken",array());
                         $result = json_decode($response->getRawBody(),TRUE);
@@ -409,7 +412,8 @@ if(!is_null($events)){
                                     $actionBuilder  // กำหนด action object
                             )
                         );       
-                        break;         
+                        break;  
+			*/
 		case '#':
 				
 				 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/phonebook?apiKey='.MLAB_API_KEY.'&q={"$or":[{"name":{"$regex":"'.$explodeText[1].'"}},{"lastname":{"$regex":"'.$explodeText[1].'"}},{"nickname":{"$regex":"'.$explodeText[1].'"}},{"nickname2":{"$regex":"'.$explodeText[1].'"}},{"position":{"$regex":"'.$explodeText[1].'"}}]}');
