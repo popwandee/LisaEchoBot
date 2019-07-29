@@ -571,7 +571,7 @@ if(!is_null($events)){
 	                      date_default_timezone_set("Asia/Bangkok");
                               $timeNow=date("H:i:s");
 			      $timeStart=date("21:00:00");
-	                      $timeEnd=date("21:50:00");
+	                      $timeEnd=date("21:55:00");
 				if(($timeNow>$timeStart)and($timeNow<$timeEnd)){
 					$textReplyMessage= "คูณมารายงานตัวตามเวลาที่กำหนด\nเวลาที่กำหนดคือ".$timeStart." - ".$timeEnd."\nคุณมารายงานตัวเวลา".$timeNow;
 				}else if($timeNow<$timeStart){
