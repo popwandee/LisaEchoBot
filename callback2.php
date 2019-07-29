@@ -569,15 +569,15 @@ if(!is_null($events)){
 			       //$datetime->setTimezone(new DateTimeZone('Asia/Bangkok'));
                               // $timeNow= $datetime->format('Y-m-d H:i:s (e)');
 	                      date_default_timezone_set("Asia/Bangkok");
-                              $timeNow=date("Y-m-d H:i:s");
+                              $timeNow=date("H:i:s");
 			      $timeStart=date("21:00:00");
-	                      $timeEnd=date("21:48:00");
+	                      $timeEnd=date("21:50:00");
 				if(($timeNow>$timeStart)and($timeNow<$timeEnd)){
-					$textReplyMessage= "คูณมารายงานตัวตามเวลาที่กำหนด";
+					$textReplyMessage= "คูณมารายงานตัวตามเวลาที่กำหนด\nเวลาที่กำหนดคือ".$timeStart." - ".$timeEnd."\nคุณมารายงานตัวเวลา".$timeNow;
 				}else if($timeNow<$timeStart){
-					$textReplyMessage= "คูณมารายงานตัวเร็วกว่าเวลาที่กำหนด";
+					$textReplyMessage= "คูณมารายงานตัวเร็วกว่าเวลาที่กำหนด\nเวลาที่กำหนดคือ".$timeStart." - ".$timeEnd."\nคุณมารายงานตัวเวลา".$timeNow;
 				}else if($timeNow>$timeEnd){
-					$textReplyMessage= "คูณมารายงานตัวเร็วช้ากว่าเวลาที่กำหนด";
+					$textReplyMessage= "คูณมารายงานตัวเร็วช้ากว่าเวลาที่กำหนด\nเวลาที่กำหนดคือ".$timeStart." - ".$timeEnd."\nคุณมารายงานตัวเวลา".$timeNow;
 				}
 			      
 			      $textMessage = new TextMessageBuilder($textReplyMessage);
