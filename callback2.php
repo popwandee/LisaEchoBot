@@ -210,11 +210,11 @@ if(!is_null($events)){
 			      $timeStart=date("08:00:00");
 	                      $timeEnd=date("08:45:00");
 				if(($timeNow>$timeStart)and($timeNow<$timeEnd)){
-					$textReplyMessage= "คุณมารายงานตัวเวลา".$timeNow."\nคูณมารายงานตัวตามเวลาที่กำหนด\nเวลาที่กำหนดคือ\n".$timeStart." - ".$timeEnd;
+					$textReplyMessage= "คุณมารายงานตัวเวลา ".$timeNow."\nคูณมารายงานตัวตามเวลาที่กำหนด\nเวลาที่กำหนดคือ\n".$timeStart." - ".$timeEnd;
 				}else if($timeNow<$timeStart){
-					$textReplyMessage= "คุณมารายงานตัวเวลา".$timeNow."\nคูณมารายงานตัวเร็วกว่าเวลาที่กำหนด\nเวลาที่กำหนดคือ\n".$timeStart." - ".$timeEnd;
+					$textReplyMessage= "คุณมารายงานตัวเวลา ".$timeNow."\nคูณมารายงานตัว เร็วกว่า เวลาที่กำหนด\nเวลาที่กำหนดคือ\n".$timeStart." - ".$timeEnd;
 				}else if($timeNow>$timeEnd){
-					$textReplyMessage= "คุณมารายงานตัวเวลา".$timeNow."\nคูณมารายงานตัวเร็วช้ากว่าเวลาที่กำหนด\nเวลาที่กำหนดคือ\n".$timeStart." - ".$timeEnd;
+					$textReplyMessage= "คุณมารายงานตัวเวลา ".$timeNow."\nคูณมารายงานตัว ช้ากว่า เวลาที่กำหนด\nเวลาที่กำหนดคือ\n".$timeStart." - ".$timeEnd;
 				}
 			      $newUserLog = json_encode(array('userId'=> $userId,'log_date'=> $dateNow,'log_time'=> $timeNow,
 						    'log_note'=>$textReplyMessage) );
@@ -365,19 +365,19 @@ if(!is_null($events)){
          $dateTimeNow = $datetime->format('Y\-m\-d\ H:i:s');
         $multiMessage =     new MultiMessageBuilder;
                 $userMessage = strtolower($userMessage); // แปลงเป็นตัวเล็ก สำหรับทดสอบ
-	 $explodeText=explode(" ",$userMessage);
+	        $explodeText=explode(" ",$userMessage);
 			$log_note=$userMessage;
                 switch ($explodeText[0]) {
-                    case "t_b":
+                    case "qa":
                         // กำหนด action 4 ปุ่ม 4 ประเภท
                         $actionBuilder = array(
                             new MessageTemplateActionBuilder(
-                                'Message Template',// ข้อความแสดงในปุ่ม
-                                'This is Text' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                'คำถาม',// ข้อความคำถาม random จาก Server
+                                'นี่คือคำถาม' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                             ),
                             new UriTemplateActionBuilder(
-                                'Uri Template', // ข้อความแสดงในปุ่ม
-                                'https://www.ninenik.com'
+                                'ลิงค์', // ข้อความแสดงในปุ่ม
+                                'https://www.thaitimes.online'
                             ),
                             new DatetimePickerTemplateActionBuilder(
                                 'Datetime Picker', // ข้อความแสดงในปุ่ม
@@ -391,19 +391,19 @@ if(!is_null($events)){
                                 substr_replace(date("Y-m-d H:i"),'T',10,1) //วันที่ เวลา น้อยสุดที่เลือกได้
                             ),      
                             new PostbackTemplateActionBuilder(
-                                'Postback', // ข้อความแสดงในปุ่ม
+                                'นายกประยุทธ์', // ข้อความแสดงในปุ่ม
                                 http_build_query(array(
-                                    'action'=>'buy',
-                                    'item'=>100
+                                    'action'=>'ประยุทธ์',
+                                    'item'=>10
                                 )) // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
     //                          'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                             ),      
                         );
-                        $imageUrl = 'https://www.mywebsite.com/imgsrc/photos/w/simpleflower';
+                        $imageUrl = 'https://thaitimes.online/wp-content/uploads/51724484_1191703040978591_8791088534904635392_n.jpg';
                         $replyData = new TemplateMessageBuilder('Button Template',
                             new ButtonTemplateBuilder(
-                                    'button template builder', // กำหนดหัวเรื่อง
-                                    'Please select', // กำหนดรายละเอียด
+                                    'คำถามสุดกวน', // กำหนดหัวเรื่อง
+                                    'กรุณาเลือก', // กำหนดรายละเอียด
                                     $imageUrl, // กำหนด url รุปภาพ
                                     $actionBuilder  // กำหนด action object
                             )
