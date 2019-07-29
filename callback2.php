@@ -372,13 +372,10 @@ if(!is_null($events)){
                         // กำหนด action 4 ปุ่ม 4 ประเภท
                         $actionBuilder = array(
                             new MessageTemplateActionBuilder(
-                                'คำถาม',// ข้อความคำถาม random จาก Server
-                                'นี่คือคำถาม' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                'นายกคนปัจจุบันคือใคร',// ข้อความคำถาม random จาก Server
+                                'เป็นอดีตทหาร' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือกเป็นคำใบ้
                             ),
-                            new UriTemplateActionBuilder(
-                                'ลิงค์', // ข้อความแสดงในปุ่ม
-                                'https://www.thaitimes.online'
-                            ),
+                            /*
                             new DatetimePickerTemplateActionBuilder(
                                 'Datetime Picker', // ข้อความแสดงในปุ่ม
                                 http_build_query(array(
@@ -389,21 +386,34 @@ if(!is_null($events)){
                                 substr_replace(date("Y-m-d H:i"),'T',10,1), // วันที่ เวลา ค่าเริ่มต้นที่ถูกเลือก
                                 substr_replace(date("Y-m-d H:i",strtotime("+5 day")),'T',10,1), //วันที่ เวลา มากสุดที่เลือกได้
                                 substr_replace(date("Y-m-d H:i"),'T',10,1) //วันที่ เวลา น้อยสุดที่เลือกได้
-                            ),      
+                            ),   
+			    */
                             new PostbackTemplateActionBuilder(
                                 'นายกประยุทธ์', // ข้อความแสดงในปุ่ม
                                 http_build_query(array(
-                                    'action'=>'ประยุทธ์',
-                                    'item'=>10
+                                    'action'=>'Correct!',
+                                    'Score'=>1
                                 )) // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
     //                          'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-                            ),      
+                            ), 
+			    new PostbackTemplateActionBuilder(
+                                'นายกอภิสิทธิ์', // ข้อความแสดงในปุ่ม
+                                http_build_query(array(
+                                    'action'=>'False!',
+                                    'Score'=>0
+                                )) // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
+    //                          'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                            ), 
+			    new UriTemplateActionBuilder(
+                                'ผู้สนับสนุน', // ข้อความแสดงในปุ่ม
+                                'https://www.thaitimes.online'
+                            ),     
                         );
                         $imageUrl = 'https://thaitimes.online/wp-content/uploads/51724484_1191703040978591_8791088534904635392_n.jpg';
                         $replyData = new TemplateMessageBuilder('Button Template',
                             new ButtonTemplateBuilder(
-                                    'คำถามสุดกวน', // กำหนดหัวเรื่อง
-                                    'กรุณาเลือก', // กำหนดรายละเอียด
+                                    'นายกคนปัจจุบันคือใคร', // กำหนดหัวเรื่อง
+                                    'กรุณาเลือกคำตอบว่านายกรัฐมันตรีคนปัจจุบันของประเทศไทยคือใคร', // กำหนดรายละเอียด
                                     $imageUrl, // กำหนด url รุปภาพ
                                     $actionBuilder  // กำหนด action object
                             )
