@@ -382,7 +382,7 @@ if(!is_null($events)){
                                      $isData=sizeof($data);
                                      if($isData >0){
                                        foreach($data as $rec){
-                                        $question="นายกท่านปัจจุบันคือใคร?";
+                                        $question=$rec->question;
 				$detail=$rec->detail;
 				$hint=$rec->hint;
 				$answer1=$rec->answer1;
@@ -441,7 +441,7 @@ if(!is_null($events)){
     //                          'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                             ), 
 			    new UriTemplateActionBuilder(
-                                'ผู้สนับสนุน คำถามทั้งหมดมี'.$maximum, // ข้อความแสดงในปุ่ม
+                                'ผู้สนับสนุน คำถามทั้งหมดมี'.$maximum.$randomNumber, // ข้อความแสดงในปุ่ม
                                 'https://www.thaitimes.online'
                             ),     
                         );
