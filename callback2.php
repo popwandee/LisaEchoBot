@@ -214,9 +214,7 @@ if(!is_null($events)){
 		                          $textReplyMessage = "ยินดีต้อนรับ".$displayName.$userId."\nเข้าสู่ กองพันข่าวกรองทางทหาร "."\nวันที่ ".$timeNow;
 	                                      }else{ $textReplyMessage= "ยินดีต้อนรับ".$displayName.$userId."\nเข้าสู่ กองพันข่าวกรองทางทหาร "."\nวันที่ ".$timeNow."\nไม่สามารถรายงานตัวได้ กรุณารายงานตัวด้วยวิธีอื่นค่ะ";
 		                                     }
-				    $textMessage = new TextMessageBuilder($textReplyMessage);
-		                    $multiMessage->add($textMessage);
-		                    $replyData = $multiMessage;
+				    $replyData = new TextMessageBuilder($textReplyMessage);  
 			  
                           
 		    }else{
