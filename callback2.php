@@ -198,7 +198,7 @@ if(!is_null($events)){
 	     $beaconType = $bot->event['beacon']['type'];
 	     $beaconMessage = $bot->event['beacon']['dm']; 
 	    if($beaconType=='enter'){
-		    if(($beaconHwid=='')and($beaconMessage=='e22e34e19e14e35e15e49e2de19e23e31e1ae40e02e49e32e2ae39e4820e1ee31e192ee02e01e172e')){
+		    if(($beaconHwid=='012ea74f7c')and($beaconMessage=='e22e34e19e14e35e15e49e2de19e23e31e1ae40e02e49e32e2ae39e4820e1ee31e192ee02e01e172e')){
 			   $textReplyMessage = "รับสัญญาณ Beacon ".$beaconHwid.$beaconMessage;
                            $replyData = new TextMessageBuilder($textReplyMessage);    
 		    }else{
@@ -206,7 +206,7 @@ if(!is_null($events)){
                            $replyData = new TextMessageBuilder($textReplyMessage);       
 		    }
 		}else{// end not enter
-		    $textReplyMessage = "สัญญาณ Beacon ไม่ใช่ enter ";
+		    $textReplyMessage = "สัญญาณ Beacon ไม่ใช่ enter แต่เป็น".$beaconType.$beaconHwid.$beaconMessage;
                     $replyData = new TextMessageBuilder($textReplyMessage);    
 	    }
     }// ไม่มีสัญญาณ Beacon
