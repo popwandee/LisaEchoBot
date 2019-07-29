@@ -569,18 +569,18 @@ if(!is_null($events)){
 			       //$datetime->setTimezone(new DateTimeZone('Asia/Bangkok'));
                               // $timeNow= $datetime->format('Y-m-d H:i:s (e)');
 	                      date_default_timezone_set("Asia/Bangkok");
-			      $dateTimeNow=date('Y-m-d H:i:s');
+			      $dateNow=date('Y-m-d');
                               $timeNow=date("H:i:s");
 			      $timeStart=date("21:00:00");
-	                      $timeEnd=date("21:55:00");
+	                      $timeEnd=date("22:55:00");
 				if(($timeNow>$timeStart)and($timeNow<$timeEnd)){
-					$textReplyMessage= "คูณมารายงานตัวตามเวลาที่กำหนด\nเวลาที่กำหนดคือ".$timeStart." - ".$timeEnd."\nคุณมารายงานตัวเวลา".$timeNow;
+					$textReplyMessage= "คูณมารายงานตัวตามเวลาที่กำหนด\nเวลาที่กำหนดคือ\n".$timeStart." - ".$timeEnd."\nคุณมารายงานตัวเวลา".$timeNow;
 				}else if($timeNow<$timeStart){
-					$textReplyMessage= "คูณมารายงานตัวเร็วกว่าเวลาที่กำหนด\nเวลาที่กำหนดคือ".$timeStart." - ".$timeEnd."\nคุณมารายงานตัวเวลา".$timeNow;
+					$textReplyMessage= "คูณมารายงานตัวเร็วกว่าเวลาที่กำหนด\nเวลาที่กำหนดคือ\n".$timeStart." - ".$timeEnd."\nคุณมารายงานตัวเวลา".$timeNow;
 				}else if($timeNow>$timeEnd){
-					$textReplyMessage= "คูณมารายงานตัวเร็วช้ากว่าเวลาที่กำหนด\nเวลาที่กำหนดคือ".$timeStart." - ".$timeEnd."\nคุณมารายงานตัวเวลา".$timeNow;
+					$textReplyMessage= "คูณมารายงานตัวเร็วช้ากว่าเวลาที่กำหนด\nเวลาที่กำหนดคือ\n".$timeStart." - ".$timeEnd."\nคุณมารายงานตัวเวลา".$timeNow;
 				}
-			      $newUserLog = json_encode(array('userId'=> $userId,'log_time'=> $dateTimeNow,
+			      $newUserLog = json_encode(array('userId'=> $userId,'log_date'=> $dateNow,'log_time'=> $timeNow,
 						    'log_note'=>$textReplyMessage) );
                            $opts = array('http' => array( 'method' => "POST",
                                           'header' => "Content-type: application/json",
