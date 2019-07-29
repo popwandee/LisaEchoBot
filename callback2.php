@@ -204,13 +204,39 @@ if(!is_null($events)){
 	    if($beaconType=='enter'){
 		    if(($beaconHwid=='012ea74f7c')and($beaconMessage=='MI Bn')){
 			    //ส่งข้อความต้อนรับ ณ บก.พัน.ขกท.
-			$textReplyMessage = "ยินดีต้อนรับ".$displayName.$userId."\nเข้าสู่ กองพันข่าวกรองทางทหาร \nวันที่ ".$timeNow;
-	                $replyData = new TextMessageBuilder($textReplyMessage);  
-			    
-			    // บันทึกการเข้าใช้งาน
-		    }else{
+			 date_default_timezone_set("Asia/Bangkok");
+			      $dateNow=date('Y-m-d');
+                              $timeNow=date("H:i:s");
+			      $timeStart=date("08:00:00");
+	                      $timeEnd=date("08:45:00");
+				if(($timeNow>$timeStart)and($timeNow<$timeEnd)){
+					$textReplyMessage= "คุณมารายงานตัวเวลา".$timeNow."\nคูณมารายงานตัวตามเวลาที่กำหนด\nเวลาที่กำหนดคือ\n".$timeStart." - ".$timeEnd;
+				}else if($timeNow<$timeStart){
+					$textReplyMessage= "คุณมารายงานตัวเวลา".$timeNow."\nคูณมารายงานตัวเร็วกว่าเวลาที่กำหนด\nเวลาที่กำหนดคือ\n".$timeStart." - ".$timeEnd;
+				}else if($timeNow>$timeEnd){
+					$textReplyMessage= "คุณมารายงานตัวเวลา".$timeNow."\nคูณมารายงานตัวเร็วช้ากว่าเวลาที่กำหนด\nเวลาที่กำหนดคือ\n".$timeStart." - ".$timeEnd;
+				}
+			      $newUserLog = json_encode(array('userId'=> $userId,'log_date'=> $dateNow,'log_time'=> $timeNow,
+						    'log_note'=>$textReplyMessage) );
+                              $opts = array('http' => array( 'method' => "POST",
+                                          'header' => "Content-type: application/json",
+                                          'content' => $newUserLog
+                                           )
+                                        );
+           
+                              $url = 'https://api.mlab.com/api/1/databases/crma51/collections/daily_register?apiKey='.MLAB_API_KEY.'';
+                              $context = stream_context_create($opts);
+                              $returnValue = file_get_contents($url,false,$context);
+				if($returnValue){
+					$textReplyMessage=$textReplyMessage."\nลงทะเบียนรายงานตัว ประจำวันที่ ".$dateTimeNow."\nเรียบร้อย";
+				}else{
+					$textReplyMessage=$textReplyMessage."\nลงทะเบียนรายงานตัว ประจำวันที่ ".$dateTimeNow."\nไม่สำเร็จ กรุณารายงานตัวด้วยวิธีอื่น";
+				}
+			      $textMessage = new TextMessageBuilder($textReplyMessage);
+		              $replyData = $textMessage;
+		    }else{// อาจจะรับสัญญาณ Beacon จากที่อื่น
 			 $textReplyMessage = "รับสัญญาณ Beacon ".$beaconHwid.$beaconMessage;
-                           $replyData = new TextMessageBuilder($textReplyMessage);       
+                         $replyData = new TextMessageBuilder($textReplyMessage);       
 		    }
 		}else if($beaconType=='leave'){// end not enter
 		    $textReplyMessage = "ขอให้มีความสุขในชีวิตประจำวัน มีความมุ่งมั่นในการทำงานเพื่อประเทศชาตินะคะ".$timeNow;
@@ -582,15 +608,15 @@ if(!is_null($events)){
 				}
 			      $newUserLog = json_encode(array('userId'=> $userId,'log_date'=> $dateNow,'log_time'=> $timeNow,
 						    'log_note'=>$textReplyMessage) );
-                           $opts = array('http' => array( 'method' => "POST",
+                              $opts = array('http' => array( 'method' => "POST",
                                           'header' => "Content-type: application/json",
                                           'content' => $newUserLog
                                            )
                                         );
            
-            $url = 'https://api.mlab.com/api/1/databases/crma51/collections/daily_register?apiKey='.MLAB_API_KEY.'';
-            $context = stream_context_create($opts);
-            $returnValue = file_get_contents($url,false,$context);
+                              $url = 'https://api.mlab.com/api/1/databases/crma51/collections/daily_register?apiKey='.MLAB_API_KEY.'';
+                              $context = stream_context_create($opts);
+                              $returnValue = file_get_contents($url,false,$context);
 				if($returnValue){
 					$textReplyMessage=$textReplyMessage."\nลงทะเบียนรายงานตัว ประจำวันที่ ".$dateTimeNow."\nเรียบร้อย";
 				}else{
