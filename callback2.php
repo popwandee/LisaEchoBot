@@ -199,17 +199,21 @@ if(!is_null($events)){
 	     $beaconMessage = $eventObj->getDeviceMessage(); 
 	     date_default_timezone_set("Asia/Bangkok");
              $timeNow=date("Y-m-d H:i:s");
-	    
+	     $timeStart=date("08:00:00");
+	     $timeEnd=date("08:40:00");
 	    if($beaconType=='enter'){
 		    if(($beaconHwid=='012ea74f7c')and($beaconMessage=='MI Bn')){
+			    //ส่งข้อความต้อนรับ ณ บก.พัน.ขกท.
 			$textReplyMessage = "ยินดีต้อนรับ".$displayName.$userId."\nเข้าสู่ กองพันข่าวกรองทางทหาร \nวันที่ ".$timeNow;
 	                $replyData = new TextMessageBuilder($textReplyMessage);  
+			    
+			    // บันทึกการเข้าใช้งาน
 		    }else{
 			 $textReplyMessage = "รับสัญญาณ Beacon ".$beaconHwid.$beaconMessage;
                            $replyData = new TextMessageBuilder($textReplyMessage);       
 		    }
 		}else if($beaconType=='leave'){// end not enter
-		    $textReplyMessage = "ขอให้มีความสุขในชีวิตประจำวัน มีความมุ่งมั่นในการทำงานเพื่อประเทศชาตินะคะ";
+		    $textReplyMessage = "ขอให้มีความสุขในชีวิตประจำวัน มีความมุ่งมั่นในการทำงานเพื่อประเทศชาตินะคะ".$timeNow;
                     $replyData = new TextMessageBuilder($textReplyMessage);    
 	    }
     }// ไม่มีสัญญาณ Beacon
@@ -566,7 +570,9 @@ if(!is_null($events)){
                               // $timeNow= $datetime->format('Y-m-d H:i:s (e)');
 	                      date_default_timezone_set("Asia/Bangkok");
                               $timeNow=date("Y-m-d H:i:s");
-			      $textReplyMessage= $timeNow;
+			      $timeStart=date("08:00:00");
+	                      $timeEnd=date("08:40:00");
+			      $textReplyMessage= $timeNow.$timeStart.$timeEnd;
 			      $textMessage = new TextMessageBuilder($textReplyMessage);
 		              $replyData = $textMessage;
 		              break;	
