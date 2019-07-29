@@ -260,9 +260,12 @@ if(!is_null($events)){
         // ดึงค่า params กรณีมีค่า params
         $paramPostback = $eventObj->getPostbackParams();
         // ทดสอบแสดงข้อความที่เกิดจาก Postaback Event
+	    /*
         $textReplyMessage = "ข้อความจาก Postback Event Data = ";        
         $textReplyMessage.= json_encode($dataPostback);
         $textReplyMessage.= json_encode($paramPostback);
+	*/
+	    $textReplyMessage=json_encode($dataPostback);
         $replyData = new TextMessageBuilder($textReplyMessage);     
     }
     // ถ้าเป้น Message Event 
@@ -372,7 +375,7 @@ if(!is_null($events)){
                         // กำหนด action 4 ปุ่ม 4 ประเภท
                         $actionBuilder = array(
                             new MessageTemplateActionBuilder(
-                                'นายกคนปัจจุบันคือใคร',// ข้อความคำถาม random จาก Server
+                                'ขอคำใบ้',// ข้อความให้คลิกคำใบ้
                                 'เป็นอดีตทหาร' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือกเป็นคำใบ้
                             ),
                             /*
