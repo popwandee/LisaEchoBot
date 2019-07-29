@@ -372,7 +372,29 @@ if(!is_null($events)){
 			$log_note=$userMessage;
                 switch ($explodeText[0]) {
                     case "qa":
-				$question="นายกท่านปัจจุบันคือใคร?";
+				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/qa?apiKey='.MLAB_API_KEY.'&q={"id":'0'}');
+                                     $data = json_decode($json);
+                                    foreach($data as $rec){ $maximum= $rec->total;  }//end for each
+				$randomNumber=rand(1,4);
+				// random คำถามจาก ฐานข้อมูล
+				 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/qa?apiKey='.MLAB_API_KEY.'&q={"id":'.$randomNumber.'}');
+                                     $data = json_decode($json);
+                                     $isData=sizeof($data);
+                                     if($isData >0){
+                                       foreach($data as $rec){
+                                        $question="นายกท่านปัจจุบันคือใคร?";
+				$detail=$rec->detail;
+				$hint=$rec->hint;
+				$answer1=$rec->answer1;
+				$result1=$rec->result1;
+				$score1=$rec->score1;
+				$answer2=$rec->answer2;
+				$result2=$rec->result2;
+				$score1=$rec->score1; 
+                                         }//end for each
+		                      
+	                              }else{
+		                       $question="นายกท่านปัจจุบันคือใคร?";
 				$detail="กรุณาเลือกคำตอบว่านายกรัฐมันตรีคนปัจจุบันของประเทศไทยคือใคร";
 				$hint="เป็นอดีตทหาร";
 				$answer1="นายกประยุทธ์";
@@ -381,6 +403,8 @@ if(!is_null($events)){
 				$answer2="นายกอภิสิทธิ์";
 				$result2="False!";
 				$score1=0;
+	                               }
+				
                         // กำหนด action 4 ปุ่ม 4 ประเภท
                         $actionBuilder = array(
                             new MessageTemplateActionBuilder(
@@ -417,7 +441,7 @@ if(!is_null($events)){
     //                          'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                             ), 
 			    new UriTemplateActionBuilder(
-                                'ผู้สนับสนุน', // ข้อความแสดงในปุ่ม
+                                'ผู้สนับสนุน คำถามทั้งหมดมี'.$maximum, // ข้อความแสดงในปุ่ม
                                 'https://www.thaitimes.online'
                             ),     
                         );
