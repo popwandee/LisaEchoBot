@@ -419,12 +419,12 @@ if(!is_null($events)){
 				       $multiMessage->add($textMessage);
 	                               }
 				$replyData =$multiMessage;
-				/*
+				
                         // กำหนด action 4 ปุ่ม 4 ประเภท
                         $actionBuilder = array(
                             new MessageTemplateActionBuilder(
                                 'ขอคำใบ้',// ข้อความให้คลิกคำใบ้
-                                "$hint" // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือกเป็นคำใบ้
+                                $hint // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือกเป็นคำใบ้
                             ),
                             /*
                             new DatetimePickerTemplateActionBuilder(
@@ -438,7 +438,7 @@ if(!is_null($events)){
                                 substr_replace(date("Y-m-d H:i",strtotime("+5 day")),'T',10,1), //วันที่ เวลา มากสุดที่เลือกได้
                                 substr_replace(date("Y-m-d H:i"),'T',10,1) //วันที่ เวลา น้อยสุดที่เลือกได้
                             ),   
-			   
+			   */
                             new PostbackTemplateActionBuilder(
                                 $answer1, // ข้อความแสดงในปุ่ม
                                 http_build_query(array(
@@ -463,13 +463,13 @@ if(!is_null($events)){
                         $imageUrl = 'https://thaitimes.online/wp-content/uploads/51724484_1191703040978591_8791088534904635392_n.jpg';
                         $replyData = new TemplateMessageBuilder('Button Template',
                             new ButtonTemplateBuilder(
-                                    "$question", // กำหนดหัวเรื่อง
-                                    "$detail", // กำหนดรายละเอียด
+                                    $question, // กำหนดหัวเรื่อง
+                                    $detail, // กำหนดรายละเอียด
                                     $imageUrl, // กำหนด url รุปภาพ
                                     $actionBuilder  // กำหนด action object
                             )
                         );        
-				*/
+				
                         break;                                          
                     case "p":
                         // ถ้าขณะนั้นเป็นการสนทนาใน ROOM หรือ GROUP
