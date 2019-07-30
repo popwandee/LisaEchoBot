@@ -424,7 +424,7 @@ if(!is_null($events)){
                         $actionBuilder = array(
                             new MessageTemplateActionBuilder(
                                 'ขอคำใบ้',// ข้อความให้คลิกคำใบ้
-                                'hint' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือกเป็นคำใบ้
+                                $hint // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือกเป็นคำใบ้
                             ),
                             /*
                             new DatetimePickerTemplateActionBuilder(
@@ -448,7 +448,7 @@ if(!is_null($events)){
     //                          'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                             ), 
 			    new PostbackTemplateActionBuilder(
-                                'answer2', // ข้อความแสดงในปุ่ม
+                                $answer2, // ข้อความแสดงในปุ่ม
                                 http_build_query(array(
                                     'Result'=>'result2',
                                     'Score'=>'score2'
@@ -463,8 +463,8 @@ if(!is_null($events)){
                         $imageUrl = 'https://thaitimes.online/wp-content/uploads/51724484_1191703040978591_8791088534904635392_n.jpg';
                       	$textMessage= new TemplateMessageBuilder('Button Template',
                             new ButtonTemplateBuilder(
-                                    'question', // กำหนดหัวเรื่อง
-                                    'detail', // กำหนดรายละเอียด
+                                    $question, // กำหนดหัวเรื่อง
+                                    $detail, // กำหนดรายละเอียด
                                     $imageUrl, // กำหนด url รุปภาพ
                                     $actionBuilder  // กำหนด action object
                             )
