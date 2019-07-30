@@ -418,15 +418,15 @@ if(!is_null($events)){
 				       $textMessage = new TextMessageBuilder($textReplyMessage);
 				       $multiMessage->add($textMessage);
 	                               }
-			$replyData2 =$multiMessage;
-				
+			
+				/*
                         // กำหนด action 4 ปุ่ม 4 ประเภท
                         $actionBuilder = array(
                             new MessageTemplateActionBuilder(
                                 'ขอคำใบ้',// ข้อความให้คลิกคำใบ้
                                 $hint // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือกเป็นคำใบ้
                             ),
-                            /*
+                            
                             new DatetimePickerTemplateActionBuilder(
                                 'Datetime Picker', // ข้อความแสดงในปุ่ม
                                 http_build_query(array(
@@ -438,7 +438,7 @@ if(!is_null($events)){
                                 substr_replace(date("Y-m-d H:i",strtotime("+5 day")),'T',10,1), //วันที่ เวลา มากสุดที่เลือกได้
                                 substr_replace(date("Y-m-d H:i"),'T',10,1) //วันที่ เวลา น้อยสุดที่เลือกได้
                             ),   
-			   */
+			   
                             new PostbackTemplateActionBuilder(
                                 $answer1, // ข้อความแสดงในปุ่ม
                                 http_build_query(array(
@@ -469,7 +469,8 @@ if(!is_null($events)){
                                     $actionBuilder  // กำหนด action object
                             )
                         );        
-			$multiMessage->add($textMessage);
+			*/
+		//	$multiMessage->add($textMessage);
 			$replyData =$multiMessage;
                         break;                                          
                     case "p":
