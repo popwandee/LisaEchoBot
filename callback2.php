@@ -388,26 +388,26 @@ if(!is_null($events)){
                                      $data = json_decode($json);
                                      $isData=sizeof($data);
                                      if($isData >0){
-					     $textReplyMessage="Get data from database";
-				$textMessage = new TextMessageBuilder($textReplyMessage);
-		                $multiMessage->add($textMessage);
+				       $textReplyMessage="Get data from database";
+				       $textMessage = new TextMessageBuilder($textReplyMessage);
+				       $multiMessage->add($textMessage);
+                                       foreach($data as $rec){
+                                         $question=$rec->question;
+				         $detail=$rec->detail;
+				         $hint=$rec->hint;
+				         $answer1=$rec->answer1;
+				         $result1=$rec->result1;
+				         $score1=$rec->score1;
+				         $answer2=$rec->answer2;
+				         $result2=$rec->result2;
+				         $score1=$rec->score1; 
+					 $textReplyMessage="\nGet Data from database, are ".$question.$detail.$hint.$asnwer1;
+				         $textMessage = new TextMessageBuilder($textReplyMessage);    
+				         $multiMessage->add($textMessage);
+                                         }//end for each
 				     }
 				$replyData =$multiMessage;
 				/*
-                                       foreach($data as $rec){
-                                        $question=$rec->question;
-				$detail=$rec->detail;
-				$hint=$rec->hint;
-				$answer1=$rec->answer1;
-				$result1=$rec->result1;
-				$score1=$rec->score1;
-				$answer2=$rec->answer2;
-				$result2=$rec->result2;
-				$score1=$rec->score1; 
-					       $textReplyMessage="\nGet Data from database, are ".$question.$detail.$hint.$asnwer1;
-				$replyData = new TextMessageBuilder($textReplyMessage);    
-                                         }//end for each
-		                      
 	                              }else{
 		                       $question="นายกท่านปัจจุบันคือใคร?";
 				$detail="กรุณาเลือกคำตอบว่านายกรัฐมันตรีคนปัจจุบันของประเทศไทยคือใคร";
