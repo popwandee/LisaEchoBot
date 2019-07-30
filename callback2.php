@@ -379,18 +379,16 @@ if(!is_null($events)){
                                 $data = json_decode($json);
                                 foreach($data as $rec){ $maximum= $rec->total;  }//end for each
 				    
-				$randomNumber=mt_rand(1,4);
+				$randomNumber=mt_rand(1,$maximum);
 				$textReplyMessage="Maximum is ".$maximum." Random number is ".$randomNumber;
 				$textMessage = new TextMessageBuilder($textReplyMessage);
 		                $multiMessage->add($textMessage);
 				// random คำถามจาก ฐานข้อมูล
-				 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/qa?apiKey='.MLAB_API_KEY.'&q={"id":'.$randomNumber.'}');
+				     $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/qa?apiKey='.MLAB_API_KEY.'&q={"id":'.$randomNumber.'}');
                                      $data = json_decode($json);
                                      $isData=sizeof($data);
                                      if($isData >0){
-				       $textReplyMessage="Get data from database";
-				       $textMessage = new TextMessageBuilder($textReplyMessage);
-				       $multiMessage->add($textMessage);
+				      
                                        foreach($data as $rec){
                                          $question=$rec->question;
 				         $detail=$rec->detail;
@@ -405,23 +403,23 @@ if(!is_null($events)){
 				         $textMessage = new TextMessageBuilder($textReplyMessage);    
 				         $multiMessage->add($textMessage);
                                          }//end for each
-				     }
+
+	                              }else{
+		                         $question="นายกท่านปัจจุบันคือใคร?";
+				         $detail="กรุณาเลือกคำตอบว่านายกรัฐมันตรีคนปัจจุบันของประเทศไทยคือใคร";
+				         $hint="เป็นอดีตทหาร";
+				         $answer1="นายกประยุทธ์";
+				         $result1="Correct!";
+				         $score1=1;
+				         $answer2="นายกอภิสิทธิ์";
+				         $result2="False!";
+				         $score1=0;
+					     $textReplyMessage=" Don't Get data from database";
+				       $textMessage = new TextMessageBuilder($textReplyMessage);
+				       $multiMessage->add($textMessage);
+	                               }
 				$replyData =$multiMessage;
 				/*
-	                              }else{
-		                       $question="นายกท่านปัจจุบันคือใคร?";
-				$detail="กรุณาเลือกคำตอบว่านายกรัฐมันตรีคนปัจจุบันของประเทศไทยคือใคร";
-				$hint="เป็นอดีตทหาร";
-				$answer1="นายกประยุทธ์";
-				$result1="Correct!";
-				$score1=1;
-				$answer2="นายกอภิสิทธิ์";
-				$result2="False!";
-				$score1=0;
-					     $textReplyMessage="\nDon't Get Data from database";
-				$replyData = new TextMessageBuilder($textReplyMessage);    
-	                               }
-				
                         // กำหนด action 4 ปุ่ม 4 ประเภท
                         $actionBuilder = array(
                             new MessageTemplateActionBuilder(
