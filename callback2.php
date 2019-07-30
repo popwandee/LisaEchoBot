@@ -469,7 +469,7 @@ if(!is_null($events)){
                                     $actionBuilder  // กำหนด action object
                             )
                         );        
-			$textMessage=$question.$detail.$imageUrl;
+			
 			$multiMessage->add($textMessage);
 			$replyData =$multiMessage;
                         break;                                          
