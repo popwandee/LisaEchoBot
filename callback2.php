@@ -424,7 +424,7 @@ if(!is_null($events)){
                         $actionBuilder = array(
                             new MessageTemplateActionBuilder(
                                 'ขอคำใบ้',// ข้อความให้คลิกคำใบ้
-                                $hint // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือกเป็นคำใบ้
+                                '$hint' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือกเป็นคำใบ้
                             ),
                             /*
                             new DatetimePickerTemplateActionBuilder(
@@ -440,18 +440,18 @@ if(!is_null($events)){
                             ),   
 			   */
                             new PostbackTemplateActionBuilder(
-                                $answer1, // ข้อความแสดงในปุ่ม
+                                '$answer1', // ข้อความแสดงในปุ่ม
                                 http_build_query(array(
-                                    'Result'=>$result1,
-                                    'Score'=>$score1
+                                    'Result'=>'$result1',
+                                    'Score'=>'$score1'
                                 )) // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
     //                          'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                             ), 
 			    new PostbackTemplateActionBuilder(
-                                $answer2, // ข้อความแสดงในปุ่ม
+                                '$answer2', // ข้อความแสดงในปุ่ม
                                 http_build_query(array(
-                                    'Result'=>$result2,
-                                    'Score'=>$score2
+                                    'Result'=>'$result2',
+                                    'Score'=>'$score2'
                                 )) // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
     //                          'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                             ), 
@@ -463,10 +463,10 @@ if(!is_null($events)){
                         $imageUrl = 'https://thaitimes.online/wp-content/uploads/51724484_1191703040978591_8791088534904635392_n.jpg';
                         $replyData = new TemplateMessageBuilder('Button Template',
                             new ButtonTemplateBuilder(
-                                    $question, // กำหนดหัวเรื่อง
-                                    $detail, // กำหนดรายละเอียด
-                                    $imageUrl, // กำหนด url รุปภาพ
-                                    $actionBuilder  // กำหนด action object
+                                    '$question', // กำหนดหัวเรื่อง
+                                    '$detail', // กำหนดรายละเอียด
+                                    '$imageUrl', // กำหนด url รุปภาพ
+                                    '$actionBuilder'  // กำหนด action object
                             )
                         );        
 				
