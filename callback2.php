@@ -297,6 +297,7 @@ if(!is_null($events)){
             $FileName = $eventObj->getFileName();
             $FileSize = $eventObj->getFileSize();
         }               
+	    /*
         // ถ้าเป็น image หรือ audio หรือ video หรือ file และต้องการบันทึกไฟล์
         if(preg_match('/image|audio|video|file/',$typeMessage)){            
             $responseMedia = $bot->getMessageContent($idMessage);
@@ -345,6 +346,7 @@ if(!is_null($events)){
                 $replyData = new TextMessageBuilder($failMessage);          
             }
         }
+	*/
         // ถ้าเป็น sticker
         if($typeMessage=='sticker'){
             $packageId = $eventObj->getPackageId();
@@ -372,12 +374,14 @@ if(!is_null($events)){
 			$log_note=$userMessage;
                 switch ($explodeText[0]) {
                     case "qa":
-				/*
+				
 				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/qa?apiKey='.MLAB_API_KEY.'&q={"id":0}');
                                      $data = json_decode($json);
                                     foreach($data as $rec){ $maximum= $rec->total;  }//end for each
-				    */
+				    
 				$randomNumber=rand(1,4);
+				$textReplyMessage="Maximum is ".$maximum." Random number is ".$randomNumber;
+				$replyData = new TextMessageBuilder($textReplyMessage);        
 				// random คำถามจาก ฐานข้อมูล
 				 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/qa?apiKey='.MLAB_API_KEY.'&q={"id":3}');
                                      $data = json_decode($json);
@@ -393,6 +397,8 @@ if(!is_null($events)){
 				$answer2=$rec->answer2;
 				$result2=$rec->result2;
 				$score1=$rec->score1; 
+					       $textReplyMessage="\nGet Data from database, are ".$question.$detail.$hint.$asnwer1;
+				$replyData = new TextMessageBuilder($textReplyMessage);    
                                          }//end for each
 		                      
 	                              }else{
@@ -405,6 +411,8 @@ if(!is_null($events)){
 				$answer2="นายกอภิสิทธิ์";
 				$result2="False!";
 				$score1=0;
+					     $textReplyMessage="\nDon't Get Data from database";
+				$replyData = new TextMessageBuilder($textReplyMessage);    
 	                               }
 				
                         // กำหนด action 4 ปุ่ม 4 ประเภท
