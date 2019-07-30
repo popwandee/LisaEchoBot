@@ -419,7 +419,7 @@ if(!is_null($events)){
 				       $multiMessage->add($textMessage);
 	                               }
 			
-				
+				/*
                         // กำหนด action 4 ปุ่ม 4 ประเภท
                         $actionBuilder = array(
                             new MessageTemplateActionBuilder(
@@ -438,7 +438,7 @@ if(!is_null($events)){
                                 substr_replace(date("Y-m-d H:i",strtotime("+5 day")),'T',10,1), //วันที่ เวลา มากสุดที่เลือกได้
                                 substr_replace(date("Y-m-d H:i"),'T',10,1) //วันที่ เวลา น้อยสุดที่เลือกได้
                             ),   
-			   */
+			   
                             new PostbackTemplateActionBuilder(
                                 $answer1, // ข้อความแสดงในปุ่ม
                                 http_build_query(array(
@@ -469,8 +469,8 @@ if(!is_null($events)){
                                     $actionBuilder  // กำหนด action object
                             )
                         );        
-			
-			$multiMessage->add($textMessage);
+			*/
+			//$multiMessage->add($textMessage);
 			$replyData =$multiMessage;
                         break;                                          
                     case "p":
