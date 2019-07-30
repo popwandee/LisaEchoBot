@@ -398,7 +398,7 @@ if(!is_null($events)){
 				         $score1=$rec->score1;
 				         $answer2=$rec->answer2;
 				         $result2=$rec->result2;
-				         $score1=$rec->score1; 
+				         $score2=$rec->score2; 
 					 $textReplyMessage="\nGet Data from database, are ".$question.$detail.$hint.$asnwer1;
 				         $textMessage = new TextMessageBuilder($textReplyMessage);    
 				         $multiMessage->add($textMessage);
@@ -413,20 +413,20 @@ if(!is_null($events)){
 				         $score1=1;
 				         $answer2="นายกอภิสิทธิ์";
 				         $result2="False!";
-				         $score1=0;
+				         $score2=0;
 					     $textReplyMessage=" Don't Get data from database";
 				       $textMessage = new TextMessageBuilder($textReplyMessage);
 				       $multiMessage->add($textMessage);
 	                               }
 			
-				/*
+				
                         // กำหนด action 4 ปุ่ม 4 ประเภท
                         $actionBuilder = array(
                             new MessageTemplateActionBuilder(
                                 'ขอคำใบ้',// ข้อความให้คลิกคำใบ้
                                 $hint // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือกเป็นคำใบ้
                             ),
-                            
+                            /*
                             new DatetimePickerTemplateActionBuilder(
                                 'Datetime Picker', // ข้อความแสดงในปุ่ม
                                 http_build_query(array(
@@ -438,7 +438,7 @@ if(!is_null($events)){
                                 substr_replace(date("Y-m-d H:i",strtotime("+5 day")),'T',10,1), //วันที่ เวลา มากสุดที่เลือกได้
                                 substr_replace(date("Y-m-d H:i"),'T',10,1) //วันที่ เวลา น้อยสุดที่เลือกได้
                             ),   
-			   
+			   */
                             new PostbackTemplateActionBuilder(
                                 $answer1, // ข้อความแสดงในปุ่ม
                                 http_build_query(array(
@@ -469,8 +469,8 @@ if(!is_null($events)){
                                     $actionBuilder  // กำหนด action object
                             )
                         );        
-			*/
-		//	$multiMessage->add($textMessage);
+			
+			$multiMessage->add($textMessage);
 			$replyData =$multiMessage;
                         break;                                          
                     case "p":
