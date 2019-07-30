@@ -418,7 +418,7 @@ if(!is_null($events)){
 				       $textMessage = new TextMessageBuilder($textReplyMessage);
 				       $multiMessage->add($textMessage);
 	                               }
-			$replyData =$multiMessage;
+			$replyData2 =$multiMessage;
 				
                         // กำหนด action 4 ปุ่ม 4 ประเภท
                         $actionBuilder = array(
@@ -729,6 +729,7 @@ if(!is_null($events)){
             $context = stream_context_create($opts);
             $returnValue = file_get_contents($url,false,$context);
 $response = $bot->replyMessage($replyToken,$replyData);
+$response = $bot->replyMessage($replyToken,$replyData2);
 if ($response->isSucceeded()) {
     echo 'Succeeded!';
     return;
