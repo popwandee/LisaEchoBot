@@ -381,13 +381,19 @@ if(!is_null($events)){
 				    
 				$randomNumber=mt_rand(1,4);
 				$textReplyMessage="Maximum is ".$maximum." Random number is ".$randomNumber;
-				$replyData = new TextMessageBuilder($textReplyMessage);   
-				/*
+				$textMessage = new TextMessageBuilder($textReplyMessage);
+		                $multiMessage->add($textMessage);
 				// random คำถามจาก ฐานข้อมูล
 				 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/qa?apiKey='.MLAB_API_KEY.'&q={"id":3}');
                                      $data = json_decode($json);
                                      $isData=sizeof($data);
                                      if($isData >0){
+					     $textReplyMessage="Get data from database";
+				$textMessage = new TextMessageBuilder($textReplyMessage);
+		                $multiMessage->add($textMessage);
+				     }
+				$replyData =$multiMessage;
+				/*
                                        foreach($data as $rec){
                                         $question=$rec->question;
 				$detail=$rec->detail;
