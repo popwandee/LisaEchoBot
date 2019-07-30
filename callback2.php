@@ -418,7 +418,7 @@ if(!is_null($events)){
 				       $textMessage = new TextMessageBuilder($textReplyMessage);
 				       $multiMessage->add($textMessage);
 	                               }
-				
+			$replyData =$multiMessage;
 				
                         // กำหนด action 4 ปุ่ม 4 ประเภท
                         $actionBuilder = array(
