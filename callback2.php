@@ -376,10 +376,10 @@ if(!is_null($events)){
                     case "qa":
 				
 				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/qa?apiKey='.MLAB_API_KEY.'&q={"id":0}');
-                                     $data = json_decode($json);
-                                    foreach($data as $rec){ $maximum= $rec->total;  }//end for each
+                                $data = json_decode($json);
+                                foreach($data as $rec){ $maximum= $rec->total;  }//end for each
 				    
-				$randomNumber=rand(1,4);
+				$randomNumber=mt_rand(1,4);
 				$textReplyMessage="Maximum is ".$maximum." Random number is ".$randomNumber;
 				$replyData = new TextMessageBuilder($textReplyMessage);   
 				/*
