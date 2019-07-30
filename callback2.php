@@ -440,7 +440,7 @@ if(!is_null($events)){
                             ),   
 			   */
                             new PostbackTemplateActionBuilder(
-                                'answer1', // ข้อความแสดงในปุ่ม
+                                $answer1, // ข้อความแสดงในปุ่ม
                                 http_build_query(array(
                                     'Result'=>'result1',
                                     'Score'=>'score1'
