@@ -470,7 +470,7 @@ if(!is_null($events)){
                             )
                         );        
 			
-			//$multiMessage->add($textMessage);
+			$multiMessage->add($textMessage);
 			$replyData =$multiMessage;
                         break;                                          
                     case "p":
