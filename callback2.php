@@ -339,7 +339,7 @@ if(!is_null($events)){
                 $replyData = new TextMessageBuilder($textReplyMessage);
 //              $failMessage = json_encode($fileType);              
 //              $failMessage = json_encode($responseMedia->getHeaders());
-                $replyData = new TextMessageBuilder($failMessage);                      
+//              $replyData = new TextMessageBuilder($failMessage);                      
             }else{
                 $failMessage = json_encode($idMessage.' '.$responseMedia->getHTTPStatus() . ' ' . $responseMedia->getRawBody());
                 $replyData = new TextMessageBuilder($failMessage);          
