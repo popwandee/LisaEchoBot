@@ -368,10 +368,10 @@ if(!is_null($events)){
          $datetime = new DateTime();
          $datetime->setTimezone($tz_object);
          $dateTimeNow = $datetime->format('Y\-m\-d\ H:i:s');
-        $multiMessage =     new MultiMessageBuilder;
-                $userMessage = strtolower($userMessage); // แปลงเป็นตัวเล็ก สำหรับทดสอบ
-	        $explodeText=explode(" ",$userMessage);
-			$log_note=$userMessage;
+         $multiMessage =     new MultiMessageBuilder;
+         $userMessage = strtolower($userMessage); // แปลงเป็นตัวเล็ก สำหรับทดสอบ
+	 $explodeText=explode(" ",$userMessage);
+	 $log_note=$userMessage;
                 switch ($explodeText[0]) {
                     case "qa":
 				
@@ -381,7 +381,8 @@ if(!is_null($events)){
 				    
 				$randomNumber=rand(1,4);
 				$textReplyMessage="Maximum is ".$maximum." Random number is ".$randomNumber;
-				$replyData = new TextMessageBuilder($textReplyMessage);        
+				$replyData = new TextMessageBuilder($textReplyMessage);   
+				/*
 				// random คำถามจาก ฐานข้อมูล
 				 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/qa?apiKey='.MLAB_API_KEY.'&q={"id":3}');
                                      $data = json_decode($json);
@@ -433,7 +434,7 @@ if(!is_null($events)){
                                 substr_replace(date("Y-m-d H:i",strtotime("+5 day")),'T',10,1), //วันที่ เวลา มากสุดที่เลือกได้
                                 substr_replace(date("Y-m-d H:i"),'T',10,1) //วันที่ เวลา น้อยสุดที่เลือกได้
                             ),   
-			    */
+			   
                             new PostbackTemplateActionBuilder(
                                 $answer1, // ข้อความแสดงในปุ่ม
                                 http_build_query(array(
@@ -463,7 +464,8 @@ if(!is_null($events)){
                                     $imageUrl, // กำหนด url รุปภาพ
                                     $actionBuilder  // กำหนด action object
                             )
-                        );              
+                        );        
+				*/
                         break;                                          
                     case "p":
                         // ถ้าขณะนั้นเป็นการสนทนาใน ROOM หรือ GROUP
