@@ -55,8 +55,7 @@ $tz_object = new DateTimeZone('Asia/Bangkok');
  $data = json_decode($json);
  $isData=sizeof($data);
   if($isData >0){
-      
-      echo "<table class='table table-hover table-responsive table-bordered'>";//start table
+	        echo "<table class='table table-hover table-responsive table-bordered'>";//start table
     //creating our table heading
     echo "<tr>";
         echo "<th>ID</th>";
@@ -66,48 +65,13 @@ $tz_object = new DateTimeZone('Asia/Bangkok');
         echo "<th>โทรศัพท์</th>";
         echo "<th>Action</th>";
     echo "</tr>";
-     
-    // retrieve our table contents
-$id=0;
-foreach($data as $rec){
-	$id++;
-                 $_id=$rec->_id;
-	
-	foreach($_id as $rec_id){
-		$_id=$rec_id;
-		
-	}
-                 $rank=$rec->rank;
-		$name=$rec->name;
-		$lastname=$rec->lastname;
-		$position=$rec->position;
-		$Email=$rec->Email;
-		$Tel1=$rec->Tel1;
-			
-     
-    // creating new table row per record
-    echo "<tr>";
-        echo "<td>{$id}</td>";
-        echo "<td>{$rank"."$name"."$lastname}</td>";
-        echo "<td>{$position}</td>";
-        echo "<td>{$Email}</td>";
-        echo "<td>{$Tel1}</td>";
-        echo "<td>";
-            // we will use this links on next part of this post
-	$del_url="delete.php?id=".$_id;
-            echo "<a href='$del_url'>Delete</a>";
-        echo "</td>";
-    echo "</tr>";
-}
- 
-// end table
-echo "</table>";
 
+	  // end table
+echo "</table>";
   }// if no records found
 else{
     echo "<div align='center' class='alert alert-danger'>ยังไม่มีข้อมูล</div>";
 }
-
          ?>
     </div> <!-- end .container -->
      
