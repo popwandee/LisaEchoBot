@@ -40,7 +40,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
      $param_username = $username;
      
      // Check if username exists, if yes then verify password
-     $json = file_get_contents('https://api.mlab.com/api/1/databases/nubee/collections/manager?apiKey='.MLAB_API_KEY.'&q={"username":{"$regex":"'.$param_username.'"}}');
+     $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"username":{"$regex":"'.$param_username.'"}}');
      $data = json_decode($json);
      $isData=sizeof($data);
      if($isData >0){
@@ -58,7 +58,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $_SESSION["username"] = $username;                            
                             
                             // Redirect user to welcome page
-                            header("location: listcoupon.php");
+                            header("location: listMember.php");
                         } else{
                             // Display an error message if password is not valid
                             $password_err = "รหัสผ่านไม่ถูกต้อง";
@@ -80,7 +80,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login เข้าสู่ระบบจ่ายคูปองอาหารกลางวัน พัน.ขกท.</title>
+    <title>Login เข้าสู่ระบบสมาชิก เตรียมทหาร40 จปร.51</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
     <style type="text/css">
         body{ font: 14px sans-serif; }
@@ -90,7 +90,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <body>
  <div class="container">
  <div class="page-header">
-            <table><tr><td><img src="mibnlogo.png" width="50"></td><td><h2>Login เข้าสู่ระบบจ่ายคูปองอาหารกลางวัน พัน.ขกท.</h2></td></tr></table>
+            <table><tr><td><img src="mibnlogo.png" width="50"></td><td><h2>Login เข้าสู่ระบบระบบสมาชิก เตรียมทหาร40 จปร.51</h2></td></tr></table>
         </div>
     <div class="wrapper">
 
