@@ -23,31 +23,87 @@ require_once "config.php";
 </head>
 <body>
   
-    <!-- container -->
-    <div class="container">
-   
-      
-      
-    <form action="newMember.php" method="post">
+   <div class="container">
+  
+        <div class="page-header">
+		<table><tr><td><img src="mibnlogo.png" width="50"></td><td> <h1>ค้นหาตามชื่อ </h1></td></tr></table>
+        </div>
+     <a href='search.php' class='btn btn-primary m-r-1em'>ค้นหา</a>
+	    <a href='newMember.php' class='btn btn-primary m-r-1em'>เพิ่มสมาชิก</a>
+	    <a href='listMember.php' class='btn btn-primary m-r-1em'>รายชื่อสมาชิกทั้งหมด</a>
+	    <a href='logout.php' class='btn btn-danger'>Logout</a>
+         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
     <table class='table table-hover table-responsive table-bordered'>
-        
         <tr>
-            <td>ชื่อ นามสกุล</td>
-            <td><input type='text' name='name' class='form-control' /></td>
-            <td><input type='text' name='lastname' class='form-control' /></td>
+            <td>ชื่อ <input type='text' name='name' class='form-control' /></td>
+            <td><input type='submit' value='ค้นหา' class='btn btn-primary' /></td>
         </tr>
-        <tr>
-            
-            <td colspan="3">
-                <input type='submit' value='Search' class='btn btn-primary' />
-            </td>
-        </tr>
-     <tr><td colspan="3">
-  <?php  if(isset($_SESSION["message"])){ echo $_SESSION["message"]; $_SESSION["message"]="";} ?> 
-      </td></tr>
     </table>
 </form>
-          
+	    
+	    <!-- PHP code to read records will be here -->
+         <?php
+ $message = isset($_GET['message']) ? $_GET['message'] : "";
+	    echo $message;
+ $json = file_get_contents('https://api.mlab.com/api/1/databases/nubee/collections/coupon?q={"name":{"$regex":"'.$name.'"}}&apiKey='.MLAB_API_KEY);
+ $data = json_decode($json);
+ $isData=sizeof($data);
+  if($isData >0){
+      
+      echo "<table class='table table-hover table-responsive table-bordered'>";//start table
+    //creating our table heading
+    echo "<tr>";
+        echo "<th>ลำดับ</th>";
+        echo "<th>ยศ ชื่อ สกุล</th>";
+        echo "<th>ตำแหน่ง</th>";
+        echo "<th>Email</th>";
+        echo "<th>Tel.</th>";
+        echo "<th>ID LINE</th>";
+        echo "<th>Action</th>";
+    echo "</tr>";
+     
+    // retrieve our table contents
+$id=0;
+foreach($data as $rec){
+	$id++;
+                 $_id=$rec->_id;
+	
+	foreach($_id as $rec_id){
+		$_id=$rec_id;
+		
+	}
+  $rank=$rec->rank;$name=$rec->name;$lastname=$rec->lastname;
+		$position=$rec->position;
+		$Email=$rec->Email;
+		$Tel1=$rec->Tel1;
+		$LineID=$rec->LineID;
+			
+     
+    // creating new table row per record
+    echo "<tr>";
+        echo "<td>{$id}</td>";
+        echo "<td>{$rank}{$name}{$lastname}</td>";
+        echo "<td>{$position}</td>";
+        echo "<td>{$Email}</td>";
+        echo "<td>{$Tel1}</td>";
+        echo "<td>{$LineID}</td>";
+        echo "<td>";
+            // we will use this links on next part of this post
+	$comment_url="comment.php?id=".$_id;
+            echo "<a href='$comment_url'>Delete</a>";
+        echo "</td>";
+    echo "</tr>";
+}
+ 
+// end table
+echo "</table>";
+
+  }// if no records found
+else{
+    echo "<div align='center' class='alert alert-danger'>ยังไม่มีข้อมูลค่ะ</div>";
+}
+
+         ?>
     </div> <!-- end .container -->
     
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
