@@ -44,7 +44,7 @@ $tz_object = new DateTimeZone('Asia/Bangkok');
 		<table><tr><td></td><td> <h1>วันที่ <?php echo $dateTimeToday;?> </h1></td></tr></table>
         </div>
      <a href='search.php' class='btn btn-primary m-r-1em'>ค้นหา</a>
-	    <a href='newcoupon.php' class='btn btn-primary m-r-1em'>เพิ่มข้อมูลสมาชิก</a>
+	    <a href='newMember.php' class='btn btn-primary m-r-1em'>เพิ่มข้อมูลสมาชิก</a>
 	    <a href='logout.php' class='btn btn-danger'>Logout</a>
 	    
 	    <!-- PHP code to read records will be here -->
@@ -88,7 +88,7 @@ foreach($data as $rec){
     // creating new table row per record
     echo "<tr>";
         echo "<td>{$id}</td>";
-        echo "<td>{$rank.$name.$lastname}</td>";
+        echo "<td>{$rank"."$name"."$lastname}</td>";
         echo "<td>{$position}</td>";
         echo "<td>{$Email}</td>";
         echo "<td>{$Tel1}</td>";
