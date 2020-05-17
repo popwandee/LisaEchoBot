@@ -47,10 +47,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         // มีข้อมูลผู้ใช้อยู่
      foreach($data as $rec){
         $username=$rec->username;
+        $approved=$rec->approved;
         $hashed_password=$rec->password;
          }
        if(password_verify($password, $hashed_password)){
-                            // Password is correct, so start a new session
+                            // Password is correct
+        if($approved){
+        //so start a new session
+        
                             session_start();
                             
                             // Store data in session variables
@@ -59,6 +63,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             
                             // Redirect user to welcome page
                             header("location: listMember.php");
+        }else{
+        // User not approved yet
+         $username_err = "คุณยังไม่ได้รับอนุมัติให้เข้าระบบ กรุณาติดต่อ Admin";
+        }
                         } else{
                             // Display an error message if password is not valid
                             $password_err = "รหัสผ่านไม่ถูกต้อง";
