@@ -92,7 +92,7 @@ foreach($data as $rec){
         echo "<td>";
             // we will use this links on next part of this post
 	$del_url="comment.php?id=".$_id;
-            echo "<a href='$del_url'>แจ้งแก้ไขข้อมูล</a>";
+            echo "<a href='$del_url'>แก้ไข</a>";
         echo "</td>";
     echo "</tr>";
 
