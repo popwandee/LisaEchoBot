@@ -26,7 +26,7 @@ require_once "config.php";
    <div class="container">
   
         <div class="page-header">
-		<table><tr><td><img src="mibnlogo.png" width="50"></td><td> <h1>ค้นหาตามชื่อ </h1></td></tr></table>
+		<table><tr><td></td><td> <h1>ค้นหาตามชื่อ </h1></td></tr></table>
         </div>
      <a href='search.php' class='btn btn-primary m-r-1em'>ค้นหา</a>
 	    <a href='newMember.php' class='btn btn-primary m-r-1em'>เพิ่มสมาชิก</a>
@@ -47,7 +47,7 @@ require_once "config.php";
 	    echo $message;
 	   
 	   if(isset($_POST['name'])){
- $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/crma51Phonebook?q={"name":{"$regex":"'.$name.'"}}&apiKey='.MLAB_API_KEY);
+ $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/crma51Phonebook?q={"name":"'.$name.'"}&apiKey='.MLAB_API_KEY);
  $data = json_decode($json);
  $isData=sizeof($data);
   if($isData >0){
