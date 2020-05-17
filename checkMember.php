@@ -1,10 +1,12 @@
 <?php
 if($_POST){
         $name=htmlspecialchars(strip_tags($_POST['name']));
-        $government_id=htmlspecialchars(strip_tags($_POST['government_id']));
-        $coupon_id=htmlspecialchars(strip_tags($_POST['coupon_id']));
+        $lastname=htmlspecialchars(strip_tags($_POST['lastname']));
+        $position=htmlspecialchars(strip_tags($_POST['position']));
+        $Tel1=htmlspecialchars(strip_tags($_POST['Tel1']));
         }
 echo "NAME :".$name;
-echo "Government ID :".$government_id;
-echo "COUPON ID :".$coupon_id;
+echo "Lastname :".$lastname;
+echo "Position :".$position;
+echo "Tel. :".$Tel1;
 ?>
