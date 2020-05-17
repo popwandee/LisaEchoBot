@@ -45,6 +45,8 @@ require_once "config.php";
          <?php
  $message = isset($_GET['message']) ? $_GET['message'] : "";
 	    echo $message;
+	   
+	   if(isset($_POST['name'])){
  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/crma51Phonebook?q={"name":{"$regex":"'.$name.'"}}&apiKey='.MLAB_API_KEY);
  $data = json_decode($json);
  $isData=sizeof($data);
@@ -102,7 +104,7 @@ echo "</table>";
 else{
     echo "<div align='center' class='alert alert-danger'>ยังไม่มีข้อมูลค่ะ</div>";
 }
-
+	   }//end if isset _POST['name']
          ?>
     </div> <!-- end .container -->
 	
