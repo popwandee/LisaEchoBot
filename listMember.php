@@ -65,6 +65,16 @@ $tz_object = new DateTimeZone('Asia/Bangkok');
         echo "<th>โทรศัพท์</th>";
         echo "<th>Action</th>";
     echo "</tr>";
+    // retrieve our table contents
+$id=0;
+foreach($data as $rec){
+	$id++;
+                 $_id=$rec->_id;
+	
+	foreach($_id as $rec_id){
+		$_id=$rec_id;
+		echo "$_id";
+	}
 
 	  // end table
 echo "</table>";
