@@ -98,7 +98,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <body>
  <div class="container">
  <div class="page-header">
-            <table><tr><td><img src="mibnlogo.png" width="50"></td><td><h2>Login เข้าสู่ระบบระบบสมาชิก เตรียมทหาร40 จปร.51</h2></td></tr></table>
+            <table><tr><td><h2>Login เข้าสู่ระบบระบบสมาชิก เตรียมทหาร40 จปร.51</h2></td></tr></table>
         </div>
     <div class="wrapper">
 
