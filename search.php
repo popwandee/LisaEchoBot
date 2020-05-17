@@ -47,7 +47,8 @@ require_once "config.php";
 	    echo $message;
 	   
 	   if(isset($_POST['name'])){
- $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/crma51Phonebook?q={"name":"$name"}&apiKey='.MLAB_API_KEY);
+		   $name=$_POST['name'];
+ $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/crma51Phonebook?apiKey='.MLAB_API_KEY.'&q={"name":{"$regex":"'.$name.'"}}');
  $data = json_decode($json);
  $isData=sizeof($data);
   if($isData >0){
