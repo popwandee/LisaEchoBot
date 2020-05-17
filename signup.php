@@ -16,7 +16,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         // Set parameters
         $param_username = trim($_POST["username"]);
         // Prepare a select statement
-        $json = file_get_contents('https://api.mlab.com/api/1/databases/nubee/collections/manager?apiKey='.MLAB_API_KEY.'&q={"username":{"$regex":"'.$param_username.'"}}');
+        $json = file_get_contents('https://api.mlab.com/api/1/databases/cram51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"username":{"$regex":"'.$param_username.'"}}');
         $data = json_decode($json);
         $isData=sizeof($data);
         //ตรวจสอบว่ามีชื่อผู้ใช้นี้อยู่แล้วหรือไม่
@@ -66,7 +66,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                'content' => $newData
                                            )
                                         );
-$url = 'https://api.mlab.com/api/1/databases/nubee/collections/manager?apiKey='.MLAB_API_KEY.'';
+$url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'';
         $context = stream_context_create($opts);
         $returnValue = file_get_contents($url,false,$context);
         if($returnValue){
