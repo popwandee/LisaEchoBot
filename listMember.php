@@ -73,8 +73,29 @@ foreach($data as $rec){
 	
 	foreach($_id as $rec_id){
 		$_id=$rec_id;
-		echo "$_id";
 	} // end foreach id as rec_id
+	
+	        $rank = $rec->rank;
+		$name = $rec->name;
+		$lastname = $rec->lastname;
+		$position = $rec->position;
+		$Email = $rec->Email;
+		$Tel1 = $rec->Tel1;
+
+	    // creating new table row per record
+    echo "<tr>";
+        echo "<td>{$id}</td>";
+        echo "<td>{$name}</td>";
+        echo "<td>{$position}</td>";
+        echo "<td>{$Email}</td>";
+        echo "<td>{$Tel1}</td>";
+        echo "<td>";
+            // we will use this links on next part of this post
+	$del_url="delete.php?id=".$_id;
+            echo "<a href='$del_url'>Delete</a>";
+        echo "</td>";
+    echo "</tr>";
+
 }// end foreach data as rec
 	  // end table
 echo "</table>";
