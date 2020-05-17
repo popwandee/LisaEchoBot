@@ -74,8 +74,8 @@ foreach($data as $rec){
 	foreach($_id as $rec_id){
 		$_id=$rec_id;
 		echo "$_id";
-	}
-
+	} // end foreach id as rec_id
+}// end foreach data as rec
 	  // end table
 echo "</table>";
   }// if no records found
