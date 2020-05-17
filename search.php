@@ -15,7 +15,7 @@ require_once "config.php";
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>ระบบการจ่ายคูปองค่าอาหารกลางวัน พัน.ขกท.</title>
+    <title>ระบบค้นหาสมาชิก เตรียมทหาร 40 จปร.51</title>
       
     <!-- Latest compiled and minified Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
@@ -26,20 +26,15 @@ require_once "config.php";
     <!-- container -->
     <div class="container">
    
-        <div class="page-header">
-            <table><tr><td><img src="mibnlogo.png" width="50"></td><td><h1>ลงทะเบียนรับคูปอง</h1></td></tr></table>
-        </div>
-      <a href='newcoupon.php' class='btn btn-primary m-r-1em'>ลงทะเบียนรับคูปอง</a>
-     <a href='listcoupon.php' class='btn btn-primary m-r-1em'>คูปองที่รับไปแล้ว</a>
-     <a href='logout.php' class='btn btn-danger'>Logout</a>
       
-    <form action="newcoupon.php" method="post">
+      
+    <form action="newMember.php" method="post">
     <table class='table table-hover table-responsive table-bordered'>
         
         <tr>
-            <td>ลำดับที่ - รหัสประจำตัวข้าราชการทหาร</td>
-            <td><input type='text' name='personel_id' class='form-control' /></td>
-            <td><input type='text' name='government_id' class='form-control' /></td>
+            <td>ชื่อ นามสกุล</td>
+            <td><input type='text' name='name' class='form-control' /></td>
+            <td><input type='text' name='lastname' class='form-control' /></td>
         </tr>
         <tr>
             
