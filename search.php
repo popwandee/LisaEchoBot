@@ -45,7 +45,7 @@ require_once "config.php";
          <?php
  $message = isset($_GET['message']) ? $_GET['message'] : "";
 	    echo $message;
- $json = file_get_contents('https://api.mlab.com/api/1/databases/nubee/collections/coupon?q={"name":{"$regex":"'.$name.'"}}&apiKey='.MLAB_API_KEY);
+ $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/crma51Phonebook?q={"name":{"$regex":"'.$name.'"}}&apiKey='.MLAB_API_KEY);
  $data = json_decode($json);
  $isData=sizeof($data);
   if($isData >0){
@@ -101,6 +101,57 @@ echo "</table>";
   }// if no records found
 else{
     echo "<div align='center' class='alert alert-danger'>ยังไม่มีข้อมูลค่ะ</div>";
+}
+
+         ?>
+    </div> <!-- end .container -->
+	
+	<div>
+	<?php
+	$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/comment?apiKey='.MLAB_API_KEY);
+ $data = json_decode($json);
+ $isData=sizeof($data);
+  if($isData >0){
+      
+      echo "<table class='table table-hover table-responsive table-bordered'>";//start table
+    //creating our table heading
+    echo "<tr>";
+        echo "<th>ลำดับ</th>";
+        echo "<th>name</th>";
+        echo "<th>Comment</th>";
+        echo "<th>Status</th>";
+    echo "</tr>";
+     
+    // retrieve our table contents
+$id=0;
+foreach($data as $rec){
+	$id++;
+                 $_id=$rec->_id;
+	
+	foreach($_id as $rec_id){
+		$_id=$rec_id;
+		
+	}
+ $name=$rec->name;
+		$comment=$rec->comment;
+		$status=$rec->status;
+			
+     
+    // creating new table row per record
+    echo "<tr>";
+        echo "<td>{$id}</td>";
+        echo "<td>{$name}</td>";
+        echo "<td>{$comment}</td>";
+        echo "<td>{$status}</td>";
+    echo "</tr>";
+}
+ 
+// end table
+echo "</table>";
+
+  }// if no records found
+else{
+    echo "<div align='center' class='alert alert-danger'>ยังไม่มี Comment ค่ะ</div>";
 }
 
          ?>
