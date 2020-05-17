@@ -30,7 +30,7 @@ require_once "config.php";
         <a href="logout.php" class="btn btn-danger">ออกจากระบบ</a>
     </p>
  <?php
-if(isset($_POST['name'])&&(isset($_POST['_id']))){
+if(isset($_POST['name'])&&(isset($_POST['_id']))&&(isset($_POST['comment']))){
 	// รับค่าข้อมูลจาก POST ให้ตัวแปร
  $name =	htmlspecialchars(strip_tags($_POST['name']));
  $_id=htmlspecialchars(strip_tags($_POST['_id']));
@@ -66,6 +66,11 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/comment?apiKey='
 
 }  // end of if(isset($_POST['_id'])&&isset($_POST['name']))
 
+if(isset($_POST['name'])){
+	$name=$_POST['name'];
+}else{
+$name='';	
+}
 ?>
 	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
     <table class='table table-hover table-responsive table-bordered'>
@@ -80,7 +85,7 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/comment?apiKey='
         </tr>        
         <tr>
             <td></td>
-            <td>
+            <td>  <input type="hidden"name="_id" value="<?php echo $_id;?>">
                 <input type='submit' value='Save' class='btn btn-primary' />
 
             </td>
