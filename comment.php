@@ -67,5 +67,26 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/comment?apiKey='
 }  // end of if(isset($_POST['_id'])&&isset($_POST['name']))
 
 ?>
+	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+    <table class='table table-hover table-responsive table-bordered'>
+
+        <tr>
+            <td>ชื่อ สมาชิกที่ต้องการให้แก้ไขข้อมูล</td>
+            <td><input type='text' name='name' value="<?php echo $name;?>" class='form-control' /></td>
+        </tr>
+        <tr>
+            <td>ข้อมูลที่ต้องการแก้ไข</td>
+            <td><textarea name="comment" rows="10" cols="30"class='form-control' />ข้อมูลที่ต้องการแก้ไข</textarea></td>
+        </tr>        
+        <tr>
+            <td></td>
+            <td>
+                <input type='submit' value='Save' class='btn btn-primary' />
+
+            </td>
+        </tr>
+    </table>
+</form>
+  
 </body>
 </html>
