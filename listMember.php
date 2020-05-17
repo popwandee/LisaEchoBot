@@ -58,7 +58,7 @@ $tz_object = new DateTimeZone('Asia/Bangkok');
 	        echo "<table class='table table-hover table-responsive table-bordered'>";//start table
     //creating our table heading
     echo "<tr>";
-        echo "<th>ID</th>";
+        echo "<th>ลำดับ</th>";
         echo "<th>ยศ ชื่อ สกุล</th>";
         echo "<th>ตำแหน่ง</th>";
         echo "<th>อีเมล์</th>";
@@ -85,14 +85,14 @@ foreach($data as $rec){
 	    // creating new table row per record
     echo "<tr>";
         echo "<td>{$id}</td>";
-        echo "<td>{$name}</td>";
+        echo "<td>{$rank} {$name} {$lastname}</td>";
         echo "<td>{$position}</td>";
         echo "<td>{$Email}</td>";
         echo "<td>{$Tel1}</td>";
         echo "<td>";
             // we will use this links on next part of this post
-	$del_url="delete.php?id=".$_id;
-            echo "<a href='$del_url'>Delete</a>";
+	$del_url="comment.php?id=".$_id;
+            echo "<a href='$del_url'>แจ้งแก้ไขข้อมูล</a>";
         echo "</td>";
     echo "</tr>";
 
