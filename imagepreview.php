@@ -88,25 +88,33 @@ require_once "config.php";
   </div>
    <div class="container">
 
-         <div class="col-sm-4">
-           <div class="panel panel-warning">
-             <div class="panel-heading">
-               <h3 class="panel-title">ประชาสัมพันธ์</h3>
-             </div>
-             <div class="panel-body">
-               <a href='imagepreview.php?imageid=1.jpg?alt=media&token=e9d388df-0b6d-4e10-a49c-6472f9aff38a'><img src='https://firebasestorage.googleapis.com/v0/b/lisa-77436.appspot.com/o/image%2F1.jpg?alt=media&token=e9d388df-0b6d-4e10-a49c-6472f9aff38a' width='100'></a>
-               <a href='imagepreview.php?imageid=95736235_157455389101365_4497114901063401472_o.jpg?alt=media&token=32f10846-4da0-4db3-b25f-250938cbc9fb'><img src='https://firebasestorage.googleapis.com/v0/b/lisa-77436.appspot.com/o/image%2F95736235_157455389101365_4497114901063401472_o.jpg?alt=media&token=32f10846-4da0-4db3-b25f-250938cbc9fb'width='100'></a>
-             </div>
-           </div>
-           <div class="panel panel-danger">
-             <div class="panel-heading">
-               <h3 class="panel-title">ข้อมูลสมาชิก</h3>
-             </div>
-             <div class="panel-body">
-               <a href='https://firebasestorage.googleapis.com/v0/b/lisa-77436.appspot.com/o/image%2F11.jpg?alt=media&token=dc346d7b-8d66-4861-a2b8-f419f76b471c'><img src='https://firebasestorage.googleapis.com/v0/b/lisa-77436.appspot.com/o/image%2F11.jpg?alt=media&token=dc346d7b-8d66-4861-a2b8-f419f76b471c' width='100'>
-             </div>
-           </div>
-         </div><!-- /.col-sm-4 -->
+        <div class="page-header">
+		<table><tr><td></td><td> <h1>ค้นหาตามชื่อ </h1></td></tr></table>
+        </div>
+     <a href='search.php' class='btn btn-primary m-r-1em'>ค้นหา</a>
+	    <a href='newMember.php' class='btn btn-primary m-r-1em'>เพิ่มสมาชิก</a>
+	    <a href='listMember.php' class='btn btn-primary m-r-1em'>รายชื่อสมาชิกทั้งหมด</a>
+	    <a href='logout.php' class='btn btn-danger'>Logout</a>
+         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+    <table class='table table-hover table-responsive table-bordered'>
+        <tr>
+            <td>ชื่อ <input type='text' name='name' class='form-control' /></td>
+            <td><input type='submit' value='ค้นหา' class='btn btn-primary' /></td>
+        </tr>
+    </table>
+</form>
+
+	    <!-- PHP code to read records will be here -->
+         <?php
+ $imageid = isset($_GET['imageid']) ? $_GET['imageid'] : "";
+	    echo imageid;
+
+	   if(isset($_POST['imageid'])){
+		   $imageid=$_POST['imageid'];
+       echo "_POST".$imageid;
+     }
+     ?>
+<img src='https://firebasestorage.googleapis.com/v0/b/lisa-77436.appspot.com/o/image%2F<?php echo $imageid;?>'>
     </div> <!-- end .container -->
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
