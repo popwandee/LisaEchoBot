@@ -1,3 +1,15 @@
+<?php
+// Initialize the session
+session_start();
+
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
+// Include config file
+require_once "config.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -48,11 +60,12 @@
           <li class="active"><a href="index.php">Home</a></li>
           <li><a href="signup.php">ลงทะเบียน</a></li>
           <li><a href="listMember.php">รายชื่อเพื่อน</a></li>
+          <li><a href="newMember.php">เพิ่มรายชื่อเพื่อน</a></li>
           <li><a href="logout.php">ออกจากระบบ</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="#">ภาพสวยๆ</a></li>
+              <li><a href="image.php">ภาพสวยๆ</a></li>
               <li><a href="#">เฟสบุ๊กรุ่น</a></li>
               <li role="separator" class="divider"></li>
               <li class="dropdown-header">เว็บไซต์หน่วย(เพื่อนเป็น ผบ.หน่วย)</li>
@@ -83,7 +96,70 @@
               Man must explore, and this is exploration at its greatest
             </h2>
             <h3 class="post-subtitle">
-              Problems look mighty small from 150 miles up
+              <?php
+             if(isset($_POST['name'])&&(isset($_POST['_id']))&&(isset($_POST['comment']))){
+             	// รับค่าข้อมูลจาก POST ให้ตัวแปร
+              $name =	htmlspecialchars(strip_tags($_POST['name']));
+              $_id=htmlspecialchars(strip_tags($_POST['_id']));
+              $comment =	htmlspecialchars(strip_tags($_POST['comment']));
+
+             // นำข้อมูลเข้าเก็บในฐานข้อมูล
+             $newData = json_encode(array('_id' => $_id,
+             			     'name' => $name,
+             			     'comment' => $comment) );
+             $opts = array('http' => array( 'method' => "POST",
+                                            'header' => "Content-type: application/json",
+                                            'content' => $newData
+                                                        )
+                                                     );
+             $url = 'https://api.mlab.com/api/1/databases/crma51/collections/comment?apiKey='.MLAB_API_KEY.'';
+                     $context = stream_context_create($opts);
+                     $returnValue = file_get_contents($url,false,$context);
+
+                     if($returnValue){
+             		   $message= "<div align='center' class='alert alert-success'>รับแจ้งแก้ไขข้อมูล ".$name." เรียบร้อย</div>";
+             		   echo $message;
+
+             	        }else{
+             		   $message= "<div align='center' class='alert alert-danger'>ไม่สามารถบันทึกรับแจ้งการแก้ไขข้อมูลได้</div>";
+             		echo $message;
+                              }
+             			$_SESSION["message"]=$message;
+             		   	header("location: search.php");
+                 			exit;
+                     // ยังไม่มีการโพสต์ข้อมูลจากแบบฟอร์ม
+                 }else{
+                     echo "<div align='center' class='alert alert-success'>".$dateTimeToday."</div>";
+
+             }  // end of if(isset($_POST['_id'])&&isset($_POST['name']))
+
+             if(isset($_POST['name'])){
+             	$name=$_POST['name'];
+             }else{
+             $name='';
+             }
+             ?>
+             	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                 <table class='table table-hover table-responsive table-bordered'>
+
+                     <tr>
+                         <td>ชื่อ สมาชิกที่ต้องการให้แก้ไขข้อมูล</td>
+                         <td><input type='text' name='name' value="<?php echo $name;?>" class='form-control' /></td>
+                     </tr>
+                     <tr>
+                         <td>ข้อมูลที่ต้องการแก้ไข</td>
+                         <td><textarea name="comment" rows="10" cols="30"class='form-control' />ข้อมูลที่ต้องการแก้ไข</textarea></td>
+                     </tr>
+                     <tr>
+                         <td></td>
+                         <td>  <input type="hidden"name="_id" value="<?php echo $_id;?>">
+                             <input type='submit' value='Save' class='btn btn-primary' />
+
+                         </td>
+                     </tr>
+                 </table>
+             </form>
+
             </h3>
           </a>
           <p class="post-meta">Posted by
