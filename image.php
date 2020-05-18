@@ -228,7 +228,8 @@ else{
                <h3 class="panel-title">ประชาสัมพันธ์</h3>
              </div>
              <div class="panel-body">
-               <img src='https://firebasestorage.googleapis.com/v0/b/lisa-77436.appspot.com/o/image%2F1.jpg?alt=media&token=e9d388df-0b6d-4e10-a49c-6472f9aff38a' width='100'>
+               <a href='https://firebasestorage.googleapis.com/v0/b/lisa-77436.appspot.com/o/image%2F1.jpg?alt=media&token=e9d388df-0b6d-4e10-a49c-6472f9aff38a'><img src='https://firebasestorage.googleapis.com/v0/b/lisa-77436.appspot.com/o/image%2F1.jpg?alt=media&token=e9d388df-0b6d-4e10-a49c-6472f9aff38a' width='100'></a>
+               <a href='https://firebasestorage.googleapis.com/v0/b/lisa-77436.appspot.com/o/image%2F95736235_157455389101365_4497114901063401472_o.jpg?alt=media&token=32f10846-4da0-4db3-b25f-250938cbc9fb'><img src='https://firebasestorage.googleapis.com/v0/b/lisa-77436.appspot.com/o/image%2F95736235_157455389101365_4497114901063401472_o.jpg?alt=media&token=32f10846-4da0-4db3-b25f-250938cbc9fb'width='100'></a>
              </div>
            </div>
            <div class="panel panel-danger">
@@ -236,7 +237,7 @@ else{
                <h3 class="panel-title">ข้อมูลสมาชิก</h3>
              </div>
              <div class="panel-body">
-               <img src='https://firebasestorage.googleapis.com/v0/b/lisa-77436.appspot.com/o/image%2F11.jpg?alt=media&token=dc346d7b-8d66-4861-a2b8-f419f76b471c' width='100'>
+               <a href='https://firebasestorage.googleapis.com/v0/b/lisa-77436.appspot.com/o/image%2F11.jpg?alt=media&token=dc346d7b-8d66-4861-a2b8-f419f76b471c'><img src='https://firebasestorage.googleapis.com/v0/b/lisa-77436.appspot.com/o/image%2F11.jpg?alt=media&token=dc346d7b-8d66-4861-a2b8-f419f76b471c' width='100'>
              </div>
            </div>
          </div><!-- /.col-sm-4 -->
