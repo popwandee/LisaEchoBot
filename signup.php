@@ -125,9 +125,13 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
       <p>เว็บไซต์ เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
     </div>
   </div>
-    <div class="wrapper">
+    <div class="page-header">
+      <div class="panel panel-info">
+        <div class="panel-heading">
         <h2>Sign Up</h2>
         <p>กรุณากรอกข้อมูลเพื่อสร้าง account.</p>
+      </div>
+      <div class="panel-body">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
                 <label>Username</label>
@@ -150,6 +154,8 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
             </div>
             <p>มี account อยู่แล้วใช่ไหม? <a href="login.php">Login ที่นี่</a>.</p>
         </form>
-    </div>
+    </div> <!-- panel-body -->
+  </div> <!-- panel panel-info -->
+  </div> <!-- page-header -->
 </body>
 </html>
