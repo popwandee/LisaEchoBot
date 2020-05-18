@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Clean Blog - Start Bootstrap Theme</title>
+  <title>AFAPS40-CRMA51</title>
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -28,7 +28,7 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
-      <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+      <a class="navbar-brand" href="index.php">Start AFAPS40-CRMA51</a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         Menu
         <i class="fas fa-bars"></i>
@@ -42,10 +42,13 @@
             <a class="nav-link" href="about.html">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="post.html">Sample Post</a>
+            <a class="nav-link" href="listMember.php">ข้อมูลเพื่อนๆในรุ่น</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="contact.html">Contact</a>
+            <a class="nav-link" href="signup.php">ลงทะเบียนเข้าใช้งานระบบ</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="logout.php">ลงชื่อออกจากระบบ</a>
           </li>
         </ul>
       </div>
