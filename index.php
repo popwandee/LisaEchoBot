@@ -63,7 +63,7 @@
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="site-heading">
             <h1>Clean Blog</h1>
-            <span class="subheading">A Blog Theme by Start Bootstrap</span>
+            <span class="subheading">AFAPS40-CRMA51</span>
           </div>
         </div>
       </div>
