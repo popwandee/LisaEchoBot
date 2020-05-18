@@ -58,7 +58,7 @@ require_once "config.php";
       <div class="col-lg-8 col-md-10 mx-auto">
         <div class="post-preview">
           <a href="post.html">
-            <h2 class="post-title">แจ้งแก้ไขข้อมูล</h2>
+            <h2 class="post-title"></h2>
             <h3 class="post-subtitle">
               <?php
              if(isset($_POST['name'])&&(isset($_POST['_id']))&&(isset($_POST['comment']))){
@@ -93,7 +93,7 @@ require_once "config.php";
                  			exit;
                      // ยังไม่มีการโพสต์ข้อมูลจากแบบฟอร์ม
                  }else{
-                     echo "<div align='center' class='alert alert-success'>".$dateTimeToday."</div>";
+                     echo "<div align='center' class='alert alert-success'>แจ้งแก้ไขข้อมูล".$dateTimeToday."</div>";
 
              }  // end of if(isset($_POST['_id'])&&isset($_POST['name']))
 
@@ -150,8 +150,68 @@ require_once "config.php";
 
   <hr>
 
+    <div class="page-header">
+      <h1>รายการแจ้งแก้ไขข้อมูล</h1>
+    </div>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+
+          </div>
+          <div class="panel-body">
+            <?php
+            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/comment?apiKey='.MLAB_API_KEY);
+            $data = json_decode($json);
+            $isData=sizeof($data);
+            if($isData >0){
+
+                echo "<table class='table table-hover table-responsive table-bordered'>";//start table
+              //creating our table heading
+              echo "<tr>";
+                  echo "<th>ลำดับ</th>";
+                  echo "<th>name</th>";
+                  echo "<th>Comment</th>";
+                  echo "<th>Status</th>";
+              echo "</tr>";
+
+              // retrieve our table contents
+            $id=0;
+            foreach($data as $rec){
+            $id++;
+                           $_id=$rec->_id;
+
+            foreach($_id as $rec_id){
+              $_id=$rec_id;
+
+            }
+            $name=$rec->name;
+              $comment=$rec->comment;
+              $status=$rec->status;
 
 
+              // creating new table row per record
+              echo "<tr>";
+                  echo "<td>{$id}</td>";
+                  echo "<td>{$name}</td>";
+                  echo "<td>{$comment}</td>";
+                  echo "<td>{$status}</td>";
+              echo "</tr>";
+            }
+
+            // end table
+            echo "</table>";
+
+            }// if no records found
+            else{
+              echo "<div align='center' class='alert alert-danger'>ยังไม่มี Comment ค่ะ</div>";
+            }
+
+                   ?>
+          </div>
+        </div>
+      </div><!-- /.col-sm-4 -->
+    </div><!-- row -->
 
             <div class="page-header">
               <h1>สรุปผลงานคณะกรรมการรุ่น</h1>
