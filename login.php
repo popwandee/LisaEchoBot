@@ -116,11 +116,23 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 </head>
 <body>
- <div class="container">
- <div class="page-header">
-            <table><tr><td><h2>Login เข้าสู่ระบบระบบสมาชิก เตรียมทหาร40 จปร.51</h2></td></tr></table>
+<?php include 'navigation.html';?>
+
+  <div class="container theme-showcase" role="main">
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <h1>AFAPS40 - CRMA51</h1>
+      <p>เว็บไซต์ เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
+    </div>
+
+    <div class="page-header">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+            <h2>Login เข้าสู่ระบบระบบสมาชิก เตรียมทหาร40 จปร.51</h2>
         </div>
-    <div class="wrapper">
+        <div class="row">
+          <div class="col-sm-4" >
+        <div class="panel-body">
 
         <p>กรุณากรอกข้อมูลเพื่อ login.</p>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
@@ -139,7 +151,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </div>
 
         </form>
-    </div>
- </div>
+      </div> <!-- panel-body -->
+  </div> <!-- panel panel-primary-->
+  </div> <!-- col-sm-4 -->
+  </div> <!-- row -->
+
+      </div> <!-- panel panel-info -->
+        </div> <!-- page-header -->
+    </div> <!-- container theme-showcase -->
 </body>
 </html>
