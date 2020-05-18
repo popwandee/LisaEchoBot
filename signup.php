@@ -131,6 +131,13 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
         <h2>Sign Up</h2>
         <p>กรุณากรอกข้อมูลเพื่อสร้าง account.</p>
       </div>
+
+    </div> <!-- panel panel-info -->
+      </div> <!-- page-header -->
+      <div class="row">
+        <div class="col-sm-4">
+
+          <div class="panel panel-primary">
       <div class="panel-body">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
@@ -155,7 +162,8 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
             <p>มี account อยู่แล้วใช่ไหม? <a href="login.php">Login ที่นี่</a>.</p>
         </form>
     </div> <!-- panel-body -->
-  </div> <!-- panel panel-info -->
-  </div> <!-- page-header -->
+</div> <!-- panel panel-primary-->
+</div> <!-- col-sm-4 -->
+</div> <!-- row -->
 </body>
 </html>
