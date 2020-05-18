@@ -129,12 +129,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       <div class="panel panel-info">
         <div class="panel-heading">
             <h2>Login </h2>
+            <p>กรุณากรอกข้อมูลเพื่อ login เข้าสู่ระบบระบบสมาชิก เตรียมทหาร40 จปร.51</p>
         </div>
         <div class="row">
           <div class="col-sm-4" >
         <div class="panel-body">
 
-        <p>กรุณากรอกข้อมูลเพื่อ login เข้าสู่ระบบระบบสมาชิก เตรียมทหาร40 จปร.51</p>
+
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
                 <label>Username</label>
