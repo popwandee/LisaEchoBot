@@ -49,27 +49,28 @@ require_once "config.php";
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
           <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar">OK</span>
-          <span class="icon-bar">YES</span>
-          <span class="icon-bar">NO</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="#">AFAPS40 - CRMA51</a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li class="active"><a href="index.php">Home</a></li>
+          <li><a href="signup.php">ลงทะเบียน</a></li>
+          <li><a href="listMember.php">รายชื่อเพื่อน</a></li>
+          <li><a href="logout.php">ออกจากระบบ</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Another action</a></li>
-              <li><a href="#">Something else here</a></li>
+              <li><a href="#">ภาพสวยๆ</a></li>
+              <li><a href="#">เฟสบุ๊กรุ่น</a></li>
               <li role="separator" class="divider"></li>
-              <li class="dropdown-header">Nav header</li>
-              <li><a href="#">Separated link</a></li>
-              <li><a href="#">One more separated link</a></li>
+              <li class="dropdown-header">เว็บไซต์หน่วย(เพื่อนเป็น ผบ.หน่วย)</li>
+              <li><a href="https://www.facebook.com/%E0%B8%81%E0%B8%AD%E0%B8%87%E0%B8%9E%E0%B8%B1%E0%B8%99%E0%B8%97%E0%B8%AB%E0%B8%B2%E0%B8%A3%E0%B8%A3%E0%B8%B2%E0%B8%9A%E0%B8%97%E0%B8%B5%E0%B9%88-%E0%B9%91-%E0%B8%81%E0%B8%A3%E0%B8%A1%E0%B8%97%E0%B8%AB%E0%B8%B2%E0%B8%A3%E0%B8%A3%E0%B8%B2%E0%B8%9A%E0%B8%97%E0%B8%B5%E0%B9%88-%E0%B9%96-1929904703887679">ร.6 พัน.1</a></li>
+              <li><a href="https://www.facebook.com/chirakid.chidpukdee">ร.16 พัน.1</a></li>
+              <li><a href="#">ร.</a></li>
             </ul>
           </li>
         </ul>
@@ -78,7 +79,11 @@ require_once "config.php";
   </nav>
 
   <div class="container theme-showcase" role="main">
-
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <h1>AFAPS40 - CRMA51</h1>
+      <p>เว็บไซต์ เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
+    </div>
 
     <div class="page-header">
       <h1>สมาชิก เตรียมทหาร40 จปร.51</h1>
@@ -170,71 +175,6 @@ else{
     </div> <!-- end .container -->
 
 
-          <div class="page-header">
-            <h1>สรุปผลงานคณะกรรมการรุ่น</h1>
-          </div>
-          <div class="row">
-            <div class="col-sm-4">
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h3 class="panel-title">การช่วยเหลือสวัสดิการ</h3>
-                </div>
-                <div class="panel-body">
-                  รายละเอียดกิจกรรมการช่วยเหลือสวัสดิการ
-                </div>
-              </div>
-              <div class="panel panel-primary">
-                <div class="panel-heading">
-                  <h3 class="panel-title">กิจกรรมพบปะสังสรรค์</h3>
-                </div>
-                <div class="panel-body">
-                  รายละเอียดกิจกรรมพบปะสังสรรค
-                </div>
-              </div>
-            </div><!-- /.col-sm-4 -->
-            <div class="col-sm-4">
-              <div class="panel panel-success">
-                <div class="panel-heading">
-                  <h3 class="panel-title">กิจกรรมเพื่อสาธารณะกุศล</h3>
-                </div>
-                <div class="panel-body">
-                  รายละเอียดกิจกรรมเพื่อสาธารณะกุศล
-                </div>
-              </div>
-              <div class="panel panel-info">
-                <div class="panel-heading">
-                  <h3 class="panel-title">ผลการปฏิบัติงานของเพื่อน</h3>
-                </div>
-                <div class="panel-body">
-                  รายละเอียดผลการปฏิบัติงานของเพื่อนที่สำคัญ
-                </div>
-              </div>
-            </div><!-- /.col-sm-4 -->
-            <div class="col-sm-4">
-              <div class="panel panel-warning">
-                <div class="panel-heading">
-                  <h3 class="panel-title">ประชาสัมพันธ์</h3>
-                </div>
-                <div class="panel-body">
-                  ข่าวประชาสัมพันธ์
-                </div>
-              </div>
-              <div class="panel panel-danger">
-                <div class="panel-heading">
-                  <h3 class="panel-title">ข้อมูลสมาชิก</h3>
-                </div>
-                <div class="panel-body">
-                  ข้อมูลเพื่อนๆ สมาชิกในรุ่น (ต้องเข้าระบบด้วยรหัสผ่าน)
-                </div>
-              </div>
-            </div><!-- /.col-sm-4 -->
-          </div>
-
-            </div> <!-- /container -->
-
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
-          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-          
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 

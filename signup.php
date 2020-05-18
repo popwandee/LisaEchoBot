@@ -1,14 +1,14 @@
 <?php
 // Include config file
 require_once "config.php";
- 
+
 // Define variables and initialize with empty values
 $username = $password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = "";
- 
+
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
- 
+
     // Validate username
     if(empty(trim($_POST["username"]))){
         $username_err = "กรุณากรอก username ด้วยครับ";
@@ -21,42 +21,42 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $isData=sizeof($data);
         //ตรวจสอบว่ามีชื่อผู้ใช้นี้อยู่แล้วหรือไม่
         if($isData >0){
-            // มีชื่อผู้ใช้นี้อยู่แล้ว - 
+            // มีชื่อผู้ใช้นี้อยู่แล้ว -
             $username_err = "Username นี้มีอยู่แล้ว";
          }else{
             $username = trim($_POST["username"]);
-              } 
+              }
           }
-        
-       
-    
+
+
+
     // Validate password
     if(empty(trim($_POST["password"]))){
-        $password_err = "กรุณากรอก password ด้วยครับ";     
+        $password_err = "กรุณากรอก password ด้วยครับ";
     } elseif(strlen(trim($_POST["password"])) < 6){
         $password_err = "รหัสผ่านจะต้องมีอย่างน้อย 6 ตัวอักษร";
     } else{
         $password = trim($_POST["password"]);
     }
-    
+
     // Validate confirm password
     if(empty(trim($_POST["confirm_password"]))){
-        $confirm_password_err = "กรุณา confirm password.";     
+        $confirm_password_err = "กรุณา confirm password.";
     } else{
         $confirm_password = trim($_POST["confirm_password"]);
         if(empty($password_err) && ($password != $confirm_password)){
             $confirm_password_err = "Password ไม่ตรงกัน";
         }
     }
-    
+
     // Check input errors before inserting in database
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
-        
-       
+
+
             // Set parameters
             $param_username = $username;
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
-            
+
             // Attempt to execute the prepared statement
            $newData = json_encode(array('username' => $param_username,
 			        'password' => $param_password
@@ -76,24 +76,44 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
         }else{
 		           echo "<div align='center' class='alert alert-danger'>ไม่สามารถลงทะเบียนได้</div>";
                  }
-               
-           
+
+
         }
-         
-      
+
+
 }
 ?>
- 
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <style type="text/css">
-        body{ font: 14px sans-serif; }
-        .wrapper{ width: 350px; padding: 20px; }
-    </style>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="AFAPS40-CRMA51 Website">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>AFAPS40-CRMA51</title>
+    <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+      <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+      <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+      <script src="vendor/bootstrap/ie-emulation-modes-warning.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
 </head>
 <body>
     <div class="wrapper">
@@ -104,7 +124,7 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
                 <label>Username</label>
                 <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
                 <span class="help-block"><?php echo $username_err; ?></span>
-            </div>    
+            </div>
             <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
                 <label>Password</label>
                 <input type="password" name="password" class="form-control" value="<?php echo $password; ?>">
@@ -121,6 +141,6 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
             </div>
             <p>มี account อยู่แล้วใช่ไหม? <a href="login.php">Login ที่นี่</a>.</p>
         </form>
-    </div>    
+    </div>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <?php
 // Initialize the session
 session_start();
- 
+
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
@@ -12,19 +12,41 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 require_once "config.php";
 
 ?>
-<!DOCTYPE HTML>
-<html>
-<head>
-    <title>ระบบค้นหาสมาชิก เตรียมทหาร 40 จปร.51</title>
-      
-    <!-- Latest compiled and minified Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-          
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="AFAPS40-CRMA51 Website">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>AFAPS40-CRMA51</title>
+    <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+      <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+      <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+      <script src="vendor/bootstrap/ie-emulation-modes-warning.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
 </head>
 <body>
-  
+
    <div class="container">
-  
+
         <div class="page-header">
 		<table><tr><td></td><td> <h1>ค้นหาตามชื่อ </h1></td></tr></table>
         </div>
@@ -40,19 +62,19 @@ require_once "config.php";
         </tr>
     </table>
 </form>
-	    
+
 	    <!-- PHP code to read records will be here -->
          <?php
  $message = isset($_GET['message']) ? $_GET['message'] : "";
 	    echo $message;
-	   
+
 	   if(isset($_POST['name'])){
 		   $name=$_POST['name'];
  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/crma51Phonebook?apiKey='.MLAB_API_KEY.'&q={"name":{"$regex":"'.$name.'"}}');
  $data = json_decode($json);
  $isData=sizeof($data);
   if($isData >0){
-      
+
       echo "<table class='table table-hover table-responsive table-bordered'>";//start table
     //creating our table heading
     echo "<tr>";
@@ -64,24 +86,24 @@ require_once "config.php";
         echo "<th>ID LINE</th>";
         echo "<th>Action</th>";
     echo "</tr>";
-     
+
     // retrieve our table contents
 $id=0;
 foreach($data as $rec){
 	$id++;
                  $_id=$rec->_id;
-	
+
 	foreach($_id as $rec_id){
 		$_id=$rec_id;
-		
+
 	}
   $rank=$rec->rank;$name=$rec->name;$lastname=$rec->lastname;
 		$position=$rec->position;
 		$Email=$rec->Email;
 		$Tel1=$rec->Tel1;
 		$LineID=$rec->LineID;
-			
-     
+
+
     // creating new table row per record
     echo "<tr>";
         echo "<td>{$id}</td>";
@@ -97,7 +119,7 @@ foreach($data as $rec){
         echo "</td>";
     echo "</tr>";
 }
- 
+
 // end table
 echo "</table>";
 
@@ -108,14 +130,14 @@ else{
 	   }//end if isset _POST['name']
          ?>
     </div> <!-- end .container -->
-	
+
 	<div>
 	<?php
 	$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/comment?apiKey='.MLAB_API_KEY);
  $data = json_decode($json);
  $isData=sizeof($data);
   if($isData >0){
-      
+
       echo "<table class='table table-hover table-responsive table-bordered'>";//start table
     //creating our table heading
     echo "<tr>";
@@ -124,22 +146,22 @@ else{
         echo "<th>Comment</th>";
         echo "<th>Status</th>";
     echo "</tr>";
-     
+
     // retrieve our table contents
 $id=0;
 foreach($data as $rec){
 	$id++;
                  $_id=$rec->_id;
-	
+
 	foreach($_id as $rec_id){
 		$_id=$rec_id;
-		
+
 	}
  $name=$rec->name;
 		$comment=$rec->comment;
 		$status=$rec->status;
-			
-     
+
+
     // creating new table row per record
     echo "<tr>";
         echo "<td>{$id}</td>";
@@ -148,7 +170,7 @@ foreach($data as $rec){
         echo "<td>{$status}</td>";
     echo "</tr>";
 }
- 
+
 // end table
 echo "</table>";
 
@@ -159,12 +181,12 @@ else{
 
          ?>
     </div> <!-- end .container -->
-    
+
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-   
+
 <!-- Latest compiled and minified Bootstrap JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  
+
 </body>
 </html>
