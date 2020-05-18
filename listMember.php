@@ -43,6 +43,55 @@ require_once "config.php";
 
 </head>
 <body>
+  <!-- Fixed navbar -->
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar">OK</span>
+          <span class="icon-bar">YES</span>
+          <span class="icon-bar">NO</span>
+        </button>
+        <a class="navbar-brand" href="#">AFAPS40 - CRMA51</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li role="separator" class="divider"></li>
+              <li class="dropdown-header">Nav header</li>
+              <li><a href="#">Separated link</a></li>
+              <li><a href="#">One more separated link</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </nav>
+
+  <div class="container theme-showcase" role="main">
+
+
+    <div class="page-header">
+      <h1>สมาชิก เตรียมทหาร40 จปร.51</h1>
+    </div>
+    <div class="well">
+      <p>นักเรียนเตรียมทหารรุ่นที่ 40 ได้รายงานตัวเข้ารับการศึกษา ณ โรงเรียนเตรียมทหาร ถนนพระรามสี่ กทม. เมื่อ พ.ศ.2540 จำนวนทั้งสิ้น  นาย
+      สำเร็จการศึกษาจากโรงเรียนเตรียมทหาร เข้ารับการศึกษา โรงเรียนนายร้อยพระจุลจอมเกล้า รุ่นที่ 51 จำนวน  นาย
+    สำเร็จรับราชการเมื่อ 26 ธ.ค.2546 จำนวน นาย และสำเร็จการศึกษาเข้ารับราชการ เมื่อ ธ.ค.2547 จำนวน  นาย
+  เข้ารับการศึกษาหลักสูตรหลักประจำ โรงเรียนเสนาธิการทหารบก ชุดที่ 92 จำนวน นาย
+ปัจจุบันปฏิบัติหน้าที่ตาม ตารางต่อไปนี้ (หากข้อมูลไม่ถูกต้อง ไม่ทันสมัย กรุณาคลิกแก้ไข และให้ข้อมูลกับคณะกรรมการรุ่นด้วย จักขอบคุณมากครับ)</p>
+    </div>
+
+
  <?php
 $tz_object = new DateTimeZone('Asia/Bangkok');
          $datetime = new DateTime();
@@ -120,6 +169,72 @@ else{
          ?>
     </div> <!-- end .container -->
 
+
+          <div class="page-header">
+            <h1>สรุปผลงานคณะกรรมการรุ่น</h1>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">การช่วยเหลือสวัสดิการ</h3>
+                </div>
+                <div class="panel-body">
+                  รายละเอียดกิจกรรมการช่วยเหลือสวัสดิการ
+                </div>
+              </div>
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <h3 class="panel-title">กิจกรรมพบปะสังสรรค์</h3>
+                </div>
+                <div class="panel-body">
+                  รายละเอียดกิจกรรมพบปะสังสรรค
+                </div>
+              </div>
+            </div><!-- /.col-sm-4 -->
+            <div class="col-sm-4">
+              <div class="panel panel-success">
+                <div class="panel-heading">
+                  <h3 class="panel-title">กิจกรรมเพื่อสาธารณะกุศล</h3>
+                </div>
+                <div class="panel-body">
+                  รายละเอียดกิจกรรมเพื่อสาธารณะกุศล
+                </div>
+              </div>
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  <h3 class="panel-title">ผลการปฏิบัติงานของเพื่อน</h3>
+                </div>
+                <div class="panel-body">
+                  รายละเอียดผลการปฏิบัติงานของเพื่อนที่สำคัญ
+                </div>
+              </div>
+            </div><!-- /.col-sm-4 -->
+            <div class="col-sm-4">
+              <div class="panel panel-warning">
+                <div class="panel-heading">
+                  <h3 class="panel-title">ประชาสัมพันธ์</h3>
+                </div>
+                <div class="panel-body">
+                  ข่าวประชาสัมพันธ์
+                </div>
+              </div>
+              <div class="panel panel-danger">
+                <div class="panel-heading">
+                  <h3 class="panel-title">ข้อมูลสมาชิก</h3>
+                </div>
+                <div class="panel-body">
+                  ข้อมูลเพื่อนๆ สมาชิกในรุ่น (ต้องเข้าระบบด้วยรหัสผ่าน)
+                </div>
+              </div>
+            </div><!-- /.col-sm-4 -->
+          </div>
+
+            </div> <!-- /container -->
+
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
+          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+          
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
