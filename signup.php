@@ -124,7 +124,7 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
       <h1>AFAPS40 - CRMA51</h1>
       <p>เว็บไซต์ เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
     </div>
-  </div>
+
     <div class="page-header">
       <div class="panel panel-info">
         <div class="panel-heading">
@@ -135,10 +135,10 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
     </div> <!-- panel panel-info -->
       </div> <!-- page-header -->
       <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-4" align="center">
 
           <div class="panel panel-primary">
-      <div class="panel-body">
+      <div class="panel-body" align="center">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
                 <label>Username</label>
@@ -165,5 +165,6 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
 </div> <!-- panel panel-primary-->
 </div> <!-- col-sm-4 -->
 </div> <!-- row -->
+  </div> <!-- container theme-showcase -->
 </body>
 </html>
