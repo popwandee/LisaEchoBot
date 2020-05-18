@@ -43,7 +43,48 @@ require_once "config.php";
 
 </head>
 <body>
+<!-- Fixed navbar -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">AFAPS40 - CRMA51</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.php">Home</a></li>
+        <li><a href="signup.php">ลงทะเบียน</a></li>
+        <li><a href="listMember.php">รายชื่อเพื่อน</a></li>
+        <li><a href="logout.php">ออกจากระบบ</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="girl.php">ภาพสวยๆ</a></li>
+            <li><a href="https://www.facebook.com">เฟสบุ๊กรุ่น</a></li>
+            <li role="separator" class="divider"></li>
+            <li class="dropdown-header">เว็บไซต์หน่วย(เพื่อนเป็น ผบ.หน่วย)</li>
+            <li><a href="https://www.facebook.com/%E0%B8%81%E0%B8%AD%E0%B8%87%E0%B8%9E%E0%B8%B1%E0%B8%99%E0%B8%97%E0%B8%AB%E0%B8%B2%E0%B8%A3%E0%B8%A3%E0%B8%B2%E0%B8%9A%E0%B8%97%E0%B8%B5%E0%B9%88-%E0%B9%91-%E0%B8%81%E0%B8%A3%E0%B8%A1%E0%B8%97%E0%B8%AB%E0%B8%B2%E0%B8%A3%E0%B8%A3%E0%B8%B2%E0%B8%9A%E0%B8%97%E0%B8%B5%E0%B9%88-%E0%B9%96-1929904703887679">ร.6 พัน.1</a></li>
+            <li><a href="https://www.facebook.com/chirakid.chidpukdee">ร.16 พัน.1</a></li>
+            <li><a href="#">ร.</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
 
+<div class="container theme-showcase" role="main">
+  <!-- Main jumbotron for a primary marketing message or call to action -->
+  <div class="jumbotron">
+    <h1>AFAPS40 - CRMA51</h1>
+    <p>เว็บไซต์ เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
+  </div>
+</div>
     <!-- container -->
     <div class="container">
 

@@ -64,8 +64,8 @@ require_once "config.php";
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="#">ภาพสวยๆ</a></li>
-              <li><a href="#">เฟสบุ๊กรุ่น</a></li>
+              <li><a href="girl.php">ภาพสวยๆ</a></li>
+              <li><a href="https://www.facebook.com">เฟสบุ๊กรุ่น</a></li>
               <li role="separator" class="divider"></li>
               <li class="dropdown-header">เว็บไซต์หน่วย(เพื่อนเป็น ผบ.หน่วย)</li>
               <li><a href="https://www.facebook.com/%E0%B8%81%E0%B8%AD%E0%B8%87%E0%B8%9E%E0%B8%B1%E0%B8%99%E0%B8%97%E0%B8%AB%E0%B8%B2%E0%B8%A3%E0%B8%A3%E0%B8%B2%E0%B8%9A%E0%B8%97%E0%B8%B5%E0%B9%88-%E0%B9%91-%E0%B8%81%E0%B8%A3%E0%B8%A1%E0%B8%97%E0%B8%AB%E0%B8%B2%E0%B8%A3%E0%B8%A3%E0%B8%B2%E0%B8%9A%E0%B8%97%E0%B8%B5%E0%B9%88-%E0%B9%96-1929904703887679">ร.6 พัน.1</a></li>
