@@ -44,174 +44,14 @@ require_once "config.php";
 
 <body>
   <?php include 'navigation.html';?>
-
   <div class="container theme-showcase" role="main">
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <h1>AFAPS40 - CRMA51</h1>
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
     </div>
-
-  <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-        <div class="post-preview">
-          <a href="post.html">
-            <h2 class="post-title"></h2>
-            <h3 class="post-subtitle">
-              <?php
-             if(isset($_POST['name'])&&(isset($_POST['_id']))&&(isset($_POST['comment']))){
-             	// รับค่าข้อมูลจาก POST ให้ตัวแปร
-              $name =	htmlspecialchars(strip_tags($_POST['name']));
-              $_id=htmlspecialchars(strip_tags($_POST['_id']));
-              $comment =	htmlspecialchars(strip_tags($_POST['comment']));
-
-             // นำข้อมูลเข้าเก็บในฐานข้อมูล
-             $newData = json_encode(array('_id' => $_id,
-             			     'name' => $name,
-             			     'comment' => $comment) );
-             $opts = array('http' => array( 'method' => "POST",
-                                            'header' => "Content-type: application/json",
-                                            'content' => $newData
-                                                        )
-                                                     );
-             $url = 'https://api.mlab.com/api/1/databases/crma51/collections/comment?apiKey='.MLAB_API_KEY.'';
-                     $context = stream_context_create($opts);
-                     $returnValue = file_get_contents($url,false,$context);
-
-                     if($returnValue){
-             		   $message= "<div align='center' class='alert alert-success'>รับแจ้งแก้ไขข้อมูล ".$name." เรียบร้อย</div>";
-             		   echo $message;
-
-             	        }else{
-             		   $message= "<div align='center' class='alert alert-danger'>ไม่สามารถบันทึกรับแจ้งการแก้ไขข้อมูลได้</div>";
-             		echo $message;
-                              }
-             			$_SESSION["message"]=$message;
-             		   	header("location: search.php");
-                 			exit;
-                     // ยังไม่มีการโพสต์ข้อมูลจากแบบฟอร์ม
-                 }else{
-                     echo "<div align='center' class='alert alert-success'>แจ้งแก้ไขข้อมูล".$dateTimeToday."</div>";
-
-             }  // end of if(isset($_POST['_id'])&&isset($_POST['name']))
-
-             if(isset($_POST['name'])){
-             	$name=$_POST['name'];
-             }else{
-             $name='';
-             }
-             ?>
-             	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-                 <table class='table table-hover table-responsive table-bordered'>
-
-                     <tr>
-                         <td>ชื่อ สมาชิกที่ต้องการให้แก้ไขข้อมูล</td>
-                         <td><input type='text' name='name' value="<?php echo $name;?>" class='form-control' /></td>
-                     </tr>
-                     <tr>
-                         <td>ข้อมูลที่ต้องการแก้ไข</td>
-                         <td><textarea name="comment" rows="10" cols="30"class='form-control' />ข้อมูลที่ต้องการแก้ไข</textarea></td>
-                     </tr>
-                     <tr>
-                         <td></td>
-                         <td>  <input type="hidden"name="_id" value="<?php echo $_id;?>">
-                             <input type='submit' value='Save' class='btn btn-primary' />
-
-                         </td>
-                     </tr>
-                 </table>
-             </form>
-
-            </h3>
-          </a>
-        </div>
-        <hr>
-        <div class="post-preview">
-          <a href="post.html">
-            <h2 class="post-title">
-              กิจกรรมงานเลี้ยงรุ่นปี 2562
-            </h2>
-          </a>
-          <p class="post-meta">Posted by
-            <a href="#">NP</a>
-            on September 18, 2019</p>
-        </div>
-        <hr>
-
-        <!-- Pager -->
-        <div class="clearfix">
-          <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <hr>
 
-    <div class="page-header">
-      <h1>รายการแจ้งแก้ไขข้อมูล</h1>
-    </div>
-    <div class="row">
-      <div class="col-sm-4">
-        <div class="panel panel-primary">
-          <div class="panel-heading">
-
-          </div>
-          <div class="panel-body">
-            <?php
-            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/comment?apiKey='.MLAB_API_KEY);
-            $data = json_decode($json);
-            $isData=sizeof($data);
-            if($isData >0){
-
-                echo "<table class='table table-hover table-responsive table-bordered'>";//start table
-              //creating our table heading
-              echo "<tr>";
-                  echo "<th>ลำดับ</th>";
-                  echo "<th>name</th>";
-                  echo "<th>Comment</th>";
-                  echo "<th>Status</th>";
-              echo "</tr>";
-
-              // retrieve our table contents
-            $id=0;
-            foreach($data as $rec){
-            $id++;
-                           $_id=$rec->_id;
-
-            foreach($_id as $rec_id){
-              $_id=$rec_id;
-
-            }
-            $name=$rec->name;
-              $comment=$rec->comment;
-              $status=$rec->status;
-
-
-              // creating new table row per record
-              echo "<tr>";
-                  echo "<td>{$id}</td>";
-                  echo "<td>{$name}</td>";
-                  echo "<td>{$comment}</td>";
-                  echo "<td>{$status}</td>";
-              echo "</tr>";
-            }
-
-            // end table
-            echo "</table>";
-
-            }// if no records found
-            else{
-              echo "<div align='center' class='alert alert-danger'>ยังไม่มี Comment ค่ะ</div>";
-            }
-
-                   ?>
-          </div>
-        </div>
-      </div><!-- /.col-sm-4 -->
-    </div><!-- row -->
 
             <div class="page-header">
               <h1>สรุปผลงานคณะกรรมการรุ่น</h1>
@@ -309,7 +149,7 @@ require_once "config.php";
                         </a>
                       </li>
                     </ul>
-                    <p class="copyright text-muted">Copyright &copy; Your Website 2019</p>
+                    <p class="copyright text-muted">Copyright &copy; CRMA51-2020</p>
                   </div>
                 </div>
               </div>
