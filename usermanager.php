@@ -45,19 +45,14 @@ require_once "config.php";
 </head>
 <body>
   <?php include 'navigation.html';?>
-
-  <div class="container theme-showcase" role="main">
-    <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <h1>AFAPS40 - CRMA51</h1>
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
     </div>
     <?php $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
-   <div class="container">
-
-        <div class="page-header">
-		 <h1>ค้นหาตาม Username </h1>
-        </div>
+<table align='center'>
+  <tr><td>
+  	 <h1>ค้นหาตาม Username </h1>
          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
     <table class='table table-hover table-responsive table-bordered'>
         <tr>
@@ -66,9 +61,8 @@ require_once "config.php";
         </tr>
     </table>
 </form>
-<div class="page-header">
+</td><td>
 <h1>ค้นหาตามชื่อ </h1>
-</div>
  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
 <table class='table table-hover table-responsive table-bordered'>
 <tr>
@@ -77,20 +71,30 @@ require_once "config.php";
 </tr>
 </table>
 </form>
+</td></tr></table>
 	  <?php
     if(isset($_POST['form_no'])){
     $form_no=$_POST['form_no'];
      switch ($form_no){
        case "search_name" :
-       echo "search_name";
-       break;
-       case "search_username" : echo "search_username"; break;
-       default : echo "no";
+            foo('search_name');
+            break;
+       case "search_username" :
+            foo("search_username");
+            break;
+       default :
+            foo("no");
       }
     }
      ?>
 
-
+     <?php
+     function foo($arg_1)
+     {
+         echo $arg_1;
+         //return $retval;
+     }
+     ?>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
