@@ -114,7 +114,7 @@ require_once "config.php";
     </table>
 </form>
 <?php  } // end if empty $formSubmit
-elseif(isset($_POST['id'])){
+else{
 echo "not from form , may come from another page";
 
 } ?>
