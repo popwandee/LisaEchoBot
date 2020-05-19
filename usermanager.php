@@ -45,6 +45,7 @@ require_once "config.php";
 </head>
 <body>
   <?php include 'navigation.html';?>
+    <div class="container theme-showcase" role="main">
     <div class="jumbotron">
       <h1>AFAPS40 - CRMA51</h1>
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
@@ -52,7 +53,7 @@ require_once "config.php";
     <?php $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
 <table align='center'>
   <tr><td>
-  	 <h1>ค้นหาตาม Username </h1>
+  	 <h3>ค้นหาตาม Username </h3>
          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
     <table class='table table-hover table-responsive table-bordered'>
         <tr>
@@ -62,7 +63,7 @@ require_once "config.php";
     </table>
 </form>
 </td><td>
-<h1>ค้นหาตามชื่อ </h1>
+<h3>ค้นหาตามชื่อ </h3>
  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
 <table class='table table-hover table-responsive table-bordered'>
 <tr>
@@ -80,7 +81,7 @@ require_once "config.php";
        $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"name":{"$regex":"'.$name.'"}}');
             break;
        case "search_username" :
-       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"username":'.$username.'}}');
+       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"username":'.$username.'}');
             break;
        default :
             foo("no");
@@ -139,6 +140,7 @@ require_once "config.php";
      ?>
 
          <div><!-- class="jumbotron"-->
+      </div> <!-- container theme-showcase -->
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
