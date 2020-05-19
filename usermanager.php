@@ -48,7 +48,7 @@ require_once "config.php";
     <div class="jumbotron">
       <h1>AFAPS40 - CRMA51</h1>
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
-    </div>
+
     <?php $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
 <table align='center'>
   <tr><td>
@@ -77,24 +77,68 @@ require_once "config.php";
     $form_no=$_POST['form_no'];
      switch ($form_no){
        case "search_name" :
-            foo('search_name');
+       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"name":{"$regex":"'.$name.'"}}');
             break;
        case "search_username" :
-            foo("search_username");
+       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"username":{"$regex":"'.$username.'"}}');
             break;
        default :
             foo("no");
+      }//end switch
+      $data = json_decode($json);
+      $isData=sizeof($data);
+      if($isData >0){
+          showdata($data);
       }
-    }
+    }//end if isset form_no
      ?>
 
      <?php
-     function foo($arg_1)
+     function showdata($data)
      {
-         echo $arg_1;
-         //return $retval;
+       echo "<table class='table table-hover table-responsive table-bordered'>";//start table
+       //creating our table heading
+       echo "<tr>";
+         echo "<th>ลำดับ</th>";
+         echo "<th>ชื่อ สกุล</th>";
+         echo "<th>Username</th>";
+         echo "<th>Type</th>";
+         echo "<th>Approved</th>";
+         echo "<th>Action</th>";
+       echo "</tr>";
+       $id=0;
+       foreach($data as $rec){
+       $id++;
+       $_id=$rec->_id;
+       foreach($_id as $rec_id){
+       $_id=$rec_id;
+       }
+       $name=$rec->name;
+       $username=$rec->username;
+       $type=$rec->type;
+       $approved=$rec->approved;
+
+       // creating new table row per record
+       echo "<tr>";
+         echo "<td>{$id}</td>";
+         echo "<td>{$name}</td>";
+         echo "<td>{$username}</td>";
+         echo "<td>{$type}</td>";
+         echo "<td>{$approved}</td>";
+         echo "<td>";
+             // we will use this links on next part of this post
+       $comment_url="comment.php?id=".$_id;
+             echo "<a href='$comment_url'>Edit</a>";
+         echo "</td>";
+       echo "</tr>";
+       }
+       // end table
+       echo "</table>";     
+       // end function
      }
      ?>
+
+         <div><!-- class="jumbotron"-->
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
