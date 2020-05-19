@@ -80,13 +80,14 @@ require_once "config.php";
 	  <?php
     if(isset($_POST['form_no'])){
     $form_no=$_POST['form_no'];
-     switch ($_POST['form_no']){
+     switch ($form_no){
        case "search_name" :
        echo "search_name";
        break;
        case "search_username" : echo "search_username"; break;
        default : echo "no";
       }
+    }
      ?>
 
 
