@@ -125,11 +125,11 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <h1>AFAPS40 - CRMA51</h1>
-      <p>เว็บไซต์ เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
+      <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
     </div>
 
     </div> <!-- container theme-showcase -->
-    
+
     <div class="page-header">
       <div class="panel panel-info">
         <div class="panel-heading">
@@ -137,7 +137,6 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
         <p>กรุณากรอกข้อมูลเพื่อสร้าง account.</p>
       </div>
 
-      <div class="row">
         <div class="col-sm-4" >
       <div class="panel-body">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
@@ -170,7 +169,6 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
     </div> <!-- panel-body -->
 </div> <!-- panel panel-primary-->
 </div> <!-- col-sm-4 -->
-</div> <!-- row -->
 
     </div> <!-- panel panel-info -->
       </div> <!-- page-header -->
