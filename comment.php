@@ -53,7 +53,7 @@ require_once "config.php";
  if(!isset($_POST['formSubmit'])){ // มาจากหน้าอื่นๆ ไม่ได้คลิกยืนยันที่ฟอร์มแก้ไขข้อมูล
    // ดึงข้อมูลจากฐานข้อมูล
    $id=$_POST['id'];echo $id;
-   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/crma51Phonebook?apiKey='.MLAB_API_KEY.'&q={"_id":"'.$id.'"}');
+   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/crma51Phonebook?apiKey='.MLAB_API_KEY.'&q={"_id":{ "$oid":"'.$id.'" }}');
    $data = json_decode($json);
    $isData=sizeof($data);
    if($isData >0){
@@ -112,14 +112,21 @@ require_once "config.php";
 <?php  } // end if empty $formSubmit
 else{ // set formSubmit from form
   // นำข้อมูลเข้าเก็บในฐานข้อมูล
-  if(isset($_POST['id'])){
-    $id=$_POST['id'];}else{$id=''; }
-/*  $newData = json_encode(array(
-    '_id' => $_POST['id'],
-  			     'name' => $_POST['rank'].' '.$_POST['name'].' '.$_POST['lastname'],
-             'detail' => 'ตำแหน่ง : '.$_POST['postion'].' อีเมล์: '.$_POST['Email'].' โทรศัพท์: '.$_POST['Tel1'].' LINE ID: '.$_POST['LineID'] ,
-  			     'comment' => $_POST['comment'],
-           'status'=>'รอการแก้ไข') );
+  if(isset($_POST['id'])){$id=$_POST['id'];}else{$id=''; }
+  if(isset($_POST['rank'])){$rank=$_POST['rank'];}else{$rank=''; }
+  if(isset($_POST['name'])){$name=$_POST['name'];}else{$name=''; }
+  if(isset($_POST['lastname'])){$lastname=$_POST['lastname'];}else{$lastname=''; }
+  if(isset($_POST['postition'])){$position=$_POST['position'];}else{$position=''; }
+  if(isset($_POST['Email'])){$Email=$_POST['Email'];}else{$Email=''; }
+  if(isset($_POST['Tel1'])){$Tel1=$_POST['Tel1'];}else{$Tel1=''; }
+  if(isset($_POST['LineID'])){$LineID=$_POST['LineID'];}else{$LineID=''; }
+  if(isset($_POST['comment'])){$comment=$_POST['comment'];}else{$comment=''; }
+  $newData = json_encode(array(
+    '_id' => $id,
+  	'name' => $rank.' '.$name.' '.$lastname,
+    'detail' => 'ตำแหน่ง : '.$postion.' อีเมล์: '.$Email.' โทรศัพท์: '.$Tel1.' LINE ID: '.$LineID ,
+  	'comment' => $comment,
+    'status'=>'รอการแก้ไข') );
   $opts = array('http' => array( 'method' => "POST",
                                  'header' => "Content-type: application/json",
                                  'content' => $newData
@@ -140,11 +147,8 @@ else{ // set formSubmit from form
   			$_SESSION["message"]=$message;
   		   	header("location: search.php");
       			exit;
-          // ยังไม่มีการโพสต์ข้อมูลจากแบบฟอร์ม
-      }else{
-          echo "<div align='center' class='alert alert-success'>".$dateTimeToday."</div>";
-*/
 
+    
 } ?>
 </body>
 </html>
