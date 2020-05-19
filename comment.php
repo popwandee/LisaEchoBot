@@ -54,7 +54,7 @@ require_once "config.php";
 
 
 
- if(empty($_POST['formSubmit'])&&(isset($_POST['id']))){ // มาจากหน้าอื่นๆ ไม่ได้คลิกยืนยันที่ฟอร์มแก้ไขข้อมูล
+ if(!isset($_POST['formSubmit'])){ // มาจากหน้าอื่นๆ ไม่ได้คลิกยืนยันที่ฟอร์มแก้ไขข้อมูล
    // ดึงข้อมูลจากฐานข้อมูล
    $id=$_POST['id'];
    $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/crma51Phonebook?apiKey='.MLAB_API_KEY.'&q={"_id":{"$regex":"'.$id.'"}}');
@@ -73,7 +73,7 @@ require_once "config.php";
     } //end foreach
  }// end isData>0
 
- } // end if empty $formSubmit
+
 
 
 ?>
@@ -117,6 +117,10 @@ require_once "config.php";
         </tr>
     </table>
 </form>
+<?php  } // end if empty $formSubmit
+else{
+echo "set _POST"
 
+} ?>
 </body>
 </html>
