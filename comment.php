@@ -51,7 +51,7 @@ require_once "config.php";
         <a href="logout.php" class="btn btn-danger">ออกจากระบบ</a>
     </p>
  <?php
- if(empty($formSubmit)&&(isset($_POST['_id']))){ // มาจากหน้าอื่นๆ ไม่ได้คลิกยืนยันที่ฟอร์มแก้ไขข้อมูล
+ if(empty($_POST['formSubmit'])&&(isset($_POST['_id']))){ // มาจากหน้าอื่นๆ ไม่ได้คลิกยืนยันที่ฟอร์มแก้ไขข้อมูล
    // ดึงข้อมูลจากฐานข้อมูล
    $_id=$_POST['_id'];
    $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/crma51Phonebook?apiKey='.MLAB_API_KEY.'&q={"_id":{"$regex":"'.$_id.'"}}');
