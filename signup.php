@@ -8,7 +8,8 @@ $username_err = $password_err = $confirm_password_err = "";
 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-
+  // get Fullname
+  if(empty(trim($_POST["fullname"]))){$fullname = "";}else{$fullname=$_POST['fullname']}
     // Validate username
     if(empty(trim($_POST["username"]))){
         $username_err = "กรุณากรอก username ด้วยครับ";
@@ -54,11 +55,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
             // Set parameters
+            $param_fullname = $fullname;
             $param_username = $username;
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
 
             // Attempt to execute the prepared statement
-           $newData = json_encode(array('username' => $param_username,
+           $newData = json_encode(array('fullname' => $param_fullname,
+           'username' => $param_username,
 			        'password' => $param_password
 			        ) );
            $opts = array('http' => array( 'method' => "POST",
@@ -136,7 +139,12 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
         <div class="col-sm-4" >
       <div class="panel-body">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
+          <div class="form-group <?php echo (!empty($fullname_err)) ? 'has-error' : ''; ?>">
+              <label>ชื่อ นามสกุล</label>
+              <input type="text" name="fullname" class="form-control" value="<?php echo $fullname; ?>">
+              <span class="help-block"><?php echo $fullname_err; ?></span>
+          </div>
+          <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
                 <label>Username</label>
                 <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
                 <span class="help-block"><?php echo $username_err; ?></span>

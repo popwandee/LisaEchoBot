@@ -125,6 +125,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
     </div>
 
+    </div> <!-- container theme-showcase -->
+    
     <div class="page-header">
       <div class="panel panel-info">
         <div class="panel-heading">
@@ -159,6 +161,5 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
       </div> <!-- panel panel-info -->
         </div> <!-- page-header -->
-    </div> <!-- container theme-showcase -->
 </body>
 </html>
