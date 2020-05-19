@@ -78,10 +78,12 @@ require_once "config.php";
     $form_no=$_POST['form_no'];
      switch ($form_no){
        case "search_name" :
-       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"name":{"$regex":"'.$name.'"}}');
+           if(isset($_POST['name'])){$name=$_POST['name'];}
+           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"name":{"$regex":"'.$name.'"}}');
             break;
        case "search_username" :
-       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"username":"'.$username.'"}');
+           if(isset($_POST['username'])){$username=$_POST['username'];}
+           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"username":"'.$username.'"}');
             break;
        default :
             foo("no");
