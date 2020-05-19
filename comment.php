@@ -46,18 +46,14 @@ require_once "config.php";
     <div class="page-header">
         <table><tr><td><h1>ยินดีต้อนรับ <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. ครับ</h1></td></tr></table>
     </div>
-    <p>
-        <a href="reset-password.php" class="btn btn-warning">Reset Your Password</a>
-        <a href="logout.php" class="btn btn-danger">ออกจากระบบ</a>
-    </p>
  <?php
 
 
 
  if(!isset($_POST['formSubmit'])){ // มาจากหน้าอื่นๆ ไม่ได้คลิกยืนยันที่ฟอร์มแก้ไขข้อมูล
    // ดึงข้อมูลจากฐานข้อมูล
-   $id=$_POST['id'];
-   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/crma51Phonebook?apiKey='.MLAB_API_KEY.'&q={"_id":{"$regex":"'.$id.'"}}');
+   $id=$_POST['id'];echo $id;
+   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/crma51Phonebook?apiKey='.MLAB_API_KEY.'&q={"_id":"'.$id.'"}');
    $data = json_decode($json);
    $isData=sizeof($data);
    if($isData >0){
@@ -114,8 +110,37 @@ require_once "config.php";
     </table>
 </form>
 <?php  } // end if empty $formSubmit
-else{
-echo "not from form , may come from another page";
+else{ // set formSubmit from form
+  // นำข้อมูลเข้าเก็บในฐานข้อมูล
+  $newData = json_encode(array('_id' => $_POST['id'],
+  			     'name' => $_POST['rank'].' '.$_POST['name'].' '.$_POST['lastname'],
+             'detail' => 'ตำแหน่ง : '.$_POST['postion'].' อีเมล์: '.$_POST['Email'].' โทรศัพท์: '.$_POST['Tel1'].' LINE ID: '.$_POST['LineID'] ,
+  			     'comment' => $_POST['comment'],
+           'status'=>'รอการแก้ไข') );
+  $opts = array('http' => array( 'method' => "POST",
+                                 'header' => "Content-type: application/json",
+                                 'content' => $newData
+                                             )
+                                          );
+  $url = 'https://api.mlab.com/api/1/databases/crma51/collections/comment?apiKey='.MLAB_API_KEY.'';
+          $context = stream_context_create($opts);
+          $returnValue = file_get_contents($url,false,$context);
+
+          if($returnValue){
+  		   $message= "<div align='center' class='alert alert-success'>รับแจ้งแก้ไขข้อมูล ".$name." เรียบร้อย</div>";
+  		   echo $message;
+
+  	        }else{
+  		   $message= "<div align='center' class='alert alert-danger'>ไม่สามารถบันทึกรับแจ้งการแก้ไขข้อมูลได้</div>";
+  		echo $message;
+                   }
+  			$_SESSION["message"]=$message;
+  		   	header("location: search.php");
+      			exit;
+          // ยังไม่มีการโพสต์ข้อมูลจากแบบฟอร์ม
+      }else{
+          echo "<div align='center' class='alert alert-success'>".$dateTimeToday."</div>";
+
 
 } ?>
 </body>
