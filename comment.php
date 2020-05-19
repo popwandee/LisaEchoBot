@@ -51,6 +51,9 @@ require_once "config.php";
         <a href="logout.php" class="btn btn-danger">ออกจากระบบ</a>
     </p>
  <?php
+
+
+
  if(empty($_POST['formSubmit'])&&(isset($_POST['id']))){ // มาจากหน้าอื่นๆ ไม่ได้คลิกยืนยันที่ฟอร์มแก้ไขข้อมูล
    // ดึงข้อมูลจากฐานข้อมูล
    $id=$_POST['id'];
@@ -68,44 +71,9 @@ require_once "config.php";
       $Tel1=>$rec->Tel1;
       $LineID=>$rec->LineID;
     } //end foreach
-}// end isData>0
+ }// end isData>0
 
-} // end if empty $formSubmit
-
-
-if(isset($_POST['formSubmit']){
-
-// นำข้อมูลเข้าเก็บในฐานข้อมูล
-$newData = json_encode(array('_id' => $_POST['id'],
-			     'name' => $_POST['rank'].' '.$_POST['name'].' '.$_POST['lastname'],
-           'detail' => 'ตำแหน่ง : '.$_POST['postion'].' อีเมล์: '.$_POST['Email'].' โทรศัพท์: '.$_POST['Tel1'].' LINE ID: '.$_POST['LineID'] ,
-			     'comment' => $_POST['comment'],
-         'status'=>'รอการแก้ไข') );
-$opts = array('http' => array( 'method' => "POST",
-                               'header' => "Content-type: application/json",
-                               'content' => $newData
-                                           )
-                                        );
-$url = 'https://api.mlab.com/api/1/databases/crma51/collections/comment?apiKey='.MLAB_API_KEY.'';
-        $context = stream_context_create($opts);
-        $returnValue = file_get_contents($url,false,$context);
-
-        if($returnValue){
-		   $message= "<div align='center' class='alert alert-success'>รับแจ้งแก้ไขข้อมูล ".$name." เรียบร้อย</div>";
-		   echo $message;
-
-	        }else{
-		   $message= "<div align='center' class='alert alert-danger'>ไม่สามารถบันทึกรับแจ้งการแก้ไขข้อมูลได้</div>";
-		echo $message;
-                 }
-			$_SESSION["message"]=$message;
-		   	header("location: search.php");
-    			exit;
-        // ยังไม่มีการโพสต์ข้อมูลจากแบบฟอร์ม
-    }else{
-        echo "<div align='center' class='alert alert-success'>".$dateTimeToday."</div>";
-
-}  // end of if(isset(formSubmit))
+ } // end if empty $formSubmit
 
 
 ?>
@@ -124,7 +92,7 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/comment?apiKey='
             </tr>
         <tr>
             <td>Email</td>
-            <td><input type='text' name='Email1' value="<?php echo $Email1;?>" class='form-control' /></td>
+            <td><input type='text' name='Email' value="<?php echo $Email;?>" class='form-control' /></td>
             </tr>
         <tr>
         <tr>
