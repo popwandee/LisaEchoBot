@@ -112,7 +112,9 @@ require_once "config.php";
 <?php  } // end if empty $formSubmit
 else{ // set formSubmit from form
   // นำข้อมูลเข้าเก็บในฐานข้อมูล
-  $newData = json_encode(array('_id' => $_POST['id'],
+  if(isset($_POST['id'])){$id=$_POST['id'];else }
+/*  $newData = json_encode(array(
+    '_id' => $_POST['id'],
   			     'name' => $_POST['rank'].' '.$_POST['name'].' '.$_POST['lastname'],
              'detail' => 'ตำแหน่ง : '.$_POST['postion'].' อีเมล์: '.$_POST['Email'].' โทรศัพท์: '.$_POST['Tel1'].' LINE ID: '.$_POST['LineID'] ,
   			     'comment' => $_POST['comment'],
@@ -140,7 +142,7 @@ else{ // set formSubmit from form
           // ยังไม่มีการโพสต์ข้อมูลจากแบบฟอร์ม
       }else{
           echo "<div align='center' class='alert alert-success'>".$dateTimeToday."</div>";
-
+*/
 
 } ?>
 </body>
