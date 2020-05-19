@@ -1,4 +1,4 @@
-<?php
+<?php /*
 // Initialize the session
 session_start();
 
@@ -7,7 +7,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;
 }
-
+*/
 // Include config file
 require_once "config.php";
 
@@ -52,7 +52,7 @@ require_once "config.php";
       <h1>AFAPS40 - CRMA51</h1>
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
     </div>
-
+    <?php $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
    <div class="container">
 
         <div class="page-header">
@@ -77,78 +77,17 @@ require_once "config.php";
 </tr>
 </table>
 </form>
-	    <!-- PHP code to read records will be here -->
-         <?php
- $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message;
-
-	   if(isset($_POST['form_no'])){
-       switch ($_POST['form_no']){
-         case "search_name" :
-         echo "search_name";
-         $name=$_POST['name'];
-        $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/crma51Phonebook?apiKey='.MLAB_API_KEY.'&q={"name":{"$regex":"'.$name.'"}}');
-        $data = json_decode($json);
-        $isData=sizeof($data);
-        if($isData >0){
-
-        echo "<table class='table table-hover table-responsive table-bordered'>";//start table
-        //creating our table heading
-        echo "<tr>";
-          echo "<th>ลำดับ</th>";
-          echo "<th>ยศ ชื่อ สกุล</th>";
-          echo "<th>ตำแหน่ง</th>";
-          echo "<th>Email</th>";
-          echo "<th>Tel.</th>";
-          echo "<th>ID LINE</th>";
-          echo "<th>Action</th>";
-        echo "</tr>";
-
-        // retrieve our table contents
-        $id=0;
-        foreach($data as $rec){
-        $id++;
-        $_id=$rec->_id;
-        foreach($_id as $rec_id){
-        $_id=$rec_id;
-        }
-        $rank=$rec->rank;$name=$rec->name;$lastname=$rec->lastname;
-        $position=$rec->position;
-        $Email=$rec->Email;
-        $Tel1=$rec->Tel1;
-        $LineID=$rec->LineID;
-
-        // creating new table row per record
-        echo "<tr>";
-          echo "<td>{$id}</td>";
-          echo "<td>{$rank}{$name}{$lastname}</td>";
-          echo "<td>{$position}</td>";
-          echo "<td>{$Email}</td>";
-          echo "<td>{$Tel1}</td>";
-          echo "<td>{$LineID}</td>";
-          echo "<td>";
-              // we will use this links on next part of this post
-        $comment_url="comment.php?id=".$_id;
-              echo "<a href='$comment_url'>Delete</a>";
-          echo "</td>";
-        echo "</tr>";
-        }
-
-        // end table
-        echo "</table>";
-         break;
-         case "search_username" : echo "search_username"; break;
-         default : echo "no";
-       }
-
-
-  }// if no records found
-else{
-    echo "<div align='center' class='alert alert-danger'>ยังไม่มีข้อมูลค่ะ</div>";
-}
-	   }//end if isset _POST['name']
-         ?>
-    </div> <!-- end .container -->
-
+	  <?php
+    if(isset($_POST['form_no'])){
+    $form_no=$_POST['form_no'];
+     switch ($_POST['form_no']){
+       case "search_name" :
+       echo "search_name";
+       break;
+       case "search_username" : echo "search_username"; break;
+       default : echo "no";
+      }
+     ?>
 
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
