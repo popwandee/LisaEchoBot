@@ -51,16 +51,36 @@ require_once "config.php";
         <a href="logout.php" class="btn btn-danger">ออกจากระบบ</a>
     </p>
  <?php
-if(isset($_POST['name'])&&(isset($_POST['_id']))&&(isset($_POST['comment']))){
-	// รับค่าข้อมูลจาก POST ให้ตัวแปร
- $name =	htmlspecialchars(strip_tags($_POST['name']));
- $_id=htmlspecialchars(strip_tags($_POST['_id']));
- $comment =	htmlspecialchars(strip_tags($_POST['comment']));
+ if(empty($formSubmit)&&(isset($_POST['_id']))){ // มาจากหน้าอื่นๆ ไม่ได้คลิกยืนยันที่ฟอร์มแก้ไขข้อมูล
+   // ดึงข้อมูลจากฐานข้อมูล
+   $_id=$_POST['_id'];
+   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/crma51Phonebook?apiKey='.MLAB_API_KEY.'&q={"_id":{"$regex":"'.$_id.'"}}');
+   $data = json_decode($json);
+   $isData=sizeof($data);
+   if($isData >0){
+      // มีข้อมูลผู้ใช้อยู่
+   foreach($data as $rec){
+      $rank=$rec->rank;
+      $name=$rec->name;
+      $lastname=$rec->lastname;
+      $position=$rec->position;
+      $Email=$rec->Email;
+      $Tel1=>$rec->Tel1;
+      $LineID=>$rec->LineID;
+    } //end foreach
+}// end isData>0
+
+} // end if empty $formSubmit
+
+
+if(isset($_POST['formSubmit']){
 
 // นำข้อมูลเข้าเก็บในฐานข้อมูล
-$newData = json_encode(array('_id' => $_id,
-			     'name' => $name,
-			     'comment' => $comment) );
+$newData = json_encode(array('_id' => $_POST['_id'],
+			     'name' => $_POST['rank'].' '.$_POST['name'].' '.$_POST['lastname'],
+           'detail' => 'ตำแหน่ง : '.$_POST['postion'].' อีเมล์: '.$_POST['Email'].' โทรศัพท์: '.$_POST['Tel1'].' LINE ID: '.$_POST['LineID'] ,
+			     'comment' => $_POST['comment'],
+         'status'=>'รอการแก้ไข') );
 $opts = array('http' => array( 'method' => "POST",
                                'header' => "Content-type: application/json",
                                'content' => $newData
@@ -85,28 +105,44 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/comment?apiKey='
     }else{
         echo "<div align='center' class='alert alert-success'>".$dateTimeToday."</div>";
 
-}  // end of if(isset($_POST['_id'])&&isset($_POST['name']))
+}  // end of if(isset(formSubmit))
 
-if(isset($_POST['name'])){
-	$name=$_POST['name'];
-}else{
-$name='';
-}
+
 ?>
 	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
     <table class='table table-hover table-responsive table-bordered'>
 
         <tr>
             <td>ชื่อ สมาชิกที่ต้องการให้แก้ไขข้อมูล</td>
-            <td><input type='text' name='name' value="<?php echo $name;?>" class='form-control' /></td>
+            <td><input type='text' name='rank' value="<?php echo $rank;?>" class='form-control' />
+              <input type='text' name='name' value="<?php echo $name;?>" class='form-control' />
+              <input type='text' name='lastname' value="<?php echo $lastname;?>" class='form-control' /></td>
         </tr>
         <tr>
-            <td>ข้อมูลที่ต้องการแก้ไข</td>
-            <td><textarea name="comment" rows="10" cols="30"class='form-control' />ข้อมูลที่ต้องการแก้ไข</textarea></td>
+            <td>ตำแหน่ง</td>
+            <td><input type='text' name='position' value="<?php echo $position;?>" class='form-control' /></td>
+            </tr>
+        <tr>
+            <td>Email</td>
+            <td><input type='text' name='Email1' value="<?php echo $Email1;?>" class='form-control' /></td>
+            </tr>
+        <tr>
+        <tr>
+            <td>LINE ID</td>
+            <td><input type='text' name='LineID' value="<?php echo $LineID;?>" class='form-control' /></td>
+            </tr>
+        <tr>
+            <td>Telephone number</td>
+            <td><input type='text' name='Tel1' value="<?php echo $Tel1;?>" class='form-control' /></td>
+            </tr>
+        <tr>
+            <td>ข้อมูลที่ต้องการแก้ไขเพิ่มเติม</td>
+            <td><textarea name="comment" rows="10" cols="30"class='form-control' />ขอรายละเอียดข้อมูลที่ต้องการแก้ไขค่ะ</textarea></td>
         </tr>
         <tr>
             <td></td>
             <td>  <input type="hidden"name="_id" value="<?php echo $_id;?>">
+                  <input type="hidden"name="formSubmit" value="true">
                 <input type='submit' value='Save' class='btn btn-primary' />
 
             </td>
