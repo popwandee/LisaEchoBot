@@ -9,7 +9,7 @@ $username_err = $password_err = $confirm_password_err = "";
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   // get Fullname
-  if(empty(trim($_POST["fullname"]))){$fullname = "";}else{$fullname=$_POST['fullname']}
+  if(empty(trim($_POST["fullname"]))){$fullname = "";}else{$fullname=$_POST['fullname'];}
     // Validate username
     if(empty(trim($_POST["username"]))){
         $username_err = "กรุณากรอก username ด้วยครับ";
@@ -128,6 +128,8 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
       <p>เว็บไซต์ เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
     </div>
 
+    </div> <!-- container theme-showcase -->
+    
     <div class="page-header">
       <div class="panel panel-info">
         <div class="panel-heading">
@@ -150,7 +152,7 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
                 <span class="help-block"><?php echo $username_err; ?></span>
             </div>
             <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-                <label>Password</label>
+                <label>Password: อย่างน้อย 6 ตัวอักษร</label>
                 <input type="password" name="password" class="form-control" value="<?php echo $password; ?>">
                 <span class="help-block"><?php echo $password_err; ?></span>
             </div>
@@ -172,7 +174,6 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
 
     </div> <!-- panel panel-info -->
       </div> <!-- page-header -->
-  </div> <!-- container theme-showcase -->
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
