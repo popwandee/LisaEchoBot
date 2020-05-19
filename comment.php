@@ -68,14 +68,10 @@ require_once "config.php";
       $lastname=$rec->lastname;
       $position=$rec->position;
       $Email=$rec->Email;
-      $Tel1=>$rec->Tel1;
-      $LineID=>$rec->LineID;
+      $Tel1=$rec->Tel1;
+      $LineID=$rec->LineID;
     } //end foreach
  }// end isData>0
-
-
-
-
 ?>
 	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
     <table class='table table-hover table-responsive table-bordered'>
@@ -118,8 +114,8 @@ require_once "config.php";
     </table>
 </form>
 <?php  } // end if empty $formSubmit
-else{
-echo "set _POST"
+elseif(isset($_POST['id'])){
+echo "not from form , may come from another page";
 
 } ?>
 </body>
