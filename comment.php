@@ -112,7 +112,7 @@ require_once "config.php";
 <?php  } // end if empty $formSubmit
 else{ // set formSubmit from form
   // นำข้อมูลเข้าเก็บในฐานข้อมูล
-  if(isset($_POST['id'])){$id=$_POST['id'];else }
+  if(isset($_POST['id'])){$id=$_POST['id'];else $id=''; }
 /*  $newData = json_encode(array(
     '_id' => $_POST['id'],
   			     'name' => $_POST['rank'].' '.$_POST['name'].' '.$_POST['lastname'],
