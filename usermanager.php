@@ -80,7 +80,7 @@ require_once "config.php";
        $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"name":{"$regex":"'.$name.'"}}');
             break;
        case "search_username" :
-       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"username":{"$regex":"'.$username.'"}}');
+       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"username":'.$username.'}}');
             break;
        default :
             foo("no");
@@ -133,7 +133,7 @@ require_once "config.php";
        echo "</tr>";
        }
        // end table
-       echo "</table>";     
+       echo "</table>";
        // end function
      }
      ?>
