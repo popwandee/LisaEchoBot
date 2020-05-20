@@ -237,7 +237,7 @@ function show_form($user_id){
     $i++;echo $i;
      $fullname=$rec->fullname;echo $fullname;
      $username=$rec->username;echo $username;
-     $type=$rec->type;echo $type:
+     $type=$rec->type;echo $type;
 
    } //end foreach
 }// end isData>0
