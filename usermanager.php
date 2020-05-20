@@ -1,7 +1,8 @@
-<?php /*
+<?php
 // Initialize the session
 session_start();
-
+if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;}
+/*
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
@@ -213,9 +214,11 @@ function user_approved($user_id,$approved){
           $context = stream_context_create($opts);
           $returnValue = file_get_contents($url,false,$context);
           if($returnValue){
-         		 header('Location: usermanager.php');
+            $_SESSION['message']='User id approved is'.$user_id;
+         		 header('Location: usermanager.php?message=Approved');
   	        }else{
-  		    header('Location: usermanager.php');
+              $_SESSION['message']='User id not approved is'.$user_id;
+  		       header('Location: usermanager.php?message=CannotApproved');
                    }
 }
  ?>
