@@ -227,7 +227,7 @@ function user_approved($user_id,$approved){
  <?php
 function show_form($user_id){ echo $user_id;
   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY);
-  $data = json_decode($json);
+  $data = json_decode($json);echo $json;
   $isData=sizeof($data);
   if($isData >0){
     $i=0;
@@ -248,10 +248,11 @@ function show_form($user_id){ echo $user_id;
       <button type="submit" class="btn btn-xs btn-warning">ยืนยัน</button>
       </form>
       <?php
+
   }else{
     echo "no data from db to edit";
   }
-
+      exit;
 } // end function show_form
 
   ?>
