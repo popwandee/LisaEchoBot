@@ -228,14 +228,14 @@ function user_approved($user_id,$approved){
 function show_form($user_id){ echo $user_id;
   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY);
   $data = json_decode($json);echo $json;
-  $isData=sizeof($data);
+  $isData=sizeof($data);print_r($data);
   if($isData >0){
     $i=0;
     foreach($data as $rec){
     $_id=$rec->_id;$i++;echo $i;
-    $fullname=$rec->fullname;
-    $username=$rec->username;
-    $type=$rec->type;
+    $fullname=$rec->fullname;echo $fullname;
+    $username=$rec->username;echo $username;
+    $type=$rec->type;echo $type;
     }// end of foreach
         ?>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
