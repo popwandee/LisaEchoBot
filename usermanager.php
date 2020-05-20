@@ -99,25 +99,19 @@ require_once "config.php";
            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY);
             break;
       case "user_approved" :
-           if(isset($_POST['user_id'])){
-             $user_id=$_POST['user_id'];
-             echo " User ID".$user_id;
-           }else{
-             echo "No User ID";
-           }
-           if(isset($_POST['approved'])){
-             $approved=$_POST['approved'];}
-           echo " Approved status".$approved;
+           $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : "";
+           $approved = isset($_POST['approved']) ? $_POST['approved'] : 0;
            user_approved($user_id,$approved);
            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY);
 
            break;
       case "user_edit" :
-          if(isset($_POST['edited'])){$edited=$_POST['edited'];}else{$edited=0;}
+      $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : "";
+      $edited = isset($_POST['edited']) ? $_POST['edited'] : 0;
           if($edited){
             echo "get data from form, go to update database.";
           }else{
-            echo "go to form, to get data";
+            show_form($user_id);
             }
           break;
        default :
@@ -229,6 +223,22 @@ function user_approved($user_id,$approved){
                    }
 }
  ?>
+
+ <?php
+function show_form($user_id){
+  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY);
+  $data = json_decode($json);
+  $isData=sizeof($data);
+  if($isData >0){
+    echo "get data";
+      showdata($data);
+  }else{
+    echo "no data from db to edit";
+  }
+  
+} // end function show_form
+
+  ?>
          <div><!-- class="jumbotron"-->
       </div> <!-- container theme-showcase -->
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
