@@ -103,7 +103,6 @@ require_once "config.php";
       $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : "";
       $edited = isset($_POST['edited']) ? $_POST['edited'] : 0;
           if($edited){
-            echo "get data from form, go to update database.";
             $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : "";
             $fullname = isset($_POST['fullname']) ? $_POST['fullname'] : 0;
             $type = isset($_POST['type']) ? $_POST['type'] : 0;
@@ -152,11 +151,11 @@ require_once "config.php";
 
        // creating new table row per record
        echo "<tr>";
-         echo "<td>{$id}</td>";
-         echo "<td>{$fullname}</td>";
-         echo "<td>{$username}</td>";
-         echo "<td>{$type}</td>";
-         echo "<td>";
+         echo "<td width='10%'>{$id}</td>";
+         echo "<td width='30%'>{$fullname}</td>";
+         echo "<td width='20%'>{$username}</td>";
+         echo "<td width='10%'>{$type}</td>";
+         echo "<td width='20%'>";
                 if($approved){
                   ?>
                   <button type="button" class="btn btn-xs btn-success">อนุมัติแล้ว</button>
@@ -181,7 +180,7 @@ require_once "config.php";
                 }
 
          echo"</td>";
-         echo "<td>";
+         echo "<td width='10%'>";
          ?>
          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
            <input type="hidden" name="user_id" value="<?php echo $_id; ?>">
@@ -198,9 +197,10 @@ require_once "config.php";
        // end function
      }
      ?>
+     <span class="label label-info">
 <?php if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;}else{$_SESSION['message']='';}?>
 <?php $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
-
+</span>
 <?php
 function user_approved($user_id,$approved){
   if($approved){
@@ -217,10 +217,10 @@ function user_approved($user_id,$approved){
           $context = stream_context_create($opts);
           $returnValue = file_get_contents($url,false,$context);
           if($returnValue){
-            $_SESSION['message']='User id approved is'.$user_id;
+            $_SESSION['message']='User approved succeed.';
          		 header('Location: usermanager.php?message=Approved');
   	        }else{
-              $_SESSION['message']='User id not approved is'.$user_id;
+              $_SESSION['message']='Can not approved user.';
   		       header('Location: usermanager.php?message=CannotApproved');
                    }
 }
