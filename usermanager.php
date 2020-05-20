@@ -230,13 +230,8 @@ function show_form($user_id){
   $data = json_decode($json);
   $isData=sizeof($data);
   if($isData >0){
-    $id=0;
     foreach($data as $rec){
-    $id++;
     $_id=$rec->_id;
-    foreach($_id as $rec_id){
-    $_id=$rec_id;
-    }
     $fullname=$rec->fullname;
     $username=$rec->username;
     $type=$rec->type;
