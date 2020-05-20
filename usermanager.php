@@ -230,16 +230,28 @@ function show_form($user_id){
   $data = json_decode($json);
   $isData=sizeof($data);
   if($isData >0){
-    echo "get data";?>
+    $id=0;
+    foreach($data as $rec){
+    $id++;
+    $_id=$rec->_id;
+    foreach($_id as $rec_id){
+    $_id=$rec_id;
+    }
+    $fullname=$rec->fullname;
+    $username=$rec->username;
+    $type=$rec->type;
+    ?>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-      <input type='text' name='fullname' class='form-control' />
-      <input type='text' name='type' class='form-control' />
+      <?php echo "Username :".$username;?>
+      <br>ชื่อ นามสกุล :<input type='text' name='fullname'value="<?php echo $fullname;?>" class='form-control' />
+      <br>ประเภทสมาชิก :<input type='text' name='type' value="<?php echo $type;?>" class='form-control' />
       <input type="hidden" name="user_id" value="<?php echo $user_id;?>">
       <input type='hidden' name='form_no' value='user_edit'>
       <input type='hidden' name='edited' value='1'>
       <button type="submit" class="btn btn-xs btn-warning">ยืนยัน</button>
       </form>
       <?php
+    }// end of foreach
   }else{
     echo "no data from db to edit";
   }
