@@ -197,7 +197,7 @@ function user_approved($user_id,$approved){
                                  'content' => $newData
                                              )
                                           );
-  $url = 'https://api.mlab.com/api/1/databases/nubee/collections/coupon/'.$id.'?apiKey='.MLAB_API_KEY.'';
+  $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY.'';
           $context = stream_context_create($opts);
           $returnValue = file_get_contents($url,false,$context);
           if($returnValue){
