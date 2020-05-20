@@ -226,17 +226,17 @@ function user_approved($user_id,$approved){
 
  <?php
 function show_form($user_id){ echo $user_id;
-  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY);
-  $data = json_decode($json);echo $json;
-  $isData=sizeof($data);print_r($data);
+  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"_id":{ "$oid":"'.$user_id.'" }}');
+  $data = json_decode($json);
+  $isData=sizeof($data);
   if($isData >0){
-    $i=0;
-    foreach($data as $rec){
-    $_id=$rec->_id;$i++;echo $i;
-    $fullname=$rec->fullname;echo $fullname;
-    $username=$rec->username;echo $username;
-    $type=$rec->type;echo $type;
-    }// end of foreach
+     // มีข้อมูลผู้ใช้อยู่
+  foreach($data as $rec){
+     $fullname=$rec->fullname;
+     $username=$rec->username;
+     $type=$rec->type;
+   } //end foreach
+
         ?>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
       <?php echo "Username :".$username;?>
