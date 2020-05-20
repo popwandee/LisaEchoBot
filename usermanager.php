@@ -227,7 +227,8 @@ function user_approved($user_id,$approved){
  <?php
 function show_form($user_id){
   echo $user_id;
-  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"_id":{ "$oid":"'.$user_id.'" }}');
+  $url="https://api.mlab.com/api/1/databases/crma51/collections/manager/".$user_id."?apiKey=".MLAB_API_KEY;
+  $json = file_get_contents($url);
   $data = json_decode($json);
   $isData=sizeof($data);
   $i=0;
@@ -243,6 +244,7 @@ function show_form($user_id){
 }// end isData>0
 
         ?>
+        <table><tr><td>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
       <?php echo "Username :".$username;?>
       <br>ชื่อ นามสกุล :<input type='text' name='fullname'value="<?php echo $fullname;?>" class='form-control' />
@@ -252,6 +254,7 @@ function show_form($user_id){
       <input type='hidden' name='edited' value='1'>
       <button type="submit" class="btn btn-xs btn-warning">ยืนยัน</button>
       </form>
+    </td></tr></table>
       <?php
 
 
