@@ -110,9 +110,15 @@ require_once "config.php";
       $edited = isset($_POST['edited']) ? $_POST['edited'] : 0;
           if($edited){
             echo "get data from form, go to update database.";
+            $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : "";
+            $fullname = isset($_POST['fullname']) ? $_POST['fullname'] : 0;
+            $type = isset($_POST['type']) ? $_POST['type'] : 0;
+            update_user($user_id,$fullname,$type);
           }else{
             show_form($user_id);
             }
+            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY);
+           
           break;
        default :
             foo("no");
@@ -233,16 +239,11 @@ function show_form($user_id){
   $isData=sizeof($data);print_r($data);
   $i=0;
   if($isData >0){
-    echo "We got data.";
      // มีข้อมูลผู้ใช้อยู่
-
-    $i++;echo $i; echo "\n Inherit Data "; 
-     $fullname = $data->fullname; echo $fullname;
-     $username = $data->username; echo $username;
-     $type = $data->type; echo $type;
-
+     $fullname = $data->fullname;
+     $username = $data->username;
+     $type = $data->type;
 }// end isData>0
-
         ?>
         <table><tr><td>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
@@ -256,12 +257,50 @@ function show_form($user_id){
       </form>
     </td></tr></table>
       <?php
-
-
       exit;
 } // end function show_form
 
   ?>
+
+
+  <?php
+  function update_user($user_id,$fullname,$type){
+    if(!empty($fullname)){
+    $newData = '{ "$set" : { "fullname" : "'.$fullname.'"} }';
+    $opts = array('http' => array( 'method' => "PUT",
+                                   'header' => "Content-type: application/json",
+                                   'content' => $newData
+                                               )
+                                            );
+    $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY.'';
+            $context = stream_context_create($opts);
+            $returnValue = file_get_contents($url,false,$context);
+            if($returnValue){
+              $_SESSION['message']='Update fullname for '.$user_id;
+              }else{
+                $_SESSION['message']='Cannot Update fullname for '.$user_id;
+                     }
+  }//end if !empty fullname
+  if(!empty($type)){
+    $newData = '{ "$set" : { "fullname" : "'.$type.'"} }';
+    $opts = array('http' => array( 'method' => "PUT",
+                                   'header' => "Content-type: application/json",
+                                   'content' => $newData
+                                               )
+                                            );
+    $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY.'';
+            $context = stream_context_create($opts);
+            $returnValue = file_get_contents($url,false,$context);
+            if($returnValue){
+              $_SESSION['message']='Update fullname for '.$user_id;
+              }else{
+                $_SESSION['message']='Cannot Update fullname for '.$user_id;
+                     }
+  }//end !empty type
+
+}// end function update_user
+   ?>
+
          <div><!-- class="jumbotron"-->
       </div> <!-- container theme-showcase -->
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
