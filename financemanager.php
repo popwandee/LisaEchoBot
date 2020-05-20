@@ -11,6 +11,12 @@ if(!isset($_SESSION["type"]) || $_SESSION["type"] !== "admin"){
     header("location: index.php?message=You are not admin.");
     exit;
 }
+if(!isset($_SESSION["username"]) || $_SESSION["username"] == ""){
+    header("location: login.php?message=We can not ger your username.");
+    exit;
+}else{
+  $username=$_SESSION['username'];
+}
 // Include config file
 require_once "config.php";
 
@@ -59,8 +65,14 @@ require_once "config.php";
     $form_no=$_POST['form_no'];
      switch ($form_no){
 
-       case "show_all_user" :
-           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY);
+       case "add_record" :
+       $username = isset($_POST['username']) ? $_POST['username'] : "";
+       $record = isset($_POST['record']) ? $_POST['record'] : "";
+       $add = isset($_POST['add']) ? $_POST['add'] : "";
+       $sub = isset($_POST['sub']) ? $_POST['sub'] : "";
+       insert_finance_record($username,$record,$add,$sub);
+       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY);
+
             break;
       case "user_approved" :
            $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : "";
@@ -84,7 +96,8 @@ require_once "config.php";
 
           break;
        default :
-          showdata($data);
+          $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY);
+
       }//end switch
       $data = json_decode($json);
       $isData=sizeof($data);
@@ -136,11 +149,22 @@ require_once "config.php";
            <?php
          echo "</td>";
        echo "</tr>";
-       }
-       // end table
-       echo "</table>";
-       // end function
-     }
+     }//end foreach
+       echo"<tr>";
+       ?>
+      <td> <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+         <input type="hidden" name="username" value="<?php echo $username; ?>">
+         <input type='hidden' name='form_no' value='add_record'>
+         <td><input type='text' name='record'></td>
+         <td><input type='text' name='add'></td>
+         <td><input type='text' name='sub'></td>
+         <td colspan="2"><button type="submit" class="btn btn-xs btn-warning">แก้ไข</button></td>
+         </form>
+         <?php
+       echo "</tr>";
+       echo "</table>";// end table
+
+     }// end function
      ?>
      <span class="label label-info">
 <?php if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;}else{$_SESSION['message']='';}?>
@@ -148,102 +172,31 @@ require_once "config.php";
 </span>
 
 <?php
-function user_approved($user_id,$approved){
-  if($approved){
-  $newData = '{ "$set" : { "approved" : 0 } }';
-  $_SESSION['message']='ยกเลิกการอนุมัติสิทธิ์เข้าใช้ระบบ';
-}else{
-  $newData = '{ "$set" : { "approved" : 1 } }';
-  $_SESSION['message']='การอนุมัติสิทธิ์เข้าใช้ระบบ ';
-}
-  $opts = array('http' => array( 'method' => "PUT",
-                                 'header' => "Content-type: application/json",
-                                 'content' => $newData
-                                             )
-                                          );
-  $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY.'';
-          $context = stream_context_create($opts);
-          $returnValue = file_get_contents($url,false,$context);
-          if($returnValue){
-            $_SESSION['message']=$_SESSION['message'].'=> สำเร็จ.';
-         		 header('Location: usermanager.php?message=Approved');
-  	        }else{
-            $_SESSION['message']=$_SESSION['message'].'=> ไม่สำเร็จ.';
-  		       header('Location: usermanager.php?message=CannotApproved');
-                   }
-}
+function insert_finance_record($username,$record,$add,$sub){
+$newData = json_encode(array(
+  'username' => $username,
+  'record' => $record,
+  'add' => $add,
+  'sub' => $sub) );
+$opts = array('http' => array( 'method' => "POST",
+                               'header' => "Content-type: application/json",
+                               'content' => $newData
+                                           )
+                                        );
+$url = 'https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY;
+        $context = stream_context_create($opts);
+        $returnValue = file_get_contents($url,false,$context);
+
+        if($returnValue){
+       $message= "<div align='center' class='alert alert-success'>เพิ่มรายการเรียบร้อย</div>";
+          }else{
+       $message= "<div align='center' class='alert alert-danger'>ไม่สามารถเพิ่มรายการได้</div>";
+                 }
+      $_SESSION["message"]=$message;
+        header("location: financemanger.php");
+          exit;
+} // end function insert_finance_record
  ?>
-
- <?php
-function show_form($user_id){
-  echo $user_id;
-  $url="https://api.mlab.com/api/1/databases/crma51/collections/manager/".$user_id."?apiKey=".MLAB_API_KEY;
-  $json = file_get_contents($url);
-  $data = json_decode($json);
-  $isData=sizeof($data);
-  $i=0;
-  if($isData >0){
-     // มีข้อมูลผู้ใช้อยู่
-     $fullname = $data->fullname;
-     $username = $data->username;
-     $type = $data->type;
-}// end isData>0
-        ?>
-        <table><tr><td>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-      <?php echo "Username :".$username;?>
-      <br>ชื่อ นามสกุล :<input type='text' name='fullname'value="<?php echo $fullname;?>" class='form-control' />
-      <br>ประเภทสมาชิก :<input type='text' name='type' value="<?php echo $type;?>" class='form-control' />
-      <input type="hidden" name="user_id" value="<?php echo $user_id;?>">
-      <input type='hidden' name='form_no' value='user_edit'>
-      <input type='hidden' name='edited' value='1'>
-      <button type="submit" class="btn btn-xs btn-warning">ยืนยัน</button>
-      </form>
-    </td></tr></table>
-      <?php
-      exit;
-} // end function show_form
-
-  ?>
-
-
-  <?php
-  function update_user($user_id,$fullname,$type){
-    if(!empty($fullname)){
-    $newData = '{ "$set" : { "fullname" : "'.$fullname.'"} }';
-    $opts = array('http' => array( 'method' => "PUT",
-                                   'header' => "Content-type: application/json",
-                                   'content' => $newData
-                                               )
-                                            );
-    $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY;
-            $context = stream_context_create($opts);
-            $returnValue = file_get_contents($url,false,$context);
-            if($returnValue){
-              $_SESSION['message']='Update รายชื่อสำเร็จ';
-              }else{
-                $_SESSION['message']='Update รายชื่อไม่สำเร็จ';
-                     }
-  }//end if !empty fullname
-  if(!empty($type)){
-    $newData = '{ "$set" : { "type" : "'.$type.'"} }';
-    $opts = array('http' => array( 'method' => "PUT",
-                                   'header' => "Content-type: application/json",
-                                   'content' => $newData
-                                               )
-                                            );
-    $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY;
-            $context = stream_context_create($opts);
-            $returnValue = file_get_contents($url,false,$context);
-            if($returnValue){
-              $_SESSION['message']='Update ประเภทสมาชิกสำเร็จ';
-              }else{
-                $_SESSION['message']='Update ประเภทสมาชิกไม่สำเร็จ';
-                     }
-  }//end !empty type
-
-}// end function update_user
-   ?>
 
          <div><!-- class="jumbotron"-->
       </div> <!-- container theme-showcase -->
