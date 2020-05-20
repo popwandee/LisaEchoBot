@@ -200,9 +200,9 @@ require_once "config.php";
 <?php
 function user_approved($user_id,$approved){
   if($approved){
-  $newData = '{ "$set" : { "approved" : 0 } }';
+  $newData = '{ "approved" : 0 }';
 }else{
-  $newData = '{ "$set" : { "approved" : 1 } }';
+  $newData = '{ "approved" : 1 }';
 }
   $opts = array('http' => array( 'method' => "PUT",
                                  'header' => "Content-type: application/json",
