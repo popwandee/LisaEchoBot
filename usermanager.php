@@ -99,14 +99,14 @@ require_once "config.php";
            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY);
             break;
       case "user_approved" :
-
-           if(isset($_POST['user_id'])){$user_id=$_POST['user_id'];
-           $_SESSION['message']=" Approved User ID".$user_id;
-             echo " Approved User ID".$user_id;
-         }else{
-           echo "No User ID";
-         }
-           if(isset($_POST['approved'])){$approved=$_POST['approved'];}
+           if(isset($_POST['user_id'])){
+             $user_id=$_POST['user_id'];
+             echo " User ID".$user_id;
+           }else{
+             echo "No User ID";
+           }
+           if(isset($_POST['approved'])){
+             $approved=$_POST['approved'];}
            echo " Approved status".$approved;
            //user_approved($user_id,$approved);
            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY);
@@ -167,17 +167,17 @@ require_once "config.php";
                   echo "อนุมัติแล้ว";
                   ?>
                   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-                    <input type="hidden" name="user_id" value"<?php echo $_id; ?>">
+                    <input type="hidden" name="user_id" value="<?php echo $_id;?>">
                     <input type='hidden' name='form_no' value='user_approved'>
                     <input type='hidden' name='approved' value='1'>
-                    <button type="submit" class="btn btn-xs btn-warning">ยกเลิกการอนุมัติ<?php echo $_id; ?></button>
+                    <button type="submit" class="btn btn-xs btn-warning">ยกเลิกการอนุมัติ</button><?php echo $_id; ?>
                     </form>
                       <?php
                 }else{
                   echo "ยังไม่อนุมัติ";
                   ?>
                   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-                    <input type="hidden" name="user_id" value"<?php echo $_id; ?>">
+                    <input type="hidden" name="user_id" value="<?php echo $_id;?>">
                     <input type='hidden' name='form_no' value='user_approved'>
                     <input type='hidden' name='approved' value='0'>
                     <button type="submit" class="btn btn-xs btn-warning">อนุมัติ</button><?php echo $_id; ?>
