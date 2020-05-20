@@ -98,10 +98,20 @@ require_once "config.php";
            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY);
             break;
       case "user_approved" :
-           if(isset($_POST['user_id'])){$user_id=$_POST['user_id'];}
+           if(isset($_POST['username'])){$username=$_POST['username'];}
            if(isset($_POST['approved'])){$approved=$_POST['approved'];}
-           user_approved($user_id,$approved);
+           user_approved($username,$approved);
+           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY);
+
            break;
+      case "user_edit" :
+          if(isset($_POST['edited'])){$edited=$_POST['edited'];}else{$edited=0;}
+          if($edited){
+            echo "get data from form, go to update database.";
+          }else{
+            echo "go to form, to get data";
+            }
+          break;
        default :
             foo("no");
       }//end switch
@@ -149,7 +159,7 @@ require_once "config.php";
                   echo "อนุมัติแล้ว";
                   ?>
                   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-                    <input type="hidden" name="user_id" value"<?php echo $_id; ?>">
+                    <input type="hidden" name="user_id" value"<?php echo $user_id; ?>">
                     <input type='hidden' name='form_no' value='user_approved'>
                     <input type='hidden' name='approved' value='1'>
                     <button type="submit" class="btn btn-xs btn-warning">ยกเลิกการอนุมัติ</button>
@@ -159,7 +169,7 @@ require_once "config.php";
                   echo "ยังไม่อนุมัติ";
                   ?>
                   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-                    <input type="hidden" name="user_id" value"<?php echo $_id; ?>">
+                    <input type="hidden" name="user_id" value"<?php echo $user_id; ?>">
                     <input type='hidden' name='form_no' value='user_approved'>
                     <input type='hidden' name='approved' value='0'>
                     <button type="submit" class="btn btn-xs btn-warning">อนุมัติ</button>
@@ -170,9 +180,14 @@ require_once "config.php";
 
          echo"</td>";
          echo "<td>";
-             // we will use this links on next part of this post
-       $comment_url="comment.php?id=".$_id;
-             echo "<a href='$comment_url'>Edit</a>";
+         ?>
+         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+           <input type="hidden" name="user_id" value"<?php echo $user_id; ?>">
+           <input type='hidden' name='form_no' value='user_edit'>
+           <input type='hidden' name='edited' value='0'>
+           <button type="submit" class="btn btn-xs btn-warning">แก้ไข</button>
+           </form>
+           <?php
          echo "</td>";
        echo "</tr>";
        }
@@ -184,13 +199,10 @@ require_once "config.php";
 
 <?php
 function user_approved($user_id,$approved){
-  echo "Approved User ID ".$user_id;
   if($approved){
   $newData = '{ "$set" : { "approved" : 0 } }';
-  echo $newData;
 }else{
   $newData = '{ "$set" : { "approved" : 1 } }';
-  echo $newData;
 }
   $opts = array('http' => array( 'method' => "PUT",
                                  'header' => "Content-type: application/json",
@@ -201,11 +213,9 @@ function user_approved($user_id,$approved){
           $context = stream_context_create($opts);
           $returnValue = file_get_contents($url,false,$context);
           if($returnValue){
-  		  // redirect to read records page and
-          	// tell the user record was deleted
-         		 header('Location: usermanager.php?message=approved');
+         		 header('Location: usermanager.php');
   	        }else{
-  		    header('Location: usermanager.php?message=CannotApproved');
+  		    header('Location: usermanager.php');
                    }
 }
  ?>
