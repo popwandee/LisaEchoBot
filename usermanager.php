@@ -85,6 +85,10 @@ require_once "config.php";
            if(isset($_POST['username'])){$username=$_POST['username'];}
            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"username":"'.$username.'"}');
             break;
+      case "user_approved" :
+           if(isset($_POST['user_id'])){$user_id=$_POST['user_id'];}
+           user_approved($user_id);
+           break;
        default :
             foo("no");
       }//end switch
@@ -127,7 +131,21 @@ require_once "config.php";
          echo "<td>{$name}</td>";
          echo "<td>{$username}</td>";
          echo "<td>{$type}</td>";
-         echo "<td>{$approved}</td>";
+         echo "<td>";
+                if($approved){
+                  echo "อนุมัติแล้ว";
+                }else{
+                  ?>
+                  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                    <input type="hidden" name="user_id" value"<?php echo $_id; ?>">
+                    <input type='hidden' name='form_no' value='user_approved'>
+                    <button type="submit" class="btn btn-xs btn-warning">อนุมัติ</button>
+                    </form>
+
+                      <?php
+                }
+
+         echo"</td>";
          echo "<td>";
              // we will use this links on next part of this post
        $comment_url="comment.php?id=".$_id;
@@ -141,6 +159,12 @@ require_once "config.php";
      }
      ?>
 
+<?php
+function user_approved($user_id){
+  echo "Approved User ID ".$user_id;
+
+}
+ ?>
          <div><!-- class="jumbotron"-->
       </div> <!-- container theme-showcase -->
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
