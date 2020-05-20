@@ -99,7 +99,8 @@ require_once "config.php";
             break;
       case "user_approved" :
            if(isset($_POST['user_id'])){$user_id=$_POST['user_id'];}
-           user_approved($user_id);
+           if(isset($_POST['approved'])){$approved=$_POST['approved'];}
+           user_approved($user_id,$approved);
            break;
        default :
             foo("no");
@@ -146,12 +147,21 @@ require_once "config.php";
          echo "<td>";
                 if($approved){
                   echo "อนุมัติแล้ว";
+                  ?>
+                  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                    <input type="hidden" name="user_id" value"<?php echo $_id; ?>">
+                    <input type='hidden' name='form_no' value='user_approved'>
+                    <input type='hidden' name='approved' value='1'>
+                    <button type="submit" class="btn btn-xs btn-warning">ยกเลิกการอนุมัติ</button>
+                    </form>
+                      <?php
                 }else{
                   echo "ยังไม่อนุมัติ";
                   ?>
                   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                     <input type="hidden" name="user_id" value"<?php echo $_id; ?>">
                     <input type='hidden' name='form_no' value='user_approved'>
+                    <input type='hidden' name='approved' value='0'>
                     <button type="submit" class="btn btn-xs btn-warning">อนุมัติ</button>
                     </form>
 
@@ -173,9 +183,30 @@ require_once "config.php";
      ?>
 
 <?php
-function user_approved($user_id){
+function user_approved($user_id,$approved){
   echo "Approved User ID ".$user_id;
-
+  if($approved){
+  $newData = '{ "$set" : { "approved" : 0 } }';
+  echo $newData;
+}else{
+  $newData = '{ "$set" : { "approved" : 1 } }';
+  echo $newData;
+}
+  $opts = array('http' => array( 'method' => "PUT",
+                                 'header' => "Content-type: application/json",
+                                 'content' => $newData
+                                             )
+                                          );
+  $url = 'https://api.mlab.com/api/1/databases/nubee/collections/coupon/'.$id.'?apiKey='.MLAB_API_KEY.'';
+          $context = stream_context_create($opts);
+          $returnValue = file_get_contents($url,false,$context);
+          if($returnValue){
+  		  // redirect to read records page and
+          	// tell the user record was deleted
+         		 header('Location: usermanager.php?message=approved');
+  	        }else{
+  		    header('Location: usermanager.php?message=CannotApproved');
+                   }
 }
  ?>
          <div><!-- class="jumbotron"-->
