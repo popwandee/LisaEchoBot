@@ -235,13 +235,12 @@ function show_form($user_id){
   if($isData >0){
     echo "We got data.";
      // มีข้อมูลผู้ใช้อยู่
-  foreach($data as $rec){
-    $i++;echo $i; echo "\n In for loop "; print_r($rec);
-     $fullname = $rec->fullname; echo $fullname;
-     $username = $rec->username; echo $username;
-     $type = $rec->type; echo $type;
 
-   } //end foreach
+    $i++;echo $i; echo "\n Inherit Data "; 
+     $fullname = $data->fullname; echo $fullname;
+     $username = $data->username; echo $username;
+     $type = $data->type; echo $type;
+
 }// end isData>0
 
         ?>
