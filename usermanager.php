@@ -102,8 +102,10 @@ require_once "config.php";
 
            if(isset($_POST['user_id'])){$user_id=$_POST['user_id'];}
            $_SESSION['message']=$_SESSION['message']." Approved User ID".$user_id;
+           echo " Approved User ID".$user_id;
            if(isset($_POST['approved'])){$approved=$_POST['approved'];}
-           user_approved($user_id,$approved);
+           echo " Approved status".$approved;
+           //user_approved($user_id,$approved);
            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY);
 
            break;
