@@ -236,8 +236,8 @@ function show_form($user_id){ echo $user_id;
     $fullname=$rec->fullname;
     $username=$rec->username;
     $type=$rec->type;
-    ?>
     }// end of foreach
+        ?>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
       <?php echo "Username :".$username;?>
       <br>ชื่อ นามสกุล :<input type='text' name='fullname'value="<?php echo $fullname;?>" class='form-control' />
