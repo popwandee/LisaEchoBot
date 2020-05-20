@@ -175,7 +175,7 @@ echo "default json file_get_contents is :".$json;
          <td><input type='text' name='record'></td>
          <td><input type='text' name='add'></td>
          <td><input type='text' name='sub'></td>
-         <td colspan="2"><button type="submit" class="btn btn-xs btn-warning">แก้ไข</button></td>
+         <td colspan="2"><button type="submit" class="btn btn-xs btn-info">เพิ่มรายการ</button></td>
          </form>
          <?php
        echo "</tr>";
