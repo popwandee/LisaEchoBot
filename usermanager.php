@@ -162,20 +162,20 @@ require_once "config.php";
                   echo "อนุมัติแล้ว";
                   ?>
                   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-                    <input type="hidden" name="user_id" value"<?php echo $user_id; ?>">
+                    <input type="hidden" name="user_id" value"<?php echo $_id; ?>">
                     <input type='hidden' name='form_no' value='user_approved'>
                     <input type='hidden' name='approved' value='1'>
-                    <button type="submit" class="btn btn-xs btn-warning">ยกเลิกการอนุมัติ<?php echo $user_id; ?></button>
+                    <button type="submit" class="btn btn-xs btn-warning">ยกเลิกการอนุมัติ<?php echo $_id; ?></button>
                     </form>
                       <?php
                 }else{
                   echo "ยังไม่อนุมัติ";
                   ?>
                   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-                    <input type="hidden" name="user_id" value"<?php echo $user_id; ?>">
+                    <input type="hidden" name="user_id" value"<?php echo $_id; ?>">
                     <input type='hidden' name='form_no' value='user_approved'>
                     <input type='hidden' name='approved' value='0'>
-                    <button type="submit" class="btn btn-xs btn-warning">อนุมัติ<?php echo $user_id; ?></button>
+                    <button type="submit" class="btn btn-xs btn-warning">อนุมัติ<?php echo $_id; ?></button>
                     </form>
 
                       <?php
@@ -185,10 +185,10 @@ require_once "config.php";
          echo "<td>";
          ?>
          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-           <input type="hidden" name="user_id" value"<?php echo $user_id; ?>">
+           <input type="hidden" name="user_id" value"<?php echo $_id; ?>">
            <input type='hidden' name='form_no' value='user_edit'>
            <input type='hidden' name='edited' value='0'>
-           <button type="submit" class="btn btn-xs btn-warning">แก้ไข<?php echo $user_id; ?></button>
+           <button type="submit" class="btn btn-xs btn-warning">แก้ไข<?php echo $_id; ?></button>
            </form>
            <?php
          echo "</td>";
