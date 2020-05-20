@@ -1,7 +1,7 @@
 <?php
 // Initialize the session
 session_start();
-if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;}
+
 /*
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
@@ -50,7 +50,7 @@ require_once "config.php";
     <div class="jumbotron">
       <h1>AFAPS40 - CRMA51</h1>
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
-
+      <?php if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;}else{$_SESSION['message']='';}?>
     <?php $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
 <table align='center'>
   <tr><td>
@@ -99,9 +99,11 @@ require_once "config.php";
            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY);
             break;
       case "user_approved" :
-           if(isset($_POST['username'])){$username=$_POST['username'];}
+
+           if(isset($_POST['user_id'])){$user_id=$_POST['user_id'];}
+           $_SESSION['message']=$_SESSION['message']." Approved User ID".$user_id;
            if(isset($_POST['approved'])){$approved=$_POST['approved'];}
-           user_approved($username,$approved);
+           user_approved($user_id,$approved);
            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY);
 
            break;
@@ -163,7 +165,7 @@ require_once "config.php";
                     <input type="hidden" name="user_id" value"<?php echo $user_id; ?>">
                     <input type='hidden' name='form_no' value='user_approved'>
                     <input type='hidden' name='approved' value='1'>
-                    <button type="submit" class="btn btn-xs btn-warning">ยกเลิกการอนุมัติ</button>
+                    <button type="submit" class="btn btn-xs btn-warning">ยกเลิกการอนุมัติ<?php echo $user_id; ?></button>
                     </form>
                       <?php
                 }else{
@@ -173,7 +175,7 @@ require_once "config.php";
                     <input type="hidden" name="user_id" value"<?php echo $user_id; ?>">
                     <input type='hidden' name='form_no' value='user_approved'>
                     <input type='hidden' name='approved' value='0'>
-                    <button type="submit" class="btn btn-xs btn-warning">อนุมัติ</button>
+                    <button type="submit" class="btn btn-xs btn-warning">อนุมัติ<?php echo $user_id; ?></button>
                     </form>
 
                       <?php
@@ -186,7 +188,7 @@ require_once "config.php";
            <input type="hidden" name="user_id" value"<?php echo $user_id; ?>">
            <input type='hidden' name='form_no' value='user_edit'>
            <input type='hidden' name='edited' value='0'>
-           <button type="submit" class="btn btn-xs btn-warning">แก้ไข</button>
+           <button type="submit" class="btn btn-xs btn-warning">แก้ไข<?php echo $user_id; ?></button>
            </form>
            <?php
          echo "</td>";
@@ -201,9 +203,9 @@ require_once "config.php";
 <?php
 function user_approved($user_id,$approved){
   if($approved){
-  $newData = '{ "approved" : 0 }';
+  $newData = '{ "$set" : { "approved" : 0 } }';
 }else{
-  $newData = '{ "approved" : 1 }';
+  $newData = '{ "$set" : { "approved" : 1 } }';
 }
   $opts = array('http' => array( 'method' => "PUT",
                                  'header' => "Content-type: application/json",
