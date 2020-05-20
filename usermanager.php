@@ -230,12 +230,20 @@ function show_form($user_id){
   $data = json_decode($json);
   $isData=sizeof($data);
   if($isData >0){
-    echo "get data";
-      showdata($data);
+    echo "get data";?>
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+      <input type='text' name='fullname' class='form-control' />
+      <input type='text' name='type' class='form-control' />
+      <input type="hidden" name="user_id" value="<?php echo $user_id;?>">
+      <input type='hidden' name='form_no' value='user_edit'>
+      <input type='hidden' name='edited' value='1'>
+      <button type="submit" class="btn btn-xs btn-warning">ยืนยัน</button>
+      </form>
+      <?php
   }else{
     echo "no data from db to edit";
   }
-  
+
 } // end function show_form
 
   ?>
