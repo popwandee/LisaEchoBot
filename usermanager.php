@@ -50,35 +50,30 @@ require_once "config.php";
     <div class="jumbotron">
       <h1>AFAPS40 - CRMA51</h1>
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
-      <?php if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;}else{$_SESSION['message']='';}?>
-    <?php $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
 <table align='center'>
   <tr><td>
-  	 <h3>ค้นหาตาม Username </h3>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
     <table class='table table-hover table-responsive table-bordered'>
         <tr>
-            <td>Username<input type='text' name='username' class='form-control' /></td>
+            <td>ค้นหาด้วย Username<input type='text' name='username' class='form-control' /></td>
             <td><input type='hidden' name='form_no' value='search_username'><input type='submit' value='ค้นหา' class='btn btn-primary' /></td>
         </tr>
     </table>
 </form>
 </td><td>
-<h3>ค้นหาตามชื่อ </h3>
  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
 <table class='table table-hover table-responsive table-bordered'>
 <tr>
-    <td>ชื่อ<input type='text' name='fullname' class='form-control' /></td>
+    <td>ค้นหาตามชื่อ<input type='text' name='fullname' class='form-control' /></td>
     <td><input type='hidden' name='form_no' value='search_name'><input type='submit' value='ค้นหา' class='btn btn-primary' /></td>
 </tr>
 </table>
 </form>
 </td><td>
-<h3>แสดงรายชื่อทั้งหมด </h3>
  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
 <table class='table table-hover table-responsive table-bordered'>
 <tr>
-    <td><input type='hidden' name='form_no' value='show_all_user'><input type='submit' value='แสดง User ทั้งหมด' class='btn btn-primary' /></td>
+    <td><input type='hidden' name='form_no' value='show_all_user'><input type='submit' value='แสดง Username ทั้งหมด' class='btn btn-primary' /></td>
 </tr>
 </table>
 </form>
@@ -164,23 +159,23 @@ require_once "config.php";
          echo "<td>{$type}</td>";
          echo "<td>";
                 if($approved){
-                  echo "อนุมัติแล้ว";
                   ?>
+                  <button type="button" class="btn btn-xs btn-success">อนุมัติแล้ว</button>
                   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                     <input type="hidden" name="user_id" value="<?php echo $_id;?>">
                     <input type='hidden' name='form_no' value='user_approved'>
                     <input type='hidden' name='approved' value='1'>
-                    <button type="submit" class="btn btn-xs btn-warning">ยกเลิกการอนุมัติ</button><?php echo $_id; ?>
+                    <button type="submit" class="btn btn-xs btn-warning">ยกเลิกการอนุมัติ</button>
                     </form>
                       <?php
                 }else{
-                  echo "ยังไม่อนุมัติ";
                   ?>
+                  <button type="button" class="btn btn-xs btn-danger">ยังไม่อนุมัติ</button>
                   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                     <input type="hidden" name="user_id" value="<?php echo $_id;?>">
                     <input type='hidden' name='form_no' value='user_approved'>
                     <input type='hidden' name='approved' value='0'>
-                    <button type="submit" class="btn btn-xs btn-warning">อนุมัติ</button><?php echo $_id; ?>
+                    <button type="submit" class="btn btn-xs btn-warning">อนุมัติ</button>
                     </form>
 
                       <?php
@@ -204,6 +199,8 @@ require_once "config.php";
        // end function
      }
      ?>
+<?php if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;}else{$_SESSION['message']='';}?>
+<?php $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
 
 <?php
 function user_approved($user_id,$approved){
