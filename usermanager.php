@@ -228,7 +228,7 @@ function user_approved($user_id,$approved){
 function show_form($user_id){
   echo $user_id;
   $url="https://api.mlab.com/api/1/databases/crma51/collections/manager/".$user_id."?apiKey=".MLAB_API_KEY;
-  $json = file_get_contents($url);
+  $json = file_get_contents($url);echo $url;
   $data = json_decode($json);
   $isData=sizeof($data);
   $i=0;
