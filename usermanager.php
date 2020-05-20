@@ -54,7 +54,7 @@ require_once "config.php";
 <table align='center'>
   <tr><td>
   	 <h3>ค้นหาตาม Username </h3>
-         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
     <table class='table table-hover table-responsive table-bordered'>
         <tr>
             <td>Username<input type='text' name='username' class='form-control' /></td>
@@ -72,6 +72,15 @@ require_once "config.php";
 </tr>
 </table>
 </form>
+</td><td>
+<h3>แสดงรายชื่อทั้งหมด </h3>
+ <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+<table class='table table-hover table-responsive table-bordered'>
+<tr>
+    <td><input type='hidden' name='form_no' value='show_all_user'><input type='submit' value='แสดง User ทั้งหมด' class='btn btn-primary' /></td>
+</tr>
+</table>
+</form>
 </td></tr></table>
 	  <?php
     if(isset($_POST['form_no'])){
@@ -84,6 +93,9 @@ require_once "config.php";
        case "search_username" :
            if(isset($_POST['username'])){$username=$_POST['username'];}
            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"username":"'.$username.'"}');
+            break;
+       case "show_all_user" :
+           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY);
             break;
       case "user_approved" :
            if(isset($_POST['user_id'])){$user_id=$_POST['user_id'];}
@@ -135,6 +147,7 @@ require_once "config.php";
                 if($approved){
                   echo "อนุมัติแล้ว";
                 }else{
+                  echo "ยังไม่อนุมัติ";
                   ?>
                   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                     <input type="hidden" name="user_id" value"<?php echo $_id; ?>">
