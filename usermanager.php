@@ -184,7 +184,7 @@ require_once "config.php";
          echo "<td>";
          ?>
          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-           <input type="hidden" name="user_id" value"<?php echo $_id; ?>">
+           <input type="hidden" name="user_id" value="<?php echo $_id; ?>">
            <input type='hidden' name='form_no' value='user_edit'>
            <input type='hidden' name='edited' value='0'>
            <button type="submit" class="btn btn-xs btn-warning">แก้ไข</button><?php echo $_id; ?>
