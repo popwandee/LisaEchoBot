@@ -205,15 +205,13 @@ $opts = array('http' => array( 'method' => "POST",
 $url = 'https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY;
         $context = stream_context_create($opts);
         $returnValue = file_get_contents($url,false,$context);
-
         if($returnValue){
-       $message= "<div align='center' class='alert alert-success'>เพิ่มรายการเรียบร้อย</div>";
+          $_SESSION['message']='=> สำเร็จ.';
+           header('Location: financemanager.php?message=Completed');
           }else{
-       $message= "<div align='center' class='alert alert-danger'>ไม่สามารถเพิ่มรายการได้</div>";
+          $_SESSION['message']='=> ไม่สำเร็จ.';
+           header('Location: financemanager.php?message=InCompleted');
                  }
-      $_SESSION["message"]=$message;
-        header("location: financemanager.php");
-          exit;
 } // end function insert_finance_record
  ?>
 
