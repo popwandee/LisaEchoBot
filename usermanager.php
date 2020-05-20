@@ -2,13 +2,12 @@
 // Initialize the session
 session_start();
 
-/*
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;
 }
-*/
+
 // Include config file
 require_once "config.php";
 
@@ -116,7 +115,7 @@ require_once "config.php";
 
           break;
        default :
-            foo("no");
+
       }//end switch
       $data = json_decode($json);
       $isData=sizeof($data);
@@ -188,7 +187,7 @@ require_once "config.php";
            <input type="hidden" name="user_id" value="<?php echo $_id; ?>">
            <input type='hidden' name='form_no' value='user_edit'>
            <input type='hidden' name='edited' value='0'>
-           <button type="submit" class="btn btn-xs btn-warning">แก้ไข</button><?php echo $_id; ?>
+           <button type="submit" class="btn btn-xs btn-warning">แก้ไข</button>
            </form>
            <?php
          echo "</td>";

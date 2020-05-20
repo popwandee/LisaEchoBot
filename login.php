@@ -48,6 +48,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
      foreach($data as $rec){
         $username=$rec->username;
         $approved=$rec->approved;
+        $type=$rec->type;
         $hashed_password=$rec->password;
          }
        if(password_verify($password, $hashed_password)){
@@ -60,6 +61,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             // Store data in session variables
                             $_SESSION["loggedin"] = true;
                             $_SESSION["username"] = $username;
+                            $_SESSION["type"] = $type;
 
                             // Redirect user to welcome page
                             header("location: index.php");
@@ -126,7 +128,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     </div>
 
     </div> <!-- container theme-showcase -->
-    
+
     <div class="page-header">
       <div class="panel panel-info">
         <div class="panel-heading">

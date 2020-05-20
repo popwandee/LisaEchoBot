@@ -51,7 +51,9 @@ require_once "config.php";
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
     </div>
   <hr>
-
+  <button type="button" class="btn btn-xs btn-danger">
+<?php $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
+</button>
 
             <div class="page-header">
               <h1>สรุปผลงานคณะกรรมการรุ่น</h1>

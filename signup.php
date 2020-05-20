@@ -62,7 +62,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             // Attempt to execute the prepared statement
            $newData = json_encode(array('fullname' => $param_fullname,
            'username' => $param_username,
-			        'password' => $param_password
+			        'password' => $param_password,
+   			        'type' => "normaluser"
 			        ) );
            $opts = array('http' => array( 'method' => "POST",
                                'header' => "Content-type: application/json",
