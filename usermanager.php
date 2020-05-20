@@ -225,17 +225,22 @@ function user_approved($user_id,$approved){
  ?>
 
  <?php
-function show_form($user_id){ echo $user_id;
+function show_form($user_id){
+  echo $user_id;
   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"_id":{ "$oid":"'.$user_id.'" }}');
-  $data = json_decode($json);print_r($json);
+  $data = json_decode($json);
   $isData=sizeof($data);
+  $i=0;
   if($isData >0){
      // มีข้อมูลผู้ใช้อยู่
   foreach($data as $rec){
-     $fullname=$rec->fullname;
-     $username=$rec->username;
-     $type=$rec->type;
+    $i++;echo $i;
+     $fullname=$rec->fullname;echo $fullname;
+     $username=$rec->username;echo $username;
+     $type=$rec->type;echo $type:
+
    } //end foreach
+}// end isData>0
 
         ?>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
@@ -249,9 +254,7 @@ function show_form($user_id){ echo $user_id;
       </form>
       <?php
 
-  }else{
-    echo "no data from db to edit";
-  }
+
       exit;
 } // end function show_form
 
