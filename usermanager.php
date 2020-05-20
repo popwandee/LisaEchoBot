@@ -230,7 +230,7 @@ function show_form($user_id){
   $url="https://api.mlab.com/api/1/databases/crma51/collections/manager/".$user_id."?apiKey=".MLAB_API_KEY;
   $json = file_get_contents($url);echo $url;
   $data = json_decode($json);
-  $isData=sizeof($data);
+  $isData=sizeof($data);print_r($data);
   $i=0;
   if($isData >0){
      // มีข้อมูลผู้ใช้อยู่
