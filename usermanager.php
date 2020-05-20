@@ -227,7 +227,7 @@ function user_approved($user_id,$approved){
  <?php
 function show_form($user_id){ echo $user_id;
   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"_id":{ "$oid":"'.$user_id.'" }}');
-  $data = json_decode($json);
+  $data = json_decode($json);print_r($json);
   $isData=sizeof($data);
   if($isData >0){
      // มีข้อมูลผู้ใช้อยู่
