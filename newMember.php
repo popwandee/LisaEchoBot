@@ -48,15 +48,12 @@ require_once "config.php";
   <div class="container theme-showcase" role="main">
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
-      <h1>AFAPS40 - CRMA51</h1>
+      <h1>ลงทะเบียนเพิ่มสมาชิก</h1>
       <p>เว็บไซต์ เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
     </div>
 
     <div class="page-header">
       <div class="panel panel-info">
-        <div class="panel-heading">
-             <h1>ลงทะเบียนเพิ่มสมาชิก</h1>
-        </div>
 	    <?php	    $rank='';	    $name='';	    $lastname=''; $position=''; $Email=''; $Tel1=''; $LineID='';
 // กรณีได้รับข้อมูลมาแล้ว
 if(isset($_POST['rank'])&&(isset($_POST['name']))&&(isset($_POST['lastname']))){

@@ -47,12 +47,12 @@ require_once "config.php";
   <div class="container theme-showcase" role="main">
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
-      <h1>AFAPS40 - CRMA51</h1>
-      <p>เว็บไซต์ เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
+      <h1>รายชื่อเพื่อน</h1>
+      <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
     </div>
 
     <div class="page-header">
-      <h1>สมาชิก เตรียมทหาร40 จปร.51</h1>
+      <h1></h1>
     </div>
 
 
@@ -67,14 +67,9 @@ $tz_object = new DateTimeZone('Asia/Bangkok');
 
     <!-- container -->
     <div class="container">
-
         <div class="page-header">
 		<table><tr><td></td><td> <h1>วันที่ <?php echo $dateTimeToday;?> </h1></td></tr></table>
         </div>
-     <a href='search.php' class='btn btn-primary m-r-1em'>ค้นหา</a>
-	    <a href='newMember.php' class='btn btn-primary m-r-1em'>เพิ่มข้อมูลสมาชิก</a>
-	    <a href='logout.php' class='btn btn-danger'>Logout</a>
-
 	    <!-- PHP code to read records will be here -->
          <?php
  $message = isset($_GET['message']) ? $_GET['message'] : "";

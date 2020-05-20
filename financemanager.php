@@ -50,7 +50,7 @@ require_once "config.php";
   <?php include 'navigation.html';?>
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
-      <h1>AFAPS40 - CRMA51</h1>
+      <h1>บัญชีเงินรุ่น</h1>
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
 
 	  <?php

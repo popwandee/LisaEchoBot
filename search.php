@@ -49,19 +49,11 @@ require_once "config.php";
   <div class="container theme-showcase" role="main">
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
-      <h1>AFAPS40 - CRMA51</h1>
+      <h1>ค้นหาชื่อเพื่อนสมาชิก</h1>
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
     </div>
 
    <div class="container">
-
-        <div class="page-header">
-		<table><tr><td></td><td> <h1>ค้นหาตามชื่อ </h1></td></tr></table>
-        </div>
-     <a href='search.php' class='btn btn-primary m-r-1em'>ค้นหา</a>
-	    <a href='newMember.php' class='btn btn-primary m-r-1em'>เพิ่มสมาชิก</a>
-	    <a href='listMember.php' class='btn btn-primary m-r-1em'>รายชื่อสมาชิกทั้งหมด</a>
-	    <a href='logout.php' class='btn btn-danger'>Logout</a>
          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
     <table class='table table-hover table-responsive table-bordered'>
         <tr>

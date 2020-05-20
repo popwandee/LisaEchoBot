@@ -51,15 +51,9 @@ require_once "config.php";
   <div class="container theme-showcase" role="main">
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
-      <h1>AFAPS40 - CRMA51</h1>
+      <h1>สมาชิก เตรียมทหาร40 จปร.51</h1>
       <p>เว็บไซต์ เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
     </div>
-
-    <div class="page-header">
-      <h1>สมาชิก เตรียมทหาร40 จปร.51</h1>
-    </div>
-
-
 
  <?php
 $tz_object = new DateTimeZone('Asia/Bangkok');

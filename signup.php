@@ -125,7 +125,7 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
   <div class="container theme-showcase" role="main">
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
-      <h1>AFAPS40 - CRMA51</h1>
+      <h1>Sign Up : ลงทะเบียนเข้าใช้งานระบบ</h1>
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
     </div>
 
@@ -134,7 +134,7 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
     <div class="page-header">
       <div class="panel panel-info">
         <div class="panel-heading">
-        <h2>Sign Up</h2>
+        <h2></h2>
         <p>กรุณากรอกข้อมูลเพื่อสร้าง account.</p>
       </div>
 
