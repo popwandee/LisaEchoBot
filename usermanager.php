@@ -100,9 +100,12 @@ require_once "config.php";
             break;
       case "user_approved" :
 
-           if(isset($_POST['user_id'])){$user_id=$_POST['user_id'];}
-           $_SESSION['message']=$_SESSION['message']." Approved User ID".$user_id;
-           echo " Approved User ID".$user_id;
+           if(isset($_POST['user_id'])){$user_id=$_POST['user_id'];
+           $_SESSION['message']=" Approved User ID".$user_id;
+             echo " Approved User ID".$user_id;
+         }else{
+           echo "No User ID";
+         }
            if(isset($_POST['approved'])){$approved=$_POST['approved'];}
            echo " Approved status".$approved;
            //user_approved($user_id,$approved);
@@ -177,7 +180,7 @@ require_once "config.php";
                     <input type="hidden" name="user_id" value"<?php echo $_id; ?>">
                     <input type='hidden' name='form_no' value='user_approved'>
                     <input type='hidden' name='approved' value='0'>
-                    <button type="submit" class="btn btn-xs btn-warning">อนุมัติ<?php echo $_id; ?></button>
+                    <button type="submit" class="btn btn-xs btn-warning">อนุมัติ</button><?php echo $_id; ?>
                     </form>
 
                       <?php
@@ -190,7 +193,7 @@ require_once "config.php";
            <input type="hidden" name="user_id" value"<?php echo $_id; ?>">
            <input type='hidden' name='form_no' value='user_edit'>
            <input type='hidden' name='edited' value='0'>
-           <button type="submit" class="btn btn-xs btn-warning">แก้ไข<?php echo $_id; ?></button>
+           <button type="submit" class="btn btn-xs btn-warning">แก้ไข</button><?php echo $_id; ?>
            </form>
            <?php
          echo "</td>";
