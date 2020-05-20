@@ -66,6 +66,7 @@ require_once "config.php";
      switch ($form_no){
 
        case "add_record" :
+       echo "add_record";
        $username = isset($_POST['username']) ? $_POST['username'] : "";
        $record = isset($_POST['record']) ? $_POST['record'] : "";
        $add = isset($_POST['add']) ? $_POST['add'] : "";
@@ -190,6 +191,7 @@ echo "default json file_get_contents is :".$json;
 
 <?php
 function insert_finance_record($username,$record,$add,$sub){
+  echo "in insert_finance_record";
 $newData = json_encode(array(
   'username' => $username,
   'record' => $record,
@@ -210,7 +212,7 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='
        $message= "<div align='center' class='alert alert-danger'>ไม่สามารถเพิ่มรายการได้</div>";
                  }
       $_SESSION["message"]=$message;
-        header("location: financemanger.php");
+        header("location: financemanager.php");
           exit;
 } // end function insert_finance_record
  ?>
