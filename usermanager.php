@@ -118,7 +118,7 @@ require_once "config.php";
             show_form($user_id);
             }
             $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY);
-           
+
           break;
        default :
             foo("no");
@@ -234,9 +234,9 @@ function user_approved($user_id,$approved){
 function show_form($user_id){
   echo $user_id;
   $url="https://api.mlab.com/api/1/databases/crma51/collections/manager/".$user_id."?apiKey=".MLAB_API_KEY;
-  $json = file_get_contents($url);echo $url;
+  $json = file_get_contents($url);
   $data = json_decode($json);
-  $isData=sizeof($data);print_r($data);
+  $isData=sizeof($data);
   $i=0;
   if($isData >0){
      // มีข้อมูลผู้ใช้อยู่
@@ -272,7 +272,7 @@ function show_form($user_id){
                                    'content' => $newData
                                                )
                                             );
-    $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY.'';
+    $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY;
             $context = stream_context_create($opts);
             $returnValue = file_get_contents($url,false,$context);
             if($returnValue){
@@ -282,19 +282,19 @@ function show_form($user_id){
                      }
   }//end if !empty fullname
   if(!empty($type)){
-    $newData = '{ "$set" : { "fullname" : "'.$type.'"} }';
+    $newData = '{ "$set" : { "type" : "'.$type.'"} }';
     $opts = array('http' => array( 'method' => "PUT",
                                    'header' => "Content-type: application/json",
                                    'content' => $newData
                                                )
                                             );
-    $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY.'';
+    $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY;
             $context = stream_context_create($opts);
             $returnValue = file_get_contents($url,false,$context);
             if($returnValue){
-              $_SESSION['message']='Update fullname for '.$user_id;
+              $_SESSION['message']='Update type for '.$user_id;
               }else{
-                $_SESSION['message']='Cannot Update fullname for '.$user_id;
+                $_SESSION['message']='Cannot Update type for '.$user_id;
                      }
   }//end !empty type
 
