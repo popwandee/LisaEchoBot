@@ -230,12 +230,14 @@ function show_form($user_id){ echo $user_id;
   $data = json_decode($json);
   $isData=sizeof($data);
   if($isData >0){
+    $i=0;
     foreach($data as $rec){
-    $_id=$rec->_id;
+    $_id=$rec->_id;$i++;echo $i;
     $fullname=$rec->fullname;
     $username=$rec->username;
     $type=$rec->type;
     ?>
+    }// end of foreach
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
       <?php echo "Username :".$username;?>
       <br>ชื่อ นามสกุล :<input type='text' name='fullname'value="<?php echo $fullname;?>" class='form-control' />
@@ -246,7 +248,6 @@ function show_form($user_id){ echo $user_id;
       <button type="submit" class="btn btn-xs btn-warning">ยืนยัน</button>
       </form>
       <?php
-    }// end of foreach
   }else{
     echo "no data from db to edit";
   }
