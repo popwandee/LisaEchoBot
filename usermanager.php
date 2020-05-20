@@ -67,7 +67,7 @@ require_once "config.php";
  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
 <table class='table table-hover table-responsive table-bordered'>
 <tr>
-    <td>ชื่อ<input type='text' name='name' class='form-control' /></td>
+    <td>ชื่อ<input type='text' name='fullname' class='form-control' /></td>
     <td><input type='hidden' name='form_no' value='search_name'><input type='submit' value='ค้นหา' class='btn btn-primary' /></td>
 </tr>
 </table>
@@ -87,7 +87,7 @@ require_once "config.php";
     $form_no=$_POST['form_no'];
      switch ($form_no){
        case "search_name" :
-           if(isset($_POST['name'])){$name=$_POST['name'];}
+           if(isset($_POST['fullname'])){$name=$_POST['fullname'];}
            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"name":{"$regex":"'.$name.'"}}');
             break;
        case "search_username" :
@@ -133,7 +133,7 @@ require_once "config.php";
        foreach($_id as $rec_id){
        $_id=$rec_id;
        }
-       $name=$rec->name;
+       $fullname=$rec->fullname;
        $username=$rec->username;
        $type=$rec->type;
        $approved=$rec->approved;
@@ -141,7 +141,7 @@ require_once "config.php";
        // creating new table row per record
        echo "<tr>";
          echo "<td>{$id}</td>";
-         echo "<td>{$name}</td>";
+         echo "<td>{$fullname}</td>";
          echo "<td>{$username}</td>";
          echo "<td>{$type}</td>";
          echo "<td>";
