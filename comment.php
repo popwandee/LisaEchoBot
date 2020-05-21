@@ -56,10 +56,10 @@ require_once "config.php";
 
  if(!isset($_POST['formSubmit'])){ // มาจากหน้าอื่นๆ ไม่ได้คลิกยืนยันที่ฟอร์มแก้ไขข้อมูล
    // ดึงข้อมูลจากฐานข้อมูล
-   $id=$_GET['id'];echo "GET ID: ".$id;
-   $url="https://api.mlab.com/api/1/databases/crma51/collections/comment/".$id."?apiKey=".MLAB_API_KEY;
-   $json = file_get_contents($url);
-   $data = json_decode($json);
+   $id=$_GET['id'];//echo "GET ID: ".$id;
+   $url="https://api.mlab.com/api/1/databases/crma51/collections/friend/".$id."?apiKey=".MLAB_API_KEY;
+   $json = file_get_contents($url);//echo "\nurl is =>".$url;
+   $data = json_decode($json);//echo "\n data is =>";print_r($data);
    $isData=sizeof($data);
    $i=0;
  if($isData >0){
