@@ -85,15 +85,19 @@ function show_friend(){
             <div class="panel-heading">
               <h3 class="panel-title">เพื่อนที่กรอกข้อมูลแล้ว</h3>
             </div>
-            <div class="panel-body">
-        <table  class='table table-hover table-responsive table-bordered'>
-            <tr><td>ลำดับ</td><td>ยศ ชื่อ สกุล</td>
-            <td>ตำแหน่ง</td>
-            <td>จังหวัด</td>
-            <td>Email</td>
-            <td>LINE ID</td>
-            <td>Telephone number</td>
-          <td>Action</td></tr>
+            <div class="row">
+              <div class="col-md-6">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th><th>ลำดับ</th><th>ยศ ชื่อ สกุล</th>
+            <th>ตำแหน่ง</th>
+            <th>จังหวัด</th>
+            <th>Email</th>
+            <th>LINE ID</th>
+            <th>Telephone number</th>
+          <th>Action</th></tr>
+          </thead><tbody>
         <?php
         foreach($data as $rec){
           $i++;
@@ -123,9 +127,11 @@ function show_friend(){
                    </tr>
            <?php    } //end foreach
              ?>
-             </table>
-           </div class="panel-body">
-           </div class="panel panel-success">
+           </tbody>
+         </table>
+       </div> <!-- class="row"> -->
+     </div><!-- class="col-md-6"> -->
+     </div><!-- class="panel panel-success"> -->
            <?php
            }else{
            echo "ยังไม่มีข้อมูลค่ะ";

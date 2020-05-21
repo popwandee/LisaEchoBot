@@ -47,11 +47,8 @@ require_once "config.php";
     <?php include 'navigation.html';?>
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
-    <span class="label label-primary">แจ้งแก้ไขข้อมูล</span>
+    <span class="label label-primary"><h3>แจ้งแก้ไขข้อมูล</3></span>
  <?php
-
-
-
  if(!isset($_POST['formSubmit'])){ // มาจากหน้าอื่นๆ ไม่ได้คลิกยืนยันที่ฟอร์มแก้ไขข้อมูล
    // ดึงข้อมูลจากฐานข้อมูล
    $id=$_GET['id'];//echo "GET ID: ".$id;
@@ -77,10 +74,9 @@ require_once "config.php";
 ?>
 	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
     <table class='table table-hover table-responsive table-bordered'>
-
         <tr>
             <td>แก้ไขข้อมูล</td>
-            <td><input type='text' name='rank' value=""  />
+            <td>
               <select name="rank">
         <option value="<?php echo $rank;?>" selected><?php echo $rank;?></option>
         <option value="พ.ต.">พ.ต.</option>
