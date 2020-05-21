@@ -114,7 +114,7 @@ function show_friend(){
            $LineID=$rec->LineID;
            ?>
       <tr><td><?php echo $i;?></td>
-                       <td><?php echo $rank;?>
+                       <td class="text-nowrap"><?php echo $rank;?>
                          <?php echo " ".$name;?>
                        <?php echo " ".$lastname;?></td>
                        <td><?php echo $position;?></td>
