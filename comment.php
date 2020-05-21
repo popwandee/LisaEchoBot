@@ -48,6 +48,8 @@ require_once "config.php";
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
     <span class="label label-primary"><h3>แจ้งแก้ไขข้อมูล</3></span>
+    </div>
+    <div class="jumbotron">
  <?php
  if(!isset($_POST['formSubmit'])){ // มาจากหน้าอื่นๆ ไม่ได้คลิกยืนยันที่ฟอร์มแก้ไขข้อมูล
    // ดึงข้อมูลจากฐานข้อมูล
