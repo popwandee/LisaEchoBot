@@ -275,10 +275,10 @@ if(isset($_POST['formSubmit'])){
   $context = stream_context_create($opts);
   $returnValue = file_get_contents($url,false,$context);
           if($returnValue){
-            $_SESSION['message']=$_SESSION['message'].'=> เพิ่มข้อมูลสำเร็จ.';
+            $_SESSION['message']='=> เพิ่มข้อมูลสำเร็จ.';
              header('Location: friend.php');
             }else{
-            $_SESSION['message']=$_SESSION['message'].'=> เพิ่มข้อมูลไม่สำเร็จ.';
+            $_SESSION['message']='=> เพิ่มข้อมูลไม่สำเร็จ.';
              header('Location: friend.php');
            }
 } //end if isset formSubmit
