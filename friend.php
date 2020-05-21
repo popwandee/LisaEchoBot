@@ -55,6 +55,10 @@ require_once "config.php";
       </div>
       <div class="col-sm-4">
         <div class="panel panel-success">
+          <div class="panel-heading">
+            <h3 class="panel-title">ตอบแบบฟอร์ม</h3>
+          </div>
+          <div class="panel-body">
 	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
     <table class='table table-hover table-responsive table-bordered'>
         <tr>
@@ -187,6 +191,7 @@ require_once "config.php";
         </tr>
     </table>
 </form>
+</div class="panel-body">
 </div class="panel panel-success">
 </div class="col-sm-4">
 <?php
@@ -196,8 +201,12 @@ $isData=sizeof($data);
 if($isData >0){
   $i=0;
   ?>
-  <div class="row">
-    <div class="col-md-6">
+  <div class="col-sm-4">
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <h3 class="panel-title">เพื่อนที่กรอกข้อมูลแล้ว</h3>
+      </div>
+      <div class="panel-body">
   <table class='table table-hover table-responsive table-bordered'>
       <tr><td>ลำดับ</td><td>ยศ ชื่อ สกุล</td>
       <td>ตำแหน่ง</td>
@@ -229,8 +238,8 @@ if($isData >0){
              </tr>
      <?php    } //end foreach    ?>
        </table>
-     </div class="row">
-   </div class="col-md-6">
+     </div>
+   </div>
        <?php
 }else{
 echo "ยังไม่มีข้อมูลค่ะ";
