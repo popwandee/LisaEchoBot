@@ -51,26 +51,119 @@ require_once "config.php";
     <div class="jumbotron">
       <h1>ค้นหาชื่อเพื่อนสมาชิก</h1>
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
-    </div>
 
    <div class="container">
          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
     <table class='table table-hover table-responsive table-bordered'>
         <tr>
             <td>ชื่อ <input type='text' name='name' class='form-control' /></td>
-            <td><input type='submit' value='ค้นหา' class='btn btn-primary' /></td>
+            <td><input type='hidden' name='from_form' value='search_name'/>
+              <input type='submit' value='ค้นหา' class='btn btn-primary' /></td>
         </tr>
     </table>
 </form>
+<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+<table class='table table-hover table-responsive table-bordered'>
+<tr>
+<select name="province">
+<option value="กรุงเทพมหานคร" selected>จังหวัดที่ปฏิบัติงาน</option>
+<option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
+<option value="กระบี่">กระบี่ </option>
+<option value="กาญจนบุรี">กาญจนบุรี </option>
+<option value="กาฬสินธุ์">กาฬสินธุ์ </option>
+<option value="กำแพงเพชร">กำแพงเพชร </option>
+<option value="ขอนแก่น">ขอนแก่น</option>
+<option value="จันทบุรี">จันทบุรี</option>
+<option value="ฉะเชิงเทรา">ฉะเชิงเทรา </option>
+<option value="ชัยนาท">ชัยนาท </option>
+<option value="ชัยภูมิ">ชัยภูมิ </option>
+<option value="ชุมพร">ชุมพร </option>
+<option value="ชลบุรี">ชลบุรี </option>
+<option value="เชียงใหม่">เชียงใหม่ </option>
+<option value="เชียงราย">เชียงราย </option>
+<option value="ตรัง">ตรัง </option>
+<option value="ตราด">ตราด </option>
+<option value="ตาก">ตาก </option>
+<option value="นครนายก">นครนายก </option>
+<option value="นครปฐม">นครปฐม </option>
+<option value="นครพนม">นครพนม </option>
+<option value="นครราชสีมา">นครราชสีมา </option>
+<option value="นครศรีธรรมราช">นครศรีธรรมราช </option>
+<option value="นครสวรรค์">นครสวรรค์ </option>
+<option value="นราธิวาส">นราธิวาส </option>
+<option value="น่าน">น่าน </option>
+<option value="นนทบุรี">นนทบุรี </option>
+<option value="บึงกาฬ">บึงกาฬ</option>
+<option value="บุรีรัมย์">บุรีรัมย์</option>
+<option value="ประจวบคีรีขันธ์">ประจวบคีรีขันธ์ </option>
+<option value="ปทุมธานี">ปทุมธานี </option>
+<option value="ปราจีนบุรี">ปราจีนบุรี </option>
+<option value="ปัตตานี">ปัตตานี </option>
+<option value="พะเยา">พะเยา </option>
+<option value="พระนครศรีอยุธยา">พระนครศรีอยุธยา </option>
+<option value="พังงา">พังงา </option>
+<option value="พิจิตร">พิจิตร </option>
+<option value="พิษณุโลก">พิษณุโลก </option>
+<option value="เพชรบุรี">เพชรบุรี </option>
+<option value="เพชรบูรณ์">เพชรบูรณ์ </option>
+<option value="แพร่">แพร่ </option>
+<option value="พัทลุง">พัทลุง </option>
+<option value="ภูเก็ต">ภูเก็ต </option>
+<option value="มหาสารคาม">มหาสารคาม </option>
+<option value="มุกดาหาร">มุกดาหาร </option>
+<option value="แม่ฮ่องสอน">แม่ฮ่องสอน </option>
+<option value="ยโสธร">ยโสธร </option>
+<option value="ยะลา">ยะลา </option>
+<option value="ร้อยเอ็ด">ร้อยเอ็ด </option>
+<option value="ระนอง">ระนอง </option>
+<option value="ระยอง">ระยอง </option>
+<option value="ราชบุรี">ราชบุรี</option>
+<option value="ลพบุรี">ลพบุรี </option>
+<option value="ลำปาง">ลำปาง </option>
+<option value="ลำพูน">ลำพูน </option>
+<option value="เลย">เลย </option>
+<option value="ศรีสะเกษ">ศรีสะเกษ</option>
+<option value="สกลนคร">สกลนคร</option>
+<option value="สงขลา">สงขลา </option>
+<option value="สมุทรสาคร">สมุทรสาคร </option>
+<option value="สมุทรปราการ">สมุทรปราการ </option>
+<option value="สมุทรสงคราม">สมุทรสงคราม </option>
+<option value="สระแก้ว">สระแก้ว </option>
+<option value="สระบุรี">สระบุรี </option>
+<option value="สิงห์บุรี">สิงห์บุรี </option>
+<option value="สุโขทัย">สุโขทัย </option>
+<option value="สุพรรณบุรี">สุพรรณบุรี </option>
+<option value="สุราษฎร์ธานี">สุราษฎร์ธานี </option>
+<option value="สุรินทร์">สุรินทร์ </option>
+<option value="สตูล">สตูล </option>
+<option value="หนองคาย">หนองคาย </option>
+<option value="หนองบัวลำภู">หนองบัวลำภู </option>
+<option value="อำนาจเจริญ">อำนาจเจริญ </option>
+<option value="อุดรธานี">อุดรธานี </option>
+<option value="อุตรดิตถ์">อุตรดิตถ์ </option>
+<option value="อุทัยธานี">อุทัยธานี </option>
+<option value="อุบลราชธานี">อุบลราชธานี</option>
+<option value="อ่างทอง">อ่างทอง </option>
+<option value="อื่นๆ">อื่นๆ</option>
+</select><input type='hidden' name='from_form' value='search_province'/>
+<input type='submit' value='ค้นหา' class='btn btn-primary' />
+</form>
 
-	    <!-- PHP code to read records will be here -->
-         <?php
+<?php
  $message = isset($_GET['message']) ? $_GET['message'] : "";
 	    echo $message;
 
-	   if(isset($_POST['name'])){
-		   $name=$_POST['name'];
- $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/crma51Phonebook?apiKey='.MLAB_API_KEY.'&q={"name":{"$regex":"'.$name.'"}}');
+if(isset($_POST['from_form'])){
+  if(($_POST['from_form'])=='search_name'){
+    	$name = isset($_POST['name']) ? $_POST['name'] : "";
+      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"name":{"$regex":"'.$name.'"}}');
+    }elseif(($_POST['from_form'])=='search_province'){
+      $province = isset($_POST['province']) ? $_POST['province'] : "";
+      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"province":{"$regex":"'.$province.'"}}');
+    }else{
+      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
+    } // if from_form == search
+
  $data = json_decode($json);
  $isData=sizeof($data);
   if($isData >0){
@@ -81,10 +174,10 @@ require_once "config.php";
         echo "<th>ลำดับ</th>";
         echo "<th>ยศ ชื่อ สกุล</th>";
         echo "<th>ตำแหน่ง</th>";
+        echo "<th>จังหวัด</th>";
         echo "<th>Email</th>";
         echo "<th>Tel.</th>";
         echo "<th>ID LINE</th>";
-        echo "<th>Action</th>";
     echo "</tr>";
 
     // retrieve our table contents
@@ -99,6 +192,7 @@ foreach($data as $rec){
 	}
   $rank=$rec->rank;$name=$rec->name;$lastname=$rec->lastname;
 		$position=$rec->position;
+    $province=$rec->province;
 		$Email=$rec->Email;
 		$Tel1=$rec->Tel1;
 		$LineID=$rec->LineID;
@@ -109,14 +203,10 @@ foreach($data as $rec){
         echo "<td>{$id}</td>";
         echo "<td>{$rank}{$name}{$lastname}</td>";
         echo "<td>{$position}</td>";
+        echo "<td>{$province}</td>";
         echo "<td>{$Email}</td>";
         echo "<td>{$Tel1}</td>";
         echo "<td>{$LineID}</td>";
-        echo "<td>";
-            // we will use this links on next part of this post
-	$comment_url="comment.php?id=".$_id;
-            echo "<a href='$comment_url'>Delete</a>";
-        echo "</td>";
     echo "</tr>";
 }
 
@@ -131,6 +221,8 @@ else{
          ?>
     </div> <!-- end .container -->
 
+  </div> <!-- jumbotron -->
+</div> <!--main -->
 
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
