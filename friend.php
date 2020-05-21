@@ -85,9 +85,9 @@ function show_friend(){
             <div class="panel-heading">
               <h3 class="panel-title">เพื่อนที่กรอกข้อมูลแล้ว</h3>
             </div>
-            <div class="row">
+            <div class="table-responsive">
               <div class="col-md-6">
-                <table class="table table-striped">
+                <table class="table table-sm table-hover table-striped">
                   <thead>
                     <tr>
                       <th><th>ลำดับ</th><th>ยศ ชื่อ สกุล</th>
@@ -129,8 +129,8 @@ function show_friend(){
              ?>
            </tbody>
          </table>
-       </div> <!-- class="row"> -->
-     </div><!-- class="col-md-6"> -->
+       </div> <!-- class="col-md-6"> -->
+     </div><!-- class="table-responsive"> -->
      </div><!-- class="panel panel-success"> -->
            <?php
            }else{
