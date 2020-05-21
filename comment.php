@@ -81,6 +81,9 @@ require_once "config.php";
             <td>
               <select name="rank">
         <option value="<?php echo $rank;?>" selected><?php echo $rank;?></option>
+        <option value="ร.ต.">ร.ต.</option>
+        <option value="ร.ท.">ร.ท.</option>
+        <option value="ร.อ.">ร.อ.</option>
         <option value="พ.ต.">พ.ต.</option>
         <option value="พ.ท.">พ.ท.</option>
         <option value="พ.อ.">พ.อ.</option>

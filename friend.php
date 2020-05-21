@@ -151,6 +151,9 @@ function show_friend(){
             <td>ยศ ชื่อ สกุล</td>
             <td>
               <select name="rank">
+        <option value="ร.ต.">ร.ต.</option>
+        <option value="ร.ท.">ร.ท.</option>
+        <option value="ร.อ.">ร.อ.</option>
         <option value="พ.ต.">พ.ต.</option>
         <option value="พ.ท." selected>พ.ท.</option>
         <option value="พ.อ.">พ.อ.</option>
