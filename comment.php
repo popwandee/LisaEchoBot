@@ -64,6 +64,7 @@ require_once "config.php";
       $name=$rec->name;
       $lastname=$rec->lastname;
       $position=$rec->position;
+      $province=$rec->province;
       $Email=$rec->Email;
       $Tel1=$rec->Tel1;
       $LineID=$rec->LineID;
@@ -75,14 +76,108 @@ require_once "config.php";
 
         <tr>
             <td>ชื่อ สมาชิกที่ต้องการให้แก้ไขข้อมูล</td>
-            <td><input type='text' name='rank' value="<?php echo $rank;?>" class='form-control' />
-              <input type='text' name='name' value="<?php echo $name;?>" class='form-control' />
-              <input type='text' name='lastname' value="<?php echo $lastname;?>" class='form-control' /></td>
+            <td><input type='text' name='rank' value=""  />
+              <select name="rank">
+        <option value="<?php echo $rank;?>" selected><?php echo $rank;?></option>
+        <option value="พ.ต.">พ.ต.</option>
+        <option value="พ.ท.">พ.ท.</option>
+        <option value="พ.อ.">พ.อ.</option>
+        <option value="พล.ต.">พล.ต.</option>
+        <option value="พล.ท.">พล.ท.</option>
+        <option value="พล.อ.">พล.อ.</option>
+        </select>
+              <input type='text' name='name' value="<?php echo $name;?>" />
+              <input type='text' name='lastname' value="<?php echo $lastname;?>"  /></td>
         </tr>
         <tr>
             <td>ตำแหน่ง</td>
             <td><input type='text' name='position' value="<?php echo $position;?>" class='form-control' /></td>
             </tr>
+        <tr>
+            <td>จังหวัด</td>
+            <td><select name="province">
+      <option value="" selected>จังหวัดที่ปฏิบัติงาน</option>
+      <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
+      <option value="กระบี่">กระบี่ </option>
+      <option value="กาญจนบุรี">กาญจนบุรี </option>
+      <option value="กาฬสินธุ์">กาฬสินธุ์ </option>
+      <option value="กำแพงเพชร">กำแพงเพชร </option>
+      <option value="ขอนแก่น">ขอนแก่น</option>
+      <option value="จันทบุรี">จันทบุรี</option>
+      <option value="ฉะเชิงเทรา">ฉะเชิงเทรา </option>
+      <option value="ชัยนาท">ชัยนาท </option>
+      <option value="ชัยภูมิ">ชัยภูมิ </option>
+      <option value="ชุมพร">ชุมพร </option>
+      <option value="ชลบุรี">ชลบุรี </option>
+      <option value="เชียงใหม่">เชียงใหม่ </option>
+      <option value="เชียงราย">เชียงราย </option>
+      <option value="ตรัง">ตรัง </option>
+      <option value="ตราด">ตราด </option>
+      <option value="ตาก">ตาก </option>
+      <option value="นครนายก">นครนายก </option>
+      <option value="นครปฐม">นครปฐม </option>
+      <option value="นครพนม">นครพนม </option>
+      <option value="นครราชสีมา">นครราชสีมา </option>
+      <option value="นครศรีธรรมราช">นครศรีธรรมราช </option>
+      <option value="นครสวรรค์">นครสวรรค์ </option>
+      <option value="นราธิวาส">นราธิวาส </option>
+      <option value="น่าน">น่าน </option>
+      <option value="นนทบุรี">นนทบุรี </option>
+      <option value="บึงกาฬ">บึงกาฬ</option>
+      <option value="บุรีรัมย์">บุรีรัมย์</option>
+      <option value="ประจวบคีรีขันธ์">ประจวบคีรีขันธ์ </option>
+      <option value="ปทุมธานี">ปทุมธานี </option>
+      <option value="ปราจีนบุรี">ปราจีนบุรี </option>
+      <option value="ปัตตานี">ปัตตานี </option>
+      <option value="พะเยา">พะเยา </option>
+      <option value="พระนครศรีอยุธยา">พระนครศรีอยุธยา </option>
+      <option value="พังงา">พังงา </option>
+      <option value="พิจิตร">พิจิตร </option>
+      <option value="พิษณุโลก">พิษณุโลก </option>
+      <option value="เพชรบุรี">เพชรบุรี </option>
+      <option value="เพชรบูรณ์">เพชรบูรณ์ </option>
+      <option value="แพร่">แพร่ </option>
+      <option value="พัทลุง">พัทลุง </option>
+      <option value="ภูเก็ต">ภูเก็ต </option>
+      <option value="มหาสารคาม">มหาสารคาม </option>
+      <option value="มุกดาหาร">มุกดาหาร </option>
+      <option value="แม่ฮ่องสอน">แม่ฮ่องสอน </option>
+      <option value="ยโสธร">ยโสธร </option>
+      <option value="ยะลา">ยะลา </option>
+      <option value="ร้อยเอ็ด">ร้อยเอ็ด </option>
+      <option value="ระนอง">ระนอง </option>
+      <option value="ระยอง">ระยอง </option>
+      <option value="ราชบุรี">ราชบุรี</option>
+      <option value="ลพบุรี">ลพบุรี </option>
+      <option value="ลำปาง">ลำปาง </option>
+      <option value="ลำพูน">ลำพูน </option>
+      <option value="เลย">เลย </option>
+      <option value="ศรีสะเกษ">ศรีสะเกษ</option>
+      <option value="สกลนคร">สกลนคร</option>
+      <option value="สงขลา">สงขลา </option>
+      <option value="สมุทรสาคร">สมุทรสาคร </option>
+      <option value="สมุทรปราการ">สมุทรปราการ </option>
+      <option value="สมุทรสงคราม">สมุทรสงคราม </option>
+      <option value="สระแก้ว">สระแก้ว </option>
+      <option value="สระบุรี">สระบุรี </option>
+      <option value="สิงห์บุรี">สิงห์บุรี </option>
+      <option value="สุโขทัย">สุโขทัย </option>
+      <option value="สุพรรณบุรี">สุพรรณบุรี </option>
+      <option value="สุราษฎร์ธานี">สุราษฎร์ธานี </option>
+      <option value="สุรินทร์">สุรินทร์ </option>
+      <option value="สตูล">สตูล </option>
+      <option value="หนองคาย">หนองคาย </option>
+      <option value="หนองบัวลำภู">หนองบัวลำภู </option>
+      <option value="อำนาจเจริญ">อำนาจเจริญ </option>
+      <option value="อุดรธานี">อุดรธานี </option>
+      <option value="อุตรดิตถ์">อุตรดิตถ์ </option>
+      <option value="อุทัยธานี">อุทัยธานี </option>
+      <option value="อุบลราชธานี">อุบลราชธานี</option>
+      <option value="อ่างทอง">อ่างทอง </option>
+      <option value="อื่นๆ">อื่นๆ</option>
+</select>
+</td>
+        </tr>
         <tr>
             <td>Email</td>
             <td><input type='text' name='Email' value="<?php echo $Email;?>" class='form-control' /></td>
@@ -97,7 +192,7 @@ require_once "config.php";
             <td><input type='text' name='Tel1' value="<?php echo $Tel1;?>" class='form-control' /></td>
             </tr>
         <tr>
-            <td>ข้อมูลที่ต้องการแก้ไขเพิ่มเติม</td>
+            <td>ข้อมูลเพิ่มเติม</td>
             <td><textarea name="comment" rows="10" cols="30"class='form-control' />ขอรายละเอียดข้อมูลที่ต้องการแก้ไขค่ะ</textarea></td>
         </tr>
         <tr>
@@ -118,22 +213,29 @@ else{ // set formSubmit from form
   if(isset($_POST['name'])){$name=$_POST['name'];}else{$name=''; }
   if(isset($_POST['lastname'])){$lastname=$_POST['lastname'];}else{$lastname=''; }
   if(isset($_POST['postition'])){$position=$_POST['position'];}else{$position=''; }
+  if(isset($_POST['province'])){$province=$_POST['province'];}else{$province=''; }
   if(isset($_POST['Email'])){$Email=$_POST['Email'];}else{$Email=''; }
   if(isset($_POST['Tel1'])){$Tel1=$_POST['Tel1'];}else{$Tel1=''; }
   if(isset($_POST['LineID'])){$LineID=$_POST['LineID'];}else{$LineID=''; }
   if(isset($_POST['comment'])){$comment=$_POST['comment'];}else{$comment=''; }
   $newData = json_encode(array(
     '_id' => $id,
-  	'name' => $rank.' '.$name.' '.$lastname,
-    'detail' => 'ตำแหน่ง : '.$postion.' อีเมล์: '.$Email.' โทรศัพท์: '.$Tel1.' LINE ID: '.$LineID ,
+  	'rank' => $rank,
+    'name '=>$name,
+    'lastname' =>$lastname,
+    'position' => $postion,
+    'province' =>$province,
+    'Email'=> $Email,
+    'Tel1'=>$Tel1,
+    'LineID' =>$LineID ,
   	'comment' => $comment,
-    'status'=>'รอการแก้ไข') );
+    'status'=>'เพิ่มใหม่') );
   $opts = array('http' => array( 'method' => "POST",
                                  'header' => "Content-type: application/json",
                                  'content' => $newData
                                              )
                                           );
-  $url = 'https://api.mlab.com/api/1/databases/crma51/collections/comment?apiKey='.MLAB_API_KEY.'';
+  $url = 'https://api.mlab.com/api/1/databases/crma51/collections/crma51Phonebook?apiKey='.MLAB_API_KEY.'';
           $context = stream_context_create($opts);
           $returnValue = file_get_contents($url,false,$context);
 
@@ -146,7 +248,7 @@ else{ // set formSubmit from form
   		echo $message;
                    }
   			$_SESSION["message"]=$message;
-  		   	header("location: search.php");
+  		   	header("location: comment.php");
       			exit;
 
 
