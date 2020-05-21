@@ -53,8 +53,8 @@ require_once "config.php";
 
  if(!isset($_POST['formSubmit'])){ // มาจากหน้าอื่นๆ ไม่ได้คลิกยืนยันที่ฟอร์มแก้ไขข้อมูล
    // ดึงข้อมูลจากฐานข้อมูล
-   $id=$_POST['id'];echo $id;
-   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/crma51Phonebook?apiKey='.MLAB_API_KEY.'&q={"_id":{ "$oid":"'.$id.'" }}');
+   $id=$_GET['id'];echo $id;
+   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"_id":{ "$oid":"'.$id.'" }}');
    $data = json_decode($json);
    $isData=sizeof($data);
    if($isData >0){
@@ -64,6 +64,7 @@ require_once "config.php";
       $name=$rec->name;
       $lastname=$rec->lastname;
       $position=$rec->position;
+      $province=$rec->province;
       $province=$rec->province;
       $Email=$rec->Email;
       $Tel1=$rec->Tel1;
@@ -75,7 +76,7 @@ require_once "config.php";
     <table class='table table-hover table-responsive table-bordered'>
 
         <tr>
-            <td>ชื่อ สมาชิกที่ต้องการให้แก้ไขข้อมูล</td>
+            <td>แก้ไขข้อมูล</td>
             <td><input type='text' name='rank' value=""  />
               <select name="rank">
         <option value="<?php echo $rank;?>" selected><?php echo $rank;?></option>
@@ -96,7 +97,7 @@ require_once "config.php";
         <tr>
             <td>จังหวัด</td>
             <td><select name="province">
-      <option value="" selected>จังหวัดที่ปฏิบัติงาน</option>
+      <option value="<?php echo $position;?>" selected><?php echo $position;?></option>
       <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
       <option value="กระบี่">กระบี่ </option>
       <option value="กาญจนบุรี">กาญจนบุรี </option>
@@ -188,7 +189,7 @@ require_once "config.php";
             <td><input type='text' name='LineID' value="<?php echo $LineID;?>" class='form-control' /></td>
             </tr>
         <tr>
-            <td>Telephone number</td>
+            <td>โทรศัพท์</td>
             <td><input type='text' name='Tel1' value="<?php echo $Tel1;?>" class='form-control' /></td>
             </tr>
         <tr>
@@ -219,15 +220,9 @@ else{ // set formSubmit from form
   if(isset($_POST['LineID'])){$LineID=$_POST['LineID'];}else{$LineID=''; }
   if(isset($_POST['comment'])){$comment=$_POST['comment'];}else{$comment=''; }
   $newData = json_encode(array(
-    '_id' => $id,
-  	'rank' => $rank,
-    'name '=>$name,
-    'lastname' =>$lastname,
-    'position' => $postion,
-    'province' =>$province,
-    'Email'=> $Email,
-    'Tel1'=>$Tel1,
-    'LineID' =>$LineID ,
+    'userid' => $id,
+    'name '=>$rank.' '.$name.' '.$lastname,
+    'content' => 'position: '.$postion.' province: '.$province.' Email: '.$Email.' Telephone: '.$Tel1.' LineID: '.$LineID ,
   	'comment' => $comment,
     'status'=>'เพิ่มใหม่') );
   $opts = array('http' => array( 'method' => "POST",
@@ -235,7 +230,7 @@ else{ // set formSubmit from form
                                  'content' => $newData
                                              )
                                           );
-  $url = 'https://api.mlab.com/api/1/databases/crma51/collections/crma51Phonebook?apiKey='.MLAB_API_KEY.'';
+  $url = 'https://api.mlab.com/api/1/databases/crma51/collections/comment?apiKey='.MLAB_API_KEY.'';
           $context = stream_context_create($opts);
           $returnValue = file_get_contents($url,false,$context);
 
