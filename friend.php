@@ -188,9 +188,49 @@ require_once "config.php";
 </div><!-- jumbotron-->
 </div><!-- container theme-showcase-->
 <?php
-$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY;
+$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
+$data = json_decode($json);
+$isData=sizeof($data);
+if($isData >0){
+  $i=0;echo $i;echo "OK";
+  ?>
+  <table class='table table-hover table-responsive table-bordered'>
+      <tr><td>ลำดับ</td><td>ยศ ชื่อ สกุล</td>
+      <td>ตำแหน่ง</td>
+      <td>จังหวัด</td>
+      <td>Email</td>
+      <td>LINE ID</td>
+      <td>Telephone number</td></tr>
+  <?php
+  foreach($data as $rec){
+    $i++;
+     $rank=$rec->rank;
+     $name=$rec->name;
+     $lastname=$rec->lastname;
+     $position=$rec->position;
+     $province=$rec->province;
+     $Email=$rec->Email;
+     $Tel1=$rec->Tel1;
+     $LineID=$rec->LineID;
+     ?>
+<tr><td><?php echo $i;?></td>
+                 <td><?php echo $rank;?>
+                   <?php echo $name;?>
+                 <?php echo $lastname;?></td>
+                 <td><?php echo $position;?></td>
+                 <td><?php echo $province;?></td>
+                 <td><?php echo $Email;?></td>
+                 <td><?php echo $LineID;?></td>
+                 <td><?php echo $Tel1;?></td>
+             </tr>
+     <?php    } //end foreach    ?>
+       </table>
+       <?php
+}else{
+echo "ยังไม่มีข้อมูลค่ะ";
 
-echo "OK";
+    }
+
 if(isset($_POST['formSubmit'])){
 
   $rank = isset($_POST['rank']) ? $_POST['rank'] : ""; echo $rank;
