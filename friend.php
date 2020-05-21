@@ -1,17 +1,17 @@
 <?php
 // Initialize the session
 session_start();
-/*
+
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;
 }
-*/
+
 // Include config file
 require_once "config.php";
-?>
 
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -54,6 +54,15 @@ require_once "config.php";
           <table><tr><td><h3>รบกวนตอบแบบฟอร์มเพื่อรวบรวมข้อมูลเพื่อน ๆ ล่าสุดครับ แบบฟอร์มอยู่ด้านล่างนะครับ</h3></td></tr></table>
       </div>
       <?php
+      if(isset($_POST['formSubmit'])){
+        insert_friend($_POST);
+        show_friend();
+      }else{
+        show_friend();
+      }
+      show_form();
+      
+      function show_friend(){
       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
       $data = json_decode($json);
       $isData=sizeof($data);
@@ -103,7 +112,9 @@ require_once "config.php";
            }else{
            echo "ยังไม่มีข้อมูลค่ะ";
                }
+             }// end function show_friend
                ?>
+               <?php function show_form(){ ?>
         <div class="panel panel-success">
           <div class="panel-heading">
             <h3 class="panel-title">แบบฟอร์มบันทึกข้อมูล จปร.51</h3>
@@ -243,9 +254,11 @@ require_once "config.php";
 </form>
 </div class="panel-body">
 </div class="panel panel-success">
+<?php } // end show_form ?>
+
 <?php
 
-if(isset($_POST['formSubmit'])){
+function insert_friend($_POST){
   $rank = isset($_POST['rank']) ? $_POST['rank'] : "";
   $name = isset($_POST['name']) ? $_POST['name'] : "";
   $lastname = isset($_POST['lastname']) ? $_POST['lastname'] : "";
