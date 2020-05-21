@@ -55,14 +55,23 @@ require_once "config.php";
       </div>
       <?php
       if(isset($_POST['formSubmit'])){
-        insert_friend($_POST);
+        $rank = isset($_POST['rank']) ? $_POST['rank'] : "";
+        $name = isset($_POST['name']) ? $_POST['name'] : "";
+        $lastname = isset($_POST['lastname']) ? $_POST['lastname'] : "";
+        $position = isset($_POST['position']) ? $_POST['position'] : "";
+        $province = isset($_POST['province']) ? $_POST['province'] : "";
+        $Email = isset($_POST['Email']) ? $_POST['Email'] : "";
+        $Tel1 = isset($_POST['Tel1']) ? $_POST['Tel1'] : "";
+        $LineID = isset($_POST['LineID']) ? $_POST['LineID'] : "";
+        $comment = isset($_POST['comment']) ? $_POST['comment'] : "";
+        insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment);
         show_friend();
       }else{
         show_friend();
       }
       show_form();
-      
-      function show_friend(){
+
+function show_friend(){
       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
       $data = json_decode($json);
       $isData=sizeof($data);
@@ -114,7 +123,7 @@ require_once "config.php";
                }
              }// end function show_friend
                ?>
-               <?php function show_form(){ ?>
+<?php function show_form(){ ?>
         <div class="panel panel-success">
           <div class="panel-heading">
             <h3 class="panel-title">แบบฟอร์มบันทึกข้อมูล จปร.51</h3>
@@ -126,7 +135,6 @@ require_once "config.php";
             <td>ยศ ชื่อ สกุล</td>
             <td>
               <select name="rank">
-        <option value="<?php echo $rank;?>" selected><?php echo $rank;?></option>
         <option value="พ.ต.">พ.ต.</option>
         <option value="พ.ท.">พ.ท.</option>
         <option value="พ.อ.">พ.อ.</option>
@@ -134,12 +142,12 @@ require_once "config.php";
         <option value="พล.ท.">พล.ท.</option>
         <option value="พล.อ.">พล.อ.</option>
         </select>
-              <input type='text' name='name' value="<?php echo $name;?>" />
-              <input type='text' name='lastname' value="<?php echo $lastname;?>" /></td>
+              <input type='text' name='name'  />
+              <input type='text' name='lastname' /></td>
         </tr>
         <tr>
             <td>ตำแหน่ง</td>
-            <td><input type='text' name='position' value="<?php echo $position;?>" class='form-control' /></td>
+            <td><input type='text' name='position'  class='form-control' /></td>
             </tr>
         <tr>
             <td>จังหวัด</td>
@@ -228,16 +236,16 @@ require_once "config.php";
         </tr>
         <tr>
             <td>Email</td>
-            <td><input type='text' name='Email' value="<?php echo $Email;?>" class='form-control' /></td>
+            <td><input type='text' name='Email' class='form-control' /></td>
             </tr>
         <tr>
         <tr>
             <td>LINE ID</td>
-            <td><input type='text' name='LineID' value="<?php echo $LineID;?>" class='form-control' /></td>
+            <td><input type='text' name='LineID'  class='form-control' /></td>
             </tr>
         <tr>
             <td>Telephone number</td>
-            <td><input type='text' name='Tel1' value="<?php echo $Tel1;?>" class='form-control' /></td>
+            <td><input type='text' name='Tel1'  class='form-control' /></td>
             </tr>
         <tr>
             <td>ข้อมูลเพิ่มเติม</td>
@@ -258,16 +266,8 @@ require_once "config.php";
 
 <?php
 
-function insert_friend($_POST){
-  $rank = isset($_POST['rank']) ? $_POST['rank'] : "";
-  $name = isset($_POST['name']) ? $_POST['name'] : "";
-  $lastname = isset($_POST['lastname']) ? $_POST['lastname'] : "";
-  $position = isset($_POST['position']) ? $_POST['position'] : "";
-  $province = isset($_POST['province']) ? $_POST['province'] : "";
-  $Email = isset($_POST['Email']) ? $_POST['Email'] : "";
-  $Tel1 = isset($_POST['Tel1']) ? $_POST['Tel1'] : "";
-  $LineID = isset($_POST['LineID']) ? $_POST['LineID'] : "";
-  $comment = isset($_POST['comment']) ? $_POST['comment'] : "";
+function insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment){
+
   $newData = json_encode(array(
   	'rank' => $rank,
     'name'=>$name,
@@ -289,12 +289,10 @@ function insert_friend($_POST){
   $returnValue = file_get_contents($url,false,$context);
           if($returnValue){
             $_SESSION['message']='=> เพิ่มข้อมูลสำเร็จ.';
-             header('Location: friend.php');
             }else{
             $_SESSION['message']='=> เพิ่มข้อมูลไม่สำเร็จ.';
-             header('Location: friend.php');
            }
-} //end if isset formSubmit
+} //function insert_friend
 ?>
 
 </div><!-- jumbotron-->
