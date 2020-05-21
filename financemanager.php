@@ -97,28 +97,23 @@ require_once "config.php";
           break;
        default :
           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY);
-echo "default json file_get_contents is :".$json;
       }//end switch
       $data = json_decode($json);
-      $isData=sizeof($data);echo "data is ";print_r($data);
+      $isData=sizeof($data);
       if($isData >0){
-        echo "ok we get data";
           showdata($data);
       }else{
         echo "No result from data";
-
       }
     }//end if isset form_no
   else{
     $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY);
     $data = json_decode($json);
-    $isData=sizeof($data);echo "data is ";
+    $isData=sizeof($data);
     if($isData >0){
-      echo "ok we get data";
         showdata($data);
     }else{
       echo "No result from data";
-
     }
 
   }
