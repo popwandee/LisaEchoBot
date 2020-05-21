@@ -47,7 +47,7 @@ require_once "config.php";
     <?php include 'navigation.html';?>
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
-    <span class="label label-primary"><h3>แจ้งแก้ไขข้อมูล</3></span>
+    <span class="label label-primary">แจ้งแก้ไขข้อมูล</span>
     </div>
     <div class="jumbotron">
  <?php
