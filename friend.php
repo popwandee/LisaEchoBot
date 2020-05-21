@@ -91,10 +91,15 @@ function show_friend(){
             <td>จังหวัด</td>
             <td>Email</td>
             <td>LINE ID</td>
-            <td>Telephone number</td></tr>
+            <td>Telephone number</td>
+          <td>Action</td></tr>
         <?php
         foreach($data as $rec){
           $i++;
+          $_id=$rec->_id;
+          foreach($_id as $rec_id){
+          $_id=$rec_id;
+          }
            $rank=$rec->rank;
            $name=$rec->name;
            $lastname=$rec->lastname;
@@ -113,6 +118,7 @@ function show_friend(){
                        <td><?php echo $Email;?></td>
                        <td><?php echo $LineID;?></td>
                        <td><?php echo $Tel1;?></td>
+                       <td><a href='comment.php?id=<?php echo $_id;?>'>แจ้งแก้ไขข้อมูล</a></td>
                    </tr>
            <?php    } //end foreach
              ?>
