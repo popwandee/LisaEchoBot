@@ -204,8 +204,7 @@ require_once "config.php";
          <td>LINE ID</td>
          <td>Telephone number</td></tr>
        </table>
-       <?php  }// end isData>0
-       else{
+       <?php  }else{
 echo "ยังไม่มีข้อมูลค่ะ";
 
        } ?>
