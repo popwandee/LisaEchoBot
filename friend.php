@@ -189,8 +189,7 @@ require_once "config.php";
 </div><!-- container theme-showcase-->
 <?php
 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY;
-$data = json_decode($json);
-$isData = sizeof($data);
+
 echo "OK";
 if(isset($_POST['formSubmit'])){
 
