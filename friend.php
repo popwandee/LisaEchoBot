@@ -194,22 +194,12 @@ require_once "config.php";
   $isData=sizeof($data);
   if($isData >0){
      // มีข้อมูลผู้ใช้อยู่
-     $i=0;
-     ?>
-     <table class='table table-hover table-responsive table-bordered'>
-         <tr><td>ลำดับ</td><td>ยศ ชื่อ สกุล</td>
-         <td>ตำแหน่ง</td>
-         <td>จังหวัด</td>
-         <td>Email</td>
-         <td>LINE ID</td>
-         <td>Telephone number</td></tr>
-       </table>
-       <?php  }else{
+     $i=0;echo $i;
+  }else{
 echo "ยังไม่มีข้อมูลค่ะ";
 
-       } ?>
- <?php
-<?php
+       }
+
 if(isset($_POST['formSubmit'])){
 
   $rank = isset($_POST['rank']) ? $_POST['rank'] : ""; echo $rank;
