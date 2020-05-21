@@ -48,49 +48,7 @@ require_once "config.php";
     <div class="page-header">
         <table><tr><td><h1>ยินดีต้อนรับ <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. ครับ</h1></td></tr></table>
     </div>
- <?php
-   // ดึงข้อมูลจากฐานข้อมูล
-   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY;
-   $data = json_decode($json);
-   $isData=sizeof($data);
-   if($isData >0){
-      // มีข้อมูลผู้ใช้อยู่
-      $i=0;
-      ?>
-      <table class='table table-hover table-responsive table-bordered'>
-          <tr><td>ลำดับ</td><td>ยศ ชื่อ สกุล</td>
-          <td>ตำแหน่ง</td>
-          <td>จังหวัด</td>
-          <td>Email</td>
-          <td>LINE ID</td>
-          <td>Telephone number</td></tr>
-  <?php
-   foreach($data as $rec){
-     $i++;
-      $rank=$rec->rank;
-      $name=$rec->name;
-      $lastname=$rec->lastname;
-      $position=$rec->position;
-      $province=$rec->province;
-      $Email=$rec->Email;
-      $Tel1=$rec->Tel1;
-      $LineID=$rec->LineID;
-      ?>
-<tr><td><?php echo $i;?></td>
-                  <td><?php echo $rank;?>
-                    <?php echo $name;?>
-                  <?php echo $lastname;?></td>
-                  <td><?php echo $position;?></td>
-                  <td><?php echo $province;?></td>
-                  <td><?php echo $Email;?></td>
-                  <td><?php echo $LineID;?></td>
-                  <td><?php echo $Tel1;?></td>
-              </tr>
 
-      <?php    } //end foreach    ?>
-
-</table>
-<?php  }// end isData>0 ?>
 	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
     <table class='table table-hover table-responsive table-bordered'>
         <tr>
@@ -225,16 +183,16 @@ require_once "config.php";
 </form>
 <?php
 if(isset($_POST['formSubmit'])){
-  // นำข้อมูลเข้าเก็บในฐานข้อมูล
-  if(isset($_POST['rank'])){$rank=$_POST['rank'];}else{$rank=''; }
-  if(isset($_POST['name'])){$name=$_POST['name'];}else{$name=''; }
-  if(isset($_POST['lastname'])){$lastname=$_POST['lastname'];}else{$lastname=''; }
-  if(isset($_POST['position'])){$position=$_POST['position'];}else{$position=''; }
-  if(isset($_POST['province'])){$province=$_POST['province'];}else{$province=''; }
-  if(isset($_POST['Email'])){$Email=$_POST['Email'];}else{$Email=''; }
-  if(isset($_POST['Tel1'])){$Tel1=$_POST['Tel1'];}else{$Tel1=''; }
-  if(isset($_POST['LineID'])){$LineID=$_POST['LineID'];}else{$LineID=''; }
-  if(isset($_POST['comment'])){$comment=$_POST['comment'];}else{$comment=''; }
+
+  $rank = isset($_POST['rank']) ? $_POST['rank'] : ""; echo $rank;
+  $name = isset($_POST['name']) ? $_POST['name'] : ""; echo $name;
+  $lastname = isset($_POST['lastname']) ? $_POST['lastname'] : ""; echo $lastname;
+  $position = isset($_POST['position']) ? $_POST['position'] : ""; echo $position;
+  $province = isset($_POST['province']) ? $_POST['province'] : ""; echo $province;
+  $Email = isset($_POST['Email']) ? $_POST['Email'] : ""; echo $Email;
+  $Tel1 = isset($_POST['Tel1']) ? $_POST['Tel1'] : ""; echo $Tel1;
+  $LineID = isset($_POST['LineID']) ? $_POST['LineID'] : ""; echo $LineID;
+  $comment = isset($_POST['comment']) ? $_POST['comment'] : ""; echo $comment;
   $newData = json_encode(array(
   	'rank' => $rank,
     'name'=>$name,
@@ -252,23 +210,11 @@ if(isset($_POST['formSubmit'])){
                                              )
                                           );
   $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY;
-          $context = stream_context_create($opts);
-          $returnValue = file_get_contents($url,false,$context);
-
-          if($returnValue){
-  		   $message= "<div align='center' class='alert alert-success'>รับแจ้งแก้ไขข้อมูล ".$name." เรียบร้อย</div>";
-  		   echo $message;
-
-  	        }else{
-  		   $message= "<div align='center' class='alert alert-danger'>ไม่สามารถบันทึกรับแจ้งการแก้ไขข้อมูลได้</div>";
-  		echo $message;
-                   }
-  			$_SESSION["message"]=$message;
-  		   	header("location: comment.php");
-      			exit;
-
+  $context = stream_context_create($opts);
+  //$returnValue = file_get_contents($url,false,$context);
+echo $newData;
 } //end if isset formSubmit
- ?>
+?>
  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
