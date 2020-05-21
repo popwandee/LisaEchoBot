@@ -48,7 +48,10 @@ require_once "config.php";
     <div class="page-header">
         <table><tr><td><h3>รบกวนตอบแบบฟอร์มเพื่อรวบรวมข้อมูลเพื่อน ๆ ล่าสุดครับ</h3></td></tr></table>
     </div>
-
+    <?php if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;}else{$_SESSION['message']='';}?>
+    <?php $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
+    <div class="container theme-showcase" role="main">
+    <div class="jumbotron">
 	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
     <table class='table table-hover table-responsive table-bordered'>
         <tr>
@@ -181,6 +184,32 @@ require_once "config.php";
         </tr>
     </table>
 </form>
+
+</div><!-- jumbotron-->
+</div><!-- container theme-showcase-->
+<?php
+  // ดึงข้อมูลจากฐานข้อมูล
+  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY;
+  $data = json_decode($json);
+  $isData=sizeof($data);
+  if($isData >0){
+     // มีข้อมูลผู้ใช้อยู่
+     $i=0;
+     ?>
+     <table class='table table-hover table-responsive table-bordered'>
+         <tr><td>ลำดับ</td><td>ยศ ชื่อ สกุล</td>
+         <td>ตำแหน่ง</td>
+         <td>จังหวัด</td>
+         <td>Email</td>
+         <td>LINE ID</td>
+         <td>Telephone number</td></tr>
+       </table>
+       <?php  }// end isData>0
+       else{
+echo "ยังไม่มีข้อมูลค่ะ";
+
+       } ?>
+ <?php
 <?php
 if(isset($_POST['formSubmit'])){
 
