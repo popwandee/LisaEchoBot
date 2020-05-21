@@ -46,7 +46,7 @@ require_once "config.php";
 <body>
     <?php include 'navigation.html';?>
     <div class="page-header">
-        <table><tr><td><h1>ยินดีต้อนรับ <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. ครับ</h1></td></tr></table>
+        <table><tr><td><h3>รบกวนตอบแบบฟอร์มเพื่อรวบรวมข้อมูลเพื่อน ๆ ล่าสุดครับ</h3></td></tr></table>
     </div>
 
 	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
@@ -211,8 +211,20 @@ if(isset($_POST['formSubmit'])){
                                           );
   $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY;
   $context = stream_context_create($opts);
-  //$returnValue = file_get_contents($url,false,$context);
+  $returnValue = file_get_contents($url,false,$context);
 echo $newData;
+
+          if($returnValue){
+  		   $message= "<div align='center' class='alert alert-success'>เพิ่มข้อมูล ".$name." เรียบร้อย</div>";
+  		   echo $message;
+
+  	        }else{
+  		   $message= "<div align='center' class='alert alert-danger'>ไม่สามารถบันทึกข้อมูลได้</div>";
+  		echo $message;
+                   }
+  			$_SESSION["message"]=$message;
+  		   	header("location: comment.php");
+      			exit;
 } //end if isset formSubmit
 ?>
  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
