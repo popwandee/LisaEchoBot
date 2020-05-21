@@ -52,6 +52,8 @@ require_once "config.php";
     <?php $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
+      <div class="col-sm-4">
+        <div class="panel panel-success">
 	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
     <table class='table table-hover table-responsive table-bordered'>
         <tr>
@@ -184,9 +186,8 @@ require_once "config.php";
         </tr>
     </table>
 </form>
-
-</div><!-- jumbotron-->
-</div><!-- container theme-showcase-->
+</div class="panel panel-success">
+</div class="col-sm-4">
 <?php
 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
 $data = json_decode($json);
@@ -194,6 +195,8 @@ $isData=sizeof($data);
 if($isData >0){
   $i=0;echo $i;echo "OK";
   ?>
+  <div class="row">
+    <div class="col-md-6">
   <table class='table table-hover table-responsive table-bordered'>
       <tr><td>ลำดับ</td><td>ยศ ชื่อ สกุล</td>
       <td>ตำแหน่ง</td>
@@ -225,6 +228,8 @@ if($isData >0){
              </tr>
      <?php    } //end foreach    ?>
        </table>
+     </div class="row">
+   </div class="col-md-6">
        <?php
 }else{
 echo "ยังไม่มีข้อมูลค่ะ";
@@ -272,10 +277,12 @@ echo $newData;
   		echo $message;
                    }
   			$_SESSION["message"]=$message;
-  		   	header("location: comment.php");
-      			exit;
+  		   	header("location: friend.php");
 } //end if isset formSubmit
 ?>
+
+</div><!-- jumbotron-->
+</div><!-- container theme-showcase-->
  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
