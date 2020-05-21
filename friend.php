@@ -55,7 +55,7 @@ require_once "config.php";
       </div>
         <div class="panel panel-success">
           <div class="panel-heading">
-            <h3 class="panel-title">ตอบแบบฟอร์ม</h3>
+            <h3 class="panel-title">แบบฟอร์มบันทึกข้อมูล จปร.51</h3>
           </div>
           <div class="panel-body">
 	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
