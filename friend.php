@@ -46,7 +46,7 @@ require_once "config.php";
 <body>
     <?php include 'navigation.html';?>
 
-    <?php if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;}?>
+    <?php if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;}else{echo "No SESSION";}?>
 
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
