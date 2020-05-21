@@ -58,7 +58,7 @@ require_once "config.php";
    // ดึงข้อมูลจากฐานข้อมูล
    $id=$_GET['id'];echo $id;
    $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"_id":{ "$oid":"'.$id.'" }}');
-   $data = json_decode($json);
+   $data = json_decode($json);echo $json;
    $isData=sizeof($data);print_r($data);
    if($isData >0){
       // มีข้อมูลผู้ใช้อยู่

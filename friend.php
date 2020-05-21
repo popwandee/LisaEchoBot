@@ -56,6 +56,7 @@ require_once "config.php";
 
       </div>
       <?php
+      show_form();
       if(isset($_POST['formSubmit'])){
         $rank = isset($_POST['rank']) ? $_POST['rank'] : "";
         $name = isset($_POST['name']) ? $_POST['name'] : "";
@@ -71,7 +72,6 @@ require_once "config.php";
       }else{
         show_friend();
       }
-      show_form();
 
 function show_friend(){
       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
