@@ -45,13 +45,14 @@ require_once "config.php";
 </head>
 <body>
     <?php include 'navigation.html';?>
-    <div class="page-header">
-        <table><tr><td><h3>รบกวนตอบแบบฟอร์มเพื่อรวบรวมข้อมูลเพื่อน ๆ ล่าสุดครับ</h3></td></tr></table>
-    </div>
+
     <?php if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;}else{$_SESSION['message']='';}?>
     <?php $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
+      <div class="page-header">
+          <table><tr><td><h3>รบกวนตอบแบบฟอร์มเพื่อรวบรวมข้อมูลเพื่อน ๆ ล่าสุดครับ</h3></td></tr></table>
+      </div>
       <div class="col-sm-4">
         <div class="panel panel-success">
 	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
@@ -193,7 +194,7 @@ $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collectio
 $data = json_decode($json);
 $isData=sizeof($data);
 if($isData >0){
-  $i=0;echo $i;echo "OK";
+  $i=0;
   ?>
   <div class="row">
     <div class="col-md-6">
