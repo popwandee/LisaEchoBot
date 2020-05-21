@@ -63,7 +63,7 @@ require_once "config.php";
           <td>จังหวัด</td>
           <td>Email</td>
           <td>LINE ID</td>
-          <td>Telephone number</td>
+          <td>Telephone number</td></tr>
   <?php
    foreach($data as $rec){
      $i++;
@@ -93,7 +93,6 @@ require_once "config.php";
 <?php  }// end isData>0 ?>
 	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
     <table class='table table-hover table-responsive table-bordered'>
-
         <tr>
             <td>ยศ ชื่อ สกุล</td>
             <td>
@@ -107,7 +106,7 @@ require_once "config.php";
         <option value="พล.อ.">พล.อ.</option>
         </select>
               <input type='text' name='name' value="<?php echo $name;?>" />
-              <input type='text' name='lastname' value="<?php echo $lastname;?>"  /></td>
+              <input type='text' name='lastname' value="<?php echo $lastname;?>" /></td>
         </tr>
         <tr>
             <td>ตำแหน่ง</td>
@@ -116,7 +115,7 @@ require_once "config.php";
         <tr>
             <td>จังหวัด</td>
             <td><select name="province">
-      <option value="" selected>จังหวัดที่ปฏิบัติงาน</option>
+      <option value="กรุงเทพมหานคร" selected>จังหวัดที่ปฏิบัติงาน</option>
       <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
       <option value="กระบี่">กระบี่ </option>
       <option value="กาญจนบุรี">กาญจนบุรี </option>
@@ -213,7 +212,7 @@ require_once "config.php";
             </tr>
         <tr>
             <td>ข้อมูลเพิ่มเติม</td>
-            <td><textarea name="comment" rows="10" cols="30"class='form-control' />ขอรายละเอียดข้อมูลที่ต้องการแก้ไขค่ะ</textarea></td>
+            <td><textarea name="comment" rows="10" cols="30"class='form-control' />รายละเอียดข้อมูลเพิ่มเติมค่ะ</textarea></td>
         </tr>
         <tr>
             <td></td>
@@ -238,7 +237,7 @@ if(isset($_POST['formSubmit'])){
   if(isset($_POST['comment'])){$comment=$_POST['comment'];}else{$comment=''; }
   $newData = json_encode(array(
   	'rank' => $rank,
-    'name '=>$name,
+    'name'=>$name,
     'lastname' =>$lastname,
     'position' => $position,
     'province' =>$province,
@@ -252,7 +251,7 @@ if(isset($_POST['formSubmit'])){
                                  'content' => $newData
                                              )
                                           );
-  $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'';
+  $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY;
           $context = stream_context_create($opts);
           $returnValue = file_get_contents($url,false,$context);
 
@@ -268,7 +267,12 @@ if(isset($_POST['formSubmit'])){
   		   	header("location: comment.php");
       			exit;
 
-}
+} //end if isset formSubmit
  ?>
+ <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+ <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+ <!-- Latest compiled and minified Bootstrap JavaScript -->
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>
