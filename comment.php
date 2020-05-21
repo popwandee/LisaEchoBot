@@ -45,6 +45,8 @@ require_once "config.php";
 </head>
 <body>
     <?php include 'navigation.html';?>
+    <div class="container theme-showcase" role="main">
+    <div class="jumbotron">
     <div class="page-header">
         <table><tr><td><h1>ยินดีต้อนรับ <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. ครับ</h1></td></tr></table>
     </div>
@@ -246,5 +248,7 @@ else{ // set formSubmit from form
 
 
 } ?>
+</div><!-- jumbotron-->
+</div><!-- container theme-showcase-->
 </body>
 </html>
