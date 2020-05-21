@@ -248,15 +248,15 @@ echo "ยังไม่มีข้อมูลค่ะ";
 
 if(isset($_POST['formSubmit'])){
 
-  $rank = isset($_POST['rank']) ? $_POST['rank'] : ""; echo $rank;
-  $name = isset($_POST['name']) ? $_POST['name'] : ""; echo $name;
-  $lastname = isset($_POST['lastname']) ? $_POST['lastname'] : ""; echo $lastname;
-  $position = isset($_POST['position']) ? $_POST['position'] : ""; echo $position;
-  $province = isset($_POST['province']) ? $_POST['province'] : ""; echo $province;
-  $Email = isset($_POST['Email']) ? $_POST['Email'] : ""; echo $Email;
-  $Tel1 = isset($_POST['Tel1']) ? $_POST['Tel1'] : ""; echo $Tel1;
-  $LineID = isset($_POST['LineID']) ? $_POST['LineID'] : ""; echo $LineID;
-  $comment = isset($_POST['comment']) ? $_POST['comment'] : ""; echo $comment;
+  $rank = isset($_POST['rank']) ? $_POST['rank'] : "";
+  $name = isset($_POST['name']) ? $_POST['name'] : "";
+  $lastname = isset($_POST['lastname']) ? $_POST['lastname'] : "";
+  $position = isset($_POST['position']) ? $_POST['position'] : "";
+  $province = isset($_POST['province']) ? $_POST['province'] : "";
+  $Email = isset($_POST['Email']) ? $_POST['Email'] : "";
+  $Tel1 = isset($_POST['Tel1']) ? $_POST['Tel1'] : "";
+  $LineID = isset($_POST['LineID']) ? $_POST['LineID'] : "";
+  $comment = isset($_POST['comment']) ? $_POST['comment'] : "";
   $newData = json_encode(array(
   	'rank' => $rank,
     'name'=>$name,
@@ -276,18 +276,13 @@ if(isset($_POST['formSubmit'])){
   $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY;
   $context = stream_context_create($opts);
   $returnValue = file_get_contents($url,false,$context);
-echo $newData;
-
           if($returnValue){
-  		   $message= "<div align='center' class='alert alert-success'>เพิ่มข้อมูล ".$name." เรียบร้อย</div>";
-  		   echo $message;
-
-  	        }else{
-  		   $message= "<div align='center' class='alert alert-danger'>ไม่สามารถบันทึกข้อมูลได้</div>";
-  		echo $message;
-                   }
-  			$_SESSION["message"]=$message;
-  		   	header("location: friend.php");
+            $_SESSION['message']=$_SESSION['message'].'=> เพิ่มข้อมูลสำเร็จ.';
+             header('Location: friend.php?message=Insert Data Complete');
+            }else{
+            $_SESSION['message']=$_SESSION['message'].'=> เพิ่มข้อมูลไม่สำเร็จ.';
+             header('Location: friend.php?message=Cannot Insert data');
+           }
 } //end if isset formSubmit
 ?>
 
