@@ -53,7 +53,6 @@ require_once "config.php";
       <div class="page-header">
           <table><tr><td><h3>รบกวนตอบแบบฟอร์มเพื่อรวบรวมข้อมูลเพื่อน ๆ ล่าสุดครับ</h3></td></tr></table>
       </div>
-      <div class="col-sm-4">
         <div class="panel panel-success">
           <div class="panel-heading">
             <h3 class="panel-title">ตอบแบบฟอร์ม</h3>
@@ -193,7 +192,7 @@ require_once "config.php";
 </form>
 </div class="panel-body">
 </div class="panel panel-success">
-</div class="col-sm-4">
+
 <?php
 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
 $data = json_decode($json);
@@ -201,7 +200,7 @@ $isData=sizeof($data);
 if($isData >0){
   $i=0;
   ?>
-  <div class="col-sm-4">
+
     <div class="panel panel-success">
       <div class="panel-heading">
         <h3 class="panel-title">เพื่อนที่กรอกข้อมูลแล้ว</h3>
@@ -240,7 +239,7 @@ if($isData >0){
        </table>
      </div class="panel-body">
      </div class="panel panel-success">
-     </div class="col-sm-4">
+
        <?php
 }else{
 echo "ยังไม่มีข้อมูลค่ะ";
