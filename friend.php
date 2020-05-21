@@ -95,11 +95,15 @@ require_once "config.php";
                        <td><?php echo $Tel1;?></td>
                    </tr>
            <?php    } //end foreach
-else{echo "ยังไม่มีข้อมูลค่ะ";}
              ?>
              </table>
            </div class="panel-body">
            </div class="panel panel-success">
+           <?php
+           }else{
+           echo "ยังไม่มีข้อมูลค่ะ";
+               }
+               ?>
         <div class="panel panel-success">
           <div class="panel-heading">
             <h3 class="panel-title">แบบฟอร์มบันทึกข้อมูล จปร.51</h3>
@@ -240,10 +244,6 @@ else{echo "ยังไม่มีข้อมูลค่ะ";}
 </div class="panel-body">
 </div class="panel panel-success">
 <?php
-}else{
-echo "ยังไม่มีข้อมูลค่ะ";
-
-    }
 
 if(isset($_POST['formSubmit'])){
   $rank = isset($_POST['rank']) ? $_POST['rank'] : "";
