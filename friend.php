@@ -1,13 +1,13 @@
 <?php
 // Initialize the session
 session_start();
-
+/*
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;
 }
-
+*/
 // Include config file
 require_once "config.php";
 
@@ -49,9 +49,10 @@ require_once "config.php";
 
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
-       <?php if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;}else{echo "No SESSION";}?>
+       <?php if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;}?>
       <div class="page-header">
-          <table><tr><td><h3>รบกวนตอบแบบฟอร์มเพื่อรวบรวมข้อมูลเพื่อน ๆ ล่าสุดครับ แบบฟอร์มอยู่ด้านล่างนะครับ</h3></td></tr></table>
+          <table><tr><td><h3>รบกวนตอบแบบฟอร์มเพื่อรวบรวมข้อมูลเพื่อน ๆ ล่าสุดครับ แบบฟอร์มอยู่ด้านล่างนะครับ</h3></td></tr>
+          <tr><td><span class="label label-info">ช่วงนี้เปิดให้กรอกข้อมูลโดยไม่ต้อง ล็อกอินเข้าใช้งานเพื่อให้สะดวกนะครับ หลังวันที่ 31 พ.ค.63 จะต้องลงทะเบียน ล็อกอิน จึงจะสามารถเข้าดูข้อมูลของเพื่อนๆ ได้ เพื่อเป็นการรักษาความปลอดภัยข้อมูลเพื่อน ๆ ครับ</span></td></tr></table>
       </div>
       <?php
       if(isset($_POST['formSubmit'])){
