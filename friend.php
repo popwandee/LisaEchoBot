@@ -191,7 +191,7 @@ require_once "config.php";
 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY;
 $data = json_decode($json);
 $isData = sizeof($data);
-print_r($data);
+echo "OK";
 if(isset($_POST['formSubmit'])){
 
   $rank = isset($_POST['rank']) ? $_POST['rank'] : ""; echo $rank;
