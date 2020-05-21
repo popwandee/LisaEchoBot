@@ -246,7 +246,7 @@ echo "ยังไม่มีข้อมูลค่ะ";
     }
 
 if(isset($_POST['formSubmit'])){
-unsset($_POST['formSubmit']);
+unset($_POST['formSubmit']);
   $rank = isset($_POST['rank']) ? $_POST['rank'] : "";
   $name = isset($_POST['name']) ? $_POST['name'] : "";
   $lastname = isset($_POST['lastname']) ? $_POST['lastname'] : "";
