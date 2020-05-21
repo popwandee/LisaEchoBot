@@ -125,9 +125,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <div class="jumbotron">
       <h1>AFAPS40 - CRMA51</h1>
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
-    </div>
 
-    </div> <!-- container theme-showcase -->
 
     <div class="page-header">
       <div class="panel panel-info">
@@ -157,11 +155,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         </form>
       </div> <!-- panel-body -->
-  </div> <!-- panel panel-primary-->
   </div> <!-- col-sm-4 -->
   </div> <!-- row -->
-
+ หากยังไม่มี Username Password กรุณา <a href='signup.php'><button type="button" class="btn btn-xs btn-link">ลงทะเบียน</button></a> ที่นี่ค่ะ
       </div> <!-- panel panel-info -->
         </div> <!-- page-header -->
+      </div> <!-- jumbotron -->
+
+      </div> <!-- container theme-showcase -->
 </body>
 </html>
