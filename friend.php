@@ -89,7 +89,7 @@ function show_friend(){
                 <table class="table table-sm table-hover table-striped">
                   <thead>
                     <tr>
-                      <th><th>ลำดับ</th><th>ยศ ชื่อ สกุล</th>
+                      <th>ลำดับ</th><th>ยศ ชื่อ สกุล</th>
             <th>ตำแหน่ง</th>
             <th>จังหวัด</th>
             <th>Email</th>
