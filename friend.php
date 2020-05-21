@@ -111,8 +111,8 @@ function show_friend(){
            ?>
       <tr><td><?php echo $i;?></td>
                        <td><?php echo $rank;?>
-                         <?php echo $name;?>
-                       <?php echo $lastname;?></td>
+                         <?php echo " ".$name;?>
+                       <?php echo " ".$lastname;?></td>
                        <td><?php echo $position;?></td>
                        <td><?php echo $province;?></td>
                        <td><?php echo $Email;?></td>

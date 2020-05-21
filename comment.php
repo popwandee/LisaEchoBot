@@ -56,20 +56,17 @@ require_once "config.php";
    $id=$_GET['id'];echo $id;
    $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"_id":{ "$oid":"'.$id.'" }}');
    $data = json_decode($json);
-   $isData=sizeof($data);
+   $isData=sizeof($data);print_r($data);
    if($isData >0){
       // มีข้อมูลผู้ใช้อยู่
-   foreach($data as $rec){
-      $rank=$rec->rank;
-      $name=$rec->name;
-      $lastname=$rec->lastname;
-      $position=$rec->position;
-      $province=$rec->province;
-      $province=$rec->province;
-      $Email=$rec->Email;
-      $Tel1=$rec->Tel1;
-      $LineID=$rec->LineID;
-    } //end foreach
+      $rank=$data->rank;
+      $name=$data->name;
+      $lastname=$data->lastname;
+      $position=$data->position;
+      $province=$data->province;
+      $Email=$data->Email;
+      $Tel1=$data->Tel1;
+      $LineID=$data->LineID;
  }// end isData>0
 ?>
 	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
@@ -97,7 +94,7 @@ require_once "config.php";
         <tr>
             <td>จังหวัด</td>
             <td><select name="province">
-      <option value="<?php echo $position;?>" selected><?php echo $position;?></option>
+      <option value="<?php echo $province;?>" selected><?php echo $province;?></option>
       <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
       <option value="กระบี่">กระบี่ </option>
       <option value="กาญจนบุรี">กาญจนบุรี </option>
