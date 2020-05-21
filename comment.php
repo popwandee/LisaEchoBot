@@ -56,11 +56,13 @@ require_once "config.php";
 
  if(!isset($_POST['formSubmit'])){ // มาจากหน้าอื่นๆ ไม่ได้คลิกยืนยันที่ฟอร์มแก้ไขข้อมูล
    // ดึงข้อมูลจากฐานข้อมูล
-   $id=$_GET['id'];echo $id;
-   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"_id":{ "$oid":"'.$id.'" }}');
-   $data = json_decode($json);echo $json;
-   $isData=sizeof($data);print_r($data);
-   if($isData >0){
+   $id=$_GET['id'];echo "GET ID: ".$id;
+   $url="https://api.mlab.com/api/1/databases/crma51/collections/comment/".$id."?apiKey=".MLAB_API_KEY;
+   $json = file_get_contents($url);
+   $data = json_decode($json);
+   $isData=sizeof($data);
+   $i=0;
+ if($isData >0){
       // มีข้อมูลผู้ใช้อยู่
       $rank=$data->rank;
       $name=$data->name;
@@ -71,6 +73,9 @@ require_once "config.php";
       $Tel1=$data->Tel1;
       $LineID=$data->LineID;
  }// end isData>0
+ else{
+   echo "NO data";
+ }
 ?>
 	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
     <table class='table table-hover table-responsive table-bordered'>
