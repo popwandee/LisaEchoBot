@@ -51,7 +51,8 @@ require_once "config.php";
     <div class="jumbotron">
        <?php if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;}?>
       <div class="page-header">
-          <table><tr><td><h3>รบกวนตอบแบบฟอร์มเพื่อรวบรวมข้อมูลเพื่อน ๆ ล่าสุดครับ แบบฟอร์มอยู่ด้านล่างนะครับ</h3></td></tr>
+          <table  class='table table-hover table-responsive table-bordered'>
+            <tr><td><h3>รบกวนตอบแบบฟอร์มเพื่อรวบรวมข้อมูลเพื่อน ๆ ล่าสุดครับ แบบฟอร์มอยู่ด้านล่างนะครับ</h3></td></tr>
           </table>
 
       </div>
@@ -85,7 +86,7 @@ function show_friend(){
               <h3 class="panel-title">เพื่อนที่กรอกข้อมูลแล้ว</h3>
             </div>
             <div class="panel-body">
-        <table class='table table-hover table-responsive table-bordered'>
+        <table  class='table table-hover table-responsive table-bordered'>
             <tr><td>ลำดับ</td><td>ยศ ชื่อ สกุล</td>
             <td>ตำแหน่ง</td>
             <td>จังหวัด</td>
@@ -141,7 +142,7 @@ function show_friend(){
           </div>
           <div class="panel-body">
 	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-    <table class='table table-hover table-responsive table-bordered'>
+    <table  class='table table-hover table-responsive table-bordered'>
         <tr>
             <td>ยศ ชื่อ สกุล</td>
             <td>

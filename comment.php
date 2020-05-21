@@ -47,9 +47,7 @@ require_once "config.php";
     <?php include 'navigation.html';?>
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
-    <div class="page-header">
-        <table><tr><td><h1>ยินดีต้อนรับ <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. ครับ</h1></td></tr></table>
-    </div>
+    <span class="label label-primary">แจ้งแก้ไขข้อมูล</span>
  <?php
 
 
