@@ -46,10 +46,10 @@ require_once "config.php";
 <body>
     <?php include 'navigation.html';?>
 
-    <?php if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;}else{echo "No SESSION";}?>
 
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
+       <?php if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;}else{echo "No SESSION";}?>
       <div class="page-header">
           <table><tr><td><h3>รบกวนตอบแบบฟอร์มเพื่อรวบรวมข้อมูลเพื่อน ๆ ล่าสุดครับ แบบฟอร์มอยู่ด้านล่างนะครับ</h3></td></tr></table>
       </div>
@@ -94,7 +94,9 @@ require_once "config.php";
                        <td><?php echo $LineID;?></td>
                        <td><?php echo $Tel1;?></td>
                    </tr>
-           <?php    } //end foreach    ?>
+           <?php    } //end foreach
+else{echo "ยังไม่มีข้อมูลค่ะ";}
+             ?>
              </table>
            </div class="panel-body">
            </div class="panel panel-success">
@@ -244,7 +246,6 @@ echo "ยังไม่มีข้อมูลค่ะ";
     }
 
 if(isset($_POST['formSubmit'])){
-unset($_POST['formSubmit']);
   $rank = isset($_POST['rank']) ? $_POST['rank'] : "";
   $name = isset($_POST['name']) ? $_POST['name'] : "";
   $lastname = isset($_POST['lastname']) ? $_POST['lastname'] : "";
