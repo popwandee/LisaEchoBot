@@ -46,8 +46,8 @@ require_once "config.php";
 <body>
     <?php include 'navigation.html';?>
 
-    <?php if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;}else{$_SESSION['message']='';}?>
-    <?php $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
+    <?php if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;}?>
+
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
       <div class="page-header">
@@ -200,7 +200,6 @@ $isData=sizeof($data);
 if($isData >0){
   $i=0;
   ?>
-
     <div class="panel panel-success">
       <div class="panel-heading">
         <h3 class="panel-title">เพื่อนที่กรอกข้อมูลแล้ว</h3>
@@ -278,11 +277,12 @@ if(isset($_POST['formSubmit'])){
   $returnValue = file_get_contents($url,false,$context);
           if($returnValue){
             $_SESSION['message']=$_SESSION['message'].'=> เพิ่มข้อมูลสำเร็จ.';
-             header('Location: friend.php?message=Insert Data Complete');
+             header('Location: friend.php');
             }else{
             $_SESSION['message']=$_SESSION['message'].'=> เพิ่มข้อมูลไม่สำเร็จ.';
-             header('Location: friend.php?message=Cannot Insert data');
+             header('Location: friend.php');
            }
+header('Location: friend.php');
 } //end if isset formSubmit
 ?>
 
