@@ -201,7 +201,7 @@ foreach($data as $rec){
     // creating new table row per record
     echo "<tr>";
         echo "<td>{$id}</td>";
-        echo "<td>{$rank}{$name}{$lastname}</td>";
+        echo "<td>{$rank} {$name} {$lastname}</td>";
         echo "<td>{$position}</td>";
         echo "<td>{$province}</td>";
         echo "<td>{$Email}</td>";
