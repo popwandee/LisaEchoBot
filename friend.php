@@ -238,8 +238,9 @@ if($isData >0){
              </tr>
      <?php    } //end foreach    ?>
        </table>
-     </div>
-   </div>
+     </div class="panel-body">
+     </div class="panel panel-success">
+     </div class="col-sm-4">
        <?php
 }else{
 echo "ยังไม่มีข้อมูลค่ะ";
