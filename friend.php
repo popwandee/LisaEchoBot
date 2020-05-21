@@ -51,8 +51,53 @@ require_once "config.php";
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
       <div class="page-header">
-          <table><tr><td><h3>รบกวนตอบแบบฟอร์มเพื่อรวบรวมข้อมูลเพื่อน ๆ ล่าสุดครับ</h3></td></tr></table>
+          <table><tr><td><h3>รบกวนตอบแบบฟอร์มเพื่อรวบรวมข้อมูลเพื่อน ๆ ล่าสุดครับ แบบฟอร์มอยู่ด้านล่างนะครับ</h3></td></tr></table>
       </div>
+      <?php
+      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
+      $data = json_decode($json);
+      $isData=sizeof($data);
+      if($isData >0){
+        $i=0;
+        ?>
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <h3 class="panel-title">เพื่อนที่กรอกข้อมูลแล้ว</h3>
+            </div>
+            <div class="panel-body">
+        <table class='table table-hover table-responsive table-bordered'>
+            <tr><td>ลำดับ</td><td>ยศ ชื่อ สกุล</td>
+            <td>ตำแหน่ง</td>
+            <td>จังหวัด</td>
+            <td>Email</td>
+            <td>LINE ID</td>
+            <td>Telephone number</td></tr>
+        <?php
+        foreach($data as $rec){
+          $i++;
+           $rank=$rec->rank;
+           $name=$rec->name;
+           $lastname=$rec->lastname;
+           $position=$rec->position;
+           $province=$rec->province;
+           $Email=$rec->Email;
+           $Tel1=$rec->Tel1;
+           $LineID=$rec->LineID;
+           ?>
+      <tr><td><?php echo $i;?></td>
+                       <td><?php echo $rank;?>
+                         <?php echo $name;?>
+                       <?php echo $lastname;?></td>
+                       <td><?php echo $position;?></td>
+                       <td><?php echo $province;?></td>
+                       <td><?php echo $Email;?></td>
+                       <td><?php echo $LineID;?></td>
+                       <td><?php echo $Tel1;?></td>
+                   </tr>
+           <?php    } //end foreach    ?>
+             </table>
+           </div class="panel-body">
+           </div class="panel panel-success">
         <div class="panel panel-success">
           <div class="panel-heading">
             <h3 class="panel-title">แบบฟอร์มบันทึกข้อมูล จปร.51</h3>
@@ -192,54 +237,7 @@ require_once "config.php";
 </form>
 </div class="panel-body">
 </div class="panel panel-success">
-
 <?php
-$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
-$data = json_decode($json);
-$isData=sizeof($data);
-if($isData >0){
-  $i=0;
-  ?>
-    <div class="panel panel-success">
-      <div class="panel-heading">
-        <h3 class="panel-title">เพื่อนที่กรอกข้อมูลแล้ว</h3>
-      </div>
-      <div class="panel-body">
-  <table class='table table-hover table-responsive table-bordered'>
-      <tr><td>ลำดับ</td><td>ยศ ชื่อ สกุล</td>
-      <td>ตำแหน่ง</td>
-      <td>จังหวัด</td>
-      <td>Email</td>
-      <td>LINE ID</td>
-      <td>Telephone number</td></tr>
-  <?php
-  foreach($data as $rec){
-    $i++;
-     $rank=$rec->rank;
-     $name=$rec->name;
-     $lastname=$rec->lastname;
-     $position=$rec->position;
-     $province=$rec->province;
-     $Email=$rec->Email;
-     $Tel1=$rec->Tel1;
-     $LineID=$rec->LineID;
-     ?>
-<tr><td><?php echo $i;?></td>
-                 <td><?php echo $rank;?>
-                   <?php echo $name;?>
-                 <?php echo $lastname;?></td>
-                 <td><?php echo $position;?></td>
-                 <td><?php echo $province;?></td>
-                 <td><?php echo $Email;?></td>
-                 <td><?php echo $LineID;?></td>
-                 <td><?php echo $Tel1;?></td>
-             </tr>
-     <?php    } //end foreach    ?>
-       </table>
-     </div class="panel-body">
-     </div class="panel panel-success">
-
-       <?php
 }else{
 echo "ยังไม่มีข้อมูลค่ะ";
 
