@@ -66,7 +66,6 @@ require_once "config.php";
      switch ($form_no){
 
        case "add_record" :
-       echo "add_record";
        $username = isset($_POST['username']) ? $_POST['username'] : "";
        $record = isset($_POST['record']) ? $_POST['record'] : "";
        $add = isset($_POST['add']) ? $_POST['add'] : "";
@@ -113,7 +112,7 @@ echo "default json file_get_contents is :".$json;
   else{
     $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY);
     $data = json_decode($json);
-    $isData=sizeof($data);echo "data is ";print_r($data);
+    $isData=sizeof($data);echo "data is ";
     if($isData >0){
       echo "ok we get data";
         showdata($data);
@@ -191,7 +190,6 @@ echo "default json file_get_contents is :".$json;
 
 <?php
 function insert_finance_record($username,$record,$add,$sub){
-  echo "in insert_finance_record";
 $newData = json_encode(array(
   'username' => $username,
   'record' => $record,
