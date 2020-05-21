@@ -86,7 +86,6 @@ function show_friend(){
               <h3 class="panel-title">เพื่อนที่กรอกข้อมูลแล้ว</h3>
             </div>
             <div class="table-responsive">
-              <div class="col-md-6">
                 <table class="table table-sm table-hover table-striped">
                   <thead>
                     <tr>
@@ -129,7 +128,6 @@ function show_friend(){
              ?>
            </tbody>
          </table>
-       </div> <!-- class="col-md-6"> -->
      </div><!-- class="table-responsive"> -->
      </div><!-- class="panel panel-success"> -->
            <?php
