@@ -52,7 +52,9 @@ require_once "config.php";
        <?php if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;}?>
       <div class="page-header">
           <table><tr><td><h3>รบกวนตอบแบบฟอร์มเพื่อรวบรวมข้อมูลเพื่อน ๆ ล่าสุดครับ แบบฟอร์มอยู่ด้านล่างนะครับ</h3></td></tr>
-          <tr><td><span class="label label-info"><h4>ช่วงนี้เปิดให้กรอกข้อมูลโดยไม่ต้อง ล็อกอินเข้าใช้งานเพื่อให้สะดวกนะครับ หลังวันที่ 31 พ.ค.63 จะต้องลงทะเบียน ล็อกอิน จึงจะสามารถเข้าดูข้อมูลของเพื่อนๆ ได้ เพื่อเป็นการรักษาความปลอดภัยข้อมูลเพื่อน ๆ ครับ</h4></span></td></tr></table>
+          </table>
+          <span class="label label-info"><h4>ช่วงนี้เปิดให้กรอกข้อมูลโดยไม่ต้อง ล็อกอินเข้าใช้งานเพื่อให้สะดวกนะครับ
+            หลังวันที่ 31 พ.ค.63 จะต้องลงทะเบียน ล็อกอิน จึงจะสามารถเข้าดูข้อมูลของเพื่อนๆ ได้ เพื่อเป็นการรักษาความปลอดภัยข้อมูลเพื่อน ๆ ครับ</h4></span>
       </div>
       <?php
       if(isset($_POST['formSubmit'])){
@@ -137,7 +139,7 @@ function show_friend(){
             <td>
               <select name="rank">
         <option value="พ.ต.">พ.ต.</option>
-        <option value="พ.ท.">พ.ท.</option>
+        <option value="พ.ท." selected>พ.ท.</option>
         <option value="พ.อ.">พ.อ.</option>
         <option value="พล.ต.">พล.ต.</option>
         <option value="พล.ท.">พล.ท.</option>
@@ -147,11 +149,11 @@ function show_friend(){
               <input type='text' name='lastname' /></td>
         </tr>
         <tr>
-            <td>ตำแหน่ง</td>
+            <td>ตำแหน่ง (ตัวอักษรย่อ)</td>
             <td><input type='text' name='position'  class='form-control' /></td>
             </tr>
         <tr>
-            <td>จังหวัด</td>
+            <td>จังหวัด (ที่ปฏิบัติงาน)</td>
             <td><select name="province">
       <option value="กรุงเทพมหานคร" selected>จังหวัดที่ปฏิบัติงาน</option>
       <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
@@ -245,7 +247,7 @@ function show_friend(){
             <td><input type='text' name='LineID'  class='form-control' /></td>
             </tr>
         <tr>
-            <td>Telephone number</td>
+            <td>โทรศัพท์</td>
             <td><input type='text' name='Tel1'  class='form-control' /></td>
             </tr>
         <tr>
