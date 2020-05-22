@@ -118,9 +118,9 @@ require_once "config.php";
             $update_data['type'] = isset($_POST['type']) ? $_POST['type'] : "normaluser";
             update_user($update_data);
           }else{
-            show_form($user_id);
+            show_form($update_data['user_id']);
             }
-            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
+          //  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
 
           break;
        default :
