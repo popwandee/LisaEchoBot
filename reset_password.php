@@ -145,10 +145,11 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
       <div class="panel-body">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
           <div class="form-group <?php echo (!empty($fullname_err)) ? 'has-error' : ''; ?>">
-              <label>ชื่อ นามสกุล</label><?php echo $user_info; ?>
+              <label>ชื่อ นามสกุล </label><?php echo $user_info; ?>
           </div>
           <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
-                <label>Username</label><?php echo $username; ?>
+                <label>Username </label><?php echo $username; ?>
+                <input type="hidden" name="username" value="<?php echo $username; ?>">
             </div>
             <div class="form-group <?php echo (!empty($old_password_err)) ? 'has-error' : ''; ?>">
                 <label>Old Password:</label>
