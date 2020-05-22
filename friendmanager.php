@@ -47,97 +47,380 @@ require_once "config.php";
 
 </head>
 <body>
-  <?php include 'navigation.html';?>
-  <div class="container theme-showcase" role="main">
-    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <?php include 'navigation.html';?>
+
+
+    <div class="container theme-showcase" role="main">
     <div class="jumbotron">
-      <h1>สมาชิก เตรียมทหาร40 จปร.51</h1>
-      <p>เว็บไซต์ เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
-    </div>
+       <?php if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;}?>
+      <div class="page-header">
+          <table  class='table table-hover table-responsive table-bordered'>
+            <tr><td><h3>ข้อมูลเพื่อน ๆ ล่าสุด</h3></td></tr>
+          </table>
 
- <?php
-$tz_object = new DateTimeZone('Asia/Bangkok');
-         $datetime = new DateTime();
-         $datetime->setTimezone($tz_object);
-         $dateTimeToday = $datetime->format('Y-m-d');
+      </div>
+      <?php
 
-	?>
+      if(isset($_POST['formSubmit'])){
+        $rank = isset($_POST['rank']) ? $_POST['rank'] : "";
+        $name = isset($_POST['name']) ? $_POST['name'] : "";
+        $lastname = isset($_POST['lastname']) ? $_POST['lastname'] : "";
+        $position = isset($_POST['position']) ? $_POST['position'] : "";
+        $province = isset($_POST['province']) ? $_POST['province'] : "";
+        $Email = isset($_POST['Email']) ? $_POST['Email'] : "";
+        $Tel1 = isset($_POST['Tel1']) ? $_POST['Tel1'] : "";
+        $LineID = isset($_POST['LineID']) ? $_POST['LineID'] : "";
+        $comment = isset($_POST['comment']) ? $_POST['comment'] : "";
+        insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment);
+        show_friend();
+      }else{
+        show_friend();
+      }
 
-    <!-- container -->
-    <div class="container">
+function show_friend(){
+      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
+      $data = json_decode($json);
+      $isData=sizeof($data);
+      if($isData >0){
+        $i=0;
+        ?>
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <h3 class="panel-title">เพื่อนที่กรอกข้อมูลแล้ว</h3>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-sm table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>ลำดับ</th><th>ยศ ชื่อ สกุล</th>
+            <th>ตำแหน่ง</th>
+            <th>จังหวัด</th>
+            <th>Email</th>
+            <th>LINE ID</th>
+            <th>Telephone number</th>
+          <th>Action</th></tr>
+          </thead><tbody>
+        <?php
+        foreach($data as $rec){
+          $i++;
+          $_id=$rec->_id;
+          foreach($_id as $rec_id){
+          $_id=$rec_id;
+          }
+           $rank=$rec->rank;
+           $name=$rec->name;
+           $lastname=$rec->lastname;
+           $position=$rec->position;
+           $province=$rec->province;
+           $Email=$rec->Email;
+           $Tel1=$rec->Tel1;
+           $LineID=$rec->LineID;
+           ?>
+      <tr><td><?php echo $i;?></td>
+                       <td class="text-nowrap"><?php echo $rank;?>
+                         <?php echo " ".$name;?>
+                       <?php echo " ".$lastname;?></td>
+                       <td><?php echo $position;?></td>
+                       <td><?php echo $province;?></td>
+                       <td><?php echo $Email;?></td>
+                       <td><?php echo $LineID;?></td>
+                       <td><?php echo $Tel1;?></td>
+                       <td><a href='comment.php?id=<?php echo $_id;?>'>แจ้งแก้ไข</a></td>
+                   </tr>
+           <?php    } //end foreach
+             ?>
+           </tbody>
+         </table>
+     </div><!-- class="table-responsive"> -->
+     </div><!-- class="panel panel-success"> -->
+           <?php
+           }else{
+           echo "ยังไม่มีข้อมูลค่ะ";
+               }
+             }// end function show_friend
+               ?>
+<?php function show_form(){ ?>
+        <div class="panel panel-success">
+          <div class="panel-heading">
+            <h3 class="panel-title">แบบฟอร์มบันทึกข้อมูล จปร.51</h3>
+            <div class="alert alert-warning" role="alert">ช่วงนี้เปิดให้กรอกข้อมูลโดยไม่ต้อง ล็อกอินเข้าใช้งานเพื่อให้สะดวกนะครับ
+              หลังวันที่ 31 พ.ค.63 จะต้องลงทะเบียน ล็อกอิน จึงจะสามารถเข้าดูข้อมูลของเพื่อนๆ ได้ เพื่อเป็นการรักษาความปลอดภัยข้อมูลเพื่อน ๆ ครับ
+            </div>
+          </div>
+          <div class="panel-body">
+	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+    <table  class='table table-hover table-responsive table-bordered'>
+        <tr>
+            <td>ยศ ชื่อ สกุล</td>
+            <td>
+              <select name="rank">
+        <option value="ร.ต.">ร.ต.</option>
+        <option value="ร.ท.">ร.ท.</option>
+        <option value="ร.อ.">ร.อ.</option>
+        <option value="พ.ต.">พ.ต.</option>
+        <option value="พ.ท." selected>พ.ท.</option>
+        <option value="พ.อ.">พ.อ.</option>
+        <option value="พล.ต.">พล.ต.</option>
+        <option value="พล.ท.">พล.ท.</option>
+        <option value="พล.อ.">พล.อ.</option>
+        </select>
+              <input type='text' name='name'  />
+              <input type='text' name='lastname' /></td>
+        </tr>
+        <tr>
+            <td>ตำแหน่ง (ตัวอักษรย่อ)</td>
+            <td><input type='text' name='position'  class='form-control' /></td>
+            </tr>
+        <tr>
+            <td>จังหวัด (ที่ปฏิบัติงาน)</td>
+            <td><select name="province">
+      <option value="กรุงเทพมหานคร" selected>จังหวัดที่ปฏิบัติงาน</option>
+      <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
+      <option value="กระบี่">กระบี่ </option>
+      <option value="กาญจนบุรี">กาญจนบุรี </option>
+      <option value="กาฬสินธุ์">กาฬสินธุ์ </option>
+      <option value="กำแพงเพชร">กำแพงเพชร </option>
+      <option value="ขอนแก่น">ขอนแก่น</option>
+      <option value="จันทบุรี">จันทบุรี</option>
+      <option value="ฉะเชิงเทรา">ฉะเชิงเทรา </option>
+      <option value="ชัยนาท">ชัยนาท </option>
+      <option value="ชัยภูมิ">ชัยภูมิ </option>
+      <option value="ชุมพร">ชุมพร </option>
+      <option value="ชลบุรี">ชลบุรี </option>
+      <option value="เชียงใหม่">เชียงใหม่ </option>
+      <option value="เชียงราย">เชียงราย </option>
+      <option value="ตรัง">ตรัง </option>
+      <option value="ตราด">ตราด </option>
+      <option value="ตาก">ตาก </option>
+      <option value="นครนายก">นครนายก </option>
+      <option value="นครปฐม">นครปฐม </option>
+      <option value="นครพนม">นครพนม </option>
+      <option value="นครราชสีมา">นครราชสีมา </option>
+      <option value="นครศรีธรรมราช">นครศรีธรรมราช </option>
+      <option value="นครสวรรค์">นครสวรรค์ </option>
+      <option value="นราธิวาส">นราธิวาส </option>
+      <option value="น่าน">น่าน </option>
+      <option value="นนทบุรี">นนทบุรี </option>
+      <option value="บึงกาฬ">บึงกาฬ</option>
+      <option value="บุรีรัมย์">บุรีรัมย์</option>
+      <option value="ประจวบคีรีขันธ์">ประจวบคีรีขันธ์ </option>
+      <option value="ปทุมธานี">ปทุมธานี </option>
+      <option value="ปราจีนบุรี">ปราจีนบุรี </option>
+      <option value="ปัตตานี">ปัตตานี </option>
+      <option value="พะเยา">พะเยา </option>
+      <option value="พระนครศรีอยุธยา">พระนครศรีอยุธยา </option>
+      <option value="พังงา">พังงา </option>
+      <option value="พิจิตร">พิจิตร </option>
+      <option value="พิษณุโลก">พิษณุโลก </option>
+      <option value="เพชรบุรี">เพชรบุรี </option>
+      <option value="เพชรบูรณ์">เพชรบูรณ์ </option>
+      <option value="แพร่">แพร่ </option>
+      <option value="พัทลุง">พัทลุง </option>
+      <option value="ภูเก็ต">ภูเก็ต </option>
+      <option value="มหาสารคาม">มหาสารคาม </option>
+      <option value="มุกดาหาร">มุกดาหาร </option>
+      <option value="แม่ฮ่องสอน">แม่ฮ่องสอน </option>
+      <option value="ยโสธร">ยโสธร </option>
+      <option value="ยะลา">ยะลา </option>
+      <option value="ร้อยเอ็ด">ร้อยเอ็ด </option>
+      <option value="ระนอง">ระนอง </option>
+      <option value="ระยอง">ระยอง </option>
+      <option value="ราชบุรี">ราชบุรี</option>
+      <option value="ลพบุรี">ลพบุรี </option>
+      <option value="ลำปาง">ลำปาง </option>
+      <option value="ลำพูน">ลำพูน </option>
+      <option value="เลย">เลย </option>
+      <option value="ศรีสะเกษ">ศรีสะเกษ</option>
+      <option value="สกลนคร">สกลนคร</option>
+      <option value="สงขลา">สงขลา </option>
+      <option value="สมุทรสาคร">สมุทรสาคร </option>
+      <option value="สมุทรปราการ">สมุทรปราการ </option>
+      <option value="สมุทรสงคราม">สมุทรสงคราม </option>
+      <option value="สระแก้ว">สระแก้ว </option>
+      <option value="สระบุรี">สระบุรี </option>
+      <option value="สิงห์บุรี">สิงห์บุรี </option>
+      <option value="สุโขทัย">สุโขทัย </option>
+      <option value="สุพรรณบุรี">สุพรรณบุรี </option>
+      <option value="สุราษฎร์ธานี">สุราษฎร์ธานี </option>
+      <option value="สุรินทร์">สุรินทร์ </option>
+      <option value="สตูล">สตูล </option>
+      <option value="หนองคาย">หนองคาย </option>
+      <option value="หนองบัวลำภู">หนองบัวลำภู </option>
+      <option value="อำนาจเจริญ">อำนาจเจริญ </option>
+      <option value="อุดรธานี">อุดรธานี </option>
+      <option value="อุตรดิตถ์">อุตรดิตถ์ </option>
+      <option value="อุทัยธานี">อุทัยธานี </option>
+      <option value="อุบลราชธานี">อุบลราชธานี</option>
+      <option value="อ่างทอง">อ่างทอง </option>
+      <option value="อื่นๆ">อื่นๆ</option>
+</select>
+</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input type='text' name='Email' class='form-control' /></td>
+            </tr>
+        <tr>
+        <tr>
+            <td>LINE ID</td>
+            <td><input type='text' name='LineID'  class='form-control' /></td>
+            </tr>
+        <tr>
+            <td>โทรศัพท์</td>
+            <td><input type='text' name='Tel1'  class='form-control' /></td>
+            </tr>
+        <tr>
+            <td>ข้อมูลเพิ่มเติม</td>
+            <td><textarea name="comment" rows="10" cols="30"class='form-control' />รายละเอียดข้อมูลเพิ่มเติมค่ะ</textarea></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="hidden"name="formSubmit" value="true">
+                <input type='submit' value='Save' class='btn btn-primary' />
 
-        <div class="page-header">
-		<table><tr><td></td><td> <h1>วันที่ <?php echo $dateTimeToday;?> </h1></td></tr></table>
-        </div>
-     <a href='search.php' class='btn btn-primary m-r-1em'>ค้นหา</a>
-	    <a href='newMember.php' class='btn btn-primary m-r-1em'>เพิ่มข้อมูลสมาชิก</a>
-	    <a href='logout.php' class='btn btn-danger'>Logout</a>
+            </td>
+        </tr>
+    </table>
+</form>
+</div class="panel-body">
+</div class="panel panel-success">
+<?php } // end show_form ?>
 
-	    <!-- PHP code to read records will be here -->
-         <?php
- $message = isset($_GET['message']) ? $_GET['message'] : "";
-	    echo $message;
- $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/crma51Phonebook?apiKey='.MLAB_API_KEY);
- $data = json_decode($json);
- $isData=sizeof($data);
-  if($isData >0){
-	        echo "<table class='table table-hover table-responsive table-bordered'>";//start table
-    //creating our table heading
-    echo "<tr>";
-        echo "<th>ลำดับ</th>";
-        echo "<th>ยศ ชื่อ สกุล</th>";
-        echo "<th>ตำแหน่ง</th>";
-        echo "<th>อีเมล์</th>";
-        echo "<th>โทรศัพท์</th>";
-        echo "<th>Action</th>";
-    echo "</tr>";
-    // retrieve our table contents
-$id=0;
-foreach($data as $rec){
-	$id++;
-                 $_id=$rec->_id;
+<?php
 
-	foreach($_id as $rec_id){
-		$_id=$rec_id;
-	} // end foreach id as rec_id
+function insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment){
 
-	        $rank = $rec->rank;
-		$name = $rec->name;
-		$lastname = $rec->lastname;
-		$position = $rec->position;
-		$Email = $rec->Email;
-		$Tel1 = $rec->Tel1;
-
-	    // creating new table row per record
-    echo "<tr>";
-        echo "<td>{$id}</td>";
-        echo "<td>{$rank} {$name} {$lastname}</td>";
-        echo "<td>{$position}</td>";
-        echo "<td>{$Email}</td>";
-        echo "<td>{$Tel1}</td>";
-        echo "<td>";
-            // we will use this links on next part of this post
-	$del_url="comment.php?id=".$_id;
-            echo "<a href='$del_url'>แก้ไข</a>";
-        echo "</td>";
-    echo "</tr>";
-
-}// end foreach data as rec
-	  // end table
-echo "</table>";
-  }// if no records found
-else{
-    echo "<div align='center' class='alert alert-danger'>ยังไม่มีข้อมูล</div>";
+  $newData = json_encode(array(
+  	'rank' => $rank,
+    'name'=>$name,
+    'lastname' =>$lastname,
+    'position' => $position,
+    'province' =>$province,
+    'Email'=> $Email,
+    'Tel1'=>$Tel1,
+    'LineID' =>$LineID ,
+  	'comment' => $comment,
+    'password' =>'$2y$10$iY75qUiPFNQBrpzZsd8ybe2yijNigzOsFAMeNtkqDxGSqP22UkzGu',
+    'type'=> 'normaluser',
+    'approved'=> 0,
+    'status'=>'เพิ่มใหม่') );
+  $opts = array('http' => array( 'method' => "POST",
+                                 'header' => "Content-type: application/json",
+                                 'content' => $newData
+                                             )
+                                          );
+  $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY;
+  $context = stream_context_create($opts);
+  $returnValue = file_get_contents($url,false,$context);
+          if($returnValue){
+            $_SESSION['message']='=> เพิ่มข้อมูลสำเร็จ.';
+            }else{
+            $_SESSION['message']='=> เพิ่มข้อมูลไม่สำเร็จ.';
+           }
+} //function insert_friend
+?>
+<?php
+function user_approved($user_id,$approved){
+  if($approved){
+  $newData = '{ "$set" : { "approved" : 0 } }';
+  $_SESSION['message']='ยกเลิกการอนุมัติสิทธิ์เข้าใช้ระบบ';
+}else{
+  $newData = '{ "$set" : { "approved" : 1 } }';
+  $_SESSION['message']='การอนุมัติสิทธิ์เข้าใช้ระบบ ';
 }
-         ?>
-    </div> <!-- end .container -->
+  $opts = array('http' => array( 'method' => "PUT",
+                                 'header' => "Content-type: application/json",
+                                 'content' => $newData
+                                             )
+                                          );
+  $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY.'';
+          $context = stream_context_create($opts);
+          $returnValue = file_get_contents($url,false,$context);
+          if($returnValue){
+            $_SESSION['message']=$_SESSION['message'].'=> สำเร็จ.';
+         		 header('Location: usermanager.php?message=Approved');
+  	        }else{
+            $_SESSION['message']=$_SESSION['message'].'=> ไม่สำเร็จ.';
+  		       header('Location: usermanager.php?message=CannotApproved');
+                   }
+}
+ ?>
+ <?php
+function showform_edit_friend($user_id){
+  echo $user_id;
+  $url="https://api.mlab.com/api/1/databases/crma51/collections/friend/".$user_id."?apiKey=".MLAB_API_KEY;
+  $json = file_get_contents($url);
+  $data = json_decode($json);
+  $isData=sizeof($data);
+  $i=0;
+  if($isData >0){
+     // มีข้อมูลผู้ใช้อยู่
+     $fullname = $data->fullname;
+     $username = $data->username;
+     $type = $data->type;
+}// end isData>0
+        ?>
+        <table><tr><td>
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+      <?php echo "Username :".$username;?>
+      <br>ชื่อ นามสกุล :<input type='text' name='fullname'value="<?php echo $fullname;?>" class='form-control' />
+      <br>ประเภทสมาชิก :<input type='text' name='type' value="<?php echo $type;?>" class='form-control' />
+      <input type="hidden" name="user_id" value="<?php echo $user_id;?>">
+      <input type='hidden' name='form_no' value='user_edit'>
+      <input type='hidden' name='edited' value='1'>
+      <button type="submit" class="btn btn-xs btn-warning">ยืนยัน</button>
+      </form>
+    </td></tr></table>
+      <?php
+      exit;
+} // end function show_form
 
+  ?>
 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <?php
+  function update_user($user_id,$fullname,$type){
+    if(!empty($fullname)){
+    $newData = '{ "$set" : { "fullname" : "'.$fullname.'"} }';
+    $opts = array('http' => array( 'method' => "PUT",
+                                   'header' => "Content-type: application/json",
+                                   'content' => $newData
+                                               )
+                                            );
+    $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY;
+            $context = stream_context_create($opts);
+            $returnValue = file_get_contents($url,false,$context);
+            if($returnValue){
+              $_SESSION['message']='Update รายชื่อสำเร็จ';
+              }else{
+                $_SESSION['message']='Update รายชื่อไม่สำเร็จ';
+                     }
+  }//end if !empty fullname
+  if(!empty($type)){
+    $newData = '{ "$set" : { "type" : "'.$type.'"} }';
+    $opts = array('http' => array( 'method' => "PUT",
+                                   'header' => "Content-type: application/json",
+                                   'content' => $newData
+                                               )
+                                            );
+    $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY;
+            $context = stream_context_create($opts);
+            $returnValue = file_get_contents($url,false,$context);
+            if($returnValue){
+              $_SESSION['message']='Update ประเภทสมาชิกสำเร็จ';
+              }else{
+                $_SESSION['message']='Update ประเภทสมาชิกไม่สำเร็จ';
+                     }
+  }//end !empty type
 
-<!-- Latest compiled and minified Bootstrap JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+}// end function update_user
+   ?>
 
+</div><!-- jumbotron-->
+</div><!-- container theme-showcase-->
+ <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+ <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+ <!-- Latest compiled and minified Bootstrap JavaScript -->
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>
