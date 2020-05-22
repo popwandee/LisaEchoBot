@@ -104,10 +104,11 @@ require_once "config.php";
 
            break;
       case "user_edit" : echo "\nCase edit user";
-      $update_data['user_id'] = isset($_POST['user_id']) ? $_POST['user_id'] : "";
+      $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : "";
       $edited = isset($_POST['edited']) ? $_POST['edited'] : 0;
           if($edited){
             echo "\nGet data from edit user form.";
+            $update_data['user_id']= isset($_POST['user_id']) ? $_POST['user_id'] : "";
             $update_data['rank']= isset($_POST['rank']) ? $_POST['rank'] : "";
             $update_data['name'] = isset($_POST['name']) ? $_POST['name'] : "";
             $update_data['lastname'] = isset($_POST['lastname']) ? $_POST['lastname'] : "";
@@ -120,7 +121,7 @@ require_once "config.php";
             $update_data['type'] = isset($_POST['type']) ? $_POST['type'] : "normaluser";
             update_user($update_data);
           }else{echo "\nShow form for edit user";
-            show_form($update_data);
+            show_form($user_id);
             }
           //  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
 
@@ -253,20 +254,25 @@ function user_approved($user_id,$approved){
  ?>
 
  <?php
-function show_form($update_data){
-  echo "in Fuction Show form, get update_data is ";print_r($update_data);
-  $user_id= $update_data['user_id'];
+function show_form($user_id){
+  echo "\nin Fuction Show form, get user_id is ";print_r($user_id);
+  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY);
 
-     $rank=$update_data['rank'];
-     $name=$update_data['name'];
-     $lastname=$update_data['lastname'];
-     $position=$update_data['position'];
-     $province=$update_data['province'];
-     $Email=$update_data['Email'];
-     $Tel1=$update_data['Tel1'];
-     $LineID=$update_data['LineID'];
-     $comment=$update_data['comment'];
-     $type = $update_data['type'];
+$data = json_decode($json);
+$isData=sizeof($data);
+if($isData >0){
+  echo "\nGet data from DB are ";print_r($data);
+}
+     $rank=$data->rank;echo $rank;
+     $name=$data->name;
+     $lastname=$data->lastname;
+     $position=$data->position;
+     $province=$data->province;
+     $Email=$data->Email;
+     $Tel1=$data->Tel1;
+     $LineID=$data->LineID;
+     $comment=$data->comment;
+     $type = $data->type;
 
         ?>
         <table><tr><td>
