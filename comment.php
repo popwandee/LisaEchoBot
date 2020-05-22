@@ -45,6 +45,7 @@ require_once "config.php";
 </head>
 <body>
     <?php include 'navigation.html';?>
+    <?php show_all_comment();?>
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
     <span class="label label-primary">แจ้งแก้ไขข้อมูล</span>
@@ -197,7 +198,7 @@ require_once "config.php";
             <td><input type='text' name='Tel1' value="<?php echo $Tel1;?>" class='form-control' /></td>
             </tr>
         <tr>
-            <td>ข้อมูลเพิ่มเติม</td>
+            <td>แจ้งรายละเอียดข้อมูลที่ต้องการแก้ไข</td>
             <td><textarea name="comment" rows="10" cols="30"class='form-control' />ขอรายละเอียดข้อมูลที่ต้องการแก้ไขค่ะ</textarea></td>
         </tr>
         <tr>
@@ -247,13 +248,59 @@ else{ // set formSubmit from form
   		echo $message;
                    }
   			$_SESSION["message"]=$message;
-  		   	header("location: comment.php");
+  		   	header("location: friend.php");
       			exit;
 
 
 } ?>
 </div><!-- jumbotron-->
 </div><!-- container theme-showcase-->
+<?php
+function show_all_comment(){
+      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/comment?apiKey='.MLAB_API_KEY);
+      $data = json_decode($json);
+      $isData=sizeof($data);
+      if($isData >0){
+        $i=0;
+        ?>
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <h3 class="panel-title">รายการแจ้งแก้ไขข้อมูล</h3>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-sm table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>ลำดับ</th><th>ยศ ชื่อ สกุล</th>
+            <th>ข้อมูลที่แจ้งแก้ไข</th>
+          <th>การดำเนินการ</th></tr>
+          </thead><tbody>
+        <?php
+        foreach($data as $rec){
+          $i++;
+          $_id=$rec->_id;
+           $name=$rec->name;
+           $comment=$rec->comment;
+           $status=$rec->status;
+           ?>
+      <tr><td><?php echo $i;?></td>
+                       <td class="text-nowrap"><?php echo $name;?></td>
+                       <td><?php echo $comment;?></td>
+                       <td><?php if($status){echo "ดำเนินการแก้ไขแล้ว";}else{echo "อยู่ระหว่างดำเนินการ";}?></td>
+                  </tr>
+           <?php    } //end foreach
+             ?>
+           </tbody>
+         </table>
+     </div><!-- class="table-responsive"> -->
+     </div><!-- class="panel panel-success"> -->
+           <?php
+           }else{
+           echo "ยังไม่มีข้อมูลแจ้งแก้ไขค่ะ";
+               }
+             }// end function show_friend
+               ?>
+
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 

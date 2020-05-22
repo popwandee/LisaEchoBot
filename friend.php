@@ -122,7 +122,7 @@ function show_friend(){
                        <td><?php echo $Email;?></td>
                        <td><?php echo $LineID;?></td>
                        <td><?php echo $Tel1;?></td>
-                       <td><a href='comment.php?id=<?php echo $_id;?>'>แจ้งแก้ไขข้อมูล</a></td>
+                       <td><a href='comment.php?id=<?php echo $_id;?>'>แจ้งแก้ไข</a></td>
                    </tr>
            <?php    } //end foreach
              ?>
