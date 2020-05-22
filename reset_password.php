@@ -157,7 +157,7 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
             </div>
             <div class="form-group <?php echo (!empty($old_password_err)) ? 'has-error' : ''; ?>">
                 <label>Old Password:</label>
-                <input type="password" name="password" class="form-control" value="<?php echo $old_password; ?>">
+                <input type="password" name="old_password" class="form-control" value="<?php echo $old_password; ?>">
                 <span class="help-block"><?php echo $old_password_err; ?></span>
             </div>
             <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
