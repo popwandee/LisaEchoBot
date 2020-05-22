@@ -138,18 +138,18 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
     <div class="jumbotron">
       <h1>แก้ไขรหัสผ่าน</h1>
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
-
     <div class="page-header">
       <div class="panel panel-info">
         <div class="col-sm-4" >
       <div class="panel-body">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-          <div class="form-group <?php echo (!empty($fullname_err)) ? 'has-error' : ''; ?>">
+          <div class="form-group <?php echo (!empty($user_info_err)) ? 'has-error' : ''; ?>">
               <label>ชื่อ นามสกุล </label><?php echo $user_info; ?>
           </div>
           <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
                 <label>Username </label><?php echo $username; ?>
                 <input type="hidden" name="username" value="<?php echo $username; ?>">
+                <span class="help-block"><?php echo $username_err; ?></span>
             </div>
             <div class="form-group <?php echo (!empty($old_password_err)) ? 'has-error' : ''; ?>">
                 <label>Old Password:</label>
@@ -174,12 +174,9 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
         </form>
     </div> <!-- panel-body -->
 </div> <!-- col-sm-4 -->
-
     </div> <!-- panel panel-info -->
       </div> <!-- page-header -->
-
       </div>
-
       </div> <!-- container theme-showcase -->
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
