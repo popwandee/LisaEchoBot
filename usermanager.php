@@ -261,9 +261,9 @@ function show_form($user_id){
 $data = json_decode($json);
 $isData=sizeof($data);
 if($isData >0){
-  echo "\nGet data from DB are ";print_r($data);
-}
-     $rank=$data->rank;echo $rank;
+  echo "\nGet data from DB are "; //print_r($data);
+
+     $rank=$data->rank;
      $name=$data->name;
      $lastname=$data->lastname;
      $position=$data->position;
@@ -411,7 +411,7 @@ if($isData >0){
 <option value="committee">กรรมการรุ่น</option>
 <option value="financemanager">เหรัญญิก</option>
 <option value="admin">Admin</option>
-</select>
+</select></td><td>
       <input type="hidden" name="user_id" value="<?php echo $user_id;?>">
       <input type='hidden' name='form_no' value='user_edit'>
       <input type='hidden' name='edited' value='1'>
@@ -419,6 +419,7 @@ if($isData >0){
       </form>
     </td></tr></table>
       <?php
+    }// if isData > 0;
       exit;
 } // end function show_form
 
@@ -427,6 +428,8 @@ if($isData >0){
 
   <?php
   function update_user($update_data){
+    echo "\n In function update_user";print_r($update_data);
+  echo  $update_data['user_id'];
   echo  $update_data['rank'];
   echo   $update_data['name'] ;
   echo   $update_data['lastname'] ;
