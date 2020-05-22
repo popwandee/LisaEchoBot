@@ -40,7 +40,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
               }
           }
 
-exit;
 
     // Validate password
     if(empty(trim($_POST["password"]))){
@@ -66,36 +65,31 @@ exit;
 
 
             // Set parameters
-            $param_fullname = $fullname;
             $param_username = $username;
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
 
             // Attempt to execute the prepared statement
-           $newData = json_encode(array('fullname' => $param_fullname,
-           'username' => $param_username,
-			        'password' => $param_password,
-   			        'type' => "normaluser"
-			        ) );
-           $opts = array('http' => array( 'method' => "POST",
-                               'header' => "Content-type: application/json",
-                               'content' => $newData
-                                           )
-                                        );
-$url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'';
-        $context = stream_context_create($opts);
-        $returnValue = file_get_contents($url,false,$context);
-        if($returnValue){
-		   echo "<div align='center' class='alert alert-success'>ลงทะเบียนเรียบร้อย</div>";
-	        // Redirect to login page
-                header("location: login.php");
-        }else{
-		           echo "<div align='center' class='alert alert-danger'>ไม่สามารถลงทะเบียนได้</div>";
-                 }
+            $newData = '{ "$set" : { "password" : "'.$param_password.'" } }';
+            $_SESSION['message']='การอนุมัติสิทธิ์เข้าใช้ระบบ ';
 
-
-        }
-
-
+            $opts = array('http' => array( 'method' => "PUT",
+                                           'header' => "Content-type: application/json",
+                                           'content' => $newData
+                                                       )
+                                                    );
+            echo "\nnew Data to update is : ".$newData;
+            /*
+            $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY.'';
+                    $context = stream_context_create($opts);
+                    $returnValue = file_get_contents($url,false,$context);
+                    if($returnValue){
+                      $_SESSION['message']=$_SESSION['message'].'=> สำเร็จ.';
+                   		 header('Location: index.php?message=Approved');
+            	        }else{
+                      $_SESSION['message']=$_SESSION['message'].'=> ไม่สำเร็จ.';
+            		       header('Location: index.php?message=CannotApproved');
+                             }
+*/
 }
 ?>
 
