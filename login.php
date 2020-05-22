@@ -135,7 +135,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       <div class="panel panel-info">
         <div class="panel-heading">
             <h2>Login </h2>
-            <p>กรุณากรอกข้อมูลเพื่อ login เข้าสู่ระบบระบบสมาชิก เตรียมทหาร40 จปร.51</p>
+            <p>กรุณากรอกข้อมูลเพื่อ login เข้าสู่ระบบสมาชิก เตรียมทหาร40 จปร.51</p>
         </div>
         <div class="row">
           <div class="col-sm-4" >
