@@ -103,13 +103,20 @@ require_once "config.php";
 
            break;
       case "user_edit" :
-      $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : "";
+      $update_data['user_id'] = isset($_POST['user_id']) ? $_POST['user_id'] : "";
       $edited = isset($_POST['edited']) ? $_POST['edited'] : 0;
           if($edited){
-            $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : "";
-            $fullname = isset($_POST['fullname']) ? $_POST['fullname'] : 0;
-            $type = isset($_POST['type']) ? $_POST['type'] : 0;
-            update_user($user_id,$fullname,$type);
+            $update_data['rank']= isset($_POST['rank']) ? $_POST['rank'] : "";
+            $update_data['name'] = isset($_POST['name']) ? $_POST['name'] : "";
+            $update_data['lastname'] = isset($_POST['lastname']) ? $_POST['lastname'] : "";
+            $update_data['position'] = isset($_POST['position']) ? $_POST['position'] : "";
+            $update_data['province'] = isset($_POST['province']) ? $_POST['province'] : "";
+            $update_data['Email'] = isset($_POST['Email']) ? $_POST['Email'] : "";
+            $update_data['Tel1'] = isset($_POST['Tel1']) ? $_POST['Tel1'] : "";
+            $update_data['LineID'] = isset($_POST['LineID']) ? $_POST['LineID'] : "";
+            $update_data['comment'] = isset($_POST['comment']) ? $_POST['comment'] : "";
+            $update_data['type'] = isset($_POST['type']) ? $_POST['type'] : "normaluser";
+            update_user($update_data);
           }else{
             show_form($user_id);
             }
@@ -147,16 +154,20 @@ require_once "config.php";
        foreach($_id as $rec_id){
        $_id=$rec_id;
        }
-       $fullname=$rec->fullname;
-       $username=$rec->username;
+       $rank=$rec->rank;
+       $name=$rec->name;
+       $lastname=$rec->lastname;
+       $position=$rec->position;
+       $Tel1=$rec->Tel1;
        $type=$rec->type;
        $approved=$rec->approved;
 
        // creating new table row per record
        echo "<tr>";
          echo "<td width='10%'>{$id}</td>";
-         echo "<td width='30%'>{$fullname}</td>";
-         echo "<td width='20%'>{$username}</td>";
+         echo "<td width='30%'>{$rank} {$name} {$lastname}</td>";
+         echo "<td width='20%'>{$position}</td>";
+         echo "<td width='20%'>{$Tel1}</td>";
          echo "<td width='10%'>{$type}</td>";
          echo "<td width='20%'>";
                 if($approved){
@@ -241,16 +252,155 @@ function show_form($user_id){
   $i=0;
   if($isData >0){
      // มีข้อมูลผู้ใช้อยู่
-     $fullname = $data->fullname;
-     $username = $data->username;
+     $rank=$rec->rank;
+     $name=$rec->name;
+     $lastname=$rec->lastname;
+     $position=$rec->position;
+     $province=$rec->province;
+     $Email=$rec->Email;
+     $Tel1=$rec->Tel1;
+     $LineID=$rec->LineID;
+     $comment=$rec->comment;
      $type = $data->type;
 }// end isData>0
         ?>
         <table><tr><td>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-      <?php echo "Username :".$username;?>
-      <br>ชื่อ นามสกุล :<input type='text' name='fullname'value="<?php echo $fullname;?>" class='form-control' />
-      <br>ประเภทสมาชิก :<input type='text' name='type' value="<?php echo $type;?>" class='form-control' />
+
+        <table  class='table table-hover table-responsive table-bordered'>
+            <tr>
+                <td>ยศ ชื่อ สกุล</td>
+                <td>
+                  <select name="rank">
+            <option value="<?php echo $rank;?>" selected><?php echo $rank;?></option>
+            <option value="ร.ต.">ร.ต.</option>
+            <option value="ร.ท.">ร.ท.</option>
+            <option value="ร.อ.">ร.อ.</option>
+            <option value="พ.ต.">พ.ต.</option>
+            <option value="พ.ท.">พ.ท.</option>
+            <option value="พ.อ.">พ.อ.</option>
+            <option value="พล.ต.">พล.ต.</option>
+            <option value="พล.ท.">พล.ท.</option>
+            <option value="พล.อ.">พล.อ.</option>
+            </select>
+                  <input type='text' name='name' value="<?php echo $name;?>" />
+                  <input type='text' name='lastname' value="<?php echo $lastname;?>"  /></td>
+            </tr>
+            <tr>
+                <td>ตำแหน่ง</td>
+                <td><input type='text' name='position' value="<?php echo $position;?>" class='form-control' /></td>
+                </tr>
+            <tr>
+                <td>จังหวัด</td>
+                <td><select name="province">
+          <option value="<?php echo $province;?>" selected><?php echo $province;?></option>
+          <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
+          <option value="กระบี่">กระบี่ </option>
+          <option value="กาญจนบุรี">กาญจนบุรี </option>
+          <option value="กาฬสินธุ์">กาฬสินธุ์ </option>
+          <option value="กำแพงเพชร">กำแพงเพชร </option>
+          <option value="ขอนแก่น">ขอนแก่น</option>
+          <option value="จันทบุรี">จันทบุรี</option>
+          <option value="ฉะเชิงเทรา">ฉะเชิงเทรา </option>
+          <option value="ชัยนาท">ชัยนาท </option>
+          <option value="ชัยภูมิ">ชัยภูมิ </option>
+          <option value="ชุมพร">ชุมพร </option>
+          <option value="ชลบุรี">ชลบุรี </option>
+          <option value="เชียงใหม่">เชียงใหม่ </option>
+          <option value="เชียงราย">เชียงราย </option>
+          <option value="ตรัง">ตรัง </option>
+          <option value="ตราด">ตราด </option>
+          <option value="ตาก">ตาก </option>
+          <option value="นครนายก">นครนายก </option>
+          <option value="นครปฐม">นครปฐม </option>
+          <option value="นครพนม">นครพนม </option>
+          <option value="นครราชสีมา">นครราชสีมา </option>
+          <option value="นครศรีธรรมราช">นครศรีธรรมราช </option>
+          <option value="นครสวรรค์">นครสวรรค์ </option>
+          <option value="นราธิวาส">นราธิวาส </option>
+          <option value="น่าน">น่าน </option>
+          <option value="นนทบุรี">นนทบุรี </option>
+          <option value="บึงกาฬ">บึงกาฬ</option>
+          <option value="บุรีรัมย์">บุรีรัมย์</option>
+          <option value="ประจวบคีรีขันธ์">ประจวบคีรีขันธ์ </option>
+          <option value="ปทุมธานี">ปทุมธานี </option>
+          <option value="ปราจีนบุรี">ปราจีนบุรี </option>
+          <option value="ปัตตานี">ปัตตานี </option>
+          <option value="พะเยา">พะเยา </option>
+          <option value="พระนครศรีอยุธยา">พระนครศรีอยุธยา </option>
+          <option value="พังงา">พังงา </option>
+          <option value="พิจิตร">พิจิตร </option>
+          <option value="พิษณุโลก">พิษณุโลก </option>
+          <option value="เพชรบุรี">เพชรบุรี </option>
+          <option value="เพชรบูรณ์">เพชรบูรณ์ </option>
+          <option value="แพร่">แพร่ </option>
+          <option value="พัทลุง">พัทลุง </option>
+          <option value="ภูเก็ต">ภูเก็ต </option>
+          <option value="มหาสารคาม">มหาสารคาม </option>
+          <option value="มุกดาหาร">มุกดาหาร </option>
+          <option value="แม่ฮ่องสอน">แม่ฮ่องสอน </option>
+          <option value="ยโสธร">ยโสธร </option>
+          <option value="ยะลา">ยะลา </option>
+          <option value="ร้อยเอ็ด">ร้อยเอ็ด </option>
+          <option value="ระนอง">ระนอง </option>
+          <option value="ระยอง">ระยอง </option>
+          <option value="ราชบุรี">ราชบุรี</option>
+          <option value="ลพบุรี">ลพบุรี </option>
+          <option value="ลำปาง">ลำปาง </option>
+          <option value="ลำพูน">ลำพูน </option>
+          <option value="เลย">เลย </option>
+          <option value="ศรีสะเกษ">ศรีสะเกษ</option>
+          <option value="สกลนคร">สกลนคร</option>
+          <option value="สงขลา">สงขลา </option>
+          <option value="สมุทรสาคร">สมุทรสาคร </option>
+          <option value="สมุทรปราการ">สมุทรปราการ </option>
+          <option value="สมุทรสงคราม">สมุทรสงคราม </option>
+          <option value="สระแก้ว">สระแก้ว </option>
+          <option value="สระบุรี">สระบุรี </option>
+          <option value="สิงห์บุรี">สิงห์บุรี </option>
+          <option value="สุโขทัย">สุโขทัย </option>
+          <option value="สุพรรณบุรี">สุพรรณบุรี </option>
+          <option value="สุราษฎร์ธานี">สุราษฎร์ธานี </option>
+          <option value="สุรินทร์">สุรินทร์ </option>
+          <option value="สตูล">สตูล </option>
+          <option value="หนองคาย">หนองคาย </option>
+          <option value="หนองบัวลำภู">หนองบัวลำภู </option>
+          <option value="อำนาจเจริญ">อำนาจเจริญ </option>
+          <option value="อุดรธานี">อุดรธานี </option>
+          <option value="อุตรดิตถ์">อุตรดิตถ์ </option>
+          <option value="อุทัยธานี">อุทัยธานี </option>
+          <option value="อุบลราชธานี">อุบลราชธานี</option>
+          <option value="อ่างทอง">อ่างทอง </option>
+          <option value="อื่นๆ">อื่นๆ</option>
+    </select>
+    </td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><input type='text' name='Email' value="<?php echo $Email;?>" class='form-control' /></td>
+                </tr>
+            <tr>
+            <tr>
+                <td>LINE ID</td>
+                <td><input type='text' name='LineID' value="<?php echo $LineID;?>" class='form-control' /></td>
+                </tr>
+            <tr>
+                <td>โทรศัพท์</td>
+                <td><input type='text' name='Tel1' value="<?php echo $Tel1;?>" class='form-control' /></td>
+                </tr>
+            <tr>
+                <td>รายละเอียดเพิ่มเติม</td>
+                <td><textarea name="comment" rows="10" cols="30"class='form-control' />ระบุรายละเอียดข้อมูลที่ต้องการแก้ไขด้วยค่ะ</textarea></td>
+            </tr>
+            <tr>
+                <td></td>
+      <br>ประเภทสมาชิก :<select name="type">
+<option value="<?php echo $type;?>" selected><?php echo $type;?></option>
+<option value="normaluser">สมาชิกรุ่น</option>
+<option value="committee">กรรมการรุ่น</option>
+<option value="financemanager">เหรัญญิก</option>
+<option value="admin">Admin</option>
+</select>
       <input type="hidden" name="user_id" value="<?php echo $user_id;?>">
       <input type='hidden' name='form_no' value='user_edit'>
       <input type='hidden' name='edited' value='1'>
@@ -265,7 +415,18 @@ function show_form($user_id){
 
 
   <?php
-  function update_user($user_id,$fullname,$type){
+  function update_user($update_data){
+  echo  $update_data['rank'];
+  echo   $update_data['name'] ;
+  echo   $update_data['lastname'] ;
+  echo   $update_data['position'] ;
+  echo   $update_data['province'] ;
+  echo   $update_data['Email'] ;
+  echo   $update_data['Tel1'] ;
+  echo   $update_data['LineID'] ;
+  echo   $update_data['comment'] ;
+  echo   $update_data['type'];
+/*
     if(!empty($fullname)){
     $newData = '{ "$set" : { "fullname" : "'.$fullname.'"} }';
     $opts = array('http' => array( 'method' => "PUT",
@@ -298,7 +459,7 @@ function show_form($user_id){
                 $_SESSION['message']='Update ประเภทสมาชิกไม่สำเร็จ';
                      }
   }//end !empty type
-
+*/
 }// end function update_user
    ?>
 
