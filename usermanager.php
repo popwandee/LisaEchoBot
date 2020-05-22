@@ -458,7 +458,7 @@ if($isData >0){
                                                )
                                         );
                                       }
-  /*
+
     $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY;
             $context = stream_context_create($opts);
             $returnValue = file_get_contents($url,false,$context);
@@ -468,23 +468,7 @@ if($isData >0){
                 $_SESSION['message']='Update รายชื่อไม่สำเร็จ';
                      }
   }//end if !empty fullname
-  if(!empty($type)){
-    $newData = '{ "$set" : { "type" : "'.$type.'"} }';
-    $opts = array('http' => array( 'method' => "PUT",
-                                   'header' => "Content-type: application/json",
-                                   'content' => $newData
-                                               )
-                                            );
-    $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY;
-            $context = stream_context_create($opts);
-            $returnValue = file_get_contents($url,false,$context);
-            if($returnValue){
-              $_SESSION['message']='Update ประเภทสมาชิกสำเร็จ';
-              }else{
-                $_SESSION['message']='Update ประเภทสมาชิกไม่สำเร็จ';
-                     }
-  }//end !empty type
-*/
+  
 }// end function update_user
    ?>
 
