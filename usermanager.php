@@ -442,21 +442,16 @@ if($isData >0){
     $comment = $update_data['type'];
 
 
-    $newData = '{ "$set" : { "rank" : "'.$rank.'"},
-    { "name" : "'.$name.'"},
-    { "lastname" : "'.$lastname.'"},
-    { "position" : "'.$position.'"},
-    { "province" : "'.$province.'"},
-    { "Email" : "'.$Email.'"},
-    { "Tel1" : "'.$Tel1.'"},
-    { "LineID" : "'.$LineID.'"},
-    { "type" : "'.$type.'"},
-    { "comment" : "'.$comment.'"} }';
-    $opts = array('http' => array( 'method' => "PUT",
-                                   'header' => "Content-type: application/json",
-                                   'content' => $newData
-                                               )
-                                        );
+    $newData = '{ "$set" : { "rank" : "'.$rank.'"} },
+    { "$set" : { "name" : "'.$name.'"} },
+    { "$set" : { "lastname" : "'.$lastname.'"} },
+    { "$set" : { "position" : "'.$position.'"} },
+    { "$set" : { "province" : "'.$province.'"} },
+    { "$set" : { "Email" : "'.$Email.'"} },
+    { "$set" : { "Tel1" : "'.$Tel1.'"} },
+    { "$set" : { "LineID" : "'.$LineID.'"} },
+    { "$set" : { "type" : "'.$type.'"} },
+    { "$set" : { "comment" : "'.$comment.'"} }';
 
 
     $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY;
