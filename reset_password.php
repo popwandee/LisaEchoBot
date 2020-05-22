@@ -60,28 +60,29 @@ require_once "config.php";
 $username_err = $password_err = $confirm_password_err = "";
 $user_info = isset($_SESSION["user_info"]) ? $_SESSION["user_info"] : "";
 $username = isset($_SESSION["username"]) ? $_SESSION["username"] : "";
-echo "User info is ".$user_info; echo "\nUsername is ".$username;
+echo "User info is ".$user_info; echo "\n Username is ".$username;
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-  echo "\nValidate username";
+  echo "\n Validate username";
   if(empty(trim($_POST["username"]))){
       $username_err = "ไม่มี username ครับ"; echo $username_err;
   }else{
-      echo "\nSet parameters username.";
-      $param_username = trim($_POST["username"]);echo $param_username;
+
+      $param_username = trim($_POST["username"]);echo "\n Set parameters username is";echo $param_username;
       // Prepare a select statement
       $json = file_get_contents('https://api.mlab.com/api/1/databases/cram51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"Tel1":{"$regex":"'.$param_username.'"}}');
-      $data = json_decode($json);
+      $data = json_decode($json);echo "json is ".$json;
       $isData=sizeof($data);
-      //ตรวจสอบว่ามีชื่อผู้ใช้นี้อยู่แล้วหรือไม่
+      echo "ตรวจสอบว่ามีชื่อผู้ใช้นี้อยู่แล้วหรือไม่";
       if($isData >0){
-          // มีชื่อผู้ใช้นี้อยู่ -
-          print_r($data);echo "\ngot data form db";
+          echo "\n Got data form db";
+          print_r($data);
        }else{
-          $username_err = "ไม่มี username นี้ครับ";echo $username_err;
+          $username_err = "\n ไม่มี username นี้ในฐานข้อมูลครับ";echo $username_err;
             }
 
         }
+        echo "ตรวจสอบ username แล้ว ต่อไป";
   echo "\n Validate old password";
   if(empty(trim($_POST["old_password"]))){
     $old_password = ""; echo "\n Not get old password.";
