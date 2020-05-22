@@ -141,11 +141,6 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
 
     <div class="page-header">
       <div class="panel panel-info">
-        <div class="panel-heading">
-        <h2></h2>
-        <p>กรุณากรอกข้อมูล</p>
-      </div>
-
         <div class="col-sm-4" >
       <div class="panel-body">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
@@ -177,7 +172,6 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
 
         </form>
     </div> <!-- panel-body -->
-</div> <!-- panel panel-primary-->
 </div> <!-- col-sm-4 -->
 
     </div> <!-- panel panel-info -->
