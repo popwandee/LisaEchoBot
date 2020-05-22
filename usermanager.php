@@ -82,30 +82,31 @@ require_once "config.php";
 </td></tr></table>
 	  <?php
     if(isset($_POST['form_no'])){
-    $form_no=$_POST['form_no'];
+    $form_no=$_POST['form_no']; echo "form ".$form_no;
      switch ($form_no){
-       case "search_name" :
+       case "search_name" :echo "\nCase Search by name";
            if(isset($_POST['fullname'])){$name=$_POST['fullname'];}
            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"name":{"$regex":"'.$name.'"}}');
             break;
-       case "search_username" :
+       case "search_username" : echo "\nCase search by username (phone nummer)";
            if(isset($_POST['username'])){$username=$_POST['username'];}
-           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"username":"'.$username.'"}');
+           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"Tel1":"'.$username.'"}');
             break;
-       case "show_all_user" :
+       case "show_all_user" : echo "\nCase show all user.";
            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
             break;
-      case "user_approved" :
+      case "user_approved" : echo "\nCase approve user";
            $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : "";
            $approved = isset($_POST['approved']) ? $_POST['approved'] : 0;
            user_approved($user_id,$approved);
            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
 
            break;
-      case "user_edit" :
+      case "user_edit" : echo "\nCase edit user";
       $update_data['user_id'] = isset($_POST['user_id']) ? $_POST['user_id'] : "";
       $edited = isset($_POST['edited']) ? $_POST['edited'] : 0;
           if($edited){
+            echo "\nGet data from edit user form.";
             $update_data['rank']= isset($_POST['rank']) ? $_POST['rank'] : "";
             $update_data['name'] = isset($_POST['name']) ? $_POST['name'] : "";
             $update_data['lastname'] = isset($_POST['lastname']) ? $_POST['lastname'] : "";
@@ -117,7 +118,7 @@ require_once "config.php";
             $update_data['comment'] = isset($_POST['comment']) ? $_POST['comment'] : "";
             $update_data['type'] = isset($_POST['type']) ? $_POST['type'] : "normaluser";
             update_user($update_data);
-          }else{
+          }else{echo "\nShow form for edit user";
             show_form($update_data);
             }
           //  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
@@ -252,6 +253,7 @@ function user_approved($user_id,$approved){
 
  <?php
 function show_form($update_data){
+  echo "in Fuction Show form, get update_data is ";print_r($update_data);
   $user_id= $update_data['user_id'];
 
      $rank=$update_data['rank'];
