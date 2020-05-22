@@ -47,7 +47,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         // มีข้อมูลผู้ใช้อยู่
      foreach($data as $rec){
         $username=$rec->Tel1;
-        $approved=$rec->approved;
+        $rank=$rec->rank;
+        $name=$rec->name;
+        $lastname=$rec->lastname;
         $type=$rec->type;
         $hashed_password=$rec->password;
          }
@@ -61,6 +63,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             // Store data in session variables
                             $_SESSION["loggedin"] = true;
                             $_SESSION["username"] = $username;
+                            $_SESSION["user_info"] = $rank.$name.' '.$lastname;
                             $_SESSION["type"] = $type;
 
                             // Redirect user to welcome page

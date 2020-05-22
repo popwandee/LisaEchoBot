@@ -7,6 +7,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;
 }
+$user_info = isset($_SESSION['user_info']) ? $_POST['user_info'] : "";
+$username = isset($_SESSION['username']) ? $_POST['username'] : "";
 // Include config file
 require_once "config.php";
 ?>
@@ -54,18 +56,17 @@ require_once "config.php";
   <button type="button" class="btn btn-xs btn-danger">
 <?php $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
 </button>
-
             <div class="page-header">
-              <h1>สรุปผลงานคณะกรรมการรุ่น</h1>
+              <h1>ยินดีต้อนรับเพื่อนๆ สมาชิก จปร.๕๑ ทุกท่านค่ะ</h1>
             </div>
             <div class="row">
               <div class="col-sm-4">
                 <div class="panel panel-default">
                   <div class="panel-heading">
-                    <h3 class="panel-title">การช่วยเหลือสวัสดิการ</h3>
+                    <h3 class="panel-title">สวัสดีค่ะ <?php echo $user_info;?></h3>
                   </div>
                   <div class="panel-body">
-                    รายละเอียดกิจกรรมการช่วยเหลือสวัสดิการ
+                      <a href="reset_password.php?username=<?php echo $username;?>">เปลี่ยนรหัสผ่าน</a>
                   </div>
                 </div>
                 <div class="panel panel-primary">
