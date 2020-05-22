@@ -200,7 +200,7 @@ require_once "config.php";
             </tr>
         <tr>
             <td>แจ้งรายละเอียดข้อมูลที่ต้องการแก้ไข</td>
-            <td><textarea name="comment" rows="10" cols="30"class='form-control' />ขอรายละเอียดข้อมูลที่ต้องการแก้ไขค่ะ</textarea></td>
+            <td><textarea name="comment" rows="10" cols="30"class='form-control' />ระบุรายละเอียดข้อมูลที่ต้องการแก้ไขด้วยค่ะ</textarea></td>
         </tr>
         <tr>
             <td></td>

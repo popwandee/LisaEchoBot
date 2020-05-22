@@ -20,7 +20,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     // Check if username is empty
     if(empty(trim($_POST["username"]))){
-        $username_err = "กรุณากรอกข้อมูล username.";
+        $username_err = "กรุณากรอกข้อมูล username ด้วยหมายเลขโทรศัพท์ที่ให้ไว้กับระบบ.";
     } else{
         $username = trim($_POST["username"]);
     }
@@ -40,13 +40,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
      $param_username = $username;
 
      // Check if username exists, if yes then verify password
-     $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"username":{"$regex":"'.$param_username.'"}}');
+     $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"Tel1":{"$regex":"'.$param_username.'"}}');
      $data = json_decode($json);
      $isData=sizeof($data);
      if($isData >0){
         // มีข้อมูลผู้ใช้อยู่
      foreach($data as $rec){
-        $username=$rec->username;
+        $username=$rec->Tel1;
         $approved=$rec->approved;
         $type=$rec->type;
         $hashed_password=$rec->password;
@@ -140,7 +140,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
-                <label>Username</label>
+                <label>Username (หมายเลขโทรศัพท์)</label>
                 <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
                 <span class="help-block"><?php echo $username_err; ?></span>
             </div>
@@ -158,7 +158,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   </div> <!-- col-sm-4 -->
   </div> <!-- row -->
        </div> <!-- panel panel-info -->
-       หากยังไม่มี Username Password กรุณา <a href='signup.php'><button type="button" class="btn btn-xs btn-link">ลงทะเบียน</button></a> ที่นี่ค่ะ
     </div> <!-- page-header -->
       </div> <!-- jumbotron -->
 

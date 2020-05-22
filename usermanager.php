@@ -86,20 +86,20 @@ require_once "config.php";
      switch ($form_no){
        case "search_name" :
            if(isset($_POST['fullname'])){$name=$_POST['fullname'];}
-           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"name":{"$regex":"'.$name.'"}}');
+           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"name":{"$regex":"'.$name.'"}}');
             break;
        case "search_username" :
            if(isset($_POST['username'])){$username=$_POST['username'];}
-           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"username":"'.$username.'"}');
+           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"username":"'.$username.'"}');
             break;
        case "show_all_user" :
-           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY);
+           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
             break;
       case "user_approved" :
            $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : "";
            $approved = isset($_POST['approved']) ? $_POST['approved'] : 0;
            user_approved($user_id,$approved);
-           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY);
+           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
 
            break;
       case "user_edit" :
@@ -113,7 +113,7 @@ require_once "config.php";
           }else{
             show_form($user_id);
             }
-            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY);
+            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
 
           break;
        default :
@@ -218,7 +218,7 @@ function user_approved($user_id,$approved){
                                  'content' => $newData
                                              )
                                           );
-  $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY.'';
+  $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY.'';
           $context = stream_context_create($opts);
           $returnValue = file_get_contents($url,false,$context);
           if($returnValue){
@@ -234,7 +234,7 @@ function user_approved($user_id,$approved){
  <?php
 function show_form($user_id){
   echo $user_id;
-  $url="https://api.mlab.com/api/1/databases/crma51/collections/manager/".$user_id."?apiKey=".MLAB_API_KEY;
+  $url="https://api.mlab.com/api/1/databases/crma51/collections/friend/".$user_id."?apiKey=".MLAB_API_KEY;
   $json = file_get_contents($url);
   $data = json_decode($json);
   $isData=sizeof($data);
@@ -273,7 +273,7 @@ function show_form($user_id){
                                    'content' => $newData
                                                )
                                             );
-    $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY;
+    $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY;
             $context = stream_context_create($opts);
             $returnValue = file_get_contents($url,false,$context);
             if($returnValue){
@@ -289,7 +289,7 @@ function show_form($user_id){
                                    'content' => $newData
                                                )
                                             );
-    $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY;
+    $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY;
             $context = stream_context_create($opts);
             $returnValue = file_get_contents($url,false,$context);
             if($returnValue){
