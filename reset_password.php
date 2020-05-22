@@ -9,7 +9,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 }
 $user_info = isset($_SESSION["user_info"]) ? $_SESSION["user_info"] : "";
 $username = isset($_SESSION["username"]) ? $_SESSION["username"] : "";
-
+echo "User info is ".$user_info; echo "\nUsername is ".$username;
 // Include config file
 require_once "config.php";
 
@@ -19,51 +19,57 @@ $username_err = $password_err = $confirm_password_err = "";
 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-  // get Fullname
-  if(empty(trim($_POST["old_password"]))){$old_password = "";}else{$old_password=$_POST['old_password'];}
-    // Validate username
-    if(empty(trim($_POST["username"]))){
-        $username_err = "ไม่มี username ครับ"; echo $username_err;
-    }else{
-        // Set parameters
-        $param_username = trim($_POST["username"]);echo $param_username;
-        // Prepare a select statement
-        $json = file_get_contents('https://api.mlab.com/api/1/databases/cram51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"Tel1":{"$regex":"'.$param_username.'"}}');
-        $data = json_decode($json);
-        $isData=sizeof($data);
-        //ตรวจสอบว่ามีชื่อผู้ใช้นี้อยู่แล้วหรือไม่
-        if($isData >0){
-            // มีชื่อผู้ใช้นี้อยู่ -
-            print_r($data);echo "got data form db";
-         }else{
-            $username_err = "ไม่มี username นี้ครับ";echo $username_err;
-              }
+  echo "\nValidate username";
+  if(empty(trim($_POST["username"]))){
+      $username_err = "ไม่มี username ครับ"; echo $username_err;
+  }else{
+      echo "\nSet parameters username.";
+      $param_username = trim($_POST["username"]);echo $param_username;
+      // Prepare a select statement
+      $json = file_get_contents('https://api.mlab.com/api/1/databases/cram51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"Tel1":{"$regex":"'.$param_username.'"}}');
+      $data = json_decode($json);
+      $isData=sizeof($data);
+      //ตรวจสอบว่ามีชื่อผู้ใช้นี้อยู่แล้วหรือไม่
+      if($isData >0){
+          // มีชื่อผู้ใช้นี้อยู่ -
+          print_r($data);echo "\ngot data form db";
+       }else{
+          $username_err = "ไม่มี username นี้ครับ";echo $username_err;
+            }
 
-          }
-    // Validate password
+        }
+  echo "\n Validate old password";
+  if(empty(trim($_POST["old_password"]))){
+    $old_password = ""; echo "\n Not get old password.";
+  }else{
+    $old_password=$_POST['old_password'];echo "\n Got old password.";
+  }
+
+  echo "\nValidate password";
     if(empty(trim($_POST["password"]))){
-        $password_err = "กรุณากรอก password ด้วยครับ";
+        $password_err = "กรุณากรอก password ด้วยครับ";echo "\nNot get new password.";
     }elseif(strlen(trim($_POST["password"])) < 6){
-        $password_err = "รหัสผ่านจะต้องมีอย่างน้อย 6 ตัวอักษร";
+        $password_err = "รหัสผ่านจะต้องมีอย่างน้อย 6 ตัวอักษร";echo "\nPassword less than 6.";
     }else{
-        $password = trim($_POST["password"]);
+        $password = trim($_POST["password"]);echo "\nGot new password.";
     }
     // Validate confirm password
     if(empty(trim($_POST["confirm_password"]))){
-        $confirm_password_err = "กรุณา confirm password.";
+        $confirm_password_err = "กรุณา confirm password.";echo "\nNot get confirm password.";
     }else{
-        $confirm_password = trim($_POST["confirm_password"]);
+        $confirm_password = trim($_POST["confirm_password"]); echo "\nGot confirm password.";
         if(empty($password_err) && ($password != $confirm_password)){
-            $confirm_password_err = "Password ไม่ตรงกัน";
+            $confirm_password_err = "Password ไม่ตรงกัน";echo "\n".$confirm_password_err;
         }
     }
     // Check input errors before inserting in database
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
-            // Set parameters
+            echo "\n Everything pass,next Set parameters";
             $param_username = $username;
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
-
-            // Attempt to execute the prepared statement
+            echo "\nParameter username is ".$param_username;
+            echo "\nParameter password is ".$param_password;
+            echo "\n Attempt to execute the prepared statement";
             $newData = '{ "$set" : { "password" : "'.$param_password.'" } }';
             $_SESSION['message']='การอนุมัติสิทธิ์เข้าใช้ระบบ ';
             $opts = array('http' => array( 'method' => "PUT",
@@ -72,6 +78,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                                        )
                                                     );
             echo "\nnew Data to update is : ".$newData;
+            echo "\nOptions is ";print_r($opts);
             /*
             $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY.'';
                     $context = stream_context_create($opts);
@@ -130,13 +137,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <div class="page-header">
       <div class="panel panel-info">
         <div class="col-sm-4" >
-      <div class="panel-body">
+          <div class="panel-body">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
           <div class="form-group <?php echo (!empty($user_info_err)) ? 'has-error' : ''; ?>">
-              <label>ชื่อ นามสกุล </label><?php echo $user_info; ?>
+              <label>ชื่อ นามสกุล <?php echo $user_info; ?></label>
           </div>
           <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
-                <label>Username </label><?php echo $username; ?>
+                <label>Username <?php echo $username; ?></label>
                 <input type="hidden" name="username" value="<?php echo $username; ?>">
                 <span class="help-block"><?php echo $username_err; ?></span>
             </div>
@@ -158,14 +165,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Submit">
                 <input type="reset" class="btn btn-default" value="Reset">
-            </div>
-
+              </div>
         </form>
-    </div> <!-- panel-body -->
-</div> <!-- col-sm-4 -->
+          </div> <!-- panel-body -->
+        </div> <!-- col-sm-4 -->
     </div> <!-- panel panel-info -->
       </div> <!-- page-header -->
-      </div>
+    </div> <!-- jumbotron -->
       </div> <!-- container theme-showcase -->
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
