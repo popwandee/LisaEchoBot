@@ -429,17 +429,17 @@ if($isData >0){
   <?php
   function update_user($update_data){
     echo "\n In function update_user";print_r($update_data);
-  echo  $update_data['user_id'];
-  echo  $update_data['rank'];
-  echo   $update_data['name'] ;
-  echo   $update_data['lastname'] ;
-  echo   $update_data['position'] ;
-  echo   $update_data['province'] ;
-  echo   $update_data['Email'] ;
-  echo   $update_data['Tel1'] ;
-  echo   $update_data['LineID'] ;
-  echo   $update_data['comment'] ;
-  echo   $update_data['type'];
+    $user_id=  $update_data['user_id'];
+    $rank= $update_data['rank'];
+    $name = $update_data['name'] ;
+    $lastname = $update_data['lastname'] ;
+    $position = $update_data['position'] ;
+    $province = $update_data['province'] ;
+    $Email = $update_data['Email'] ;
+    $Tel1 = $update_data['Tel1'] ;
+    $LineID = $update_data['LineID'] ;
+    $type = $update_data['comment'] ;
+    $comment = $update_data['type'];
 
 
     $newData = '{ "$set" : { "rank" : "'.$rank.'"} },
