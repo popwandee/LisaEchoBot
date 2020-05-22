@@ -1,4 +1,15 @@
 <?php
+// Initialize the session
+session_start();
+
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
+$user_info = isset($_SESSION["user_info"]) ? $_SESSION["user_info"] : "";
+$username = isset($_SESSION["username"]) ? $_SESSION["username"] : "";
+
 // Include config file
 require_once "config.php";
 
@@ -127,9 +138,6 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
     <div class="jumbotron">
       <h1>แก้ไขรหัสผ่าน</h1>
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
-    </div>
-
-    </div> <!-- container theme-showcase -->
 
     <div class="page-header">
       <div class="panel panel-info">
@@ -148,7 +156,7 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
                 <label>Username</label><?php echo $username; ?>
             </div>
             <div class="form-group <?php echo (!empty($old_password_err)) ? 'has-error' : ''; ?>">
-                <label>Old Password: เดิม</label>
+                <label>Old Password:</label>
                 <input type="password" name="password" class="form-control" value="<?php echo $old_password; ?>">
                 <span class="help-block"><?php echo $old_password_err; ?></span>
             </div>
@@ -175,6 +183,9 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='
     </div> <!-- panel panel-info -->
       </div> <!-- page-header -->
 
+      </div>
+
+      </div> <!-- container theme-showcase -->
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
