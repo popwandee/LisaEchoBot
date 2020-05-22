@@ -23,10 +23,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   if(empty(trim($_POST["old_password"]))){$old_password = "";}else{$old_password=$_POST['old_password'];}
     // Validate username
     if(empty(trim($_POST["username"]))){
-        $username_err = "ไม่มี username ครับ";
+        $username_err = "ไม่มี username ครับ"; echo $username_err;
     } else{
         // Set parameters
-        $param_username = trim($_POST["username"]);
+        $param_username = trim($_POST["username"]);echo $param_username;
         // Prepare a select statement
         $json = file_get_contents('https://api.mlab.com/api/1/databases/cram51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"Tel1":{"$regex":"'.$param_username.'"}}');
         $data = json_decode($json);
@@ -34,9 +34,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         //ตรวจสอบว่ามีชื่อผู้ใช้นี้อยู่แล้วหรือไม่
         if($isData >0){
             // มีชื่อผู้ใช้นี้อยู่ -
-            print_r($data);
+            print_r($data);echo "got data form db";
          }else{
-            $username_err = "ไม่มี username นี้ครับ";
+            $username_err = "ไม่มี username นี้ครับ";echo $username_err;
               }
           }
 
