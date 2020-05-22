@@ -7,9 +7,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;
 }
-$user_info = isset($_SESSION["user_info"]) ? $_SESSION["user_info"] : "";
-$username = isset($_SESSION["username"]) ? $_SESSION["username"] : "";
-echo "User info is ".$user_info; echo "\nUsername is ".$username;
+
 // Include config file
 require_once "config.php";
 ?>
@@ -48,9 +46,10 @@ require_once "config.php";
 <body>
   <?php
 // Define variables and initialize with empty values
-$username = $password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = "";
-
+$user_info = isset($_SESSION["user_info"]) ? $_SESSION["user_info"] : "";
+$username = isset($_SESSION["username"]) ? $_SESSION["username"] : "";
+echo "User info is ".$user_info; echo "\nUsername is ".$username;
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   echo "\nValidate username";
