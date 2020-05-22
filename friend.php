@@ -299,7 +299,7 @@ function insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$L
   	'comment' => $comment,
     'password' =>'$2y$10$iY75qUiPFNQBrpzZsd8ybe2yijNigzOsFAMeNtkqDxGSqP22UkzGu',
     'type'=> 'normaluser',
-    'approved': 0,
+    'approved'=> 0,
     'status'=>'เพิ่มใหม่') );
   $opts = array('http' => array( 'method' => "POST",
                                  'header' => "Content-type: application/json",
