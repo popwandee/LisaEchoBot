@@ -456,7 +456,9 @@ if($isData >0){
                                    'header' => "Content-type: application/json",
                                    'content' => $newData
                                                )
-  /*                                          );
+                                        );
+                                      }
+  /*
     $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY;
             $context = stream_context_create($opts);
             $returnValue = file_get_contents($url,false,$context);
