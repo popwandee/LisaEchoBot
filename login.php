@@ -51,6 +51,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $name=$rec->name;
         $lastname=$rec->lastname;
         $type=$rec->type;
+        $approved=$rec->approved;
         $hashed_password=$rec->password;
          }
        if(password_verify($password, $hashed_password)){
