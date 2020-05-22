@@ -118,7 +118,7 @@ require_once "config.php";
             $update_data['type'] = isset($_POST['type']) ? $_POST['type'] : "normaluser";
             update_user($update_data);
           }else{
-            show_form($update_data['user_id']);
+            show_form($update_data);
             }
           //  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
 
@@ -251,26 +251,20 @@ function user_approved($user_id,$approved){
  ?>
 
  <?php
-function show_form($user_id){
-  echo $user_id;
-  $url="https://api.mlab.com/api/1/databases/crma51/collections/friend/".$user_id."?apiKey=".MLAB_API_KEY;
-  $json = file_get_contents($url);
-  $data = json_decode($json);
-  $isData=sizeof($data);
-  $i=0;
-  if($isData >0){
-     // มีข้อมูลผู้ใช้อยู่
-     $rank=$rec->rank;
-     $name=$rec->name;
-     $lastname=$rec->lastname;
-     $position=$rec->position;
-     $province=$rec->province;
-     $Email=$rec->Email;
-     $Tel1=$rec->Tel1;
-     $LineID=$rec->LineID;
-     $comment=$rec->comment;
-     $type = $data->type;
-}// end isData>0
+function show_form($update_data){
+  $user_id= $update_data['user_id'];
+
+     $rank=$update_data['rank'];
+     $name=$update_data['name'];
+     $lastname=$update_data['lastname'];
+     $position=$update_data['position'];
+     $province=$update_data['province'];
+     $Email=$update_data['Email'];
+     $Tel1=$update_data['Tel1'];
+     $LineID=$update_data['LineID'];
+     $comment=$update_data['comment'];
+     $type = $update_data['type'];
+
         ?>
         <table><tr><td>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
