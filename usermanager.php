@@ -87,20 +87,20 @@ require_once "config.php";
      switch ($form_no){
        case "search_name" :echo "\nCase Search by name";
            if(isset($_POST['fullname'])){$name=$_POST['fullname'];}
-           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"name":{"$regex":"'.$name.'"}}');
+           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"name":{"$regex":"'.$name.'"}}');
             break;
        case "search_username" : echo "\nCase search by username (phone nummer)";
            if(isset($_POST['username'])){$username=$_POST['username'];}
-           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"Tel1":"'.$username.'"}');
+           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"Tel1":"'.$username.'"}');
             break;
        case "show_all_user" : echo "\nCase show all user.";
-           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
+           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY);
             break;
       case "user_approved" : echo "\nCase approve user";
            $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : "";
            $approved = isset($_POST['approved']) ? $_POST['approved'] : 0;
            user_approved($user_id,$approved);
-           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
+           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY);
 
            break;
       case "user_edit" : echo "\nCase edit user";
@@ -136,7 +136,7 @@ require_once "config.php";
       }
     }//end if isset form_no
     else{
-      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
+      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY);
       $data = json_decode($json);
       $isData=sizeof($data);
       if($isData >0){
@@ -240,7 +240,7 @@ function user_approved($user_id,$approved){
                                  'content' => $newData
                                              )
                                           );
-  $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY.'';
+  $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY.'';
           $context = stream_context_create($opts);
           $returnValue = file_get_contents($url,false,$context);
           if($returnValue){
@@ -256,7 +256,7 @@ function user_approved($user_id,$approved){
  <?php
 function show_form($user_id){
   echo "\nin Fuction Show form, get user_id is ";print_r($user_id);
-  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY);
+  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY);
 
 $data = json_decode($json);
 $isData=sizeof($data);
@@ -440,15 +440,24 @@ if($isData >0){
   echo   $update_data['LineID'] ;
   echo   $update_data['comment'] ;
   echo   $update_data['type'];
-/*
+
     if(!empty($fullname)){
-    $newData = '{ "$set" : { "fullname" : "'.$fullname.'"} }';
+    $newData = '{ "$set" : { "rank" : "'.$rank.'"} },
+    { "$set" : { "name" : "'.$name.'"} },
+    { "$set" : { "lastname" : "'.$lastname.'"} },
+    { "$set" : { "position" : "'.$position.'"} },
+    { "$set" : { "province" : "'.$province.'"} },
+    { "$set" : { "Email" : "'.$Email.'"} },
+    { "$set" : { "Tel1" : "'.$Tel1.'"} },
+    { "$set" : { "LineID" : "'.$LineID.'"} },
+    { "$set" : { "type" : "'.$type.'"} },
+    { "$set" : { "comment" : "'.$comment.'"} }';
     $opts = array('http' => array( 'method' => "PUT",
                                    'header' => "Content-type: application/json",
                                    'content' => $newData
                                                )
-                                            );
-    $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY;
+  /*                                          );
+    $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY;
             $context = stream_context_create($opts);
             $returnValue = file_get_contents($url,false,$context);
             if($returnValue){
@@ -464,7 +473,7 @@ if($isData >0){
                                    'content' => $newData
                                                )
                                             );
-    $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY;
+    $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY;
             $context = stream_context_create($opts);
             $returnValue = file_get_contents($url,false,$context);
             if($returnValue){
