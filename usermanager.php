@@ -441,7 +441,7 @@ if($isData >0){
   echo   $update_data['comment'] ;
   echo   $update_data['type'];
 
-    if(!empty($fullname)){
+
     $newData = '{ "$set" : { "rank" : "'.$rank.'"} },
     { "$set" : { "name" : "'.$name.'"} },
     { "$set" : { "lastname" : "'.$lastname.'"} },
@@ -457,7 +457,7 @@ if($isData >0){
                                    'content' => $newData
                                                )
                                         );
-                                      }
+
 
     $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY;
             $context = stream_context_create($opts);
@@ -467,8 +467,8 @@ if($isData >0){
               }else{
                 $_SESSION['message']='Update รายชื่อไม่สำเร็จ';
                      }
-  }//end if !empty fullname
-  
+
+
 }// end function update_user
    ?>
 
