@@ -66,7 +66,7 @@ require_once "config.php";
                     <h3 class="panel-title">สวัสดีค่ะ <?php echo $user_info;?></h3>
                   </div>
                   <div class="panel-body">
-                      <a href="reset_password.php?username=<?php echo $username;?>">เปลี่ยนรหัสผ่าน</a>
+                      <a href="reset_password.php">เปลี่ยนรหัสผ่าน</a>
                   </div>
                 </div>
                 <div class="panel panel-primary">

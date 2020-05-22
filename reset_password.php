@@ -24,7 +24,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate username
     if(empty(trim($_POST["username"]))){
         $username_err = "ไม่มี username ครับ"; echo $username_err;
-    } else{
+    }else{
         // Set parameters
         $param_username = trim($_POST["username"]);echo $param_username;
         // Prepare a select statement
@@ -38,32 +38,27 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
          }else{
             $username_err = "ไม่มี username นี้ครับ";echo $username_err;
               }
+
           }
-
-
     // Validate password
     if(empty(trim($_POST["password"]))){
         $password_err = "กรุณากรอก password ด้วยครับ";
-    } elseif(strlen(trim($_POST["password"])) < 6){
+    }elseif(strlen(trim($_POST["password"])) < 6){
         $password_err = "รหัสผ่านจะต้องมีอย่างน้อย 6 ตัวอักษร";
-    } else{
+    }else{
         $password = trim($_POST["password"]);
     }
-
     // Validate confirm password
     if(empty(trim($_POST["confirm_password"]))){
         $confirm_password_err = "กรุณา confirm password.";
-    } else{
+    }else{
         $confirm_password = trim($_POST["confirm_password"]);
         if(empty($password_err) && ($password != $confirm_password)){
             $confirm_password_err = "Password ไม่ตรงกัน";
         }
     }
-
     // Check input errors before inserting in database
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
-
-
             // Set parameters
             $param_username = $username;
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
@@ -71,7 +66,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             // Attempt to execute the prepared statement
             $newData = '{ "$set" : { "password" : "'.$param_password.'" } }';
             $_SESSION['message']='การอนุมัติสิทธิ์เข้าใช้ระบบ ';
-
             $opts = array('http' => array( 'method' => "PUT",
                                            'header' => "Content-type: application/json",
                                            'content' => $newData
@@ -90,6 +84,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             		       header('Location: index.php?message=CannotApproved');
                              }
 */
+}
 }
 ?>
 
