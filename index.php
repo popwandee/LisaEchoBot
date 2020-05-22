@@ -7,8 +7,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;
 }
-$user_info = isset($_SESSION['user_info']) ? $_POST['user_info'] : "";
-$username = isset($_SESSION['username']) ? $_POST['username'] : "";
+$user_info = isset($_SESSION["user_info"]) ? $_SESSION["user_info"] : "";
+$username = isset($_SESSION["username"]) ? $_SESSION["username"] : "";
 // Include config file
 require_once "config.php";
 ?>
