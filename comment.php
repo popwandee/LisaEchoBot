@@ -45,9 +45,10 @@ require_once "config.php";
 </head>
 <body>
     <?php include 'navigation.html';?>
-    <?php show_all_comment();?>
+
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
+          <?php show_all_comment();?>
     <span class="label label-primary">แจ้งแก้ไขข้อมูล</span>
     </div>
     <div class="jumbotron">
@@ -226,7 +227,7 @@ else{ // set formSubmit from form
   if(isset($_POST['comment'])){$comment=$_POST['comment'];}else{$comment=''; }
   $newData = json_encode(array(
     'userid' => $id,
-    'name '=>$rank.' '.$name.' '.$lastname,
+    'name'=>$rank.' '.$name.' '.$lastname,
     'content' => 'position: '.$postion.' province: '.$province.' Email: '.$Email.' Telephone: '.$Tel1.' LineID: '.$LineID ,
   	'comment' => $comment,
     'status'=>'เพิ่มใหม่') );
