@@ -125,7 +125,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         }
     }
     // Check input errors before inserting in database
-    if(empty($username_err) && empty($user_id) && empty($old_password_err) && empty($password_err) && empty($confirm_password_err)){
+    if(empty($username_err) && isset($user_id) && empty($old_password_err) && empty($password_err) && empty($confirm_password_err)){
             echo "\n Everything pass,next Set parameters";
             $param_user_id = $user_id;
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
