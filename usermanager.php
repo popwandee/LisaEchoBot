@@ -56,7 +56,7 @@ require_once "config.php";
     <div class='table-responsive'>
       <table align='center' class='table-sm table-hover table-responsive table-bordered'>
   <tr>  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-   <td>ค้นหาด้วยชื่อ<br><input type='text' name='name' class='form-control' />
+   <td align='right'>ค้นหาด้วยชื่อ<br><input type='text' name='name' class='form-control' />
       <br><input type='hidden' name='form_no' value='search_name'>
       <input type='submit' value='ค้นหา' class='btn btn-primary' />
 </td></form>
@@ -64,9 +64,10 @@ require_once "config.php";
     <td>ค้นหาด้วยจังหวัด<Br><?php select_province();?></td>
 </form>
  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-    <td>ค้นหาด้วยหมายเลขโทรศัพท์<br><input type='text' name='Tel1' class='form-control' />
-    <br><input type='hidden' name='form_no' value='search_phone'>
-      <input type='submit' value='ค้นหา' class='btn btn-primary' />
+    <td>ค้นหาด้วยหมายเลขโทรศัพท์
+      <br><input type='text' name='Tel1' class='form-control' />
+    <br><input type='hidden' name='form_no' value='search_phone' />
+      <input type='submit' value='ค้นหา' class='btn btn-primary'align='right' />
 </td></form>
  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
   <td><input type='hidden' name='form_no' value='show_all_user'>
@@ -76,7 +77,7 @@ require_once "config.php";
 </div> <!-- class='table-responsive'-->
 	  <?php
     if(isset($_POST['form_no'])){
-    $form_no=$_POST['form_no']; echo "form ".$form_no;
+    $form_no=$_POST['form_no']; //echo "form ".$form_no;
      switch ($form_no){
        case "search_name" ://echo "\nCase Search by name";
            if(isset($_POST['name'])){$name=$_POST['name'];}
@@ -556,7 +557,8 @@ function select_province(){
   <option value="อุบลราชธานี">อุบลราชธานี</option>
   <option value="อ่างทอง">อ่างทอง </option>
   <option value="อื่นๆ">อื่นๆ</option>
-  </select>
+</select>
+<br>
   <input type='hidden' name='form_no' value='search_province'>
     <input type='submit' value='ค้นหา' class='btn btn-primary' />
   </form>
