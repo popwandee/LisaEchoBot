@@ -67,6 +67,8 @@ if($isData >0){
   //echo "\nGet data from DB are "; //print_r($data);
      $sum=$data->sum;
    }else{ $sum="ไม่มีข้อมูล";}
+   $testdata = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/5ec50995e7179a6b6362e1f4/sum?apiKey='.MLAB_API_KEY);
+print_r($testdata);
 $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
 </button>
             <div class="page-header">
