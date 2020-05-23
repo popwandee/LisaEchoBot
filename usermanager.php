@@ -123,8 +123,8 @@ require_once "config.php";
                $position=$data->position;$update_position = isset($_POST['position']) ? $_POST['position'] : "";
                if($position!=$update_position){update_field($user_id,'position',$update_position);}
 
-               $province=$data->province;$update_lastname = isset($_POST['lastname']) ? $_POST['lastname'] : "";
-               if($rank!=$update_lastname){update_field($user_id,'lastname',$update_lastname);}
+               $province=$data->province;$update_province = isset($_POST['province']) ? $_POST['province'] : "";
+               if($province!=$update_province){update_field($user_id,'province',$update_province);}
 
                $Email=$data->Email;$update_Email = isset($_POST['Email']) ? $_POST['Email'] : "";
                if($Email!=$update_Email){update_field($user_id,'Email',$update_Email);}
@@ -431,7 +431,7 @@ if($isData >0){
                 </tr>
             <tr>
                 <td>รายละเอียดเพิ่มเติม</td>
-                <td><textarea name="comment" rows="10" cols="30"class='form-control' />ระบุรายละเอียดข้อมูลที่ต้องการแก้ไขด้วยค่ะ</textarea></td>
+                <td><textarea name="comment" rows="10" cols="30"class='form-control' /><?php echo $comment;?></textarea></td>
             </tr>
             <tr>
                 <td></td>
