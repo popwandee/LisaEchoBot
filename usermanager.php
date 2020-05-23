@@ -223,7 +223,7 @@ require_once "config.php";
        // creating new table row per record
        echo "<tr>";
          echo "<td width='10%'>{$id}</td>";
-         echo "<td width='30%'>{$rank} {$name} {$lastname}</td>";
+         echo "<td width='30%' class="text-nowrap">{$rank} {$name} {$lastname}</td>";
          echo "<td width='20%'>{$position}</td>";
          echo "<td width='20%'>{$Tel1}</td>";
          echo "<td width='10%'>{$type}</td>";

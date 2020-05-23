@@ -127,11 +127,11 @@ function showdata($data)
        // creating new table row per record
        echo "<tr>";
          echo "<td width='10%'>{$id}</td>";
-         echo "<td width='30%'>{$record}</td>";
-         echo "<td width='20%'>{$add}</td>";
-         echo "<td width='10%'>{$sub}</td>";
-         echo "<td width='20%'>{$sum}</td>";
-         echo "<td width='10%'>";
+         echo "<td width='40%' class="text-nowrap">{$record}</td>";
+         echo "<td width='5%'>{$add}</td>";
+         echo "<td width='5%'>{$sub}</td>";
+         echo "<td width='10%'>{$sum}</td>";
+         echo "<td width='30%'>";
          if(isset($_SESSION['type']) && (($_SESSION['type'])=='เหรัญญิก')){?>
          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
            <input type="hidden" name="record_id" value="<?php echo $record_id; ?>">
