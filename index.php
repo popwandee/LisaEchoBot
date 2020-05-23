@@ -12,14 +12,7 @@ $username = isset($_SESSION["username"]) ? $_SESSION["username"] : "";
 $position = isset($_SESSION["position"]) ? $_SESSION["position"] : "";
 $province = isset($_SESSION["province"]) ? $_SESSION["province"] : "";
 
-// get summary financemanager
-$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/5ec50995e7179a6b6362e1f4?apiKey='.MLAB_API_KEY);
-$data = json_decode($json); print_r($json);
-$isData=sizeof($data);print_r($data);
-if($isData >0){
-  //echo "\nGet data from DB are "; //print_r($data);
-     $sum=$data->sum;
-   }else{ $sum="ไม่มีข้อมูล";}
+
 // Include config file
 require_once "config.php";
 ?>
@@ -65,7 +58,16 @@ require_once "config.php";
     </div>
   <hr>
   <button type="button" class="btn btn-xs btn-danger">
-<?php $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
+<?php
+// get summary financemanager
+$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/5ec50995e7179a6b6362e1f4?apiKey='.MLAB_API_KEY);
+$data = json_decode($json); print_r($json);
+$isData=sizeof($data);print_r($data);
+if($isData >0){
+  //echo "\nGet data from DB are "; //print_r($data);
+     $sum=$data->sum;
+   }else{ $sum="ไม่มีข้อมูล";}
+$message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
 </button>
             <div class="page-header">
               <h1>ยินดีต้อนรับเพื่อนๆ สมาชิก จปร.๕๑ ทุกท่านค่ะ</h1>
