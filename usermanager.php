@@ -53,43 +53,27 @@ require_once "config.php";
     <div class="jumbotron">
       <h1>AFAPS40 - CRMA51</h1>
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
-<table align='center'>
-  <tr><td>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-    <table class='table table-hover table-responsive table-bordered'>
-        <tr>
-            <td>ค้นหาด้วยชื่อ<input type='text' name='name' class='form-control' /></td>
-            <td><input type='hidden' name='form_no' value='search_name'><input type='submit' value='ค้นหา' class='btn btn-primary' /></td>
-        </tr>
-    </table>
-</form>
-</td><td>
+    <div class='table-responsive'>
+      <table align='center' class='table-sm table-hover table-responsive table-bordered'>
+  <tr>  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+   <td>ค้นหาด้วยชื่อ<br><input type='text' name='name' class='form-control' />
+      <br><input type='hidden' name='form_no' value='search_name'>
+      <input type='submit' value='ค้นหา' class='btn btn-primary' />
+</td></form>
  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-<table class='table table-hover table-responsive table-bordered'>
-<tr>
-    <td>ค้นหาด้วยจังหวัด</td>
-    <td><?php select_province();?></td>
-</tr>
-</table>
+    <td>ค้นหาด้วยจังหวัด<Br><?php select_province();?></td>
 </form>
-</td><td>
  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-<table class='table table-hover table-responsive table-bordered'>
-<tr>
-    <td>ค้นหาด้วยหมายเลขโทรศัพท์<input type='text' name='Tel1' class='form-control' /></td>
-    <td><input type='hidden' name='form_no' value='search_phone'><input type='submit' value='ค้นหา' class='btn btn-primary' /></td>
-</tr>
-</table>
-</form>
-</td><td>
+    <td>ค้นหาด้วยหมายเลขโทรศัพท์<br><input type='text' name='Tel1' class='form-control' />
+    <br><input type='hidden' name='form_no' value='search_phone'>
+      <input type='submit' value='ค้นหา' class='btn btn-primary' />
+</td></form>
  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-<table class='table table-hover table-responsive table-bordered'>
-<tr>
-    <td><input type='hidden' name='form_no' value='show_all_user'><input type='submit' value='แสดง Username ทั้งหมด' class='btn btn-primary' /></td>
-</tr>
-</table>
-</form>
-</td></tr></table>
+  <td><input type='hidden' name='form_no' value='show_all_user'>
+    <input type='submit' value='แสดง Username ทั้งหมด' class='btn btn-primary' />
+</td></form>
+</tr></table>
+</div> <!-- class='table-responsive'-->
 	  <?php
     if(isset($_POST['form_no'])){
     $form_no=$_POST['form_no']; echo "form ".$form_no;
