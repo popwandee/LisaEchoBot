@@ -63,7 +63,7 @@ $username = isset($_SESSION["username"]) ? $_SESSION["username"] : "";
 //echo "User info is ".$user_info; echo "\n Username is ".$username;
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-  //echo "\n Validate username";
+  //echo "\n Validate username"; // username is telephone number store as field Tel1
   if(empty(trim($_POST["username"]))){
       $username_err = "ไม่มี username ครับ"; echo $username_err;
   }else{
@@ -93,11 +93,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         if(empty(trim($_POST["old_password"]))){
           $old_password_err = "กรุณากรองรหัสผ่านเดิมด้วยค่ะ";//echo $old_password_err;
         }else{
-          $old_password_post=$_POST['old_password'];echo "\n Got old password is ".$old_password_post;
-          $old_password = password_hash($old_password_post, PASSWORD_DEFAULT);echo "\n Hash Old Password is ".$old_password;
+          $old_password_post=trim($_POST['old_password']);echo "\n Got old password is ".$old_password_post;
+          //$old_password = password_hash($old_password_post, PASSWORD_DEFAULT);echo "\n Hash Old Password is ".$old_password;
 
           echo "\n Compare password_db with old_password";echo "\n รหัสผ่านจากฐานข้อมูลคือ ".$password_db;echo "\n Hash Old Password is ".$old_password;
-          if($old_password==$password_db){
+          if(password_verify($old_password, $password_db)){
             echo "รหัสผ่านเดิม ถูกต้อง ตรงกับฐานข้อมูล";
           }else{
             $old_password_err="รหัสผ่านเดิมไม่ถูกต้องค่ะ";
