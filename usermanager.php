@@ -112,18 +112,43 @@ require_once "config.php";
       $edited = isset($_POST['edited']) ? $_POST['edited'] : 0;
           if($edited){
             //echo "\nGet data from edit user form.";
-            $update_data['user_id']= isset($_POST['user_id']) ? $_POST['user_id'] : "";
-            $update_data['rank']= isset($_POST['rank']) ? $_POST['rank'] : "";
-            $update_data['name'] = isset($_POST['name']) ? $_POST['name'] : "";
-            $update_data['lastname'] = isset($_POST['lastname']) ? $_POST['lastname'] : "";
-            $update_data['position'] = isset($_POST['position']) ? $_POST['position'] : "";
-            $update_data['province'] = isset($_POST['province']) ? $_POST['province'] : "";
-            $update_data['Email'] = isset($_POST['Email']) ? $_POST['Email'] : "";
-            $update_data['Tel1'] = isset($_POST['Tel1']) ? $_POST['Tel1'] : "";
-            $update_data['LineID'] = isset($_POST['LineID']) ? $_POST['LineID'] : "";
-            $update_data['comment'] = isset($_POST['comment']) ? $_POST['comment'] : "";
-            $update_data['type'] = isset($_POST['type']) ? $_POST['type'] : "normaluser";
-            update_user($update_data);
+            // Get data from database to Compare
+            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY);
+          $data = json_decode($json);
+          $isData=sizeof($data);
+          if($isData >0){
+            //echo "\nGet data from DB are "; //print_r($data);
+               $rank=$data->rank;$update_rank = isset($_POST['rank']) ? $_POST['rank'] : "";
+               if($rank!=$update_rank){update_field($user_id,'rank',$update_rank);}
+
+               $name=$data->name;$update_name = isset($_POST['name']) ? $_POST['name'] : "";
+               if($name!=$update_name){update_field($user_id,'name',$update_name);}
+
+               $lastname=$data->lastname;$update_lastname = isset($_POST['lastname']) ? $_POST['lastname'] : "";
+               if($lastname!=$update_lastname){update_field($user_id,'lastname',$update_lastname);}
+
+               $position=$data->position;$update_position = isset($_POST['position']) ? $_POST['position'] : "";
+               if($position!=$update_position){update_field($user_id,'position',$update_position);}
+
+               $province=$data->province;$update_lastname = isset($_POST['lastname']) ? $_POST['lastname'] : "";
+               if($rank!=$update_lastname){update_field($user_id,'lastname',$update_lastname);}
+
+               $Email=$data->Email;$update_Email = isset($_POST['Email']) ? $_POST['Email'] : "";
+               if($Email!=$update_Email){update_field($user_id,'Email',$update_Email);}
+
+               $Tel1=$data->Tel1;$update_Tel1 = isset($_POST['Tel1']) ? $_POST['Tel1'] : "";
+               if($Tel1!=$update_Tel1){update_field($user_id,'Tel1',$update_Tel1);}
+
+               $LineID=$data->LineID;$update_LineID = isset($_POST['LineID']) ? $_POST['LineID'] : "";
+               if($LineID!=$update_LineID){update_field($user_id,'LineID',$update_LineID);}
+
+               $comment=$data->comment;$update_comment = isset($_POST['comment']) ? $_POST['comment'] : "";
+               if($comment!=$update_comment){update_field($user_id,'comment',$update_comment);}
+
+               $type = $data->type;$update_type = isset($_POST['type']) ? $_POST['type'] : "";
+               if($type!=$update_type){update_field($user_id,'type',$update_type);}
+             }
+
           }else{//echo "\nShow form for edit user";
             show_form($user_id);
             }
@@ -410,9 +435,9 @@ if($isData >0){
                 <td></td>
       <br>ประเภทสมาชิก :<select name="type">
 <option value="<?php echo $type;?>" selected><?php echo $type;?></option>
-<option value="normaluser">สมาชิกรุ่น</option>
-<option value="committee">กรรมการรุ่น</option>
-<option value="financemanager">เหรัญญิก</option>
+<option value="สมาชิก">สมาชิก</option>
+<option value="กรรมการ">กรรมการ</option>
+<option value="เหรัญญิก">เหรัญญิก</option>
 <option value="admin">Admin</option>
 </select></td><td>
       <input type="hidden" name="user_id" value="<?php echo $user_id;?>">
@@ -428,48 +453,21 @@ if($isData >0){
 
   ?>
 
+<?php
+function update_field($user_id,$field_name,$new_info){
 
-  <?php
-  function update_user($update_data){
-    echo "\n In function update_user";print_r($update_data);
-    $user_id=  $update_data['user_id'];
-    $rank= $update_data['rank'];
-    $name = $update_data['name'] ;
-    $lastname = $update_data['lastname'] ;
-    $position = $update_data['position'] ;
-    $province = $update_data['province'] ;
-    $Email = $update_data['Email'] ;
-    $Tel1 = $update_data['Tel1'] ;
-    $LineID = $update_data['LineID'] ;
-    $type = $update_data['comment'] ;
-    $comment = $update_data['type'];
+        $newData = '{ "$set" : { "'.$field_name.'" : "'.$new_info.'"} }';
+        $opts = array('http' => array( 'method' => "PUT",
+                                       'header' => "Content-type: application/json",
+                                       'content' => $newData
+                                                   )
+                                                );
+        $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY;
+                $context = stream_context_create($opts);
+                $returnValue = file_get_contents($url,false,$context);
 
-
-    $newData = '{ "$set" : { "rank" : "'.$rank.'"} },
-    { "$set" : { "name" : "'.$name.'"} },
-    { "$set" : { "lastname" : "'.$lastname.'"} },
-    { "$set" : { "position" : "'.$position.'"} },
-    { "$set" : { "province" : "'.$province.'"} },
-    { "$set" : { "Email" : "'.$Email.'"} },
-    { "$set" : { "Tel1" : "'.$Tel1.'"} },
-    { "$set" : { "LineID" : "'.$LineID.'"} },
-    { "$set" : { "type" : "'.$type.'"} },
-    { "$set" : { "comment" : "'.$comment.'"} }';
-
-
-    $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY;
-            $context = stream_context_create($opts);
-            $returnValue = file_get_contents($url,false,$context);
-            if($returnValue){
-              $_SESSION['message']='Update รายชื่อสำเร็จ';
-              }else{
-                $_SESSION['message']='Update รายชื่อไม่สำเร็จ';
-                     }
-
-
-}// end function update_user
-   ?>
-
+}
+ ?>
          <div><!-- class="jumbotron"-->
       </div> <!-- container theme-showcase -->
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
