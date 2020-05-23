@@ -61,13 +61,13 @@ require_once "config.php";
       <input type='submit' value='ค้นหา' class='btn btn-primary' />
 </td></form>
  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-    <td>ค้นหาด้วยจังหวัด<Br><?php select_province();?></td>
+    <td align='right'>ค้นหาด้วยจังหวัด<Br><?php select_province();?></td>
 </form>
  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-    <td>ค้นหาด้วยหมายเลขโทรศัพท์
+    <td align='right'>ค้นหาด้วยหมายเลขโทรศัพท์
       <br><input type='text' name='Tel1' class='form-control' />
     <br><input type='hidden' name='form_no' value='search_phone' />
-      <input type='submit' value='ค้นหา' class='btn btn-primary'align='right' />
+      <input type='submit' value='ค้นหา' class='btn btn-primary'/>
 </td></form>
  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
   <td><input type='hidden' name='form_no' value='show_all_user'>
