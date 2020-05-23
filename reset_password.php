@@ -72,12 +72,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       // Prepare a select statement
       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"Tel1":{"$regex":"'.$param_username.'"}}');
       $data = json_decode($json);
-      $isData=sizeof($data);//echo "data is "; print_r($data);
+      $isData=sizeof($data);echo "data is "; print_r($data);
 
       if($isData >0){
           //echo "\n Got data form db";
           foreach($data as $rec){
-            $password_db=$data->Tel1;echo "\n รหัสผ่านจากฐานข้อมูลคือ ".$password_db;
+            $password_db=$data->password;echo "\n รหัสผ่านจากฐานข้อมูลคือ ".$password_db;
             $_id=$rec->_id;
           foreach($_id as $rec_id){
             $user_id=$rec_id;//echo "user_id is ".$user_id;
@@ -101,6 +101,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             echo "รหัสผ่านเดิม ถูกต้อง ตรงกับฐานข้อมูล";
           }else{
             $old_password_err="รหัสผ่านเดิมไม่ถูกต้องค่ะ";
+            $old_password=$old_password_post;// คืนค่ารหัสผ่านเดิม (ไม่ hash)
           }
         }
         //
