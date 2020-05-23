@@ -77,7 +77,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       if($isData >0){
           //echo "\n Got data form db";
           foreach($data as $rec){
-            $password_db=$data->password;echo "\n รหัสผ่านจากฐานข้อมูลคือ ".$password_db;
+            $password_db=$rec->password;echo "\n รหัสผ่านจากฐานข้อมูลคือ ".$password_db;
             $_id=$rec->_id;
           foreach($_id as $rec_id){
             $user_id=$rec_id;//echo "user_id is ".$user_id;
