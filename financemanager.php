@@ -209,13 +209,13 @@ function showdata($data)
        ?>
 <?php
       function sum_record($sum){
-        $newData = '{ "$set" : { "sum" : "'.$sum.'"} }';
+        $newData = '{ "$set" : { "sum" : '.$sum.'} }';
         $opts = array('http' => array( 'method' => "PUT",
                                        'header' => "Content-type: application/json",
                                        'content' => $newData
                                                    )
                                                 );
-        $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/5ec50995e7179a6b6362e1f4?apiKey='.MLAB_API_KEY;
+        $url = 'https://api.mlab.com/api/1/databases/crma51/collections/finance/5ec50995e7179a6b6362e1f4?apiKey='.MLAB_API_KEY;
                 $context = stream_context_create($opts);
                 $returnValue = file_get_contents($url,false,$context);
                 if($returnValue){
