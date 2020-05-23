@@ -54,7 +54,7 @@ require_once "config.php";
       <h1>AFAPS40 - CRMA51</h1>
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
     <div class='table-responsive'>
-      <table align='center' class='table-sm table-hover table-responsive table-bordered'>
+      <table align='center' class='table table-hover table-responsive table-bordered'>
   <tr>  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
    <td align='right'>ค้นหาด้วยชื่อ<br><input type='text' name='name' class='form-control' />
       <br><input type='hidden' name='form_no' value='search_name'>
