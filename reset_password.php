@@ -108,13 +108,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }elseif(strlen(trim($_POST["password"])) < 6){
         $password_err = "รหัสผ่านจะต้องมีอย่างน้อย 6 ตัวอักษร";echo "\nPassword less than 6.";
     }else{
-        $password = trim($_POST["password"]);echo "\nGot new password.";
+        $password = trim($_POST["password"]);echo "\nตรวจสอบรหัสผ่านใหม่ เรียบร้อย.";
     }
     // Validate confirm password
     if(empty(trim($_POST["confirm_password"]))){
         $confirm_password_err = "กรุณา confirm password.";echo "\nNot get confirm password.";
     }else{
-        $confirm_password = trim($_POST["confirm_password"]); echo "\nGot confirm password.";
+        $confirm_password = trim($_POST["confirm_password"]); echo "\nตรวจสอบ confirm password เรียบร้อย.";
         if(empty($password_err) && ($password != $confirm_password)){
             $confirm_password_err = "Password ไม่ตรงกัน";echo "\n".$confirm_password_err;
         }
