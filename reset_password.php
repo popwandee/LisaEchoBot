@@ -45,16 +45,6 @@ require_once "config.php";
 </head>
 <body>
   <?php include 'navigation.html';?>
-
-    <div class="container theme-showcase" role="main">
-      <!-- Main jumbotron for a primary marketing message or call to action -->
-      <div class="jumbotron">
-        <h1>แก้ไขรหัสผ่าน</h1>
-        <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
-      <div class="page-header">
-        <div class="panel panel-info">
-          <div class="col-sm-4" >
-            <div class="panel-body">
   <?php
 // Define variables and initialize with empty values
 $username_err = $old_password_err = $password_err = $confirm_password_err = "";
@@ -142,18 +132,27 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     $returnValue = file_get_contents($url,false,$context);
                     if($returnValue){
                       $_SESSION['message']='=>เปลี่ยนรหัสผ่านสำเร็จ.';
-                   		   header("location: index.php");
+                   		   header("location: logout.php");
                          exit;
             	        }else{
                       $_SESSION['message']='=>เปลี่ยนรหัสผ่าน ไม่สำเร็จ.';
-            		         header("location: index.php");
-                         exit;
                              }
 
       }//end check parameter
 }
 ?>
 
+
+  <div class="container theme-showcase" role="main">
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <h1>แก้ไขรหัสผ่าน</h1>
+      <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
+      <p><?php $message= isset($_SESSION['message']) ? $_SESSION['message'] :"" ;?></p>
+    <div class="page-header">
+      <div class="panel panel-info">
+        <div class="col-sm-4" >
+          <div class="panel-body">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
           <div class="form-group <?php echo (!empty($user_info_err)) ? 'has-error' : ''; ?>">
               <label>ชื่อ นามสกุล <?php echo $user_info; ?></label>
