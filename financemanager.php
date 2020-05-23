@@ -50,8 +50,18 @@ require_once "config.php";
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
 
 	  <?php
-
+    if(isset($_GET['action']) && ($_GET['action']=='delete')){
+echo "Case Delete record. <br>";
+        if(isset($_GET['id'])){
+          $id=$_GET['id'];
+          echo "Get id for record ".$id." call function delete_record()<br>";
+          $result=delete_record($id);
+          echo "Back from delete_record()<br>";
+          if($result){echo "ลบได้แล้ว";}else{echo "ไม่สามารถลบได้";}
+    }// if get id
+    }
     $data = isset($_POST['data']) ? $_POST['data'] : "";
+
     if(isset($_POST['form_no'])){
     $form_no=$_POST['form_no'];
      switch ($form_no){
@@ -228,6 +238,20 @@ function showdata($data)
       } // end function sum_record
 ?>
 
+<?php
+function delete_record($id){
+$opts = array('http' => array( 'method' => "DELETE",
+                          'header' => "Content-type: application/json",
+                                      )
+                                   );
+$url = 'https://api.mlab.com/api/1/databases/crma51/collections/finance/'.$id.'?apiKey='.MLAB_API_KEY.'';
+   $context = stream_context_create($opts);
+   $returnValue = file_get_contents($url,false,$context);
+   if($returnValue){
+     return true;
+   }
+}
+ ?>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>

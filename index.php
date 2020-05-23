@@ -61,8 +61,8 @@ require_once "config.php";
 <?php
 // get summary financemanager
 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/5ec50995e7179a6b6362e1f4?apiKey='.MLAB_API_KEY);
-$data = json_decode($json); print_r($json);
-$isData=sizeof($data);print_r($data);
+$data = json_decode($json);
+$isData=sizeof($data);
 if($isData >0){
   //echo "\nGet data from DB are "; //print_r($data);
      $sum=$data->sum;
@@ -87,7 +87,8 @@ $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
                     <h3 class="panel-title">สถานะเงินรุ่น</h3>
                   </div>
                   <div class="panel-body">
-                    คงเหลือ...<?php echo $sum;?> บาท <?php print_r($data);?>
+                    คงเหลือ...<?php echo $sum;?> บาท
+                    <span class="list-group-item">ยังไม่ใช่ข้อมูลจริงนะครับ</span>
                   </div>
                 </div>
               </div><!-- /.col-sm-4 -->
