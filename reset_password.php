@@ -57,7 +57,7 @@ require_once "config.php";
             <div class="panel-body">
   <?php
 // Define variables and initialize with empty values
-$username_err = $password_err = $confirm_password_err = "";
+$username_err = $old_password_err = $password_err = $confirm_password_err = "";
 $user_info = isset($_SESSION["user_info"]) ? $_SESSION["user_info"] : "";
 $username = isset($_SESSION["username"]) ? $_SESSION["username"] : "";
 echo "User info is ".$user_info; echo "\n Username is ".$username;
@@ -71,7 +71,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       $param_username = trim($_POST["username"]);echo "\n Set parameters username is";echo $param_username;
       // Prepare a select statement
       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"Tel1":{"$regex":"'.$param_username.'"}}');
-      $data = json_decode($json);echo "json is "; print_r($json);
+      $data = json_decode($json);
       $isData=sizeof($data);echo "data is "; print_r($data);
 
       if($isData >0){
@@ -119,11 +119,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         }
     }
     // Check input errors before inserting in database
-    if(empty($username_err) && empty($old_password_err) && empty($password_err) && empty($confirm_password_err)){
+    if(empty($username_err) && empty($user_id) && empty($old_password_err) && empty($password_err) && empty($confirm_password_err)){
             echo "\n Everything pass,next Set parameters";
-            $param_username = $username;
+            $param_user_id = $user_id;
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
-            echo "\nParameter username is ".$param_username;
+            echo "\nParameter user id is ".$param_user_id;
             echo "\nParameter password is ".$param_password;
             echo "\n Attempt to execute the prepared statement";
             $newData = '{ "$set" : { "password" : "'.$param_password.'" } }';
@@ -135,8 +135,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                                     );
             echo "\nnew Data to update is : ".$newData;
             echo "\nOptions is ";print_r($opts);
-            /*
-            $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY.'';
+
+            $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY.'';
                     $context = stream_context_create($opts);
                     $returnValue = file_get_contents($url,false,$context);
                     if($returnValue){
@@ -146,7 +146,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                       $_SESSION['message']=$_SESSION['message'].'=> ไม่สำเร็จ.';
             		       header('Location: index.php?message=CannotApproved');
                              }
-*/
+
 }
 }
 ?>
