@@ -168,7 +168,7 @@ if(isset($_POST['from_form'])){
  $isData=sizeof($data);
   if($isData >0){
     echo "<div class='table-responsive'>";
-    echo "<table class='table-sm table-hover table-responsive table-bordered'>";//start table
+    echo "<table class='table table-hover table-responsive table-bordered'>";//start table
      //creating our table heading
     echo "<tr>";
         echo "<th>ลำดับ</th>";
