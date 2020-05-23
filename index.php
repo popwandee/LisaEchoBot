@@ -73,13 +73,11 @@ require_once "config.php";
                       <span class="label label-primary"><a href="reset_password.php">เปลี่ยนรหัสผ่าน</a></span>
                   </div>
                 </div>
-                <div class="panel panel-primary">
-                  <div class="panel-heading">
-                    <h3 class="panel-title">กิจกรรมพบปะสังสรรค์</h3>
-                  </div>
-                  <div class="panel-body">
-                    รายละเอียดกิจกรรมพบปะสังสรรค
-                  </div>
+                <div class="list-group">
+                  <a href="#" class="list-group-item active"><?php echo $user_info;?></a>
+                  <a href="#" class="list-group-item">ตำแหน่ง <?php echo $position;?></a>
+                  <a href="#" class="list-group-item">จังหวัด <?php echo $province;?></a>
+                  <a href="reset_password.php" class="list-group-item">เปลี่ยนรหัสผ่าน</a>
                 </div>
               </div><!-- /.col-sm-4 -->
               <div class="col-sm-4">

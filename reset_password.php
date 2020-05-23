@@ -142,13 +142,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     $returnValue = file_get_contents($url,false,$context);
                     if($returnValue){
                       $_SESSION['message']='=>เปลี่ยนรหัสผ่านสำเร็จ.';
-                   		 header('Location: index.php');
+                   		   header("location: index.php");
             	        }else{
                       $_SESSION['message']='=>เปลี่ยนรหัสผ่าน ไม่สำเร็จ.';
-            		       header('Location: index.php');
+            		         header("location: index.php");
                              }
 
-}
+      }//end check parameter
 }
 ?>
 
