@@ -193,7 +193,8 @@ require_once "config.php";
      <?php
      function showdata($data)
      {
-       echo "<table class='table table-hover table-responsive table-bordered'>";//start table
+       echo "<div class='table-responsive'>";
+       echo "<table class='table-sm table-hover table-responsive table-bordered'>";//start table
        //creating our table heading
        echo "<tr>";
          echo "<th>ลำดับ</th>";
@@ -265,6 +266,7 @@ require_once "config.php";
        }
        // end table
        echo "</table>";
+echo "</div> ";// class='table-responsive'
        // end function
      }
      ?>
