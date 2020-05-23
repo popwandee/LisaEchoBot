@@ -167,9 +167,9 @@ if(isset($_POST['from_form'])){
  $data = json_decode($json);
  $isData=sizeof($data);
   if($isData >0){
-
-      echo "<table class='table table-hover table-responsive table-bordered'>";//start table
-    //creating our table heading
+    echo "<div class='table-responsive'>";
+    echo "<table class='table-sm table-hover table-responsive table-bordered'>";//start table
+     //creating our table heading
     echo "<tr>";
         echo "<th>ลำดับ</th>";
         echo "<th>ยศ ชื่อ สกุล</th>";
@@ -201,7 +201,7 @@ foreach($data as $rec){
     // creating new table row per record
     echo "<tr>";
         echo "<td>{$id}</td>";
-        echo "<td>{$rank} {$name} {$lastname}</td>";
+        echo "<td class='text-nowrap'>{$rank} {$name} {$lastname}</td>";
         echo "<td>{$position}</td>";
         echo "<td>{$province}</td>";
         echo "<td>{$Email}</td>";
@@ -212,6 +212,7 @@ foreach($data as $rec){
 
 // end table
 echo "</table>";
+echo "</div> ";// class='table-responsive'
 
   }// if no records found
 else{
