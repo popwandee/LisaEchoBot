@@ -149,7 +149,7 @@ function showdata($data)
            <input type="hidden" name="record_id" value="<?php echo $record_id; ?>">
            <input type='hidden' name='form_no' value='record_edit'>
            <input type='hidden' name='edited' value='0'>
-           <button type="submit" class="btn btn-xs btn-warning">แก้ไข</button>
+           <!--<button type="submit" class="btn btn-xs btn-warning">แก้ไข</button>-->
            </form>
            <a href="financemanager.php?action=delete&id=<?php echo $_id; ?>">ลบรายการ</a>
 
