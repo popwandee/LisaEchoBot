@@ -73,7 +73,7 @@ require_once "config.php";
                                              'content' => $newData
                                                          )
                                                       );
-              $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$_id.'?apiKey='.MLAB_API_KEY.'';
+              $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$_id.'?apiKey='.MLAB_API_KEY.'';
                       $context = stream_context_create($opts);
                       $returnValue = file_get_contents($url,false,$context);
                       echo "\n Set new Password.";
@@ -87,7 +87,7 @@ require_once "config.php";
                                              'content' => $newData
                                                          )
                                                       );
-              $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$_id.'?apiKey='.MLAB_API_KEY.'';
+              $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$_id.'?apiKey='.MLAB_API_KEY.'';
                       $context = stream_context_create($opts);
                       $returnValue = file_get_contents($url,false,$context);
                       echo " Set new type.";
@@ -100,7 +100,7 @@ require_once "config.php";
                                              'content' => $newData
                                                          )
                                                       );
-              $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$_id.'?apiKey='.MLAB_API_KEY.'';
+              $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$_id.'?apiKey='.MLAB_API_KEY.'';
                       $context = stream_context_create($opts);
                       $returnValue = file_get_contents($url,false,$context);
                       echo " Set new approved.";
