@@ -69,39 +69,22 @@ require_once "config.php";
        $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY);
 
             break;
-      case "user_approved" :
-           $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : "";
-           $approved = isset($_POST['approved']) ? $_POST['approved'] : 0;
-           user_approved($user_id,$approved);
-           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY);
-
-           break;
-      case "user_edit" :
-      $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : "";
+      case "record_edit" :
+      $record_id = isset($_POST['record_id']) ? $_POST['record_id'] : "";
       $edited = isset($_POST['edited']) ? $_POST['edited'] : 0;
           if($edited){
-            $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : "";
-            $fullname = isset($_POST['fullname']) ? $_POST['fullname'] : 0;
-            $type = isset($_POST['type']) ? $_POST['type'] : 0;
-            update_user($user_id,$fullname,$type);
+            $record_id = isset($_POST['record_id']) ? $_POST['record_id'] : "";
+            $username = isset($_POST['username']) ? $_POST['username'] : 0;
+            $add = isset($_POST['add']) ? $_POST['add'] : 0;
+            $sub = isset($_POST['sub']) ? $_POST['sub'] : 0;
+            update_record($record_id,$username,$add,$sub);
           }else{
-            show_form($user_id);
+            show_form($record_id);
             }
-            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY);
-
           break;
-       default :
-          $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY);
-      }//end switch
-      $data = json_decode($json);
-      $isData=sizeof($data);
-      if($isData >0){
-          showdata($data);
-      }else{
-        echo "No result from data";
-      }
+          }//end switch
     }//end if isset form_no
-  else{
+
     $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY);
     $data = json_decode($json);
     $isData=sizeof($data);
@@ -111,7 +94,6 @@ require_once "config.php";
       echo "No result from data";
     }
 
-  }
      ?>
 
 <?php
@@ -134,6 +116,7 @@ function showdata($data)
        foreach($_id as $rec_id){
        $_id=$rec_id;
        }
+       $username=$rec->username;
        $record=$rec->record;
        $add=$rec->add;
        $sub=$rec->sub;
@@ -148,8 +131,8 @@ function showdata($data)
          echo "<td width='10%'>";
          if(isset($_SESSION['type']) && (($_SESSION['type'])=='เหรัญญิก')){?>
          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-           <input type="hidden" name="user_id" value="<?php echo $_id; ?>">
-           <input type='hidden' name='form_no' value='user_edit'>
+           <input type="hidden" name="record_id" value="<?php echo $record_id; ?>">
+           <input type='hidden' name='form_no' value='record_edit'>
            <input type='hidden' name='edited' value='0'>
            <button type="submit" class="btn btn-xs btn-warning">แก้ไข</button>
            </form>
@@ -172,9 +155,9 @@ function showdata($data)
          </tr></form>
 
          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-           <tr><td colspan="4"><input type="input" name="sum" value="<?php echo $sum; ?>">
-            <input type='hidden' name='form_no' value='sum_record'></td>
-            <td colspan="2"><button type="submit" class="btn btn-xs btn-info">เพิ่มรายการ</button></td>
+           <tr><td colspan="6">เงินรุ่นคงเหลือ <input type="input" name="sum" value="<?php echo $sum; ?>">
+            <input type='hidden' name='form_no' value='sum_record'>
+            <button type="submit" class="btn btn-xs btn-info">ยืนยันสรุปรายการ</button>(ครั้งเดียว)</td>
             </tr></form>
          <?php
         }//end ifเหรัญญิก
