@@ -71,7 +71,7 @@ if($isData >0){
 $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
 </button>
             <div class="page-header">
-              <h1>ยินดีต้อนรับเพื่อนๆ สมาชิก จปร.๕๑ ทุกท่านค่ะ</h1>
+              <h1>ยินดีต้อนรับเพื่อนๆ สมาชิก จปร.๕๑ ทุกท่านครับ</h1>
             </div>
             <div class="row">
               <div class="col-sm-4">
