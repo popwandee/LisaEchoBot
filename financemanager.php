@@ -55,9 +55,14 @@ require_once "config.php";
     if(isset($_POST['form_no'])){
     $form_no=$_POST['form_no'];
      switch ($form_no){
-       case "sum_record":
-            $sum = isset($_POST['sum']) ? $_POST['sum'] : die('ERROR: Summary not found.');
-            sum_record($sum);
+       case "sum_record": echo "sum_record <br>";
+            if(isset($_POST['sum'])){echo "get _POST['sum'] is ";
+              $sum=$_POST['sum']; echo $sum."<br> call function sum_record()";
+              sum_record($sum);
+            } else{
+              die('ERROR: Summary number not found.');
+            }
+
             break;
 
        case "add_record" :
@@ -155,7 +160,7 @@ function showdata($data)
          </tr></form>
 
          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-           <tr><td colspan="6">เงินรุ่นคงเหลือ <input type="input" name="sum" value="<?php echo $sum; ?>">
+           <tr><td colspan="6" align="center">เงินรุ่นคงเหลือ <input type="input" name="sum" value="<?php echo $sum; ?>">
             <input type='hidden' name='form_no' value='sum_record'>
             <button type="submit" class="btn btn-xs btn-info">ยืนยันสรุปรายการ</button>(ครั้งเดียว)</td>
             </tr></form>
@@ -213,6 +218,13 @@ function showdata($data)
         $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/5ec50995e7179a6b6362e1f4?apiKey='.MLAB_API_KEY;
                 $context = stream_context_create($opts);
                 $returnValue = file_get_contents($url,false,$context);
+                if($returnValue){
+                  $_SESSION['message']='=> สำเร็จ.';
+                   header('Location: financemanager.php?message=Completed');
+                  }else{
+                  $_SESSION['message']='=> ไม่สำเร็จ.';
+                   header('Location: financemanager.php?message=InCompleted');
+                         }
       } // end function sum_record
 ?>
 

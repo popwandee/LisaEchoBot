@@ -11,6 +11,15 @@ $user_info = isset($_SESSION["user_info"]) ? $_SESSION["user_info"] : "";
 $username = isset($_SESSION["username"]) ? $_SESSION["username"] : "";
 $position = isset($_SESSION["position"]) ? $_SESSION["position"] : "";
 $province = isset($_SESSION["province"]) ? $_SESSION["province"] : "";
+
+// get summary financemanager
+$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY.'&q={"type":{"$regex":"summary"}}');
+$data = json_decode($json);
+$isData=sizeof($data);
+if($isData >0){
+  //echo "\nGet data from DB are "; //print_r($data);
+     $sum=$data->sum;
+   }else{ $sum="ไม่มีข้อมูล";}
 // Include config file
 require_once "config.php";
 ?>
@@ -76,7 +85,7 @@ require_once "config.php";
                     <h3 class="panel-title">สถานะเงินรุ่น</h3>
                   </div>
                   <div class="panel-body">
-                    คงเหลือ...
+                    คงเหลือ...<?php echo $sum;?> บาท
                   </div>
                 </div>
               </div><!-- /.col-sm-4 -->
