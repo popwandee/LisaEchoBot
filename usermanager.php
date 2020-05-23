@@ -85,29 +85,33 @@ require_once "config.php";
     if(isset($_POST['form_no'])){
     $form_no=$_POST['form_no']; echo "form ".$form_no;
      switch ($form_no){
-       case "search_name" :echo "\nCase Search by name";
-           if(isset($_POST['fullname'])){$name=$_POST['fullname'];}
-           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"name":{"$regex":"'.$name.'"}}');
+       case "search_name" ://echo "\nCase Search by name";
+           if(isset($_POST['name'])){$name=$_POST['name'];}
+           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"name":{"$regex":"'.$name.'"}}');
             break;
-       case "search_username" : echo "\nCase search by username (phone nummer)";
-           if(isset($_POST['username'])){$username=$_POST['username'];}
-           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY.'&q={"Tel1":"'.$username.'"}');
+       case "search_province" : //echo "\nCase search by province";
+           if(isset($_POST['province'])){$province=$_POST['province'];}
+           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"province":"'.$province.'"}');
             break;
-       case "show_all_user" : echo "\nCase show all user.";
-           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY);
+       case "search_phone" : //echo "\nCase search by province";
+           if(isset($_POST['Tel1'])){$Tel1=$_POST['Tel1'];}
+           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"Tel1":"'.$Tel1.'"}');
             break;
-      case "user_approved" : echo "\nCase approve user";
+       case "show_all_user" : //echo "\nCase show all user.";
+           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
+            break;
+      case "user_approved" : //echo "\nCase approve user";
            $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : "";
            $approved = isset($_POST['approved']) ? $_POST['approved'] : 0;
            user_approved($user_id,$approved);
-           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY);
+           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
 
            break;
-      case "user_edit" : echo "\nCase edit user";
+      case "user_edit" : //echo "\nCase edit user";
       $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : "";
       $edited = isset($_POST['edited']) ? $_POST['edited'] : 0;
           if($edited){
-            echo "\nGet data from edit user form.";
+            //echo "\nGet data from edit user form.";
             $update_data['user_id']= isset($_POST['user_id']) ? $_POST['user_id'] : "";
             $update_data['rank']= isset($_POST['rank']) ? $_POST['rank'] : "";
             $update_data['name'] = isset($_POST['name']) ? $_POST['name'] : "";
@@ -120,7 +124,7 @@ require_once "config.php";
             $update_data['comment'] = isset($_POST['comment']) ? $_POST['comment'] : "";
             $update_data['type'] = isset($_POST['type']) ? $_POST['type'] : "normaluser";
             update_user($update_data);
-          }else{echo "\nShow form for edit user";
+          }else{//echo "\nShow form for edit user";
             show_form($user_id);
             }
           //  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
@@ -136,7 +140,7 @@ require_once "config.php";
       }
     }//end if isset form_no
     else{
-      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager?apiKey='.MLAB_API_KEY);
+      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
       $data = json_decode($json);
       $isData=sizeof($data);
       if($isData >0){
@@ -153,8 +157,9 @@ require_once "config.php";
        echo "<tr>";
          echo "<th>ลำดับ</th>";
          echo "<th>ชื่อ สกุล</th>";
-         echo "<th>Username</th>";
-         echo "<th>Type</th>";
+         echo "<th>ตำแหน่ง</th>";
+         echo "<th>โทรศัพท์</th>";
+         echo "<th>ประเภทสมาชิก</th>";
          echo "<th>Approved</th>";
          echo "<th>Action</th>";
        echo "</tr>";
@@ -240,7 +245,7 @@ function user_approved($user_id,$approved){
                                  'content' => $newData
                                              )
                                           );
-  $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY.'';
+  $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY.'';
           $context = stream_context_create($opts);
           $returnValue = file_get_contents($url,false,$context);
           if($returnValue){
@@ -255,14 +260,13 @@ function user_approved($user_id,$approved){
 
  <?php
 function show_form($user_id){
-  echo "\nin Fuction Show form, get user_id is ";print_r($user_id);
-  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY);
+  //echo "\nin Fuction Show form, get user_id is ";print_r($user_id);
+  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY);
 
 $data = json_decode($json);
 $isData=sizeof($data);
 if($isData >0){
-  echo "\nGet data from DB are "; //print_r($data);
-
+  //echo "\nGet data from DB are "; //print_r($data);
      $rank=$data->rank;
      $name=$data->name;
      $lastname=$data->lastname;
@@ -273,7 +277,6 @@ if($isData >0){
      $LineID=$data->LineID;
      $comment=$data->comment;
      $type = $data->type;
-
         ?>
         <table><tr><td>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
@@ -454,7 +457,7 @@ if($isData >0){
     { "$set" : { "comment" : "'.$comment.'"} }';
 
 
-    $url = 'https://api.mlab.com/api/1/databases/crma51/collections/manager/'.$user_id.'?apiKey='.MLAB_API_KEY;
+    $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY;
             $context = stream_context_create($opts);
             $returnValue = file_get_contents($url,false,$context);
             if($returnValue){
