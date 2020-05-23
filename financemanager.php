@@ -52,8 +52,8 @@ require_once "config.php";
 	  <?php
     if(isset($_GET['action']) && ($_GET['action']=='delete')){
 //echo "Case Delete record. <br>";
-        $id = isset($_POST['id']) ? $_POST['id'] : "";
-        if(isset($id)&& ($id!='5ec50995e7179a6b6362e1f4')){
+        $id = isset($_GET['id']) ? $_GET['id'] : "";
+        if(isset($id) && ($id!='5ec50995e7179a6b6362e1f4')){
           //echo "Get id for record ".$id." call function delete_record()<br>";
           $result=delete_record($id);
           if($result){echo "ลบได้แล้ว";}else{echo "ไม่สามารถลบได้";}
