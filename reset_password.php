@@ -95,6 +95,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           $old_password_err = "กรุณากรองรหัสผ่านเดิมด้วยค่ะ";echo $old_password_err;
         }else{
           $old_password=$_POST['old_password'];echo "\n Got old password.";
+          $old_password = password_hash($old_password, PASSWORD_DEFAULT);
           echo "\n Compare password_db with old_password";
           if($old_password!=$password_db){
             $old_password_err="รหัสผ่านเดิมไม่ถูกต้องค่ะ";
