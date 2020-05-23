@@ -93,7 +93,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         if(empty(trim($_POST["old_password"]))){
           $old_password_err = "กรุณากรองรหัสผ่านเดิมด้วยค่ะ";//echo $old_password_err;
         }else{
-          $old_password_post=trim($_POST['old_password']);echo "\n Got old password is ".$old_password_post;
+          $old_password=trim($_POST['old_password']);echo "\n Got old password is ".$old_password;
           //$old_password = password_hash($old_password_post, PASSWORD_DEFAULT);echo "\n Hash Old Password is ".$old_password;
 
           echo "\n Compare password_db with old_password";echo "\n รหัสผ่านจากฐานข้อมูลคือ ".$password_db;echo "\n Hash Old Password is ".$old_password;
@@ -101,7 +101,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             echo "รหัสผ่านเดิม ถูกต้อง ตรงกับฐานข้อมูล";
           }else{
             $old_password_err="รหัสผ่านเดิมไม่ถูกต้องค่ะ";
-            $old_password=$old_password_post;// คืนค่ารหัสผ่านเดิม (ไม่ hash)
+            //$old_password=$old_password_post;// คืนค่ารหัสผ่านเดิม (ไม่ hash)
           }
         }
         //
