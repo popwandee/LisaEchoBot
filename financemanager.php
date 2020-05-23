@@ -50,12 +50,7 @@ require_once "config.php";
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
 
 	  <?php
-    if(isset($_GET['action']) && ($_GET['action']=='delete')){
-      $record_id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Record ID not found.');
-      if(isset($record_id)){
-        delete_record($record_id);
-      }
-  }
+
     $data = isset($_POST['data']) ? $_POST['data'] : "";
     if(isset($_POST['form_no'])){
     $form_no=$_POST['form_no'];
@@ -119,8 +114,8 @@ require_once "config.php";
   }
      ?>
 
-     <?php
-     function showdata($data)
+<?php
+function showdata($data)
      {
        echo "<table class='table table-hover table-responsive table-bordered'>";//start table
        //creating our table heading
@@ -195,35 +190,36 @@ require_once "config.php";
 <?php $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
 </span>
 
-<?php
-function insert_finance_record($username,$record,$add,$sub){
-$newData = json_encode(array(
-  'username' => $username,
-  'record' => $record,
-  'add' => $add,
-  'sub' => $sub) );
-$opts = array('http' => array( 'method' => "POST",
-                               'header' => "Content-type: application/json",
-                               'content' => $newData
-                                           )
-                                        );
-$url = 'https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY;
-        $context = stream_context_create($opts);
-        $returnValue = file_get_contents($url,false,$context);
-        if($returnValue){
-          $_SESSION['message']='=> สำเร็จ.';
-           header('Location: financemanager.php?message=Completed');
-          }else{
-          $_SESSION['message']='=> ไม่สำเร็จ.';
-           header('Location: financemanager.php?message=InCompleted');
-                 }
-} // end function insert_finance_record
- ?>
-
          <div><!-- class="jumbotron"-->
       </div> <!-- container theme-showcase -->
 
-      <?php
+
+
+<?php
+      function insert_finance_record($username,$record,$add,$sub){
+      $newData = json_encode(array(
+        'username' => $username,
+        'record' => $record,
+        'add' => $add,
+        'sub' => $sub) );
+      $opts = array('http' => array( 'method' => "POST",
+                                     'header' => "Content-type: application/json",
+                                     'content' => $newData
+                                                 )
+                                              );
+      $url = 'https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY;
+              $context = stream_context_create($opts);
+              $returnValue = file_get_contents($url,false,$context);
+              if($returnValue){
+                $_SESSION['message']='=> สำเร็จ.';
+                 header('Location: financemanager.php?message=Completed');
+                }else{
+                $_SESSION['message']='=> ไม่สำเร็จ.';
+                 header('Location: financemanager.php?message=InCompleted');
+                       }
+      } // end function insert_finance_record
+       ?>
+<?php
       function sum_record($sum){
         $newData = '{ "$set" : { "sum" : "'.$sum.'"} }';
         $opts = array('http' => array( 'method' => "PUT",
@@ -235,24 +231,9 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='
                 $context = stream_context_create($opts);
                 $returnValue = file_get_contents($url,false,$context);
       } // end function sum_record
-       ?>
+?>
 
-       <?php
-function delete_record($id){
-  $opts = array('http' => array( 'method' => "DELETE",
-                                 'header' => "Content-type: application/json",
-                                             )
-                                          );
-  $url = 'https://api.mlab.com/api/1/databases/crma51/collections/finance/'.$id.'?apiKey='.MLAB_API_KEY.'';
-          $context = stream_context_create($opts);
-          $returnValue = file_get_contents($url,false,$context);
-  }
-        ?>
-        <?php
-        // show error
-        catch(PDOException $exception){
-            die('ERROR: ' . $exception->getMessage());
-         ?>
+
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
