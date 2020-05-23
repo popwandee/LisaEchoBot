@@ -67,7 +67,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   if(empty(trim($_POST["username"]))){
       $username_err = "ไม่มี username ครับ";
   }else{
-      echo "ตรวจสอบว่ามีชื่อผู้ใช้นี้อยู่แล้วหรือไม่";
+      //echo "ตรวจสอบว่ามีชื่อผู้ใช้นี้อยู่แล้วหรือไม่";
       $param_username = trim($_POST["username"]);//echo "\n Set parameters username is";echo $param_username;
       // Prepare a select statement
       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"Tel1":{"$regex":"'.$param_username.'"}}');
@@ -143,9 +143,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     if($returnValue){
                       $_SESSION['message']='=>เปลี่ยนรหัสผ่านสำเร็จ.';
                    		   header("location: index.php");
+                         exit;
             	        }else{
                       $_SESSION['message']='=>เปลี่ยนรหัสผ่าน ไม่สำเร็จ.';
             		         header("location: index.php");
+                         exit;
                              }
 
       }//end check parameter
