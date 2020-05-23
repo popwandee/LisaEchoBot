@@ -13,7 +13,7 @@ $position = isset($_SESSION["position"]) ? $_SESSION["position"] : "";
 $province = isset($_SESSION["province"]) ? $_SESSION["province"] : "";
 
 // get summary financemanager
-$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance/5ec50995e7179a6b6362e1f4?apiKey='.MLAB_API_KEY;
+$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/5ec50995e7179a6b6362e1f4?apiKey='.MLAB_API_KEY);
 $data = json_decode($json); print_r($json);
 $isData=sizeof($data);print_r($data);
 if($isData >0){
