@@ -132,8 +132,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     $returnValue = file_get_contents($url,false,$context);
                     if($returnValue){
                       $_SESSION['message']='=>เปลี่ยนรหัสผ่านสำเร็จ.';
+                      $username=$password=$confirm_password='';
                    		   header("location: logout.php");
-                         exit;
             	        }else{
                       $_SESSION['message']='=>เปลี่ยนรหัสผ่าน ไม่สำเร็จ.';
                              }
