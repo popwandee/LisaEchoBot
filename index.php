@@ -68,15 +68,15 @@ require_once "config.php";
                     <h3 class="panel-title">สวัสดีค่ะ <?php echo $user_info;?></h3>
                   </div>
                   <div class="panel-body">
-                      <span class="label label-primary">ตำแหน่ง <?php echo $position;?></span>
-                      <span class="label label-primary">จังหวัด <?php echo $province;?></span>
-                      <span class="label label-primary"><a href="reset_password.php">เปลี่ยนรหัสผ่าน</a></span>
+                      <span >ตำแหน่ง <?php echo $position;?></span>
+                      <span >จังหวัด <?php echo $province;?></span>
+                      <span ><a href="reset_password.php">เปลี่ยนรหัสผ่าน</a></span>
                   </div>
                 </div>
                 <div class="list-group">
-                  <a href="#" class="list-group-item active"><?php echo $user_info;?></a>
-                  <a href="#" class="list-group-item">ตำแหน่ง <?php echo $position;?></a>
-                  <a href="#" class="list-group-item">จังหวัด <?php echo $province;?></a>
+                  <span class="list-group-item active"><?php echo $user_info;?></span>
+                  <span class="list-group-item">ตำแหน่ง <?php echo $position;?></span>
+                  <span class="list-group-item">จังหวัด <?php echo $province;?></span>
                   <a href="reset_password.php" class="list-group-item">เปลี่ยนรหัสผ่าน</a>
                 </div>
               </div><!-- /.col-sm-4 -->
@@ -89,33 +89,8 @@ require_once "config.php";
                     คงเหลือ...
                   </div>
                 </div>
-                <div class="panel panel-info">
-                  <div class="panel-heading">
-                    <h3 class="panel-title">ผลการปฏิบัติงานของเพื่อน</h3>
-                  </div>
-                  <div class="panel-body">
-                    รายละเอียดผลการปฏิบัติงานของเพื่อนที่สำคัญ
-                  </div>
-                </div>
               </div><!-- /.col-sm-4 -->
-              <div class="col-sm-4">
-                <div class="panel panel-warning">
-                  <div class="panel-heading">
-                    <h3 class="panel-title">ประชาสัมพันธ์</h3>
-                  </div>
-                  <div class="panel-body">
-                    ข่าวประชาสัมพันธ์
-                  </div>
-                </div>
-                <div class="panel panel-danger">
-                  <div class="panel-heading">
-                    <h3 class="panel-title">ข้อมูลสมาชิก</h3>
-                  </div>
-                  <div class="panel-body">
-                    ข้อมูลเพื่อนๆ สมาชิกในรุ่น (ต้องเข้าระบบด้วยรหัสผ่าน)
-                  </div>
-                </div>
-              </div><!-- /.col-sm-4 -->
+
             </div>
 
               </div> <!-- /container -->
