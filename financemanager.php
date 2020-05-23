@@ -7,12 +7,6 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;
 }
-if(!isset($_SESSION["username"]) || $_SESSION["username"] == ""){
-    header("location: login.php?message=We can not ger your username.");
-    exit;
-}else{
-  $username=$_SESSION['username'];
-}
 // Include config file
 require_once "config.php";
 
@@ -57,8 +51,7 @@ require_once "config.php";
 
 	  <?php
     if(isset($_GET['action']) && ($_GET['action']=='delete')){
-      $record_id=isset($_GET['id']) ? $_GET['id'] : die('ERROR: Record ID not found.');
-
+      $record_id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Record ID not found.');
       if(isset($record_id)){
         delete_record($record_id);
       }
@@ -68,7 +61,8 @@ require_once "config.php";
     $form_no=$_POST['form_no'];
      switch ($form_no){
        case "sum_record":
-            sum_record($_POST['sum']);
+            $sum = isset($_POST['sum']) ? $_POST['sum'] : die('ERROR: Summary not found.');
+            sum_record($sum);
             break;
 
        case "add_record" :
@@ -164,9 +158,10 @@ require_once "config.php";
            <input type='hidden' name='edited' value='0'>
            <button type="submit" class="btn btn-xs btn-warning">แก้ไข</button>
            </form>
+           <a href="financemanager.php?action=delete&id=<?php echo $_id; ?>">ลบรายการ</a>
+
            <?php
-           echo '<a href="financemanager.php?action=delete&id='.$_id.'">ลบรายการ</a>';
-         }
+         }//end ifเหรัญญิก
          echo "</td>";
        echo "</tr>";
      }//end foreach
@@ -187,14 +182,16 @@ require_once "config.php";
             <td colspan="2"><button type="submit" class="btn btn-xs btn-info">เพิ่มรายการ</button></td>
             </tr></form>
          <?php
-                  }
-
+        }//end ifเหรัญญิก
        echo "</table>";// end table
 
-     }// end function
+     }// end function showdata
      ?>
      <span class="label label-info">
-<?php if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;}else{$_SESSION['message']='';}?>
+<?php if(isset($_SESSION["message"])){
+  $message=$_SESSION['message'];
+  echo $message;$_SESSION['message']='';
+}?>
 <?php $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
 </span>
 
@@ -242,9 +239,6 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='
 
        <?php
 function delete_record($id){
-  try {
-      // delete query
-
   $opts = array('http' => array( 'method' => "DELETE",
                                  'header' => "Content-type: application/json",
                                              )
@@ -252,9 +246,6 @@ function delete_record($id){
   $url = 'https://api.mlab.com/api/1/databases/crma51/collections/finance/'.$id.'?apiKey='.MLAB_API_KEY.'';
           $context = stream_context_create($opts);
           $returnValue = file_get_contents($url,false,$context);
-  }
-
-
   }
         ?>
         <?php
