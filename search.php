@@ -156,7 +156,7 @@ require_once "config.php";
 if(isset($_POST['from_form'])){
   if(($_POST['from_form'])=='search_name'){
     	$name = isset($_POST['name']) ? $_POST['name'] : "";
-      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"name":{"$regex":"'.$name.'"}}');
+      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?s={"name": 1}&apiKey='.MLAB_API_KEY.'&q={"name":{"$regex":"'.$name.'"}}');
     }elseif(($_POST['from_form'])=='search_province'){
       $province = isset($_POST['province']) ? $_POST['province'] : "";
       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"province":{"$regex":"'.$province.'"}}');
