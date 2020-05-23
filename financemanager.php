@@ -56,10 +56,20 @@ require_once "config.php";
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
 
 	  <?php
+    if(isset($_GET['action']) && ($_GET['action']=='delete')){
+      $record_id=isset($_GET['id']) ? $_GET['id'] : die('ERROR: Record ID not found.');
+
+      if(isset($record_id)){
+        delete_record($record_id);
+      }
+  }
     $data = isset($_POST['data']) ? $_POST['data'] : "";
     if(isset($_POST['form_no'])){
     $form_no=$_POST['form_no'];
      switch ($form_no){
+       case "sum_record":
+            sum_record($_POST['sum']);
+            break;
 
        case "add_record" :
        $username = isset($_POST['username']) ? $_POST['username'] : "";
@@ -155,22 +165,30 @@ require_once "config.php";
            <button type="submit" class="btn btn-xs btn-warning">แก้ไข</button>
            </form>
            <?php
+           echo '<a href="financemanager.php?action=delete&id='.$_id.'">ลบรายการ</a>';
          }
          echo "</td>";
        echo "</tr>";
      }//end foreach
-       echo"<tr>";
-       ?>
-      <td> <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-         <input type="hidden" name="username" value="<?php echo $username; ?>">
-         <input type='hidden' name='form_no' value='add_record'>
+
+      if(isset($_SESSION['type']) && (($_SESSION['type'])=='เหรัญญิก')){?>
+      <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+        <tr><td><input type="hidden" name="username" value="<?php echo $username; ?>">
+         <input type='hidden' name='form_no' value='add_record'></td>
          <td><input type='text' name='record'></td>
          <td><input type='text' name='add'></td>
          <td><input type='text' name='sub'></td>
          <td colspan="2"><button type="submit" class="btn btn-xs btn-info">เพิ่มรายการ</button></td>
-         </form>
+         </tr></form>
+
+         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+           <tr><td colspan="4"><input type="input" name="sum" value="<?php echo $sum; ?>">
+            <input type='hidden' name='form_no' value='sum_record'></td>
+            <td colspan="2"><button type="submit" class="btn btn-xs btn-info">เพิ่มรายการ</button></td>
+            </tr></form>
          <?php
-       echo "</tr>";
+                  }
+
        echo "</table>";// end table
 
      }// end function
@@ -207,6 +225,43 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='
 
          <div><!-- class="jumbotron"-->
       </div> <!-- container theme-showcase -->
+
+      <?php
+      function sum_record($sum){
+        $newData = '{ "$set" : { "sum" : "'.$sum.'"} }';
+        $opts = array('http' => array( 'method' => "PUT",
+                                       'header' => "Content-type: application/json",
+                                       'content' => $newData
+                                                   )
+                                                );
+        $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/5ec50995e7179a6b6362e1f4?apiKey='.MLAB_API_KEY;
+                $context = stream_context_create($opts);
+                $returnValue = file_get_contents($url,false,$context);
+      } // end function sum_record
+       ?>
+
+       <?php
+function delete_record($id){
+  try {
+      // delete query
+
+  $opts = array('http' => array( 'method' => "DELETE",
+                                 'header' => "Content-type: application/json",
+                                             )
+                                          );
+  $url = 'https://api.mlab.com/api/1/databases/crma51/collections/finance/'.$id.'?apiKey='.MLAB_API_KEY.'';
+          $context = stream_context_create($opts);
+          $returnValue = file_get_contents($url,false,$context);
+  }
+
+
+  }
+        ?>
+        <?php
+        // show error
+        catch(PDOException $exception){
+            die('ERROR: ' . $exception->getMessage());
+         ?>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
