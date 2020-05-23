@@ -147,7 +147,7 @@ require_once "config.php";
          echo "<td width='10%'>{$sub}</td>";
          echo "<td width='20%'>{$sum}</td>";
          echo "<td width='10%'>";
-         if(isset($_SESSION['type']) && (($_SESSION['type'])=='admin')){?>
+         if(isset($_SESSION['type']) && (($_SESSION['type'])=='เหรัญญิก')){?>
          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
            <input type="hidden" name="user_id" value="<?php echo $_id; ?>">
            <input type='hidden' name='form_no' value='user_edit'>
