@@ -146,12 +146,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   <div class="container theme-showcase" role="main">
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
-      <h1>แก้ไขรหัสผ่าน</h1>
+      <h1>AFAPS40 - CRMA51</h1>
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
-      <p><?php $message= isset($_SESSION['message']) ? $_SESSION['message'] :"" ;echo $message;?></p>
-    <div class="page-header">
-      <div class="panel panel-info">
-        <div class="col-sm-4" >
+
+      <p><?php $message= isset($_SESSION['message']) ? $_SESSION['message'] :"" ;?></p>
+      <div class="page-header">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+              <h2>แก้ไขรหัสผ่าน </h2>
+              <p><?php echo $message;?></p>
+          </div>
+          <div class="row">
+            <div class="col-sm-4" >
           <div class="panel-body">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
           <div class="form-group <?php echo (!empty($user_info_err)) ? 'has-error' : ''; ?>">
