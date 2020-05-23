@@ -58,8 +58,8 @@ require_once "config.php";
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
     <table class='table table-hover table-responsive table-bordered'>
         <tr>
-            <td>ค้นหาด้วย Username<input type='text' name='username' class='form-control' /></td>
-            <td><input type='hidden' name='form_no' value='search_username'><input type='submit' value='ค้นหา' class='btn btn-primary' /></td>
+            <td>ค้นหาด้วยชื่อ<input type='text' name='name' class='form-control' /></td>
+            <td><input type='hidden' name='form_no' value='search_name'><input type='submit' value='ค้นหา' class='btn btn-primary' /></td>
         </tr>
     </table>
 </form>
@@ -67,8 +67,17 @@ require_once "config.php";
  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
 <table class='table table-hover table-responsive table-bordered'>
 <tr>
-    <td>ค้นหาตามชื่อ<input type='text' name='fullname' class='form-control' /></td>
-    <td><input type='hidden' name='form_no' value='search_name'><input type='submit' value='ค้นหา' class='btn btn-primary' /></td>
+    <td>ค้นหาด้วยจังหวัด<input type='text' name='province' class='form-control' /></td>
+    <td><input type='hidden' name='form_no' value='search_province'><input type='submit' value='ค้นหา' class='btn btn-primary' /></td>
+</tr>
+</table>
+</form>
+</td><td>
+ <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+<table class='table table-hover table-responsive table-bordered'>
+<tr>
+    <td>ค้นหาด้วยหมายเลขโทรศัพท์<input type='text' name='Tel1' class='form-control' /></td>
+    <td><input type='hidden' name='form_no' value='search_phone'><input type='submit' value='ค้นหา' class='btn btn-primary' /></td>
 </tr>
 </table>
 </form>
@@ -147,7 +156,7 @@ require_once "config.php";
 
                $type = $data->type;$update_type = isset($_POST['type']) ? $_POST['type'] : "";
                if($type!=$update_type){update_field($user_id,'type',$update_type);}
-               
+
                $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
                $data = json_decode($json);
                $isData=sizeof($data);
