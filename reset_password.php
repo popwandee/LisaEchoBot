@@ -67,18 +67,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   if(empty(trim($_POST["username"]))){
       $username_err = "ไม่มี username ครับ"; echo $username_err;
   }else{
-
+      echo "ตรวจสอบว่ามีชื่อผู้ใช้นี้อยู่แล้วหรือไม่";
       $param_username = trim($_POST["username"]);echo "\n Set parameters username is";echo $param_username;
       // Prepare a select statement
       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"Tel1":{"$regex":"'.$param_username.'"}}');
       $data = json_decode($json);echo "json is "; print_r($json);
-      $isData=sizeof($data);
-      echo "ตรวจสอบว่ามีชื่อผู้ใช้นี้อยู่แล้วหรือไม่";
+      $isData=sizeof($data);echo "data is "; print_r($data);
+
       if($isData >0){
           echo "\n Got data form db";
           $user_id=$data->_id;print_r($user_id);
           //$user_id=$user_id->$oid;
-          $password_db=$data->Tel1;
+          $password_db=$data->Tel1;echo "\n รหัสผ่านจากฐานข้อมูลคือ ".$password_db;
        }else{ //"\n ไม่มี username นี้ในฐานข้อมูลครับ";
           $username_err = "\n ไม่มี username นี้ในฐานข้อมูลครับ";echo $username_err;
             }
