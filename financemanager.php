@@ -127,7 +127,7 @@ function showdata($data)
        // creating new table row per record
        echo "<tr>";
          echo "<td width='10%'>{$id}</td>";
-         echo "<td width='40%' class="text-nowrap">{$record}</td>";
+         echo "<td width='40%' class='text-nowrap'>{$record}</td>";
          echo "<td width='5%'>{$add}</td>";
          echo "<td width='5%'>{$sub}</td>";
          echo "<td width='10%'>{$sum}</td>";
