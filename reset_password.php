@@ -76,20 +76,27 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       echo "ตรวจสอบว่ามีชื่อผู้ใช้นี้อยู่แล้วหรือไม่";
       if($isData >0){
           echo "\n Got data form db";
-          print_r($data);
-       }else{
+          $user_id=$data->_id;print_r($user_id);
+          //$user_id=$user_id->$oid;
+          $password_db=$data->Tel1;
+       }else{ //"\n ไม่มี username นี้ในฐานข้อมูลครับ";
           $username_err = "\n ไม่มี username นี้ในฐานข้อมูลครับ";echo $username_err;
             }
 
         }
         echo "ตรวจสอบ username แล้ว ต่อไป";
-  echo "\n Validate old password";
-  if(empty(trim($_POST["old_password"]))){
-    $old_password = ""; echo "\n Not get old password.";
-  }else{
-    $old_password=$_POST['old_password'];echo "\n Got old password.";
-  }
-
+        //
+        echo "\n Validate old password and compare with password from db";
+        if(empty(trim($_POST["old_password"]))){
+          $old_password_err = "กรุณากรองรหัสผ่านเดิมด้วยค่ะ";echo $old_password_err;
+        }else{
+          $old_password=$_POST['old_password'];echo "\n Got old password.";
+          echo "\n Compare password_db with old_password";
+          if($old_password!=$password_db){
+            $old_password_err="รหัสผ่านเดิมไม่ถูกต้องค่ะ";
+          }
+        }
+        //
   echo "\nValidate password";
     if(empty(trim($_POST["password"]))){
         $password_err = "กรุณากรอก password ด้วยครับ";echo "\nNot get new password.";
@@ -108,7 +115,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         }
     }
     // Check input errors before inserting in database
-    if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
+    if(empty($username_err) && empty($old_password_err) && empty($password_err) && empty($confirm_password_err)){
             echo "\n Everything pass,next Set parameters";
             $param_username = $username;
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
