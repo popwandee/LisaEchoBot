@@ -7,10 +7,6 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;
 }
-if(!isset($_SESSION["type"]) || $_SESSION["type"] !== "admin"){
-    header("location: index.php?message=You are not admin.");
-    exit;
-}
 if(!isset($_SESSION["username"]) || $_SESSION["username"] == ""){
     header("location: login.php?message=We can not ger your username.");
     exit;
@@ -151,7 +147,7 @@ require_once "config.php";
          echo "<td width='10%'>{$sub}</td>";
          echo "<td width='20%'>{$sum}</td>";
          echo "<td width='10%'>";
-         ?>
+         if(isset($_SESSION['type']) && (($_SESSION['type'])=='admin')){?>
          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
            <input type="hidden" name="user_id" value="<?php echo $_id; ?>">
            <input type='hidden' name='form_no' value='user_edit'>
@@ -159,6 +155,7 @@ require_once "config.php";
            <button type="submit" class="btn btn-xs btn-warning">แก้ไข</button>
            </form>
            <?php
+         }
          echo "</td>";
        echo "</tr>";
      }//end foreach
