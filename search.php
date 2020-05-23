@@ -156,12 +156,12 @@ require_once "config.php";
 if(isset($_POST['from_form'])){
   if(($_POST['from_form'])=='search_name'){
     	$name = isset($_POST['name']) ? $_POST['name'] : "";
-      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"name":{"$regex":"'.$name.'"}}');
+      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&s={"name": 1}&q={"name":{"$regex":"'.$name.'"}}');
     }elseif(($_POST['from_form'])=='search_province'){
       $province = isset($_POST['province']) ? $_POST['province'] : "";
       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"province":{"$regex":"'.$province.'"}}');
     }else{
-      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
+      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&s={"name": 1}');
     } // if from_form == search
 
  $data = json_decode($json);
