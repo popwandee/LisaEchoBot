@@ -63,16 +63,6 @@ require_once "config.php";
             </div>
             <div class="row">
               <div class="col-sm-4">
-                <div class="panel panel-default">
-                  <div class="panel-heading">
-                    <h3 class="panel-title">สวัสดีค่ะ <?php echo $user_info;?></h3>
-                  </div>
-                  <div class="panel-body">
-                      <span >ตำแหน่ง <?php echo $position;?></span>
-                      <span >จังหวัด <?php echo $province;?></span>
-                      <span ><a href="reset_password.php">เปลี่ยนรหัสผ่าน</a></span>
-                  </div>
-                </div>
                 <div class="list-group">
                   <span class="list-group-item active"><?php echo $user_info;?></span>
                   <span class="list-group-item">ตำแหน่ง <?php echo $position;?></span>
