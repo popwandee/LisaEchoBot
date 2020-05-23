@@ -154,7 +154,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <div class="panel panel-info">
           <div class="panel-heading">
               <h2>แก้ไขรหัสผ่าน </h2>
-              <p><?php echo $message;?></p>
+              <p><?php echo $message;$_SESSION['message']='';?></p>
           </div>
           <div class="row">
             <div class="col-sm-4" >
