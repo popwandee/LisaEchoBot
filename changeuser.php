@@ -14,12 +14,12 @@ if($isData >0){
     $_id=$rec_id;
     }
      $type=$rec->type;
-     if($rank=="normaluser"){update_field($_id,'type','สมาชิก');}
+     if($type=="normaluser"){update_field($_id,'type','สมาชิก');}
 
      $approved=$rec->approved;
      if($approved==0){update_field($_id,'approved','1');}
-  }//end if
-}
+  }
+}//end if
   ?>
   <?php
   function update_field($user_id,$field_name,$new_info){
