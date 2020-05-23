@@ -132,7 +132,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     $returnValue = file_get_contents($url,false,$context);
                     if($returnValue){
                       $_SESSION['message']='=>เปลี่ยนรหัสผ่านสำเร็จ.';
-                      $username=$password=$confirm_password='';
+                      $old_password=$password=$confirm_password='';
                    		   header("location: logout.php");
             	        }else{
                       $_SESSION['message']='=>เปลี่ยนรหัสผ่าน ไม่สำเร็จ.';
@@ -148,7 +148,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <div class="jumbotron">
       <h1>แก้ไขรหัสผ่าน</h1>
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
-      <p><?php $message= isset($_SESSION['message']) ? $_SESSION['message'] :"" ;?></p>
+      <p><?php $message= isset($_SESSION['message']) ? $_SESSION['message'] :"" ;echo $message;?></p>
     <div class="page-header">
       <div class="panel panel-info">
         <div class="col-sm-4" >
