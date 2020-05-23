@@ -51,23 +51,23 @@ require_once "config.php";
 
 	  <?php
     if(isset($_GET['action']) && ($_GET['action']=='delete')){
-echo "Case Delete record. <br>";
-        if(isset($_GET['id'])){
-          $id=$_GET['id'];
-          echo "Get id for record ".$id." call function delete_record()<br>";
+//echo "Case Delete record. <br>";
+        $id = isset($_POST['id']) ? $_POST['id'] : "";
+        if(isset($id)&& ($id!='5ec50995e7179a6b6362e1f4')){
+          //echo "Get id for record ".$id." call function delete_record()<br>";
           $result=delete_record($id);
-          echo "Back from delete_record()<br>";
           if($result){echo "ลบได้แล้ว";}else{echo "ไม่สามารถลบได้";}
     }// if get id
-    }
+  }// end if get Action
+
     $data = isset($_POST['data']) ? $_POST['data'] : "";
 
     if(isset($_POST['form_no'])){
     $form_no=$_POST['form_no'];
      switch ($form_no){
-       case "sum_record": echo "sum_record <br>";
-            if(isset($_POST['sum'])){echo "get _POST['sum'] is ";
-              $sum=$_POST['sum']; echo $sum."<br> call function sum_record()";
+       case "sum_record":
+            if(isset($_POST['sum'])){
+              $sum=$_POST['sum'];
               sum_record($sum);
             } else{
               die('ERROR: Summary number not found.');
@@ -84,19 +84,6 @@ echo "Case Delete record. <br>";
        $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY);
 
             break;
-      case "record_edit" :
-      $record_id = isset($_POST['record_id']) ? $_POST['record_id'] : "";
-      $edited = isset($_POST['edited']) ? $_POST['edited'] : 0;
-          if($edited){
-            $record_id = isset($_POST['record_id']) ? $_POST['record_id'] : "";
-            $username = isset($_POST['username']) ? $_POST['username'] : 0;
-            $add = isset($_POST['add']) ? $_POST['add'] : 0;
-            $sub = isset($_POST['sub']) ? $_POST['sub'] : 0;
-            update_record($record_id,$username,$add,$sub);
-          }else{
-            show_form($record_id);
-            }
-          break;
           }//end switch
     }//end if isset form_no
 
