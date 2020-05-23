@@ -60,27 +60,27 @@ require_once "config.php";
 $username_err = $old_password_err = $password_err = $confirm_password_err = "";
 $user_info = isset($_SESSION["user_info"]) ? $_SESSION["user_info"] : "";
 $username = isset($_SESSION["username"]) ? $_SESSION["username"] : "";
-echo "User info is ".$user_info; echo "\n Username is ".$username;
+//echo "User info is ".$user_info; echo "\n Username is ".$username;
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-  echo "\n Validate username";
+  //echo "\n Validate username";
   if(empty(trim($_POST["username"]))){
       $username_err = "ไม่มี username ครับ"; echo $username_err;
   }else{
       echo "ตรวจสอบว่ามีชื่อผู้ใช้นี้อยู่แล้วหรือไม่";
-      $param_username = trim($_POST["username"]);echo "\n Set parameters username is";echo $param_username;
+      $param_username = trim($_POST["username"]);//echo "\n Set parameters username is";echo $param_username;
       // Prepare a select statement
       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"Tel1":{"$regex":"'.$param_username.'"}}');
       $data = json_decode($json);
-      $isData=sizeof($data);echo "data is "; print_r($data);
+      $isData=sizeof($data);//echo "data is "; print_r($data);
 
       if($isData >0){
-          echo "\n Got data form db";
+          //echo "\n Got data form db";
           foreach($data as $rec){
             $password_db=$data->Tel1;echo "\n รหัสผ่านจากฐานข้อมูลคือ ".$password_db;
             $_id=$rec->_id;
           foreach($_id as $rec_id){
-            $user_id=$rec_id;echo "user_id is ".$user_id;
+            $user_id=$rec_id;//echo "user_id is ".$user_id;
           }
         }
        }else{ //"\n ไม่มี username นี้ในฐานข้อมูลครับ";
@@ -88,16 +88,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             }
 
         }
-        echo "ตรวจสอบ username แล้ว ต่อไป";
-        //
-        echo "\n Validate old password and compare with password from db";
+        //echo "ตรวจสอบ username แล้ว ต่อไป";
+        //echo "\n Validate old password and compare with password from db";
         if(empty(trim($_POST["old_password"]))){
-          $old_password_err = "กรุณากรองรหัสผ่านเดิมด้วยค่ะ";echo $old_password_err;
+          $old_password_err = "กรุณากรองรหัสผ่านเดิมด้วยค่ะ";//echo $old_password_err;
         }else{
-          $old_password=$_POST['old_password'];echo "\n Got old password.";
-          $old_password = password_hash($old_password, PASSWORD_DEFAULT);
-          echo "\n Compare password_db with old_password";
-          if($old_password!=$password_db){
+          $old_password_post=$_POST['old_password'];echo "\n Got old password is ".$old_password_post;
+          $old_password = password_hash($old_password_post, PASSWORD_DEFAULT);echo "\n Hash Old Password is ".$old_password;
+
+          echo "\n Compare password_db with old_password";echo "\n รหัสผ่านจากฐานข้อมูลคือ ".$password_db;echo "\n Hash Old Password is ".$old_password;
+          if($old_password==$password_db){
+            echo "รหัสผ่านเดิม ถูกต้อง ตรงกับฐานข้อมูล";
+          }else{
             $old_password_err="รหัสผ่านเดิมไม่ถูกต้องค่ะ";
           }
         }
