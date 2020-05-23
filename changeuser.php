@@ -19,6 +19,7 @@ if($isData >0){
      $approved=$rec->approved;
      if($approved==0){update_field($_id,'approved','1');}
   }//end if
+}
   ?>
   <?php
   function update_field($user_id,$field_name,$new_info){
