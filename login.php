@@ -50,6 +50,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $rank=$rec->rank;
         $name=$rec->name;
         $lastname=$rec->lastname;
+        $position=$rec->position;
+        $province=$rec->province;
         $type=$rec->type;
         $approved=$rec->approved;
         $hashed_password=$rec->password;
@@ -65,6 +67,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $_SESSION["loggedin"] = true;
                             $_SESSION["username"] = $username;
                             $_SESSION["user_info"] = $rank.$name.' '.$lastname;
+                            $_SESSION["position"] =  $position;
+                            $_SESSION["province"] =  $province;
                             $_SESSION["type"] = $type;
 
                             // Redirect user to welcome page

@@ -65,26 +65,26 @@ $username = isset($_SESSION["username"]) ? $_SESSION["username"] : "";
 if($_SERVER["REQUEST_METHOD"] == "POST"){
   //echo "\n Validate username"; // username is telephone number store as field Tel1
   if(empty(trim($_POST["username"]))){
-      $username_err = "ไม่มี username ครับ"; echo $username_err;
+      $username_err = "ไม่มี username ครับ";
   }else{
       echo "ตรวจสอบว่ามีชื่อผู้ใช้นี้อยู่แล้วหรือไม่";
       $param_username = trim($_POST["username"]);//echo "\n Set parameters username is";echo $param_username;
       // Prepare a select statement
       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"Tel1":{"$regex":"'.$param_username.'"}}');
       $data = json_decode($json);
-      $isData=sizeof($data);echo "data is "; print_r($data);
+      $isData=sizeof($data);
 
       if($isData >0){
           //echo "\n Got data form db";
           foreach($data as $rec){
-            $password_db=$rec->password;echo "\n รหัสผ่านจากฐานข้อมูลคือ ".$password_db;
+            $password_db=$rec->password;
             $_id=$rec->_id;
           foreach($_id as $rec_id){
             $user_id=$rec_id;//echo "user_id is ".$user_id;
           }
         }
        }else{ //"\n ไม่มี username นี้ในฐานข้อมูลครับ";
-          $username_err = "\n ไม่มี username นี้ในฐานข้อมูลครับ";echo $username_err;
+          $username_err = "\n ไม่มี username นี้ในฐานข้อมูลครับ";
             }
 
         }
@@ -93,64 +93,59 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         if(empty(trim($_POST["old_password"]))){
           $old_password_err = "กรุณากรองรหัสผ่านเดิมด้วยค่ะ";//echo $old_password_err;
         }else{
-          $old_password=trim($_POST['old_password']);echo "\n Got old password is ".$old_password;
-          //$old_password = password_hash($old_password_post, PASSWORD_DEFAULT);echo "\n Hash Old Password is ".$old_password;
-
-          echo "\n Compare password_db with old_password";
-          echo "\n รหัสผ่านจากฐานข้อมูลคือ ".$password_db;
-          echo "\n Hash Old Password is ".$old_password;
+          $old_password=trim($_POST['old_password']);
+          //echo "\n Compare password_db with old_password";
+          //echo "\n รหัสผ่านจากฐานข้อมูลคือ ".$password_db;
+          //echo "\n รหัสผ่าน Old Password จากผู้ใช้คือ ".$old_password;
           if(password_verify($old_password, $password_db)){
-            echo "รหัสผ่านเดิม ถูกต้อง ตรงกับฐานข้อมูล";
+            //echo "รหัสผ่านเดิม ถูกต้อง ตรงกับฐานข้อมูล";
           }else{
             $old_password_err="รหัสผ่านเดิมไม่ถูกต้องค่ะ";
             //$old_password=$old_password_post;// คืนค่ารหัสผ่านเดิม (ไม่ hash)
           }
         }
         //
-  echo "\nValidate password";
+  //echo "\nValidate password";
     if(empty(trim($_POST["password"]))){
-        $password_err = "กรุณากรอก password ด้วยครับ";echo "\nNot get new password.";
+        $password_err = "กรุณากรอก password ด้วยครับ";
     }elseif(strlen(trim($_POST["password"])) < 6){
-        $password_err = "รหัสผ่านจะต้องมีอย่างน้อย 6 ตัวอักษร";echo "\nPassword less than 6.";
+        $password_err = "รหัสผ่านจะต้องมีอย่างน้อย 6 ตัวอักษร";
     }else{
-        $password = trim($_POST["password"]);echo "\nตรวจสอบรหัสผ่านใหม่ เรียบร้อย.";
+        $password = trim($_POST["password"]);
     }
     // Validate confirm password
     if(empty(trim($_POST["confirm_password"]))){
-        $confirm_password_err = "กรุณา confirm password.";echo "\nNot get confirm password.";
+        $confirm_password_err = "กรุณา confirm password.";
     }else{
-        $confirm_password = trim($_POST["confirm_password"]); echo "\nตรวจสอบ confirm password เรียบร้อย.";
+        $confirm_password = trim($_POST["confirm_password"]);
         if(empty($password_err) && ($password != $confirm_password)){
-            $confirm_password_err = "Password ไม่ตรงกัน";echo "\n".$confirm_password_err;
+            $confirm_password_err = "Password ไม่ตรงกัน";
         }
     }
     // Check input errors before inserting in database
     if(empty($username_err) && isset($user_id) && empty($old_password_err) && empty($password_err) && empty($confirm_password_err)){
-            echo "\n Everything pass,next Set parameters";
+            //echo "\n Everything pass,next Set parameters";
             $param_user_id = $user_id;
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
-            echo "\nParameter user id is ".$param_user_id;
-            echo "\nParameter password is ".$param_password;
-            echo "\n Attempt to execute the prepared statement";
+
+            //echo "\n Attempt to execute the prepared statement";
             $newData = '{ "$set" : { "password" : "'.$param_password.'" } }';
-            $_SESSION['message']='การอนุมัติสิทธิ์เข้าใช้ระบบ ';
+
             $opts = array('http' => array( 'method' => "PUT",
                                            'header' => "Content-type: application/json",
                                            'content' => $newData
                                                        )
                                                     );
-            echo "\nnew Data to update is : ".$newData;
-            echo "\nOptions is ";print_r($opts);
 
             $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY.'';
                     $context = stream_context_create($opts);
                     $returnValue = file_get_contents($url,false,$context);
                     if($returnValue){
-                      $_SESSION['message']=$_SESSION['message'].'=> สำเร็จ.';
-                   		 header('Location: index.php?message=Approved');
+                      $_SESSION['message']='=>เปลี่ยนรหัสผ่านสำเร็จ.';
+                   		 header('Location: index.php');
             	        }else{
-                      $_SESSION['message']=$_SESSION['message'].'=> ไม่สำเร็จ.';
-            		       header('Location: index.php?message=CannotApproved');
+                      $_SESSION['message']='=>เปลี่ยนรหัสผ่าน ไม่สำเร็จ.';
+            		       header('Location: index.php');
                              }
 
 }

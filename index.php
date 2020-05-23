@@ -9,6 +9,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 }
 $user_info = isset($_SESSION["user_info"]) ? $_SESSION["user_info"] : "";
 $username = isset($_SESSION["username"]) ? $_SESSION["username"] : "";
+$position = isset($_SESSION["position"]) ? $_SESSION["position"] : "";
+$province = isset($_SESSION["province"]) ? $_SESSION["province"] : "";
 // Include config file
 require_once "config.php";
 ?>
@@ -66,7 +68,9 @@ require_once "config.php";
                     <h3 class="panel-title">สวัสดีค่ะ <?php echo $user_info;?></h3>
                   </div>
                   <div class="panel-body">
-                      <a href="reset_password.php">เปลี่ยนรหัสผ่าน</a>
+                      <span class="label label-primary">ตำแหน่ง <?php echo $position;?></span>
+                      <span class="label label-primary">จังหวัด <?php echo $province;?></span>
+                      <span class="label label-primary"><a href="reset_password.php">เปลี่ยนรหัสผ่าน</a></span>
                   </div>
                 </div>
                 <div class="panel panel-primary">
@@ -81,10 +85,10 @@ require_once "config.php";
               <div class="col-sm-4">
                 <div class="panel panel-success">
                   <div class="panel-heading">
-                    <h3 class="panel-title">กิจกรรมเพื่อสาธารณะกุศล</h3>
+                    <h3 class="panel-title">สถานะเงินรุ่น</h3>
                   </div>
                   <div class="panel-body">
-                    รายละเอียดกิจกรรมเพื่อสาธารณะกุศล
+                    คงเหลือ...
                   </div>
                 </div>
                 <div class="panel panel-info">
