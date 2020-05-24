@@ -219,6 +219,7 @@ if(!is_null($events)){
     }
     // ถ้าเป้น Message Event
     if(!is_null($eventMessage)){
+
         //$textReplyMessage = $textReplyMessage."กรณี ข้อความ ";
         // สร้างตัวแปรเก็ยค่าประเภทของ Message จากทั้งหมด 7 ประเภท
         $typeMessage = $eventObj->getMessageType();
@@ -319,6 +320,8 @@ if(!is_null($events)){
 
         switch ($typeMessage){ // กำหนดเงื่อนไขการทำงานจาก ประเภทของ message
             case 'text':  // ถ้าเป็นข้อความ
+
+                  $replyToken = $eventObj->getReplyToken();
               //$textReplyMessage = $textReplyMessage."\n case  Text.";
 	            $tz_object = new DateTimeZone('Asia/Bangkok');
               $datetime = new DateTime();
@@ -328,6 +331,10 @@ if(!is_null($events)){
               $userMessage = strtolower($userMessage); // แปลงเป็นตัวเล็ก สำหรับทดสอบ
 	            $explodeText=explode(" ",$userMessage);
 	            $log_note=$userMessage;
+
+              $textReplyMessage=". reply Token is.. ".$replyToken;
+              $textMessage = new TextMessageBuilder($textReplyMessage);
+              $multiMessage->add($textMessage);
               switch ($userMessage[0]) {
 
 		case '#':
