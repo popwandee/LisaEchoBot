@@ -130,11 +130,69 @@ foreach ($events as $event) {
                      $multiMessage->add($textMessage);
                      $replyData = $multiMessage;
 	                               }
-                      $textReplyMessage=$textReplyMessage."..CASE #.. ";
-                      $textMessage = new TextMessageBuilder($textReplyMessage);
-                      $multiMessage->add($textMessage);
-                      $replyData = $multiMessage;
                   break;
+                  case '?':
+                       //$textReplyMessage = $textReplyMessage.'Case # ask people. ';
+                       $find_word=substr($explodeText[0], 1);
+                       //$textReplyMessage =$textReplyMessage.'Fine word '.$find_word.' ask people.';
+                       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$find_word.'"}}');
+                       $data = json_decode($json);
+                       $isData=sizeof($data);
+                       $count = 1;
+                       if($isData >0){
+                       foreach($data as $rec){
+                         $textReplyMessage = $rec->answer."\n\n";
+                           				         /*if(isset($rec->Image) and (!$hasImageUrlStatus) and ($count<5)){
+                           		 	                  $imageUrl="https://thaitimes.online/wp-content/uploads/".$rec->Image;
+                           	                                  $imageMessage = new ImageMessageBuilder($imageUrl,$imageUrl);
+                           	                                  $multiMessage->add($imageMessage);
+                           		                            }*/
+                         $count++;
+                       }//end for each
+                       $textMessage = new TextMessageBuilder($textReplyMessage);
+                       $multiMessage->add($textMessage);
+                       $replyData = $multiMessage;
+                       }else{
+                           	$textReplyMessage=$textReplyMessage."..ไม่มีข้อมูล.. ";
+                             $textMessage = new TextMessageBuilder($textReplyMessage);
+                             $multiMessage->add($textMessage);
+                             $replyData = $multiMessage;
+                           	}
+                       break;
+                               case '@':
+                                   $indexCount=1;$answer='';
+                                   foreach($explodeText as $rec){
+                                   $indexCount++;
+                                     if($indexCount>1){//น่าจะมีคำถามและคำตอบมาด้วย
+                                       $answer= $answer." ".$explodeText[$indexCount];
+                                     }
+                                   }//end foreach $explodeText นับจำนวนคำ เพื่อตรวจสอบว่ามีคำถามและคำตอบมาด้วย
+                                   if(($indexCount>1) && (!empty($explodeText[1]))){
+                                     //Post New Data
+                                     $newData = json_encode(array('question' => $explodeText[1],'answer'=> $answer) );
+                                     $opts = array('http' => array( 'method' => "POST",
+                                                   'header' => "Content-type: application/json",
+                                                   'content' => $newData
+                                                     ) );
+                                     $url = 'https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'';
+                                             $context = stream_context_create($opts);
+                                             $returnValue = file_get_contents($url,false,$context);
+                                     if($returnValue){
+                                         $textReplyMessage= $textReplyMessage."\nขอบคุณที่สอนน้อง Lisa ค่ะ";
+                                         $textReplyMessage= $textReplyMessage."\nน้อง Lisa จำได้แล้วว่า ".$explodeText[1]." คือ ".$answer;
+                                         }else{ $textReplyMessage= $textReplyMessage."\nน้อง Lisa ไม่เข้าใจค่ะ";
+                                         }
+                                       }// end if $indexCount>1 ->> insert database
+                                       else{ // $indexCount>1
+                                           $textReplyMessage= $textReplyMessage."\n ไม่มีคำตอบมาให้ด้วยเหรอค่ะ";
+                                       }
+                                     $textMessage = new TextMessageBuilder($textReplyMessage);
+                                     $multiMessage->add($textMessage);
+                                     $replyData = $multiMessage;
+
+
+                                     $replyData = $multiMessage;
+                                     break;
   }//end switch $explodeText[0]
 
 	    // ส่วนส่งกลับข้อมูลให้ LINE
