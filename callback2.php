@@ -85,24 +85,257 @@ try {
 } catch(\LINE\LINEBot\Exception\InvalidEventRequestException $e) {
 	error_log('parseEventRequest failed. InvalidEventRequestException => '.var_export($e, true));
 }
-foreach ($events as $event) {
-	// Message Event
- if ($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage) {
+$log_note='';
+$eventObj = $events[0];
+$eventType = $eventObj->getType();
+$replyToken = $eventObj->getReplyToken();
+switch($eventType){
+    case 'message': $eventMessage = true; break;
+    case 'postback': $eventPostback = true; break;
+    case 'join': $eventJoin = true; break;
+    case 'leave': $eventLeave = true; break;
+    case 'follow': $eventFollow = true; break;
+    case 'unfollow': $eventUnfollow = true; break;
+    case 'beacon': $eventBeacon = true; break;
+    case 'accountLink': $eventAccountLink = true; break;
+    case 'memberJoined': $eventMemberJoined = true; break;
+    case 'memberLeft': $eventMemberLeft = true; break;
+}
+// สร้างตัวแปรเก็บค่า userId กรณีเป็น Event ที่เกิดขึ้นใน USER
+if($eventObj->isUserEvent()){
+    $userId = $eventObj->getUserId();
+    $sourceType = "USER";
+}
+// สร้างตัวแปรเก็บค่า groupId กรณีเป็น Event ที่เกิดขึ้นใน GROUP
+if($eventObj->isGroupEvent()){
+    $groupId = $eventObj->getGroupId();
+    $userId = $eventObj->getUserId();
+    $sourceType = "GROUP";
+}
+// สร้างตัวแปรเก็บค่า roomId กรณีเป็น Event ที่เกิดขึ้นใน ROOM
+if($eventObj->isRoomEvent()){
+    $roomId = $eventObj->getRoomId();
+    $userId = $eventObj->getUserId();
+    $sourceType = "ROOM";
+}
+// เก็บค่า sourceId ปกติจะเป็นค่าเดียวกันกับ userId หรือ roomId หรือ groupId ขึ้นกับว่าเป็น event แบบใด
+$sourceId = $eventObj->getEventSourceId();
+// ดึงค่า replyToken มาไว้ใช้งาน ทุกๆ Event ที่ไม่ใช่ Leave และ Unfollow Event และ  MemberLeft
+// replyToken ไว้สำหรับส่งข้อความตอบกลับ
+if(is_null($eventLeave) && is_null($eventUnfollow) && is_null($eventMemberLeft)){
+    $replyToken = $eventObj->getReplyToken();
+}
+ // ส่วนของการทำงาน
+if(!is_null($events)){
 
-   $rawText = $event->getText();
-   $text = strtolower($rawText);
-   $explodeText=explode(" ",$text);
-   $textReplyMessage="";
-$log_note=$text;
-$tz_object = new DateTimeZone('Asia/Bangkok');
-$datetime = new DateTime();
-$datetime->setTimezone($tz_object);
-$dateTimeNow = $datetime->format('Y\-m\-d\ H:i:s');
-$replyToken = $event->getReplyToken();
-$multiMessage =     new MultiMessageBuilder;
-$replyData='No Data';
-$userId=$event->getUserId();
-              switch ($text[0]) {
+    // ถ้า bot ถูก invite เพื่อเข้า Join Event ให้ bot ส่งข้อความใน GROUP ว่าเข้าร่วม GROUP แล้ว
+    if(!is_null($eventJoin)){
+        $textReplyMessage = "ขอเข้าร่วมด้วยน่ะ $sourceType ID:: ".$sourceId;
+        $replyData = new TextMessageBuilder($textReplyMessage);
+    }
+
+    // ถ้า bot ออกจาก สนทนา จะไม่สามารถส่งข้อความกลับได้ เนื่องจากไม่มี replyToken
+    if(!is_null($eventLeave)){
+
+    }
+
+    // ถ้า bot ถูกเพื่มเป้นเพื่อน หรือถูกติดตาม หรือ ยกเลิกการ บล็อก
+    if(!is_null($eventFollow)){
+        $textReplyMessage = "ขอบคุณที่เป็นเพื่อน และติดตามเรา";
+        $replyData = new TextMessageBuilder($textReplyMessage);
+    }
+
+    // ถ้า bot ถูกบล็อก หรือเลิกติดตาม จะไม่สามารถส่งข้อความกลับได้ เนื่องจากไม่มี replyToken
+    if(!is_null($eventUnfollow)){
+
+    }
+// ถ้ามีสมาชิกคนอื่น เข้ามาร่วมใน room หรือ group
+    // room คือ สมมติเราคุยกับ คนหนึ่งอยู่ แล้วเชิญคนอื่นๆ เข้ามาสนทนาด้วย จะกลายเป็นห้องใหม่
+    // group คือ กลุ่มที่เราสร้างไว้ มีชื่อกลุ่ม แล้วเราเชิญคนอื่นเข้ามาในกลุ่ม เพิ่มร่วมสนทนาด้วย
+    if(!is_null($eventMemberJoined)){
+            $arr_joinedMember = $eventObj->getEventBody();
+            $joinedMember = $arr_joinedMember['joined']['members'][0];
+            if(!is_null($groupId) || !is_null($roomId)){
+                if($eventObj->isGroupEvent()){
+                    foreach($joinedMember as $k_user=>$v_user){
+                        if($k_user=="userId"){
+                            $joined_userId = $v_user;
+                        }
+                    }
+                    $response = $bot->getGroupMemberProfile($groupId, $joined_userId);
+                }
+                if($eventObj->isRoomEvent()){
+                    foreach($joinedMember as $k_user=>$v_user){
+                        if($k_user=="userId"){
+                            $joined_userId = $v_user;
+                        }
+                    }
+                    $response = $bot->getRoomMemberProfile($roomId, $joined_userId);
+                }
+            }else{
+                $response = $bot->getProfile($userId);
+            }
+            if ($response->isSucceeded()) {
+                $userData = $response->getJSONDecodedBody(); // return array
+                $userId= $userData['userId'];
+                $displayName= $userData['displayName'];
+                $pictureUrl= $userData['pictureUrl'];
+                $statusMessage= $userData['statusMessage'];
+                $textReplyMessage = 'สวัสดีครับ คุณ '.$displayName;
+            }else{
+                $textReplyMessage = 'สวัสดีครับ ยินดีต้อนรับ';
+            }
+//        $textReplyMessage = "ยินดีต้อนรับกลับมาอีกครั้ง ".json_encode($joinedMember);
+        $replyData = new TextMessageBuilder($textReplyMessage);
+    }
+	 // ถ้ามีสมาชิกคนอื่น ออกจากก room หรือ group จะไม่สามารถส่งข้อความกลับได้ เนื่องจากไม่มี replyToken
+    if(!is_null($eventMemberLeft)){
+
+    }
+
+    // ถ้ามีกาาเชื่อมกับบัญชี LINE กับระบบสมาชิกของเว็บไซต์เรา
+    if(!is_null($eventAccountLink)){
+        // หลักๆ ส่วนนี้ใช้สำรหบัเพิ่มความภัยในการเชื่อมบัญตี LINE กับระบบสมาชิกของเว็บไซต์เรา
+        $textReplyMessage = "AccountLink ทำงาน ".$replyToken." Nonce: ".$eventObj->getNonce();
+        $replyData = new TextMessageBuilder($textReplyMessage);
+    }
+
+    // ถ้าเป็น Postback Event
+    if(!is_null($eventPostback)){
+        $dataPostback = NULL;
+        $paramPostback = NULL;
+        // แปลงข้อมูลจาก Postback Data เป็น array
+        parse_str($eventObj->getPostbackData(),$dataPostback);
+        // ดึงค่า params กรณีมีค่า params
+        $paramPostback = $eventObj->getPostbackParams();
+        // ทดสอบแสดงข้อความที่เกิดจาก Postaback Event
+
+        $textReplyMessage = "ข้อความจาก Postback Event Data = ";
+        $textReplyMessage.= json_encode($dataPostback);
+        $textReplyMessage.= json_encode($paramPostback);
+
+	    $textReplyMessage=$dataPostback['Result'];
+        $replyData = new TextMessageBuilder($textReplyMessage);
+    }
+    // ถ้าเป้น Message Event
+    if(!is_null($eventMessage)){
+
+        //$textReplyMessage = $textReplyMessage."กรณี ข้อความ ";
+        // สร้างตัวแปรเก็ยค่าประเภทของ Message จากทั้งหมด 7 ประเภท
+        $typeMessage = $eventObj->getMessageType();
+        //  text | image | sticker | location | audio | video | file
+        // เก็บค่า id ของข้อความ
+        $idMessage = $eventObj->getMessageId();
+        // ถ้าเป็นข้อความ
+        if($typeMessage=='text'){
+            $userMessage = $eventObj->getText(); // เก็บค่าข้อความที่ผู้ใช้พิมพ์
+              //$textReplyMessage = $textReplyMessage."ข้อความ Text.";
+        }
+        // ถ้าเป็น image
+        if($typeMessage=='image'){
+          //$textReplyMessage = $textReplyMessage."ข้อความ image.";
+
+        }
+        // ถ้าเป็น audio
+        if($typeMessage=='audio'){
+          //$textReplyMessage = $textReplyMessage."ข้อความ audio.";
+
+        }
+        // ถ้าเป็น video
+        if($typeMessage=='video'){
+          //$textReplyMessage = $textReplyMessage."ข้อความ video.";
+
+        }
+        // ถ้าเป็น file
+        if($typeMessage=='file'){
+            $FileName = $eventObj->getFileName();
+            $FileSize = $eventObj->getFileSize();
+              //$textReplyMessage = $textReplyMessage."ข้อความ file.";
+        }
+	    /*
+        // ถ้าเป็น image หรือ audio หรือ video หรือ file และต้องการบันทึกไฟล์
+        if(preg_match('/image|audio|video|file/',$typeMessage)){
+            $responseMedia = $bot->getMessageContent($idMessage);
+            if ($responseMedia->isSucceeded()) {
+                // คำสั่ง getRawBody() ในกรณีนี้ จะได้ข้อมูลส่งกลับมาเป็น binary
+                // เราสามารถเอาข้อมูลไปบันทึกเป็นไฟล์ได้
+                $dataBinary = $responseMedia->getRawBody(); // return binary
+                // ดึงข้อมูลประเภทของไฟล์ จาก header
+                $fileType = $responseMedia->getHeader('Content-Type');
+                switch ($fileType){
+                    case (preg_match('/^application/',$fileType) ? true : false):
+//                      $fileNameSave = $FileName; // ถ้าต้องการบันทึกเป็นชื่อไฟล์เดิม
+                        $arr_ext = explode(".",$FileName);
+                        $ext = array_pop($arr_ext);
+                        $fileNameSave = time().".".$ext;
+                        break;
+                    case (preg_match('/^image/',$fileType) ? true : false):
+                        list($typeFile,$ext) = explode("/",$fileType);
+                        $ext = ($ext=='jpeg' || $ext=='jpg')?"jpg":$ext;
+                        $fileNameSave = time().".".$ext;
+                        break;
+                    case (preg_match('/^audio/',$fileType) ? true : false):
+                        list($typeFile,$ext) = explode("/",$fileType);
+                        $fileNameSave = time().".".$ext;
+                        break;
+                    case (preg_match('/^video/',$fileType) ? true : false):
+                        list($typeFile,$ext) = explode("/",$fileType);
+                        $fileNameSave = time().".".$ext;
+                        break;
+                }
+                $botDataFolder = 'botdata/'; // โฟลเดอร์หลักที่จะบันทึกไฟล์
+                $botDataUserFolder = $botDataFolder.$userId; // มีโฟลเดอร์ด้านในเป็น userId อีกขั้น
+                if(!file_exists($botDataUserFolder)) { // ตรวจสอบถ้ายังไม่มีให้สร้างโฟลเดอร์ userId
+                    mkdir($botDataUserFolder, 0777, true);
+                }
+                // กำหนด path ของไฟล์ที่จะบันทึก
+                $fileFullSavePath = $botDataUserFolder.'/'.$fileNameSave;
+//              file_put_contents($fileFullSavePath,$dataBinary); // เอา comment ออก ถ้าต้องการทำการบันทึกไฟล์
+                $textReplyMessage = "บันทึกไฟล์เรียบร้อยแล้ว $fileNameSave";
+                $replyData = new TextMessageBuilder($textReplyMessage);
+//              $failMessage = json_encode($fileType);
+//              $failMessage = json_encode($responseMedia->getHeaders());
+//              $replyData = new TextMessageBuilder($failMessage);
+            }else{
+                $failMessage = json_encode($idMessage.' '.$responseMedia->getHTTPStatus() . ' ' . $responseMedia->getRawBody());
+                $replyData = new TextMessageBuilder($failMessage);
+            }
+        }
+	*/
+        // ถ้าเป็น sticker
+        if($typeMessage=='sticker'){
+            $packageId = $eventObj->getPackageId();
+            $stickerId = $eventObj->getStickerId();
+              //$textReplyMessage = $textReplyMessage."ข้อความ sticker.";
+        }
+        // ถ้าเป็น location
+        if($typeMessage=='location'){
+            $locationTitle = $eventObj->getTitle();
+            $locationAddress = $eventObj->getAddress();
+            $locationLatitude = $eventObj->getLatitude();
+            $locationLongitude = $eventObj->getLongitude();
+              //$textReplyMessage = $textReplyMessage."ข้อความ Location.";
+        }
+
+
+        switch ($typeMessage){ // กำหนดเงื่อนไขการทำงานจาก ประเภทของ message
+            case 'text':  // ถ้าเป็นข้อความ
+
+              $replyToken = $eventObj->getReplyToken();
+              //$textReplyMessage = $textReplyMessage."\n case  Text.";
+	            $tz_object = new DateTimeZone('Asia/Bangkok');
+              $datetime = new DateTime();
+              $datetime->setTimezone($tz_object);
+              $dateTimeNow = $datetime->format('Y\-m\-d\ H:i:s');
+              $multiMessage =     new MultiMessageBuilder;
+              $userMessage = strtolower($userMessage); // แปลงเป็นตัวเล็ก สำหรับทดสอบ
+	            $explodeText=explode(" ",$userMessage);
+	            $log_note=$userMessage;
+
+              $textReplyMessage=". reply Token is.. ".$replyToken;
+              $textMessage = new TextMessageBuilder($textReplyMessage);
+              $multiMessage->add($textMessage);
+              switch ($userMessage[0]) {
 
 		case '#':
         //$textReplyMessage = $textReplyMessage.'Case # ask people. ';
