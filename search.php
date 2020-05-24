@@ -51,9 +51,7 @@ require_once "config.php";
     <div class="jumbotron">
       <h1>ค้นหาชื่อเพื่อนสมาชิก</h1>
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
-
-   <div class="container">
-         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
     <table class='table table-hover table-responsive table-bordered'>
         <tr>
             <td>ชื่อ <input type='text' name='name' class='form-control' /></td>
@@ -63,8 +61,6 @@ require_once "config.php";
     </table>
 </form>
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-<table class='table table-hover table-responsive table-bordered'>
-<tr>
 <select name="province">
 <option value="กรุงเทพมหานคร" selected>จังหวัดที่ปฏิบัติงาน</option>
 <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
@@ -148,12 +144,7 @@ require_once "config.php";
 </select><input type='hidden' name='from_form' value='search_province'/>
 <input type='submit' value='ค้นหา' class='btn btn-primary' />
 </form>
-
-</div> <!-- end .container -->
-
-<?php
- $message = isset($_GET['message']) ? $_GET['message'] : "";
-	    echo $message;
+<?php  $message = isset($_GET['message']) ? $_GET['message'] : ""; echo $message;
 
 if(isset($_POST['from_form'])){
   if(($_POST['from_form'])=='search_name'){
@@ -163,13 +154,13 @@ if(isset($_POST['from_form'])){
       $province = isset($_POST['province']) ? $_POST['province'] : "";
       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"province":{"$regex":"'.$province.'"}}');
     }else{
-      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?s={"name": 1}&apiKey='.MLAB_API_KEY);
+      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
     } // if from_form == search
 
-    	   }//end if isset _POST['name']
-         else{// not from search form
-           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?s={"name": 1}&apiKey='.MLAB_API_KEY);
-         }
+    }//end if isset _POST['name']
+  else{// not from search form
+      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
+      }
  $data = json_decode($json);
  $isData=sizeof($data);
   if($isData >0){
