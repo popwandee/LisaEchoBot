@@ -399,13 +399,13 @@ if(!is_null($events)){
             $url = 'https://api.mlab.com/api/1/databases/crma51/collections/use_log?apiKey='.MLAB_API_KEY.'';
             $context = stream_context_create($opts);
             $returnValue = file_get_contents($url,false,$context);
+
+            */
 $response = $bot->replyMessage($replyToken,$replyData);
-$response = $bot->replyMessage($replyToken,$replyData2);
 if ($response->isSucceeded()) {
     echo 'Succeeded!';
     return;
 }
-*/
 // Failed
 echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
 
