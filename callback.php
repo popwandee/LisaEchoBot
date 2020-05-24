@@ -359,6 +359,34 @@ if(!is_null($events)){
                      $replyData = $multiMessage;
 	                               }
                   break;
+     case '?':
+          //$textReplyMessage = $textReplyMessage.'Case # ask people. ';
+          $find_word=substr($explodeText[0], 1);
+          //$textReplyMessage =$textReplyMessage.'Fine word '.$find_word.' ask people.';
+          $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$find_word.'"}}');
+          $data = json_decode($json);
+          $isData=sizeof($data);
+          $count = 1;
+          if($isData >0){
+          foreach($data as $rec){
+            $textReplyMessage= $textReplyMessage.$count.' '.$rec->answer." ค่ะ\n\n";
+              				         /*if(isset($rec->Image) and (!$hasImageUrlStatus) and ($count<5)){
+              		 	                  $imageUrl="https://thaitimes.online/wp-content/uploads/".$rec->Image;
+              	                                  $imageMessage = new ImageMessageBuilder($imageUrl,$imageUrl);
+              	                                  $multiMessage->add($imageMessage);
+              		                            }*/
+            $count++;
+          }//end for each
+          $textMessage = new TextMessageBuilder($textReplyMessage);
+          $multiMessage->add($textMessage);
+          $replyData = $multiMessage;
+          }else{
+              	$textReplyMessage=$textReplyMessage."..ไม่มีข้อมูล.. ";
+                $textMessage = new TextMessageBuilder($textReplyMessage);
+                $multiMessage->add($textMessage);
+                $replyData = $multiMessage;
+              	}
+          break;
                   case '@':
                       $indexCount=1;$answer='';
                       foreach($explodeText as $rec){
@@ -367,7 +395,7 @@ if(!is_null($events)){
                           $answer= $answer." ".$explodeText[$indexCount];
                         }
                       }//end foreach $explodeText นับจำนวนคำ เพื่อตรวจสอบว่ามีคำถามและคำตอบมาด้วย
-                      if(!empty($answer)){
+                      if(($indexCount>1) && (!empty($explodeText[1]))){
                         //Post New Data
                         $newData = json_encode(array('question' => $explodeText[1],'answer'=> $answer) );
                         $opts = array('http' => array( 'method' => "POST",
@@ -382,8 +410,8 @@ if(!is_null($events)){
                             $textReplyMessage= $textReplyMessage."\nน้อง Lisa จำได้แล้วว่า ".$explodeText[1]." คือ ".$answer;
                             }else{ $textReplyMessage= $textReplyMessage."\nน้อง Lisa ไม่เข้าใจค่ะ";
                             }
-                          }// end if empty answer ->> insert database
-                          else{ // empty answer
+                          }// end if $indexCount>1 ->> insert database
+                          else{ // $indexCount>1
                               $textReplyMessage= $textReplyMessage."\n ไม่มีคำตอบมาให้ด้วยเหรอค่ะ";
                           }
                         $textMessage = new TextMessageBuilder($textReplyMessage);
