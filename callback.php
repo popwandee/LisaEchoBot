@@ -218,7 +218,7 @@ if(!is_null($events)){
     }
     // ถ้าเป้น Message Event
     if(!is_null($eventMessage)){
-        $textReplyMessage = $textReplyMessage."กรณี ข้อความ ";
+        //$textReplyMessage = $textReplyMessage."กรณี ข้อความ ";
         // สร้างตัวแปรเก็ยค่าประเภทของ Message จากทั้งหมด 7 ประเภท
         $typeMessage = $eventObj->getMessageType();
         //  text | image | sticker | location | audio | video | file
@@ -227,28 +227,28 @@ if(!is_null($events)){
         // ถ้าเป็นข้อความ
         if($typeMessage=='text'){
             $userMessage = $eventObj->getText(); // เก็บค่าข้อความที่ผู้ใช้พิมพ์
-              $textReplyMessage = $textReplyMessage."ข้อความ Text.";
+              //$textReplyMessage = $textReplyMessage."ข้อความ Text.";
         }
         // ถ้าเป็น image
         if($typeMessage=='image'){
-          $textReplyMessage = $textReplyMessage."ข้อความ image.";
+          //$textReplyMessage = $textReplyMessage."ข้อความ image.";
 
         }
         // ถ้าเป็น audio
         if($typeMessage=='audio'){
-          $textReplyMessage = $textReplyMessage."ข้อความ audio.";
+          //$textReplyMessage = $textReplyMessage."ข้อความ audio.";
 
         }
         // ถ้าเป็น video
         if($typeMessage=='video'){
-          $textReplyMessage = $textReplyMessage."ข้อความ video.";
+          //$textReplyMessage = $textReplyMessage."ข้อความ video.";
 
         }
         // ถ้าเป็น file
         if($typeMessage=='file'){
             $FileName = $eventObj->getFileName();
             $FileSize = $eventObj->getFileSize();
-              $textReplyMessage = $textReplyMessage."ข้อความ file.";
+              //$textReplyMessage = $textReplyMessage."ข้อความ file.";
         }
 	    /*
         // ถ้าเป็น image หรือ audio หรือ video หรือ file และต้องการบันทึกไฟล์
@@ -304,7 +304,7 @@ if(!is_null($events)){
         if($typeMessage=='sticker'){
             $packageId = $eventObj->getPackageId();
             $stickerId = $eventObj->getStickerId();
-              $textReplyMessage = $textReplyMessage."ข้อความ sticker.";
+              //$textReplyMessage = $textReplyMessage."ข้อความ sticker.";
         }
         // ถ้าเป็น location
         if($typeMessage=='location'){
@@ -312,13 +312,13 @@ if(!is_null($events)){
             $locationAddress = $eventObj->getAddress();
             $locationLatitude = $eventObj->getLatitude();
             $locationLongitude = $eventObj->getLongitude();
-              $textReplyMessage = $textReplyMessage."ข้อความ Location.";
+              //$textReplyMessage = $textReplyMessage."ข้อความ Location.";
         }
 
 
         switch ($typeMessage){ // กำหนดเงื่อนไขการทำงานจาก ประเภทของ message
             case 'text':  // ถ้าเป็นข้อความ
-              $textReplyMessage = $textReplyMessage."\n case  Text.";
+              //$textReplyMessage = $textReplyMessage."\n case  Text.";
 	            $tz_object = new DateTimeZone('Asia/Bangkok');
               $datetime = new DateTime();
               $datetime->setTimezone($tz_object);
@@ -330,14 +330,15 @@ if(!is_null($events)){
               switch ($userMessage[0]) {
 
 		case '#':
-        $textReplyMessage = $textReplyMessage.'Case # ask people. \n';
-        $find_word=substr($explodeText[0], 1);$textReplyMessage.'Fine word '.$find_word.' ask people. \n';
+        //$textReplyMessage = $textReplyMessage.'Case # ask people. ';
+        $find_word=substr($explodeText[0], 1);
+        //$textReplyMessage =$textReplyMessage.'Fine word '.$find_word.' ask people.';
 				 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"$or":[{"name":{"$regex":"'.$find_word.'"}},{"lastname":{"$regex":"'.$find_word.'"}},{"province":{"$regex":"'.$find_word.'"}},{"position":{"$regex":"'.$find_word.'"}}]}');
                   $data = json_decode($json);
                   $isData=sizeof($data);
 			            $count = 1;
                   if($isData >0){
-                         $textReplyMessage = $textReplyMessage.'Found people. \n';
+                         //$textReplyMessage = $textReplyMessage."Found people. \n";
                      foreach($data as $rec){
                         $textReplyMessage= $textReplyMessage.$count.' '.$rec->rank.$rec->name.' '.$rec->lastname.' ('.$rec->position.') โทร '.$rec->Tel1." ค่ะ\n\n";
 				         /*if(isset($rec->Image) and (!$hasImageUrlStatus) and ($count<5)){
@@ -358,11 +359,45 @@ if(!is_null($events)){
                      $replyData = $multiMessage;
 	                               }
                   break;
+                  case '@':
+                      $indexCount=1;$answer='';
+                      foreach($explodeText as $rec){
+                      $indexCount++;
+                        if($indexCount>1){//น่าจะมีคำถามและคำตอบมาด้วย
+                          $answer= $answer." ".$explodeText[$indexCount];
+                        }
+                      }//end foreach $explodeText นับจำนวนคำ เพื่อตรวจสอบว่ามีคำถามและคำตอบมาด้วย
+                      if(!empty($answer)){
+                        //Post New Data
+                        $newData = json_encode(array('question' => $explodeText[1],'answer'=> $answer) );
+                        $opts = array('http' => array( 'method' => "POST",
+                                      'header' => "Content-type: application/json",
+                                      'content' => $newData
+                                        ) );
+                        $url = 'https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'';
+                                $context = stream_context_create($opts);
+                                $returnValue = file_get_contents($url,false,$context);
+                        if($returnValue){
+                            $textReplyMessage= $textReplyMessage."\nขอบคุณที่สอนน้อง Lisa ค่ะ";
+                            $textReplyMessage= $textReplyMessage."\nน้อง Lisa จำได้แล้วว่า ".$explodeText[1]." คือ ".$answer;
+                            }else{ $textReplyMessage= $textReplyMessage."\nน้อง Lisa ไม่เข้าใจค่ะ";
+                            }
+                          }// end if empty answer ->> insert database
+                          else{ // empty answer
+                              $textReplyMessage= $textReplyMessage."\n ไม่มีคำตอบมาให้ด้วยเหรอค่ะ";
+                          }
+                        $textMessage = new TextMessageBuilder($textReplyMessage);
+                        $multiMessage->add($textMessage);
+                        $replyData = $multiMessage;
+
+
+                        $replyData = $multiMessage;
+                        break;
                     default:
                         //$textReplyMessage = " คุณไม่ได้พิมพ์ ค่า ตามที่กำหนด";
                        // $replyData = new TextMessageBuilder($textReplyMessage);
                         break;
-                }// end switch ($userMessage) {
+                }// end switch ($userMessage)
 
                 break;
             default:
