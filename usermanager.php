@@ -177,19 +177,13 @@ require_once "config.php";
 
      <?php
      function showdata($data)
-     {
-       echo "<div class='table-responsive'>";
-       echo "<table class='table-sm table-hover table-responsive table-bordered'>";//start table
-       //creating our table heading
-       echo "<tr>";
-         echo "<th>ลำดับ</th>";
-         echo "<th>ชื่อ สกุล</th>";
-         echo "<th>ตำแหน่ง</th>";
-         echo "<th>โทรศัพท์</th>";
-         echo "<th>ประเภทสมาชิก</th>";
-         echo "<th>Approved</th>";
-         echo "<th>Action</th>";
-       echo "</tr>";
+     { ?>
+       <div class='table-responsive'>
+       <table class='table table-hover table-responsive table-bordered'>
+       <tr><th>ลำดับ</th><th>ชื่อ สกุล</th><th>ตำแหน่ง</th>
+         <th>โทรศัพท์</th><th>ประเภทสมาชิก</th><th>Approved</th><th>Action</th>
+       </tr>
+       <?php
        $id=0;
        foreach($data as $rec){
        $id++;
@@ -204,17 +198,14 @@ require_once "config.php";
        $Tel1=$rec->Tel1;
        $type=$rec->type;
        $approved=$rec->approved;
-
-       // creating new table row per record
-       echo "<tr>";
-         echo "<td width='10%'>{$id}</td>";
-         echo "<td width='30%' class='text-nowrap'>{$rank} {$name} {$lastname}</td>";
-         echo "<td width='20%'>{$position}</td>";
-         echo "<td width='20%'>{$Tel1}</td>";
-         echo "<td width='10%'>{$type}</td>";
-         echo "<td width='20%'>";
-                if($approved){
-                  ?>
+?>
+       <tr><td width='10%'><?php echo "{$id}";?></td>
+         <td width='30%' class='text-nowrap'><?php echo "{$rank} {$name} {$lastname}";?></td>
+         <td width='20%'><?php echo "{$position}";?></td>
+         <td width='20%'><?php echo "{$Tel1}";?></td>
+         <td width='10%'><?php echo "{$type}";?></td>
+         <td width='20%'>
+          <?php if($approved){ ?>
                   <button type="button" class="btn btn-xs btn-success">อนุมัติแล้ว</button>
                   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                     <input type="hidden" name="user_id" value="<?php echo $_id;?>">
@@ -222,9 +213,7 @@ require_once "config.php";
                     <input type='hidden' name='approved' value='1'>
                     <button type="submit" class="btn btn-xs btn-warning">ยกเลิกการอนุมัติ</button>
                     </form>
-                      <?php
-                }else{
-                  ?>
+                <?php }else{ // not approved ?>
                   <button type="button" class="btn btn-xs btn-danger">ยังไม่อนุมัติ</button>
                   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                     <input type="hidden" name="user_id" value="<?php echo $_id;?>">
@@ -232,31 +221,23 @@ require_once "config.php";
                     <input type='hidden' name='approved' value='0'>
                     <button type="submit" class="btn btn-xs btn-warning">อนุมัติ</button>
                     </form>
-
-                      <?php
-                }
-
-         echo"</td>";
-         echo "<td width='10%'>";
-         ?>
+                <?php } //end id approved ?>
+         </td><td width='10%'>
          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
            <input type="hidden" name="user_id" value="<?php echo $_id; ?>">
            <input type='hidden' name='form_no' value='user_edit'>
            <input type='hidden' name='edited' value='0'>
            <button type="submit" class="btn btn-xs btn-warning">แก้ไข</button>
            </form>
-           <?php
-         echo "</td>";
-       echo "</tr>";
-       }
-       // end table
-       echo "</table>";
-echo "</div> ";// class='table-responsive'
-       // end function
-     }
-     ?>
+         </td>
+       </tr>
+     <?php }// end table ?>
+     </tbody>
+      </table>
+</div> <!-- class='table-responsive'-->
+  <?php  }// end function   ?>
      <span class="label label-info">
-<?php if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;}else{$_SESSION['message']='';}?>
+<?php if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;$_SESSION['message']='';}?>
 <?php $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
 </span>
 <?php

@@ -149,6 +149,8 @@ require_once "config.php";
 <input type='submit' value='ค้นหา' class='btn btn-primary' />
 </form>
 
+</div> <!-- end .container -->
+
 <?php
  $message = isset($_GET['message']) ? $_GET['message'] : "";
 	    echo $message;
@@ -164,68 +166,64 @@ if(isset($_POST['from_form'])){
       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?s={"name": 1}&apiKey='.MLAB_API_KEY);
     } // if from_form == search
 
+    	   }//end if isset _POST['name']
+         else{// not from search form
+           $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?s={"name": 1}&apiKey='.MLAB_API_KEY);
+         }
  $data = json_decode($json);
  $isData=sizeof($data);
   if($isData >0){
-    echo "<div class='table-responsive'>";
-    echo "<table class='table table-hover table-responsive table-bordered'>";//start table
-     //creating our table heading
-    echo "<tr>";
-        echo "<th>ลำดับ</th>";
-        echo "<th>ยศ ชื่อ สกุล</th>";
-        echo "<th>ตำแหน่ง</th>";
-        echo "<th>จังหวัด</th>";
-        echo "<th>Email</th>";
-        echo "<th>Tel.</th>";
-        echo "<th>ID LINE</th>";
-    echo "</tr>";
-
-    // retrieve our table contents
-$id=0;
-foreach($data as $rec){
-	$id++;
-                 $_id=$rec->_id;
-
-	foreach($_id as $rec_id){
-		$_id=$rec_id;
-
-	}
-  $rank=$rec->rank;$name=$rec->name;$lastname=$rec->lastname;
-		$position=$rec->position;
-    $province=$rec->province;
-		$Email=$rec->Email;
-		$Tel1=$rec->Tel1;
-		$LineID=$rec->LineID;
-
-
-    // creating new table row per record
-    echo "<tr>";
-        echo "<td>{$id}</td>";
-        echo "<td class='text-nowrap'>{$rank} {$name} {$lastname}</td>";
-        echo "<td>{$position}</td>";
-        echo "<td>{$province}</td>";
-        echo "<td>{$Email}</td>";
-        echo "<td>{$Tel1}</td>";
-        echo "<td>{$LineID}</td>";
-    echo "</tr>";
-}
-
-// end table
-echo "</table>";
-echo "</div> ";// class='table-responsive'
-
+  show_search_result($data);
   }// if no records found
 else{
     echo "<div align='center' class='alert alert-danger'>ยังไม่มีข้อมูลค่ะ</div>";
 }
-	   }//end if isset _POST['name']
          ?>
-    </div> <!-- end .container -->
 
   </div> <!-- jumbotron -->
 </div> <!--main -->
 
-
+<?php
+function show_search_result($data){ ?>
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <h3 class="panel-title">ผลการค้นหา</h3>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-sm table-hover table-striped">
+          <thead>
+   <tr><th>ลำดับ</th><th>ยศ ชื่อ สกุล</th><th>ตำแหน่ง</th>
+      <th>จังหวัด</th><th>Email</th><th>Tel.</th><th>ID LINE</th></tr>
+    </thead><tbody>
+<?php
+$id=0;
+foreach($data as $rec){
+$id++;
+$_id=$rec->_id;
+foreach($_id as $rec_id){
+  $_id=$rec_id;
+}
+$rank=$rec->rank;$name=$rec->name;$lastname=$rec->lastname;
+  $position=$rec->position;
+  $province=$rec->province;
+  $Email=$rec->Email;
+  $Tel1=$rec->Tel1;
+  $LineID=$rec->LineID;
+?>
+<tr><td>{$id}</td>
+    <td class='text-nowrap'><?php echo "{$rank} "; ?> <?php echo "{$name} "; ?> <?php echo "{$lastname} "; ?></td>
+    <td><?php echo "{$position}";?></td>
+    <td><?php echo "{$province}";?></td>
+    <td><?php echo "{$Email}";?></td>
+    <td><?php echo "{$Tel1}";?></td>
+    <td><?php echo "{$LineID}";?></td>
+</tr>
+<?php } // end foreach $data ?>
+</tbody>
+</table>
+</div><!-- class='table-responsive'-->
+</div> <!-- class="panel panel-success"-->
+<?php  } // end function ?>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
