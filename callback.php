@@ -88,6 +88,7 @@ try {
 $log_note='';
 $eventObj = $events[0];
 $eventType = $eventObj->getType();
+$replyToken = $eventObj->getReplyToken();
 switch($eventType){
     case 'message': $eventMessage = true; break;
     case 'postback': $eventPostback = true; break;
@@ -110,14 +111,12 @@ if($eventObj->isGroupEvent()){
     $groupId = $eventObj->getGroupId();
     $userId = $eventObj->getUserId();
     $sourceType = "GROUP";
-    $replyToken = $eventObj->getReplyToken();
 }
 // สร้างตัวแปรเก็บค่า roomId กรณีเป็น Event ที่เกิดขึ้นใน ROOM
 if($eventObj->isRoomEvent()){
     $roomId = $eventObj->getRoomId();
     $userId = $eventObj->getUserId();
     $sourceType = "ROOM";
-    $replyToken = $eventObj->getReplyToken();
 }
 // เก็บค่า sourceId ปกติจะเป็นค่าเดียวกันกับ userId หรือ roomId หรือ groupId ขึ้นกับว่าเป็น event แบบใด
 $sourceId = $eventObj->getEventSourceId();
