@@ -321,7 +321,7 @@ if(!is_null($events)){
         switch ($typeMessage){ // กำหนดเงื่อนไขการทำงานจาก ประเภทของ message
             case 'text':  // ถ้าเป็นข้อความ
 
-                  $replyToken = $eventObj->getReplyToken();
+              $replyToken = $eventObj->getReplyToken();
               //$textReplyMessage = $textReplyMessage."\n case  Text.";
 	            $tz_object = new DateTimeZone('Asia/Bangkok');
               $datetime = new DateTime();
