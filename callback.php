@@ -369,7 +369,7 @@ if(!is_null($events)){
           $count = 1;
           if($isData >0){
           foreach($data as $rec){
-            $textReplyMessage= $textReplyMessage.$count.' '.$rec->answer." ค่ะ\n\n";
+            $textReplyMessage = $rec->answer."\n\n";
               				         /*if(isset($rec->Image) and (!$hasImageUrlStatus) and ($count<5)){
               		 	                  $imageUrl="https://thaitimes.online/wp-content/uploads/".$rec->Image;
               	                                  $imageMessage = new ImageMessageBuilder($imageUrl,$imageUrl);
