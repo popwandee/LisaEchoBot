@@ -185,10 +185,6 @@ else{
 
 <?php
 function show_search_result($data){ ?>
-  <div class="panel panel-success">
-    <div class="panel-heading">
-      <h3 class="panel-title">ผลการค้นหา</h3>
-    </div>
     <div class="table-responsive">
         <table class="table table-sm table-hover table-striped">
           <thead>
@@ -210,7 +206,7 @@ $rank=$rec->rank;$name=$rec->name;$lastname=$rec->lastname;
   $Tel1=$rec->Tel1;
   $LineID=$rec->LineID;
 ?>
-<tr><td>{$id}</td>
+<tr><td><?php echo "{$id}";?></td>
     <td class='text-nowrap'><?php echo "{$rank} "; ?> <?php echo "{$name} "; ?> <?php echo "{$lastname} "; ?></td>
     <td><?php echo "{$position}";?></td>
     <td><?php echo "{$province}";?></td>
@@ -222,7 +218,6 @@ $rank=$rec->rank;$name=$rec->name;$lastname=$rec->lastname;
 </tbody>
 </table>
 </div><!-- class='table-responsive'-->
-</div> <!-- class="panel panel-success"-->
 <?php  } // end function ?>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
