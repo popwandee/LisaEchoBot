@@ -73,6 +73,7 @@ $bot = new \LINE\LINEBot(
     new \LINE\LINEBot\HTTPClient\CurlHTTPClient(LINE_MESSAGING_API_CHANNEL_TOKEN),
     ['channelSecret' => LINE_MESSAGING_API_CHANNEL_SECRET]
 );
+
 $signature = $_SERVER["HTTP_".\LINE\LINEBot\Constant\HTTPHeader::LINE_SIGNATURE];
 try {
 	$events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
@@ -88,23 +89,20 @@ try {
 foreach ($events as $event) {
 	// Message Event
  if ($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage) {
-
-   $rawText = $event->getText();
-   $text = strtolower($rawText);
-   $explodeText=explode(" ",$text);
-   $textReplyMessage="";
-$log_note=$text;
-$tz_object = new DateTimeZone('Asia/Bangkok');
-$datetime = new DateTime();
-$datetime->setTimezone($tz_object);
-$dateTimeNow = $datetime->format('Y\-m\-d\ H:i:s');
-$replyToken = $event->getReplyToken();
-$multiMessage =     new MultiMessageBuilder;
-$replyData='No Data';
-$userId=$event->getUserId();
-              switch ($text[0]) {
-
-		case '#':
+  $rawText = $event->getText();
+  $text = strtolower($rawText);
+  $explodeText=explode(" ",$text);
+  $textReplyMessage="";
+	$log_note=$text;
+	 $tz_object = new DateTimeZone('Asia/Bangkok');
+         $datetime = new DateTime();
+         $datetime->setTimezone($tz_object);
+         $dateTimeNow = $datetime->format('Y\-m\-d\ H:i:s');
+	$replyToken = $event->getReplyToken();
+        $multiMessage =     new MultiMessageBuilder;
+	$replyData='No Data';
+  switch ($text[0]) {
+    case '#':
         //$textReplyMessage = $textReplyMessage.'Case # ask people. ';
         $find_word=substr($explodeText[0], 1);
         //$textReplyMessage =$textReplyMessage.'Fine word '.$find_word.' ask people.';
@@ -127,125 +125,26 @@ $userId=$event->getUserId();
 		                $multiMessage->add($textMessage);
                     $replyData = $multiMessage;
 	               }else{
-		                 $founduser= NULL;
 			               $textReplyMessage=$textReplyMessage."..ไม่มีข้อมูล.. ";
           				   $textMessage = new TextMessageBuilder($textReplyMessage);
                      $multiMessage->add($textMessage);
                      $replyData = $multiMessage;
 	                               }
+                      $textReplyMessage=$textReplyMessage."..CASE #.. ";
+                      $textMessage = new TextMessageBuilder($textReplyMessage);
+                      $multiMessage->add($textMessage);
+                      $replyData = $multiMessage;
                   break;
-     case '?':
-          //$textReplyMessage = $textReplyMessage.'Case # ask people. ';
-          $find_word=substr($explodeText[0], 1);
-          //$textReplyMessage =$textReplyMessage.'Fine word '.$find_word.' ask people.';
-          $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$find_word.'"}}');
-          $data = json_decode($json);
-          $isData=sizeof($data);
-          $count = 1;
-          if($isData >0){
-          foreach($data as $rec){
-            $textReplyMessage = $rec->answer."\n\n";
-              				         /*if(isset($rec->Image) and (!$hasImageUrlStatus) and ($count<5)){
-              		 	                  $imageUrl="https://thaitimes.online/wp-content/uploads/".$rec->Image;
-              	                                  $imageMessage = new ImageMessageBuilder($imageUrl,$imageUrl);
-              	                                  $multiMessage->add($imageMessage);
-              		                            }*/
-            $count++;
-          }//end for each
-          $textMessage = new TextMessageBuilder($textReplyMessage);
-          $multiMessage->add($textMessage);
-          $replyData = $multiMessage;
-          }else{
-              	$textReplyMessage=$textReplyMessage."..ไม่มีข้อมูล.. ";
-                $textMessage = new TextMessageBuilder($textReplyMessage);
-                $multiMessage->add($textMessage);
-                $replyData = $multiMessage;
-              	}
-          break;
-                  case '@':
-                      $indexCount=1;$answer='';
-                      foreach($explodeText as $rec){
-                      $indexCount++;
-                        if($indexCount>1){//น่าจะมีคำถามและคำตอบมาด้วย
-                          $answer= $answer." ".$explodeText[$indexCount];
-                        }
-                      }//end foreach $explodeText นับจำนวนคำ เพื่อตรวจสอบว่ามีคำถามและคำตอบมาด้วย
-                      if(($indexCount>1) && (!empty($explodeText[1]))){
-                        //Post New Data
-                        $newData = json_encode(array('question' => $explodeText[1],'answer'=> $answer) );
-                        $opts = array('http' => array( 'method' => "POST",
-                                      'header' => "Content-type: application/json",
-                                      'content' => $newData
-                                        ) );
-                        $url = 'https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'';
-                                $context = stream_context_create($opts);
-                                $returnValue = file_get_contents($url,false,$context);
-                        if($returnValue){
-                            $textReplyMessage= $textReplyMessage."\nขอบคุณที่สอนน้อง Lisa ค่ะ";
-                            $textReplyMessage= $textReplyMessage."\nน้อง Lisa จำได้แล้วว่า ".$explodeText[1]." คือ ".$answer;
-                            }else{ $textReplyMessage= $textReplyMessage."\nน้อง Lisa ไม่เข้าใจค่ะ";
-                            }
-                          }// end if $indexCount>1 ->> insert database
-                          else{ // $indexCount>1
-                              $textReplyMessage= $textReplyMessage."\n ไม่มีคำตอบมาให้ด้วยเหรอค่ะ";
-                          }
-                        $textMessage = new TextMessageBuilder($textReplyMessage);
-                        $multiMessage->add($textMessage);
-                        $replyData = $multiMessage;
+  }//end switch $explodeText[0]
 
-
-                        $replyData = $multiMessage;
-                        break;
-                    default:
-                        //$textReplyMessage = " คุณไม่ได้พิมพ์ ค่า ตามที่กำหนด";
-                       // $replyData = new TextMessageBuilder($textReplyMessage);
-                        break;
-                }// end switch ($userMessage)
-
-                break;
-            default:
-                if(!is_null($replyData)){
-
-                }else{
-                    // กรณีทดสอบเงื่อนไขอื่นๆ ผู้ใช้ไม่ได้ส่งเป็นข้อความ
-                   // $textReplyMessage = 'สวัสดีครับ คุณ '.$typeMessage;
-                    //$replyData = new TextMessageBuilder($textReplyMessage);
-                }
-                break;
-        }// end switch (typemessage)
-
-    }
-}
-/*
- //-- บันทึกการเข้าใช้งานระบบ ---//
-		if(!is_null($displayName)){
-		    $displayName =$displayName;
-	      }elseif(isset($userName)){
-		    $displayName =$userName;
-		 }else{
-		      $displayName = ' ';
-	      }
-       if(is_null($pictureUrl)){$pictureUrl ='';}
-		   $newUserData = json_encode(array('displayName' => $displayName,'userId'=> $userId,'dateTime'=> $dateTimeNow,
-						    'log_note'=>$log_note,'pictureUrl'=>$pictureUrl) );
-                           $opts = array('http' => array( 'method' => "POST",
-                                          'header' => "Content-type: application/json",
-                                          'content' => $newUserData
-                                           )
-                                        );
-
-            $url = 'https://api.mlab.com/api/1/databases/crma51/collections/use_log?apiKey='.MLAB_API_KEY.'';
-            $context = stream_context_create($opts);
-            $returnValue = file_get_contents($url,false,$context);
-
-            */
-$response = $bot->replyMessage($replyToken,$replyData);
-if ($response->isSucceeded()) {
-    echo 'Succeeded!';
-    return;
-}
-// Failed
-echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
+	    // ส่วนส่งกลับข้อมูลให้ LINE
+           $response = $bot->replyMessage($replyToken,$replyData);
+           if ($response->isSucceeded()) { echo 'Succeeded!'; return;}
+              // Failed ส่งข้อความไม่สำเร็จ
+             $statusMessage = $response->getHTTPStatus() . ' ' . $response->getRawBody(); echo $statusMessage;
+             $bot->replyText($replyToken, $statusMessage);
+	}//end if event is textMessage
+}// end foreach event
 
 // function
 
