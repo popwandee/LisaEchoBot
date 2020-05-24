@@ -192,8 +192,6 @@ if(!is_null($events)){
 
     }
 
-
-
     // ถ้ามีกาาเชื่อมกับบัญชี LINE กับระบบสมาชิกของเว็บไซต์เรา
     if(!is_null($eventAccountLink)){
         // หลักๆ ส่วนนี้ใช้สำรหบัเพิ่มความภัยในการเชื่อมบัญตี LINE กับระบบสมาชิกของเว็บไซต์เรา
@@ -220,7 +218,7 @@ if(!is_null($events)){
     }
     // ถ้าเป้น Message Event
     if(!is_null($eventMessage)){
-
+        $textReplyMessage = $textReplyMessage."กรณี ข้อความ ";
         // สร้างตัวแปรเก็ยค่าประเภทของ Message จากทั้งหมด 7 ประเภท
         $typeMessage = $eventObj->getMessageType();
         //  text | image | sticker | location | audio | video | file
@@ -229,23 +227,28 @@ if(!is_null($events)){
         // ถ้าเป็นข้อความ
         if($typeMessage=='text'){
             $userMessage = $eventObj->getText(); // เก็บค่าข้อความที่ผู้ใช้พิมพ์
+              $textReplyMessage = $textReplyMessage."ข้อความ Text.";
         }
         // ถ้าเป็น image
         if($typeMessage=='image'){
+          $textReplyMessage = $textReplyMessage."ข้อความ image.";
 
         }
         // ถ้าเป็น audio
         if($typeMessage=='audio'){
+          $textReplyMessage = $textReplyMessage."ข้อความ audio.";
 
         }
         // ถ้าเป็น video
         if($typeMessage=='video'){
+          $textReplyMessage = $textReplyMessage."ข้อความ video.";
 
         }
         // ถ้าเป็น file
         if($typeMessage=='file'){
             $FileName = $eventObj->getFileName();
             $FileSize = $eventObj->getFileSize();
+              $textReplyMessage = $textReplyMessage."ข้อความ file.";
         }
 	    /*
         // ถ้าเป็น image หรือ audio หรือ video หรือ file และต้องการบันทึกไฟล์
@@ -301,6 +304,7 @@ if(!is_null($events)){
         if($typeMessage=='sticker'){
             $packageId = $eventObj->getPackageId();
             $stickerId = $eventObj->getStickerId();
+              $textReplyMessage = $textReplyMessage."ข้อความ sticker.";
         }
         // ถ้าเป็น location
         if($typeMessage=='location'){
@@ -308,186 +312,32 @@ if(!is_null($events)){
             $locationAddress = $eventObj->getAddress();
             $locationLatitude = $eventObj->getLatitude();
             $locationLongitude = $eventObj->getLongitude();
+              $textReplyMessage = $textReplyMessage."ข้อความ Location.";
         }
 
 
         switch ($typeMessage){ // กำหนดเงื่อนไขการทำงานจาก ประเภทของ message
             case 'text':  // ถ้าเป็นข้อความ
+              $textReplyMessage = $textReplyMessage."\n case  Text.";
+	            $tz_object = new DateTimeZone('Asia/Bangkok');
+              $datetime = new DateTime();
+              $datetime->setTimezone($tz_object);
+              $dateTimeNow = $datetime->format('Y\-m\-d\ H:i:s');
+              $multiMessage =     new MultiMessageBuilder;
+              $userMessage = strtolower($userMessage); // แปลงเป็นตัวเล็ก สำหรับทดสอบ
+	            $explodeText=explode(" ",$userMessage);
+	            $log_note=$userMessage;
+              switch ($userMessage[0]) {
 
-	 $tz_object = new DateTimeZone('Asia/Bangkok');
-         $datetime = new DateTime();
-         $datetime->setTimezone($tz_object);
-         $dateTimeNow = $datetime->format('Y\-m\-d\ H:i:s');
-         $multiMessage =     new MultiMessageBuilder;
-         $userMessage = strtolower($userMessage); // แปลงเป็นตัวเล็ก สำหรับทดสอบ
-	 $explodeText=explode(" ",$userMessage);
-	 $log_note=$userMessage;
-                switch ($explodeText[0]) {
-                    case "qa":
-
-				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/qa?apiKey='.MLAB_API_KEY.'&q={"id":0}');
-                                $data = json_decode($json);
-                                foreach($data as $rec){ $maximum= $rec->total;  }//end for each
-
-				$randomNumber=mt_rand(1,$maximum);
-				$textReplyMessage="Maximum is ".$maximum." Random number is ".$randomNumber;
-				$textMessage = new TextMessageBuilder($textReplyMessage);
-		                $multiMessage->add($textMessage);
-				// random คำถามจาก ฐานข้อมูล
-				     $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/qa?apiKey='.MLAB_API_KEY.'&q={"id":'.$randomNumber.'}');
-                                     $data = json_decode($json);
-                                     $isData=sizeof($data);
-                                     if($isData >0){
-
-                                       foreach($data as $rec){
-                                         $question=$rec->question;
-				         $detail=$rec->detail;
-				         $hint=$rec->hint;
-				         $answer1=$rec->answer1;
-				         $result1=$rec->result1;
-				         $score1=$rec->score1;
-				         $answer2=$rec->answer2;
-				         $result2=$rec->result2;
-				         $score2=$rec->score2;
-					 $textReplyMessage="\nGet Data from database, are ".$question.$detail.$hint.$asnwer1;
-				         $textMessage = new TextMessageBuilder($textReplyMessage);
-				         $multiMessage->add($textMessage);
-                                         }//end for each
-
-	                              }else{
-		                         $question="นายกท่านปัจจุบันคือใคร?";
-				         $detail="กรุณาเลือกคำตอบว่านายกรัฐมันตรีคนปัจจุบันของประเทศไทยคือใคร";
-				         $hint="เป็นอดีตทหาร";
-				         $answer1="นายกประยุทธ์";
-				         $result1="Correct!";
-				         $score1=1;
-				         $answer2="นายกอภิสิทธิ์";
-				         $result2="False!";
-				         $score2=0;
-					     $textReplyMessage=" Don't Get data from database";
-				       $textMessage = new TextMessageBuilder($textReplyMessage);
-				       $multiMessage->add($textMessage);
-	                               }
-
-
-                        // กำหนด action 4 ปุ่ม 4 ประเภท
-                        $actionBuilder = array(
-                            new MessageTemplateActionBuilder(
-                                'ขอคำใบ้',// ข้อความให้คลิกคำใบ้
-                                $hint // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือกเป็นคำใบ้
-                            ),
-                            /*
-                            new DatetimePickerTemplateActionBuilder(
-                                'Datetime Picker', // ข้อความแสดงในปุ่ม
-                                http_build_query(array(
-                                    'action'=>'reservation',
-                                    'person'=>5
-                                )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
-                                'datetime', // date | time | datetime รูปแบบข้อมูลที่จะส่ง ในที่นี้ใช้ datatime
-                                substr_replace(date("Y-m-d H:i"),'T',10,1), // วันที่ เวลา ค่าเริ่มต้นที่ถูกเลือก
-                                substr_replace(date("Y-m-d H:i",strtotime("+5 day")),'T',10,1), //วันที่ เวลา มากสุดที่เลือกได้
-                                substr_replace(date("Y-m-d H:i"),'T',10,1) //วันที่ เวลา น้อยสุดที่เลือกได้
-                            ),
-			   */
-                            new PostbackTemplateActionBuilder(
-                                $answer1, // ข้อความแสดงในปุ่ม
-                                http_build_query(array(
-                                    'Result'=>$result1,
-                                    'Score'=>$score1
-                                )) // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
-    //                          'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-                            ),
-			    new PostbackTemplateActionBuilder(
-                                $answer2, // ข้อความแสดงในปุ่ม
-                                http_build_query(array(
-                                    'Result'=>$result2,
-                                    'Score'=>$score2
-                                )) // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
-    //                          'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-                            ),
-			    new UriTemplateActionBuilder(
-                                'ผู้สนับสนุน', // ข้อความแสดงในปุ่ม
-                                'https://www.thaitimes.online'
-                            ),
-                        );
-                        $imageUrl = 'https://thaitimes.online/wp-content/uploads/51724484_1191703040978591_8791088534904635392_n.jpg';
-                      	$textMessage= new TemplateMessageBuilder('Button Template',
-                            new ButtonTemplateBuilder(
-                                    $question, // กำหนดหัวเรื่อง
-                                    $detail, // กำหนดรายละเอียด
-                                    $imageUrl, // กำหนด url รุปภาพ
-                                    $actionBuilder  // กำหนด action object
-                            )
-                        );
-
-			$multiMessage->add($textMessage);
-			$replyData =$multiMessage;
-                        break;
-                    case "p":
-                        // ถ้าขณะนั้นเป็นการสนทนาใน ROOM หรือ GROUP
-                        if(!is_null($groupId) || !is_null($roomId)){
-                            if($eventObj->isGroupEvent()){// ถ้าอยู่ใน GROUP
-                                $response = $bot->getGroupMemberProfile($groupId, $userId); // ดึงข้อมูลผู้ใช้ที่คุยกับ bot
-                            }
-                            if($eventObj->isRoomEvent()){ // ถ้าอยู่ใน ROOM
-                                $response = $bot->getRoomMemberProfile($roomId, $userId);// ดึงข้อมูลผู้ใช้ที่คุยกับ bot
-                            }
-                        }else{ // ถ้าเป็นการสนทนา ระหว่าง BOT
-                            $response = $bot->getProfile($userId);
-                        }
-                        if ($response->isSucceeded()) {
-                            $userData = $response->getJSONDecodedBody(); // return array
-                            // $userData['userId']
-                            // $userData['displayName']
-                            // $userData['pictureUrl']
-                            // $userData['statusMessage']
-                            $textReplyMessage = 'สวัสดีครับ คุณ '.$userData['displayName'];
-                        }else{
-                            $textReplyMessage = 'สวัสดีครับ คุณคือใคร';
-                        }
-                        $replyData = new TextMessageBuilder($textReplyMessage);
-                        break;
-				/*
-                    case "l": // เงื่อนไขทดสอบถ้ามีใครพิมพ์ L ใน GROUP / ROOM แล้วให้ bot ออกจาก GROUP / ROOM
-                            $sourceId = $eventObj->getEventSourceId();
-                            if($eventObj->isGroupEvent()){
-                                $bot->leaveGroup($sourceId);
-                            }
-                            if($eventObj->isRoomEvent()){
-                                $bot->leaveRoom($sourceId);
-                            }
-                        break;
-			*/
-				/*
-                    case "a":  // เงื่อนไขกรณีต้องการ เชื่อม Line  account กับ ระบบสมาชิกของเว็บไซต์เรา
-                        $response = $httpClient->post("https://api.line.me/v2/bot/user/".urlencode($userId)."/linkToken",array());
-                        $result = json_decode($response->getRawBody(),TRUE);
-                        // กำหนด action 4 ปุ่ม 4 ประเภท
-                        $actionBuilder = array(
-                            new UriTemplateActionBuilder(
-                                'Account Link', // ข้อความแสดงในปุ่ม
-                                'https://www.example.com/link.php?linkToken='.$result['linkToken']
-                            )
-                        );
-                        $imageUrl = ''; //กำหนด url รุปภาพ ถ้ามี
-                        $replyData = new TemplateMessageBuilder('Button Template',
-                            new ButtonTemplateBuilder(
-                                    'Account Link', // กำหนดหัวเรื่อง
-                                    'Please select', // กำหนดรายละเอียด
-                                    $imageUrl, // กำหนด url รุปภาพ
-                                    $actionBuilder  // กำหนด action object
-                            )
-                        );
-                        break;
-			*/
 		case '#':
-
-				 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"$or":[{"name":{"$regex":"'.$explodeText[1].'"}},{"lastname":{"$regex":"'.$explodeText[1].'"}},{"province":{"$regex":"'.$explodeText[1].'"}},{"position":{"$regex":"'.$explodeText[1].'"}}]}');
+        $textReplyMessage = $textReplyMessage.'Case # ask people. \n';
+        $find_word=substr($explodeText[0], 1);$textReplyMessage.'Fine word '.$find_word.' ask people. \n';
+				 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"$or":[{"name":{"$regex":"'.$find_word.'"}},{"lastname":{"$regex":"'.$find_word.'"}},{"province":{"$regex":"'.$find_word.'"}},{"position":{"$regex":"'.$find_word.'"}}]}');
                   $data = json_decode($json);
                   $isData=sizeof($data);
 			            $count = 1;
                   if($isData >0){
-		                 $founduser= 1;
+                         $textReplyMessage = $textReplyMessage.'Found people. \n';
                      foreach($data as $rec){
                         $textReplyMessage= $textReplyMessage.$count.' '.$rec->rank.$rec->name.' '.$rec->lastname.' ('.$rec->position.') โทร '.$rec->Tel1." ค่ะ\n\n";
 				         /*if(isset($rec->Image) and (!$hasImageUrlStatus) and ($count<5)){
@@ -499,98 +349,21 @@ if(!is_null($events)){
                     }//end for each
 		                $textMessage = new TextMessageBuilder($textReplyMessage);
 		                $multiMessage->add($textMessage);
+                    $replyData = $multiMessage;
 	               }else{
 		                 $founduser= NULL;
-			               $textReplyMessage="..ไม่มีข้อมูล.. ";
+			               $textReplyMessage=$textReplyMessage."..ไม่มีข้อมูล.. ";
+          				   $textMessage = new TextMessageBuilder($textReplyMessage);
+                     $multiMessage->add($textMessage);
+                     $replyData = $multiMessage;
 	                               }
-				/*
-				if(!isset($picFullSize)){	// กรณียังไม่มีรูป จะ Random รูปภาพจากฐานข้อมูลมาแสดง
-				$numImg=rand(1,37);
-				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/img?apiKey='.MLAB_API_KEY.'&q={"no":'.$numImg.'}&max=1');
-                                $data = json_decode($json);
-                                $isData=sizeof($data);
-                                if($isData >0){
-                                   foreach($data as $rec){
-                                          $picFullSize= "https://thaitimes.online/wp-content/uploads/".$rec->img;
-                                           }//end for each
-				       $imageMessage = new ImageMessageBuilder($picFullSize,$picFullSize);
-	                               $multiMessage->add($imageMessage);
-				 }else{//don't found data
-					$foundimg=NULL;
-					 $textReplyMessage=".... ";
-				         }
-				}// end isset $picFullSize // มีรูปภาพจาก KM แล้ว
-				 */
-				if($founduser1){
-				   $replyData = $multiMessage;
-		       }else{
-				   $textMessage = new TextMessageBuilder($textReplyMessage);
-		       $multiMessage->add($textMessage);
-					 $replyData = $multiMessage;
-				}
-            break;
-
-			   case '#lisa':
-
-
-		                $indexCount=1;$answer='';
-	                        foreach($explodeText as $rec){
-		                       $indexCount++;
-		                       if($indexCount>1){
-		                           $answer= $answer." ".$explodeText[$indexCount];
-		                          }
-	                                }
-
-                                //Post New Data
-                                $newData = json_encode(array('question' => $explodeText[1],'answer'=> $answer) );
-                                $opts = array('http' => array( 'method' => "POST",
-                                          'header' => "Content-type: application/json",
-                                          'content' => $newData
-                                           )
-                                        );
-                                $url = 'https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'';
-                                $context = stream_context_create($opts);
-                                $returnValue = file_get_contents($url,false,$context);
-                                       if($returnValue){
-		                          $textReplyMessage= $textReplyMessage."\nขอบคุณที่สอนน้อง Lisa ค่ะ";
-		                          $textReplyMessage= $textReplyMessage."\nน้อง Lisa จำได้แล้วว่า ".$explodeText[1]." คือ ".$answer;
-	                                      }else{ $textReplyMessage= $textReplyMessage."\nน้อง Lisa ไม่เข้าใจค่ะ";
-		                                     }
-				    $textMessage = new TextMessageBuilder($textReplyMessage);
-		                    $multiMessage->add($textMessage);
-		                    $replyData = $multiMessage;
-
-
-				$numImg=rand(1,21);
-				$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/img?apiKey='.MLAB_API_KEY.'&q={"no":'.$numImg.'}&max=1');
-                                $data = json_decode($json);
-                                $isData=sizeof($data);
-                                if($isData >0){
-                                   foreach($data as $rec){
-                                          $picFullSize= "https://thaitimes.online/wp-content/uploads/".$rec->img;
-                                           }//end for each
-				       $imageMessage = new ImageMessageBuilder($picFullSize,$picFullSize);
-	                               $multiMessage->add($imageMessage);
-
-				}// end no data
-				       $replyData = $multiMessage;
-                                 break;
-			   case '#tran':
-			        $text_parameter = str_replace("#tran ","", $text);
-                                if (!is_null($explodeText[1])){ $source =$explodeText[1];}else{$source ='en';}
-                                if (!is_null($explodeText[2])){ $target =$explodeText[2];}else{$target ='th';}
-                                $result=tranlateLang($source,$target,$text_parameter);
-				$flexData = new ReplyTranslateMessage;
-                                $replyData = $flexData->get($text_parameter,$result);
-				//$log_note=$log_note."\n User select #tran ".$text_parameter.$result;
-		                break;
-
-
+                  break;
                     default:
                         //$textReplyMessage = " คุณไม่ได้พิมพ์ ค่า ตามที่กำหนด";
                        // $replyData = new TextMessageBuilder($textReplyMessage);
                         break;
-                }
+                }// end switch ($userMessage) {
+
                 break;
             default:
                 if(!is_null($replyData)){
@@ -601,7 +374,8 @@ if(!is_null($events)){
                     //$replyData = new TextMessageBuilder($textReplyMessage);
                 }
                 break;
-        }
+        }// end switch (typemessage)
+
     }
 }
 /*
