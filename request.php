@@ -49,7 +49,6 @@ require_once "config.php";
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
     <span class="label label-primary">แจ้งกรรมการรุ่นเพื่อทราบและพิจารณา</span>
-
     <?php new_request_form();?>
     </div>
     <div class="jumbotron">
@@ -154,7 +153,7 @@ function show_all_request(){
       <td class="text-nowrap"><?php echo $name;?></td>
       <td><?php echo $urgent;?></td>
       <td><?php echo $status;?></td>
-      <td><a href="request.php?action=review&id=<?php echo $_id;?> "> ดูรายละเอียด </a></td>
+      <td><a href="request.php?action=review&_id=<?php echo $_id;?> "> ดูรายละเอียด </a></td>
       </tr>
            <?php    } //end foreach ?>
            </tbody>
