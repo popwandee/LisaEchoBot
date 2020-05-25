@@ -163,11 +163,11 @@ foreach ($events as $event) {
                                    $indexCount=1;$answer='';
                                    foreach($explodeText as $rec){
                                    $indexCount++;
-                                     if($indexCount>1){//น่าจะมีคำถามและคำตอบมาด้วย
+                                     if($indexCount>2){//น่าจะมีคำถามและคำตอบมาด้วย
                                        $answer= $answer." ".$explodeText[$indexCount];
                                      }
                                    }//end foreach $explodeText นับจำนวนคำ เพื่อตรวจสอบว่ามีคำถามและคำตอบมาด้วย
-                                   if(($indexCount>1) && (!empty($explodeText[1]))){
+                                   if(($indexCount>2) && (!empty($explodeText[2]))){
                                      //Post New Data
                                      $newData = json_encode(array('question' => $explodeText[1],'answer'=> $answer) );
                                      $opts = array('http' => array( 'method' => "POST",
@@ -182,8 +182,8 @@ foreach ($events as $event) {
                                          $textReplyMessage= $textReplyMessage."\nน้อง Lisa จำได้แล้วว่า ".$explodeText[1]." คือ ".$answer;
                                          }else{ $textReplyMessage= $textReplyMessage."\nน้อง Lisa ไม่เข้าใจค่ะ";
                                          }
-                                       }// end if $indexCount>1 ->> insert database
-                                       else{ // $indexCount>1
+                                       }// end if $indexCount>2 ->> insert database
+                                       else{ // $indexCount>2
                                            $textReplyMessage= $textReplyMessage."\n ไม่มีคำตอบมาให้ด้วยเหรอค่ะ";
                                        }
                                      $textMessage = new TextMessageBuilder($textReplyMessage);
