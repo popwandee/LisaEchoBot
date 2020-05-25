@@ -77,6 +77,7 @@ require_once "config.php";
             $type_form_Submit=$_POST['formSubmit'];
             if($type_form_Submit=='newrequest'){
               insert_request($newData);
+              show_all_request();
             }elseif ($type_form_Submit=='edited') {
 
               $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/request/'.$_id.'?apiKey='.MLAB_API_KEY);
@@ -103,9 +104,10 @@ require_once "config.php";
                  if($status!=$status_db){update_field($_id,'status',$status);}
 
 }// end if data>0
-            }
-        } // end if isset _POST['formSubmit']
+}else{
 
+}// Submit formbut not newrequest nor edited
+        } // end if isset _POST['formSubmit']
           ?>
           <?php show_all_request();?>
 </div><!-- jumbotron-->
@@ -149,7 +151,7 @@ function show_all_request(){
       <td class="text-nowrap"><?php echo $name;?></td>
       <td><?php echo $urgent;?></td>
       <td><?php echo $status;?></td>
-      <td><a href="request.php?action=review&id=<?php echo $_id;?>">ดูรายละเอียด </a></td>
+      <td><a href="request.php?action=review&id=<?php echo $_id;?> "> ดูรายละเอียด </a></td>
       </tr>
            <?php    } //end foreach ?>
            </tbody>
