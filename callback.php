@@ -133,7 +133,7 @@ foreach ($events as $event) {
                      $replyData = $multiMessage;
 	                               }
             }else{ // $explodeText['0']!='#'';
-                $textReplyMessage=$textReplyMessage."..ไม่มีข้อมูล.. ";
+                $textReplyMessage=$textReplyMessage.$text;
                 $textMessage = new TextMessageBuilder($textReplyMessage);
                 $multiMessage->add($textMessage);
                 $replyData = $multiMessage;
