@@ -49,6 +49,8 @@ require_once "config.php";
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
     <span class="label label-primary">แจ้งกรรมการรุ่นเพื่อทราบและพิจารณา</span>
+
+    <?php request_form();?>
     </div>
     <div class="jumbotron">
       <?php
@@ -106,7 +108,6 @@ require_once "config.php";
 
           ?>
           <?php show_all_request();?>
-          <?php request_form();?>
 </div><!-- jumbotron-->
 </div><!-- container theme-showcase-->
 
