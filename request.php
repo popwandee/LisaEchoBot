@@ -109,7 +109,7 @@ require_once "config.php";
 }// Submit formbut not newrequest nor edited
         } // end if isset _POST['formSubmit']
           ?>
-          <?php show_all_request();?>
+<?php show_all_request();?>
 </div><!-- jumbotron-->
 </div><!-- container theme-showcase-->
 
@@ -168,7 +168,8 @@ function show_all_request(){
              }// end function show_friend
                ?>
 
-               <?php function new_request_form(){ ?>
+<?php
+function new_request_form(){ ?>
                	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                    <table class='table table-hover table-responsive table-bordered'>
                        <tr><td>แจ้งเรื่องต่าง ๆ ให้คณะกรรมการรุ่นทราบ</td></tr>
@@ -199,11 +200,11 @@ function show_all_request(){
                        </tr>
                    </table>
                </form>
-               <?php
-exit;
-             } // end request_form ?>
+ <?php
+  } // end request_form ?>
 
-               <?php function review_request($_id){
+<?php
+function review_request($_id){
                  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/request/'.$_id.'?apiKey='.MLAB_API_KEY);
                  $data = json_decode($json);
                  $isData=sizeof($data);
