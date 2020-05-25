@@ -57,7 +57,7 @@ require_once "config.php";
         $action= isset($_GET['action']) ? $_GET['action'] : "";
         $_id = isset($_GET['_id']) ? $_GET['_id'] : "";
         if(($action == 'review') && (!empty($_id))){
-          //review_request($_id);
+          review_request($_id);
           }
         if(isset($_POST['formSubmit'])){
           if(isset($_POST['name'])){$name=$_POST['name'];}else{$name=''; }
@@ -165,11 +165,11 @@ function show_all_request(){
                          <tr>
                              <td>หัวเรื่อง<input type='text' name='title' class='form-control' /></td>
                              </tr>
-                           <td>ระบุรายละเอียดข้อมูลที่ต้องการแจ้งกรรมการรุ่น</td>
-                           <td><textarea name="comment" rows="10" cols="30"class='form-control' /></textarea></td>
+                           <td>ระบุรายละเอียดข้อมูลที่ต้องการแจ้งกรรมการรุ่น
+                           <textarea name="comment" rows="10" cols="30"class='form-control' /></textarea></td>
                        </tr>
                    <tr><td>
-                       ผู้แจ้ง<input type='hidden' name='name' value="<?php $user_info = isset($_SESSION["user_info"]) ? $_SESSION['user_info'] : ""; echo $user_info;?>" /><?php echo $user_info;?>
+                       ผู้แจ้ง : <input type='hidden' name='name' value="<?php $user_info = isset($_SESSION["user_info"]) ? $_SESSION['user_info'] : ""; echo $user_info;?>" /><?php echo $user_info;?>
                      </td>
                  </tr>
                        <tr>
@@ -183,6 +183,44 @@ function show_all_request(){
                    </table>
                </form>
                <?php } // end request_form ?>
+
+               <?php function review_request($_id){
+                 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/request/'.$_id.'?apiKey='.MLAB_API_KEY);
+                 $data = json_decode($json);
+                 $isData=sizeof($data);
+                 if($isData >0){
+                   $i=0;
+                   foreach($data as $rec){
+                     $i++;
+                     $_id=$rec->_id;
+                      $name=$rec->name;
+                      $title=$rec->title;
+                      $detail=$rec->detail;
+                      $type=$rec->type;
+                      $urgent=$rec->urgent;
+                      $status=$rec->status;
+                   ?>
+                     <div class="panel panel-success">
+                       <div class="panel-heading">
+                         <h3 class="panel-title">รายการแจ้งคณะกรรมการรุ่น</h3>
+                       </div>
+                       <div class="table-responsive">
+                           <table class="table table-sm table-hover table-striped">
+                 <tr><td class="text-nowrap"><?php echo $title;?></td></tr>
+                 <tr><td class="text-nowrap"><?php echo $name;?></td></tr>
+                 <tr><td><?php echo $urgent;?></td></tr>
+                 <tr><td><?php echo $type;?></td></tr>
+               <tr><td><?php echo $detail;?></td></tr>
+                 <tr><td><?php echo $status;?> <a href="request.php?action=review&id=<?php echo $_id;?>">รายละเอียด</a></td></tr>
+               </table>
+               </div>
+               </div>
+                      <?php
+                     } //end foreach
+                     }// end if >0
+                }// end function review request
+                ?>
+
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
