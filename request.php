@@ -50,13 +50,14 @@ require_once "config.php";
     <div class="jumbotron">
     <span class="label label-primary">แจ้งกรรมการรุ่นเพื่อทราบและพิจารณา</span>
 
-    <?php request_form();?>
+    <?php new_request_form();?>
     </div>
     <div class="jumbotron">
       <?php
         $action= isset($_GET['action']) ? $_GET['action'] : "";
         $_id = isset($_GET['_id']) ? $_GET['_id'] : "";
         if(($action == 'review') && (!empty($_id))){
+          echo "action is review and not empty _id is $_id, call function review_request";
           review_request($_id);
           }
         if(isset($_POST['formSubmit'])){
@@ -167,7 +168,7 @@ function show_all_request(){
              }// end function show_friend
                ?>
 
-               <?php function request_form(){ ?>
+               <?php function new_request_form(){ ?>
                	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                    <table class='table table-hover table-responsive table-bordered'>
                        <tr><td>แจ้งเรื่องต่าง ๆ ให้คณะกรรมการรุ่นทราบ</td></tr>
@@ -198,7 +199,9 @@ function show_all_request(){
                        </tr>
                    </table>
                </form>
-               <?php } // end request_form ?>
+               <?php
+exit;
+             } // end request_form ?>
 
                <?php function review_request($_id){
                  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/request/'.$_id.'?apiKey='.MLAB_API_KEY);
@@ -208,7 +211,6 @@ function show_all_request(){
                    $i=0;
                    foreach($data as $rec){
                      $i++;
-                     $_id=$rec->_id;
                       $name=$rec->name;
                       $title=$rec->title;
                       $detail=$rec->detail;
