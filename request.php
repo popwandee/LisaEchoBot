@@ -58,6 +58,7 @@ require_once "config.php";
           review_request($_id);
           }
         if(isset($_POST['formSubmit'])){
+          if(isset($_POST['_id'])){$_id=$_POST['_id'];}else{$_id=''; }
           if(isset($_POST['name'])){$name=$_POST['name'];}else{$name=''; }
           if(isset($_POST['title'])){$title=$_POST['title'];}else{$title=''; }
           if(isset($_POST['detail'])){$detail=$_POST['detail'];}else{$detail=''; }
@@ -71,7 +72,36 @@ require_once "config.php";
             'type' => $type ,
             'urgent' => $urgent,
             'status'=>'แจ้งใหม่') );
-            insert_request($newData);
+            $type_form_Submit=$_POST['formSubmit'];
+            if($type_form_Submit=='newrequest'){
+              insert_request($newData);
+            }elseif ($type_form_Submit=='edited') {
+
+              $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/request/'.$_id.'?apiKey='.MLAB_API_KEY);
+            $data = json_decode($json);
+            $isData=sizeof($data);
+            if($isData >0){
+
+                 $name_db=$data->name;
+                 if($name!=$name_db){update_field($_id,'name',$name);}
+
+                 $title_db=$data->title;
+                 if($title!=$title_db){update_field($_id,'title',$title);}
+
+                 $detail_db=$data->detail;
+                 if($detail!=$detail_db){update_field($_id,'detail',$detail);}
+
+                 $type=$data->type;
+                 if($type!=$type_db){update_field($_id,'type',$type);}
+
+                 $urgent=$data->urgent;
+                 if($urgent!=$urgent_db){update_field($_id,'urgent',$urgent);}
+
+                 $status=$data->status;
+                 if($status!=$status_db){update_field($_id,'status',$status);}
+
+}// end if data>0
+            }
         } // end if isset _POST['formSubmit']
 
           ?>
@@ -118,9 +148,7 @@ function show_all_request(){
       <td class="text-nowrap"><?php echo $name;?></td>
       <td><?php echo $urgent;?></td>
       <td><?php echo $status;?></td>
-      <td>
-        <a href="financemanager.php">บัญชีเงินรุ่น</a>
-        <a href="request.php?action=review&id=<?php echo $_id;?>"> รายละเอียด </a></td>
+      <td><a href="request.php?action=review&id=<?php echo $_id;?>">ดูรายละเอียด </a></td>
       </tr>
            <?php    } //end foreach ?>
            </tbody>
@@ -158,8 +186,8 @@ function show_all_request(){
                        ผู้แจ้ง : <input type='hidden' name='name' value="<?php $user_info = isset($_SESSION["user_info"]) ? $_SESSION['user_info'] : ""; echo $user_info;?>" /><?php echo $user_info;?>
                      </td>
                  </tr>
-                       <tr><td>  <input type="hidden"name="id" value="<?php echo $id;?>">
-                                 <input type="hidden"name="formSubmit" value="true">
+                       <tr><td>  <input type="hidden"name="_id" value="<?php echo $_id;?>">
+                                 <input type="hidden"name="formSubmit" value="newrequest">
                                <input type='submit' value='Save' class='btn btn-primary' />
 
                            </td>
@@ -189,14 +217,34 @@ function show_all_request(){
                          <h3 class="panel-title">รายการแจ้งคณะกรรมการรุ่น</h3>
                        </div>
                        <div class="table-responsive">
+                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                            <table class="table table-sm table-hover table-striped">
                  <tr><td class="text-nowrap"><?php echo $title;?></td></tr>
                  <tr><td class="text-nowrap"><?php echo $name;?></td></tr>
-                 <tr><td><?php echo $urgent;?></td></tr>
-                 <tr><td><?php echo $type;?></td></tr>
+                 <tr><td> <select name="urgent">
+                  <option value="<?php echo $urgent;?>" selected><?php echo $urgent;?></option>
+                  <option value="เร่งด่วน">เร่งด่วน</option>
+                  <option value="ไม่ด่วน">ไม่ด่วน</option>
+                  </select>
+                    </td></tr>
+                 <tr><td><select name="type">
+                   <option value="<?php echo $type;?>" selected><?php echo $type;?></option>
+                   <option value="เพื่อทราบ">เพื่อทราบ</option>
+                   <option value="เพื่อพิจารณาดำเนินการ">เพื่อพิจารณาดำเนินการ</option>
+                   <option value="เพื่ออนุมัติ">เพื่ออนุมัติ</option>
+                 </select></td></tr>
                <tr><td><?php echo $detail;?></td></tr>
-                 <tr><td><?php echo $status;?> <a href="request.php?action=review&id=<?php echo $_id;?>">รายละเอียด</a></td></tr>
+                 <tr><td><select name="type">
+                   <option value="<?php echo $status;?>" selected><?php echo $status;?></option>
+                   <option value="แจ้งใหม่">แจ้งใหม่</option>
+                   <option value="ดำเนินการแล้ว">ดำเนินการแล้ว</option>
+                   <option value="เพื่ออนุมัติแล้ว">เพื่ออนุมัติแล้ว</option>
+                 </select></td></tr>
+                <tr><td> <input type="hidden"name="_id" value="<?php echo $_id;?>">
+                    <input type="hidden"name="formSubmit" value="edited">
+                    <input type='submit' value='Submit' class='btn btn-primary' /></td></tr>
                </table>
+           </form>
                </div>
                </div>
                       <?php
@@ -223,7 +271,21 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/request?apiKey='
       return;
 }//end function insert_request
  ?>
+ <?php
+ function update_field($_id,$field_name,$new_info){
 
+         $newData = '{ "$set" : { "'.$field_name.'" : "'.$new_info.'"} }';
+         $opts = array('http' => array( 'method' => "PUT",
+                                        'header' => "Content-type: application/json",
+                                        'content' => $newData
+                                                    )
+                                                 );
+         $url = 'https://api.mlab.com/api/1/databases/crma51/collections/request/'.$_id.'?apiKey='.MLAB_API_KEY;
+                 $context = stream_context_create($opts);
+                 $returnValue = file_get_contents($url,false,$context);
+                 return;
+ }
+  ?>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
