@@ -221,21 +221,21 @@ function review_request($_id){
                        <div class="table-responsive">
                          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                            <table class="table table-sm table-hover table-striped">
-                 <tr><td class="text-nowrap"><?php echo $title;?></td></tr>
-                 <tr><td class="text-nowrap"><?php echo $name;?></td></tr>
+                 <tr><td class="text-nowrap"><input type="text"name="title" value="<?php echo $title;?>"></td></tr>
+                 <tr><td class="text-nowrap"><input type="text"name="name" value="<?php echo $name;?>"></td></tr>
+              <tr><td><select name="type">
+                <option value="<?php echo $type;?>" selected><?php echo $type;?></option>
+                <option value="เพื่อทราบ">เพื่อทราบ</option>
+                <option value="เพื่อพิจารณาดำเนินการ">เพื่อพิจารณาดำเนินการ</option>
+                <option value="เพื่ออนุมัติ">เพื่ออนุมัติ</option>
+              </select></td></tr>
                  <tr><td> <select name="urgent">
                   <option value="<?php echo $urgent;?>" selected><?php echo $urgent;?></option>
                   <option value="เร่งด่วน">เร่งด่วน</option>
                   <option value="ไม่ด่วน">ไม่ด่วน</option>
                   </select>
                     </td></tr>
-                 <tr><td><select name="type">
-                   <option value="<?php echo $type;?>" selected><?php echo $type;?></option>
-                   <option value="เพื่อทราบ">เพื่อทราบ</option>
-                   <option value="เพื่อพิจารณาดำเนินการ">เพื่อพิจารณาดำเนินการ</option>
-                   <option value="เพื่ออนุมัติ">เพื่ออนุมัติ</option>
-                 </select></td></tr>
-               <tr><td><?php echo $detail;?></td></tr>
+               <tr><td><input type="textarea" name="detail"><?php echo $detail;?></textarea></td></tr>
                  <tr><td><select name="type">
                    <option value="<?php echo $status;?>" selected><?php echo $status;?></option>
                    <option value="แจ้งใหม่">แจ้งใหม่</option>
