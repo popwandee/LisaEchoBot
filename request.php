@@ -49,15 +49,15 @@ require_once "config.php";
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
     <span class="label label-primary">แจ้งกรรมการรุ่นเพื่อทราบและพิจารณา</span>
-    <?php show_all_request();?>
-    <?php request_form();?>
+    <?php //show_all_request();?>
+    <?php //request_form();?>
     </div>
     <div class="jumbotron">
       <?php
         $action= isset($_GET['action']) ? $_GET['action'] : "";
         $_id = isset($_GET['_id']) ? $_GET['_id'] : "";
         if($action == 'review') && !empty($_id){
-          review_request($_id);
+          //review_request($_id);
           }
         if(isset($_POST['formSubmit'])){
           if(isset($_POST['name'])){$name=$_POST['name'];}else{$name=''; }
@@ -84,11 +84,8 @@ require_once "config.php";
 
                   if($returnValue){
                  $message= "<div align='center' class='alert alert-success'>รับแจ้งข้อมูล ".$title." เรียบร้อย</div>";
-                 echo $message;
-
                     }else{
                  $message= "<div align='center' class='alert alert-danger'>ไม่สามารถบันทึกรับแจ้งการข้อมูลได้</div>";
-              echo $message;
                            }
                 $_SESSION["message"]=$message;
                   header("location: request.php");
@@ -98,130 +95,11 @@ require_once "config.php";
           ?>
 </div><!-- jumbotron-->
 </div><!-- container theme-showcase-->
-<?php
-function show_all_request(){
-      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/request?apiKey='.MLAB_API_KEY);
-      $data = json_decode($json);
-      $isData=sizeof($data);
-      if($isData >0){
-        $i=0;
-        ?>
-          <div class="panel panel-success">
-            <div class="panel-heading">
-              <h3 class="panel-title">รายการแจ้งคณะกรรมการรุ่น</h3>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-sm table-hover table-striped">
-                  <thead>
-                    <tr>
-                      <th>ลำดับ</th><th>เรื่อง</th>
-            <th>ผู้แจ้ง</th>
-          <th>ความเร่งด่วน</th>
-        <th>ประเภท</th>
-      <th>สถานะ</th></tr>
-          </thead><tbody>
-        <?php
-        foreach($data as $rec){
-          $i++;
-          $_id=$rec->_id;
-           $name=$rec->name;
-           $title=$rec->title;
-           $detail=$rec->detail;
-           $type=$rec->type;
-           $urgent=$rec->urgent;
-           $status=$rec->status;
-           ?>
-      <tr><td><?php echo $i;?></td>
-      <td class="text-nowrap"><?php echo $title;?></td>
-      <td class="text-nowrap"><?php echo $name;?></td>
-      <td><?php echo $urgent;?></td>
-      <td><?php echo $type;?></td>
-      <td><?php echo $status;?> <a href="request.php?action=review&id=<?php echo $_id;?>">รายละเอียด</a></td>
-      </tr>
-           <?php    } //end foreach ?>
-           </tbody>
-         </table>
-     </div><!-- class="table-responsive"> -->
-     </div><!-- class="panel panel-success"> -->
-           <?php
-           }else{
-           echo "ยังไม่มีข้อมูลแจ้งแก้ไขค่ะ";
-               }
-             }// end function show_friend
-               ?>
 
 
-<?php function review_request($_id){
-  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/request/'.$_id.'?apiKey='.MLAB_API_KEY);
-  $data = json_decode($json);
-  $isData=sizeof($data);
-  if($isData >0){
-    $i=0;
-    foreach($data as $rec){
-      $i++;
-      $_id=$rec->_id;
-       $name=$rec->name;
-       $title=$rec->title;
-       $detail=$rec->detail;
-       $type=$rec->type;
-       $urgent=$rec->urgent;
-       $status=$rec->status;
-    ?>
-      <div class="panel panel-success">
-        <div class="panel-heading">
-          <h3 class="panel-title">รายการแจ้งคณะกรรมการรุ่น</h3>
-        </div>
-        <div class="table-responsive">
-            <table class="table table-sm table-hover table-striped">
-  <tr><td class="text-nowrap"><?php echo $title;?></td></tr>
-  <tr><td class="text-nowrap"><?php echo $name;?></td></tr>
-  <tr><td><?php echo $urgent;?></td></tr>
-  <tr><td><?php echo $type;?></td></tr>
-<tr><td><?php echo $detail;?></td></tr>
-  <tr><td><?php echo $status;?> <a href="request.php?action=review&id=<?php echo $_id;?>">รายละเอียด</a></td></tr>
-</table>
-</div>
-</div>
-       <?php    } //end foreach ?>
 
-<?php }// end if >0 ?>
-<?php }// end function review request ?>
 
-<?php function request_form(){ ?>
-	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-    <table class='table table-hover table-responsive table-bordered'>
-        <tr><td>แจ้งเรื่องต่าง ๆ ให้คณะกรรมการรุ่นทราบ</td></tr>
-        <tr><td>
-        <select name="urgent">
-        <option value="เร่งด่วน">เร่งด่วน</option>
-        <option value="ไม่ด่วน">ไม่ด่วน</option>
-        </select>
-          <select name="type">
-            <option value="เพื่อทราบ">เพื่อทราบ</option>
-            <option value="เพื่อพิจารณาดำเนินการ">เพื่อพิจารณาดำเนินการ</option>
-            <option value="เพื่ออนุมัติ">เพื่ออนุมัติ</option>
-          </select></td></tr>
-          <tr>
-              <td>หัวเรื่อง<input type='text' name='title' class='form-control' /></td>
-              </tr>
-            <td>ระบุรายละเอียดข้อมูลที่ต้องการแจ้งกรรมการรุ่น</td>
-            <td><textarea name="comment" rows="10" cols="30"class='form-control' /></textarea></td>
-        </tr>
-    <tr><td>
-        ผู้แจ้ง<input type='hidden' name='name' value="<?php $user_info=isset($_SESSION["user_info"]) ? $_SESSION['user_info'] : ""; echo $user_info;?>" /><?php echo $user_info;?>
-      </td>
-  </tr>
-        <tr>
-            <td></td>
-            <td>  <input type="hidden"name="id" value="<?php echo $id;?>">
-                  <input type="hidden"name="formSubmit" value="true">
-                <input type='submit' value='Save' class='btn btn-primary' />
 
-            </td>
-        </tr>
-    </table>
-</form>
-<?php } // end request_form ?>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
