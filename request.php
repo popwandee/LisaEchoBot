@@ -77,7 +77,6 @@ require_once "config.php";
             $type_form_Submit=$_POST['formSubmit'];
             if($type_form_Submit=='newrequest'){
               insert_request($newData);
-              show_all_request();
             }elseif ($type_form_Submit=='edited') {
 
               $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/request/'.$_id.'?apiKey='.MLAB_API_KEY);
@@ -139,6 +138,9 @@ function show_all_request(){
         foreach($data as $rec){
           $i++;
           $_id=$rec->_id;
+          foreach($_id as $rec_id){
+          $_id=$rec_id;
+          }
            $name=$rec->name;
            $title=$rec->title;
            $detail=$rec->detail;
@@ -189,8 +191,7 @@ function show_all_request(){
                        ผู้แจ้ง : <input type='hidden' name='name' value="<?php $user_info = isset($_SESSION["user_info"]) ? $_SESSION['user_info'] : ""; echo $user_info;?>" /><?php echo $user_info;?>
                      </td>
                  </tr>
-                       <tr><td>  <input type="hidden"name="_id" value="<?php echo $_id;?>">
-                                 <input type="hidden"name="formSubmit" value="newrequest">
+                       <tr><td><input type="hidden"name="formSubmit" value="newrequest">
                                <input type='submit' value='Save' class='btn btn-primary' />
 
                            </td>
