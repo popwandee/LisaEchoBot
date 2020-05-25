@@ -49,8 +49,6 @@ require_once "config.php";
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
     <span class="label label-primary">แจ้งกรรมการรุ่นเพื่อทราบและพิจารณา</span>
-    <?php show_all_request();?>
-    <?php request_form();?>
     </div>
     <div class="jumbotron">
       <?php
@@ -74,9 +72,11 @@ require_once "config.php";
             'urgent' => $urgent,
             'status'=>'แจ้งใหม่') );
             insert_request($newData);
-            show_all_request();
         } // end if isset _POST['formSubmit']
+
           ?>
+          <?php show_all_request();?>
+          <?php request_form();?>
 </div><!-- jumbotron-->
 </div><!-- container theme-showcase-->
 
@@ -118,7 +118,7 @@ function show_all_request(){
       <td class="text-nowrap"><?php echo $name;?></td>
       <td><?php echo $urgent;?></td>
       <td><?php echo $type;?></td>
-      <td><?php echo $status;?> <a href="request.php?action=review&id=<?php echo $_id;?>">รายละเอียด</a></td>
+      <td><?php echo $status;?> <a href="request.php?action=review&id=<?php echo $_id;?>"> รายละเอียด </a></td>
       </tr>
            <?php    } //end foreach ?>
            </tbody>
