@@ -73,24 +73,8 @@ require_once "config.php";
             'type' => $type ,
             'urgent' => $urgent,
             'status'=>'แจ้งใหม่') );
-          $opts = array('http' => array( 'method' => "POST",
-                                         'header' => "Content-type: application/json",
-                                         'content' => $newData
-                                                     )
-                                                  );
-          $url = 'https://api.mlab.com/api/1/databases/crma51/collections/request?apiKey='.MLAB_API_KEY.'';
-                  $context = stream_context_create($opts);
-                  $returnValue = file_get_contents($url,false,$context);
-
-                  if($returnValue){
-                 $message= "<div align='center' class='alert alert-success'>รับแจ้งข้อมูล ".$title." เรียบร้อย</div>";
-                    }else{
-                 $message= "<div align='center' class='alert alert-danger'>ไม่สามารถบันทึกรับแจ้งการข้อมูลได้</div>";
-                           }
-                $_SESSION["message"]=$message;
-                  header("location: request.php");
-                    exit;
-
+            insert_request($newData);
+            show_all_request();
         } // end if isset _POST['formSubmit']
           ?>
 </div><!-- jumbotron-->
@@ -172,9 +156,7 @@ function show_all_request(){
                        ผู้แจ้ง : <input type='hidden' name='name' value="<?php $user_info = isset($_SESSION["user_info"]) ? $_SESSION['user_info'] : ""; echo $user_info;?>" /><?php echo $user_info;?>
                      </td>
                  </tr>
-                       <tr>
-                           <td></td>
-                           <td>  <input type="hidden"name="id" value="<?php echo $id;?>">
+                       <tr><td>  <input type="hidden"name="id" value="<?php echo $id;?>">
                                  <input type="hidden"name="formSubmit" value="true">
                                <input type='submit' value='Save' class='btn btn-primary' />
 
@@ -220,7 +202,25 @@ function show_all_request(){
                      }// end if >0
                 }// end function review request
                 ?>
+<?php function insert_request($newData){
+$opts = array('http' => array( 'method' => "POST",
+                             'header' => "Content-type: application/json",
+                             'content' => $newData
+                                         )
+                                      );
+$url = 'https://api.mlab.com/api/1/databases/crma51/collections/request?apiKey='.MLAB_API_KEY.'';
+      $context = stream_context_create($opts);
+      $returnValue = file_get_contents($url,false,$context);
 
+      if($returnValue){
+     $message= "<div align='center' class='alert alert-success'>รับแจ้งข้อมูล ".$title." เรียบร้อย</div>";
+        }else{
+     $message= "<div align='center' class='alert alert-danger'>ไม่สามารถบันทึกรับแจ้งการข้อมูลได้</div>";
+               }
+    $_SESSION["message"]=$message;
+      return;
+}//end function insert_request
+ ?>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
