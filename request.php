@@ -82,23 +82,23 @@ require_once "config.php";
             $isData=sizeof($data);
             if($isData >0){
 
-                 $name_db=$data->name;echo $name_db.$name;
-                 //if($name!=$name_db){update_field($_id,'name',$name);}
+                 $name_db=$data->name;//echo $name_db.$name;
+                 if($name!=$name_db){update_field($_id,'name',$name);}
 
-                 $title_db=$data->title;echo $title_db.$title;
-                 //if($title!=$title_db){update_field($_id,'title',$title);}
+                 $title_db=$data->title;//echo $title_db.$title;
+                 if($title!=$title_db){update_field($_id,'title',$title);}
 
-                 $detail_db=$data->detail;echo $detail_db.$detail;
-                 //if($detail!=$detail_db){update_field($_id,'detail',$detail);}
+                 $detail_db=$data->detail;//echo $detail_db.$detail;
+                 if($detail!=$detail_db){update_field($_id,'detail',$detail);}
 
-                 $type_db=$data->type;echo $type_db.$type;
-                 //if($type!=$type_db){update_field($_id,'type',$type);}
+                 $type_db=$data->type;//echo $type_db.$type;
+                 if($type!=$type_db){update_field($_id,'type',$type);}
 
-                 $urgent_db=$data->urgent;echo $urgent_db.$urgent;
-                 //if($urgent!=$urgent_db){update_field($_id,'urgent',$urgent);}
+                 $urgent_db=$data->urgent;//echo $urgent_db.$urgent;
+                 if($urgent!=$urgent_db){update_field($_id,'urgent',$urgent);}
 
-                 $status_db=$data->status;echo $status_db.$status;
-                 //if($status!=$status_db){update_field($_id,'status',$status);}
+                 $status_db=$data->status;//echo $status_db.$status;
+                 if($status!=$status_db){update_field($_id,'status',$status);}
 
 }// end if data>0
 }else{
@@ -221,26 +221,26 @@ function review_request($_id){
                        <div class="table-responsive">
                          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                            <table class="table table-sm table-hover table-striped">
-                 <tr><td class="text-nowrap"><input type="text"name="title" value="<?php echo $title;?>"></td></tr>
-                 <tr><td class="text-nowrap"><input type="text"name="name" value="<?php echo $name;?>"></td></tr>
-              <tr><td><select name="type">
+                 <tr><td class="text-nowrap"><input type="text"name="title" value="<?php echo $title;?>"class='form-control' ></td></tr>
+                 <tr><td class="text-nowrap"><input type="text"name="name" value="<?php echo $name;?>"class='form-control' ></td></tr>
+              <tr><td><select name="type" class='form-control' >
                 <option value="<?php echo $type;?>" selected><?php echo $type;?></option>
                 <option value="เพื่อทราบ">เพื่อทราบ</option>
                 <option value="เพื่อพิจารณาดำเนินการ">เพื่อพิจารณาดำเนินการ</option>
                 <option value="เพื่ออนุมัติ">เพื่ออนุมัติ</option>
               </select></td></tr>
-                 <tr><td> <select name="urgent">
+                 <tr><td> <select name="urgent" class='form-control' >
                   <option value="<?php echo $urgent;?>" selected><?php echo $urgent;?></option>
                   <option value="เร่งด่วน">เร่งด่วน</option>
                   <option value="ไม่ด่วน">ไม่ด่วน</option>
                   </select>
                     </td></tr>
-               <tr><td><input type="textarea" name="detail"><?php echo $detail;?></textarea></td></tr>
-                 <tr><td><select name="type">
+               <tr><td><textarea name="detail" rows="10" cols="30"class='form-control'><?php echo $detail;?></textarea></td></tr>
+                 <tr><td><select name="type" class='form-control' >
                    <option value="<?php echo $status;?>" selected><?php echo $status;?></option>
                    <option value="แจ้งใหม่">แจ้งใหม่</option>
                    <option value="ดำเนินการแล้ว">ดำเนินการแล้ว</option>
-                   <option value="เพื่ออนุมัติแล้ว">เพื่ออนุมัติแล้ว</option>
+                   <option value="เพื่ออนุมัติแล้ว">อนุมัติแล้ว</option>
                  </select></td></tr>
                 <tr><td> <input type="hidden"name="_id" value="<?php echo $_id;?>">
                     <input type="hidden"name="formSubmit" value="edited">
