@@ -49,7 +49,7 @@ require_once "config.php";
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
     <span class="label label-primary">แจ้งกรรมการรุ่นเพื่อทราบและพิจารณา</span>
-    <?php //show_all_request();?>
+    <?php show_all_request();?>
     <?php //request_form();?>
     </div>
     <div class="jumbotron">
@@ -96,7 +96,57 @@ require_once "config.php";
 </div><!-- jumbotron-->
 </div><!-- container theme-showcase-->
 
-
+<?php
+function show_all_request(){
+      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/request?apiKey='.MLAB_API_KEY);
+      $data = json_decode($json);
+      $isData=sizeof($data);
+      if($isData >0){
+        $i=0;
+        ?>
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <h3 class="panel-title">รายการแจ้งคณะกรรมการรุ่น</h3>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-sm table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>ลำดับ</th><th>เรื่อง</th>
+            <th>ผู้แจ้ง</th>
+          <th>ความเร่งด่วน</th>
+        <th>ประเภท</th>
+      <th>สถานะ</th></tr>
+          </thead><tbody>
+        <?php
+        foreach($data as $rec){
+          $i++;
+          $_id=$rec->_id;
+           $name=$rec->name;
+           $title=$rec->title;
+           $detail=$rec->detail;
+           $type=$rec->type;
+           $urgent=$rec->urgent;
+           $status=$rec->status;
+           ?>
+      <tr><td><?php echo $i;?></td>
+      <td class="text-nowrap"><?php echo $title;?></td>
+      <td class="text-nowrap"><?php echo $name;?></td>
+      <td><?php echo $urgent;?></td>
+      <td><?php echo $type;?></td>
+      <td><?php echo $status;?> <a href="request.php?action=review&id=<?php echo $_id;?>">รายละเอียด</a></td>
+      </tr>
+           <?php    } //end foreach ?>
+           </tbody>
+         </table>
+     </div><!-- class="table-responsive"> -->
+     </div><!-- class="panel panel-success"> -->
+           <?php
+           }else{
+           echo "ยังไม่มีข้อมูลแจ้งแก้ไขค่ะ";
+               }
+             }// end function show_friend
+               ?>
 
 
 
