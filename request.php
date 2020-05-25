@@ -56,7 +56,7 @@ require_once "config.php";
       <?php
         $action= isset($_GET['action']) ? $_GET['action'] : "";
         $_id = isset($_GET['_id']) ? $_GET['_id'] : "";
-        if($action == 'review') && !empty($_id){
+        if(($action == 'review') && (!empty($_id))){
           //review_request($_id);
           }
         if(isset($_POST['formSubmit'])){
