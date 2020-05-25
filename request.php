@@ -207,14 +207,12 @@ function review_request($_id){
                  $isData=sizeof($data);print_r($data);
                  if($isData >0){
                    $i=0;
-                   foreach($data as $rec){
-                     $i++;
-                      $name=$rec->name;
-                      $title=$rec->title;
-                      $detail=$rec->detail;
-                      $type=$rec->type;
-                      $urgent=$rec->urgent;
-                      $status=$rec->status;
+                      $name=$data->name;
+                      $title=$data->title;
+                      $detail=$data->detail;
+                      $type=$data->type;
+                      $urgent=$data->urgent;
+                      $status=$data->status;
                    ?>
                      <div class="panel panel-success">
                        <div class="panel-heading">
@@ -252,7 +250,6 @@ function review_request($_id){
                </div>
                </div>
                       <?php
-                     } //end foreach
                      }// end if >0
                 }// end function review request
                 ?>
