@@ -48,17 +48,15 @@ require_once "config.php";
 
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
-    <span class="label label-primary">แจ้งกรรมการรุ่นเพื่อทราบและพิจารณา</span>
-    <?php new_request_form();?>
-    </div>
-    <div class="jumbotron">
       <?php
         $action= isset($_GET['action']) ? $_GET['action'] : "";
         $_id = isset($_GET['_id']) ? $_GET['_id'] : "";
         if(($action == 'review') && (!empty($_id))){
           echo "action is review and not empty _id is $_id, call function review_request";
           review_request($_id);
-          }
+        }else{
+          new_request_form();
+        }
         if(isset($_POST['formSubmit'])){
           if(isset($_POST['_id'])){$_id=$_POST['_id'];}else{$_id=''; }
           if(isset($_POST['name'])){$name=$_POST['name'];}else{$name=''; }
@@ -206,7 +204,7 @@ function new_request_form(){ ?>
 function review_request($_id){
                  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/request/'.$_id.'?apiKey='.MLAB_API_KEY);
                  $data = json_decode($json);
-                 $isData=sizeof($data);
+                 $isData=sizeof($data);print_r($data);
                  if($isData >0){
                    $i=0;
                    foreach($data as $rec){
