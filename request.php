@@ -48,8 +48,9 @@ require_once "config.php";
 
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
-          <?php show_all_request();?>
     <span class="label label-primary">แจ้งกรรมการรุ่นเพื่อทราบและพิจารณา</span>
+    <?php show_all_request();?>
+    <?php request_form();?>
     </div>
     <div class="jumbotron">
       <?php
@@ -57,101 +58,44 @@ require_once "config.php";
         $_id = isset($_GET['_id']) ? $_GET['_id'] : "";
         if($action == 'review') && !empty($_id){
           review_request($_id);
-          }?>
- <?php
- if(!isset($_POST['formSubmit'])){ // มาจากหน้าอื่นๆ ไม่ได้คลิกยืนยันที่ฟอร์มแก้ไขข้อมูล
-   // ดึงข้อมูลจากฐานข้อมูล
-   $id=$_GET['id'];//echo "GET ID: ".$id;
-   $url="https://api.mlab.com/api/1/databases/crma51/collections/request/".$id."?apiKey=".MLAB_API_KEY;
-   $json = file_get_contents($url);//echo "\nurl is =>".$url;
-   $data = json_decode($json);//echo "\n data is =>";print_r($data);
-   $isData=sizeof($data);
-   $i=0;
- if($isData >0){
-      // มีข้อมูลผู้ใช้อยู่
-      $name=$data->name;
-      $title=$data->title;
-      $detail=$data->detail;
-      $type=$data->type;
-      $urgent=$data->urgent;
-      $status=$data->status;
- }// end isData>0
- else{
-   echo "ยังไม่มีเรื่องแจ้งจากสมาชิก";
- }
-?>
-	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-    <table class='table table-hover table-responsive table-bordered'>
-        <tr><td>แจ้งเรื่องต่าง ๆ ให้คณะกรรมการรุ่นทราบ</td></tr>
-        <tr><td>
-        <select name="urgent">
-        <option value="เร่งด่วน">เร่งด่วน</option>
-        <option value="ไม่ด่วน">ไม่ด่วน</option>
-        </select>
-          <select name="type">
-            <option value="เพื่อทราบ">เพื่อทราบ</option>
-            <option value="เพื่อพิจารณาดำเนินการ">เพื่อพิจารณาดำเนินการ</option>
-            <option value="เพื่ออนุมัติ">เพื่ออนุมัติ</option>
-          </select></td></tr>
-          <tr>
-              <td>หัวเรื่อง<input type='text' name='title' class='form-control' /></td>
-              </tr>
-            <td>ระบุรายละเอียดข้อมูลที่ต้องการแจ้งกรรมการรุ่น</td>
-            <td><textarea name="comment" rows="10" cols="30"class='form-control' /></textarea></td>
-        </tr>
-    <tr><td>
-        ผู้แจ้ง<input type='hidden' name='name' value="<?php $user_info=isset($_SESSION["user_info"]) ? $_SESSION['user_info'] : ""; echo $user_info;?>" /><?php echo $user_info;?>
-      </td>
-  </tr>
-        <tr>
-            <td></td>
-            <td>  <input type="hidden"name="id" value="<?php echo $id;?>">
-                  <input type="hidden"name="formSubmit" value="true">
-                <input type='submit' value='Save' class='btn btn-primary' />
+          }
+        if(isset($_POST['formSubmit'])){
+          if(isset($_POST['name'])){$name=$_POST['name'];}else{$name=''; }
+          if(isset($_POST['title'])){$title=$_POST['title'];}else{$title=''; }
+          if(isset($_POST['detail'])){$detail=$_POST['detail'];}else{$detail=''; }
+          if(isset($_POST['type'])){$type=$_POST['type'];}else{$type=''; }
+          if(isset($_POST['urgent'])){$urgent=$_POST['urgent'];}else{$urgent=''; }
+          if(isset($_POST['status'])){$status=$_POST['status'];}else{$status=''; }
+          $newData = json_encode(array(
+            'name'=>$name,
+            'title' => $title,
+            'detail' => $detail,
+            'type' => $type ,
+            'urgent' => $urgent,
+            'status'=>'แจ้งใหม่') );
+          $opts = array('http' => array( 'method' => "POST",
+                                         'header' => "Content-type: application/json",
+                                         'content' => $newData
+                                                     )
+                                                  );
+          $url = 'https://api.mlab.com/api/1/databases/crma51/collections/request?apiKey='.MLAB_API_KEY.'';
+                  $context = stream_context_create($opts);
+                  $returnValue = file_get_contents($url,false,$context);
 
-            </td>
-        </tr>
-    </table>
-</form>
-<?php  } // end if empty $formSubmit
-else{ // set formSubmit from form
-  // นำข้อมูลเข้าเก็บในฐานข้อมูล
-  if(isset($_POST['name'])){$name=$_POST['name'];}else{$name=''; }
-  if(isset($_POST['title'])){$title=$_POST['title'];}else{$title=''; }
-  if(isset($_POST['detail'])){$detail=$_POST['detail'];}else{$detail=''; }
-  if(isset($_POST['type'])){$type=$_POST['type'];}else{$type=''; }
-  if(isset($_POST['urgent'])){$urgent=$_POST['urgent'];}else{$urgent=''; }
-  if(isset($_POST['status'])){$status=$_POST['status'];}else{$status=''; }
-  $newData = json_encode(array(
-    'name'=>$name,
-    'title' => $title,
-    'detail' => $detail,
-    'type' => $type ,
-  	'urgent' => $urgent,
-    'status'=>'แจ้งใหม่') );
-  $opts = array('http' => array( 'method' => "POST",
-                                 'header' => "Content-type: application/json",
-                                 'content' => $newData
-                                             )
-                                          );
-  $url = 'https://api.mlab.com/api/1/databases/crma51/collections/request?apiKey='.MLAB_API_KEY.'';
-          $context = stream_context_create($opts);
-          $returnValue = file_get_contents($url,false,$context);
+                  if($returnValue){
+                 $message= "<div align='center' class='alert alert-success'>รับแจ้งข้อมูล ".$title." เรียบร้อย</div>";
+                 echo $message;
 
-          if($returnValue){
-  		   $message= "<div align='center' class='alert alert-success'>รับแจ้งข้อมูล ".$title." เรียบร้อย</div>";
-  		   echo $message;
+                    }else{
+                 $message= "<div align='center' class='alert alert-danger'>ไม่สามารถบันทึกรับแจ้งการข้อมูลได้</div>";
+              echo $message;
+                           }
+                $_SESSION["message"]=$message;
+                  header("location: request.php");
+                    exit;
 
-  	        }else{
-  		   $message= "<div align='center' class='alert alert-danger'>ไม่สามารถบันทึกรับแจ้งการข้อมูลได้</div>";
-  		echo $message;
-                   }
-  			$_SESSION["message"]=$message;
-  		   	header("location: request.php");
-      			exit;
-
-
-} ?>
+        } // end if isset _POST['formSubmit']
+          ?>
 </div><!-- jumbotron-->
 </div><!-- container theme-showcase-->
 <?php
@@ -206,7 +150,7 @@ function show_all_request(){
              }// end function show_friend
                ?>
 
-               
+
 <?php function review_request($_id){
   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/request/'.$_id.'?apiKey='.MLAB_API_KEY);
   $data = json_decode($json);
@@ -240,8 +184,44 @@ function show_all_request(){
 </div>
        <?php    } //end foreach ?>
 
-}
-?>
+<?php }// end if >0 ?>
+<?php }// end function review request ?>
+
+<?php function request_form(){ ?>
+	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+    <table class='table table-hover table-responsive table-bordered'>
+        <tr><td>แจ้งเรื่องต่าง ๆ ให้คณะกรรมการรุ่นทราบ</td></tr>
+        <tr><td>
+        <select name="urgent">
+        <option value="เร่งด่วน">เร่งด่วน</option>
+        <option value="ไม่ด่วน">ไม่ด่วน</option>
+        </select>
+          <select name="type">
+            <option value="เพื่อทราบ">เพื่อทราบ</option>
+            <option value="เพื่อพิจารณาดำเนินการ">เพื่อพิจารณาดำเนินการ</option>
+            <option value="เพื่ออนุมัติ">เพื่ออนุมัติ</option>
+          </select></td></tr>
+          <tr>
+              <td>หัวเรื่อง<input type='text' name='title' class='form-control' /></td>
+              </tr>
+            <td>ระบุรายละเอียดข้อมูลที่ต้องการแจ้งกรรมการรุ่น</td>
+            <td><textarea name="comment" rows="10" cols="30"class='form-control' /></textarea></td>
+        </tr>
+    <tr><td>
+        ผู้แจ้ง<input type='hidden' name='name' value="<?php $user_info=isset($_SESSION["user_info"]) ? $_SESSION['user_info'] : ""; echo $user_info;?>" /><?php echo $user_info;?>
+      </td>
+  </tr>
+        <tr>
+            <td></td>
+            <td>  <input type="hidden"name="id" value="<?php echo $id;?>">
+                  <input type="hidden"name="formSubmit" value="true">
+                <input type='submit' value='Save' class='btn btn-primary' />
+
+            </td>
+        </tr>
+    </table>
+</form>
+<?php } // end request_form ?>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
