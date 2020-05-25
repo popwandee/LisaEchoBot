@@ -82,23 +82,23 @@ require_once "config.php";
             $isData=sizeof($data);
             if($isData >0){
 
-                 $name_db=$data->name;
-                 if($name!=$name_db){update_field($_id,'name',$name);}
+                 $name_db=$data->name;echo $name_db.$name;
+                 //if($name!=$name_db){update_field($_id,'name',$name);}
 
-                 $title_db=$data->title;
-                 if($title!=$title_db){update_field($_id,'title',$title);}
+                 $title_db=$data->title;echo $title_db.$title;
+                 //if($title!=$title_db){update_field($_id,'title',$title);}
 
-                 $detail_db=$data->detail;
-                 if($detail!=$detail_db){update_field($_id,'detail',$detail);}
+                 $detail_db=$data->detail;echo $detail_db.$detail;
+                 //if($detail!=$detail_db){update_field($_id,'detail',$detail);}
 
-                 $type=$data->type;
-                 if($type!=$type_db){update_field($_id,'type',$type);}
+                 $type_db=$data->type;echo $type_db.$type;
+                 //if($type!=$type_db){update_field($_id,'type',$type);}
 
-                 $urgent=$data->urgent;
-                 if($urgent!=$urgent_db){update_field($_id,'urgent',$urgent);}
+                 $urgent_db=$data->urgent;echo $urgent_db.$urgent;
+                 //if($urgent!=$urgent_db){update_field($_id,'urgent',$urgent);}
 
-                 $status=$data->status;
-                 if($status!=$status_db){update_field($_id,'status',$status);}
+                 $status_db=$data->status;echo $status_db.$status;
+                 //if($status!=$status_db){update_field($_id,'status',$status);}
 
 }// end if data>0
 }else{
