@@ -99,8 +99,8 @@ function show_all_request(){
                       <th>ลำดับ</th><th>เรื่อง</th>
             <th>ผู้แจ้ง</th>
           <th>ความเร่งด่วน</th>
-        <th>ประเภท</th>
-      <th>สถานะ</th></tr>
+        <th>สถานะ</th>
+      <th>ดำเนินการ</th></tr>
           </thead><tbody>
         <?php
         foreach($data as $rec){
@@ -117,8 +117,10 @@ function show_all_request(){
       <td class="text-nowrap"><?php echo $title;?></td>
       <td class="text-nowrap"><?php echo $name;?></td>
       <td><?php echo $urgent;?></td>
-      <td><?php echo $type;?></td>
-      <td><?php echo $status;?> <a href="request.php?action=review&id=<?php echo $_id;?>"> รายละเอียด </a></td>
+      <td><?php echo $status;?></td>
+      <td>
+        <a href="financemanager.php">บัญชีเงินรุ่น</a>
+        <a href="request.php?action=review&id=<?php echo $_id;?>"> รายละเอียด </a></td>
       </tr>
            <?php    } //end foreach ?>
            </tbody>
