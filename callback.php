@@ -104,6 +104,8 @@ foreach ($events as $event) {
   switch ($text[0]) {
     case '#':
         //$textReplyMessage = $textReplyMessage.'Case # ask people. ';
+        if(!empty($explodeText[0])){
+
         $find_word=substr($explodeText[0], 1);
         //$textReplyMessage =$textReplyMessage.'Fine word '.$find_word.' ask people.';
 				 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"$or":[{"name":{"$regex":"'.$find_word.'"}},{"lastname":{"$regex":"'.$find_word.'"}},{"province":{"$regex":"'.$find_word.'"}},{"position":{"$regex":"'.$find_word.'"}}]}');
@@ -130,6 +132,12 @@ foreach ($events as $event) {
                      $multiMessage->add($textMessage);
                      $replyData = $multiMessage;
 	                               }
+            }else{ // $explodeText['0']=''';
+                $textReplyMessage=$textReplyMessage."..ไม่มีข้อมูล.. ";
+                $textMessage = new TextMessageBuilder($textReplyMessage);
+                $multiMessage->add($textMessage);
+                $replyData = $multiMessage;
+              }// end if $explodeText['0']!=0
                   break;
                   case '?':
                        //$textReplyMessage = $textReplyMessage.'Case # ask people. ';
