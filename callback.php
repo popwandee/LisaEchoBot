@@ -159,13 +159,8 @@ foreach ($events as $event) {
                              $replyData = $multiMessage;
                            	}
                        break;
-<<<<<<< HEAD
                                case '!':
-                                   $indexCount=1;$answer='';
-=======
-                               case '@':
                                    $indexCount=0;$answer='';
->>>>>>> 731f21e29a9efe3144c1ea2def8b75612e3da750
                                    foreach($explodeText as $rec){
                                    $indexCount++;
                                      if($indexCount>1){//น่าจะมีคำถามและคำตอบมาด้วย
