@@ -159,7 +159,7 @@ foreach ($events as $event) {
                              $replyData = $multiMessage;
                            	}
                        break;
-                               case '@':
+                               case '!':
                                    $indexCount=1;$answer='';
                                    foreach($explodeText as $rec){
                                    $indexCount++;
