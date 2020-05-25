@@ -50,7 +50,7 @@ require_once "config.php";
     <div class="jumbotron">
     <span class="label label-primary">แจ้งกรรมการรุ่นเพื่อทราบและพิจารณา</span>
     <?php show_all_request();?>
-    <?php //request_form();?>
+    <?php request_form();?>
     </div>
     <div class="jumbotron">
       <?php
@@ -148,7 +148,41 @@ function show_all_request(){
              }// end function show_friend
                ?>
 
+               <?php function request_form(){ ?>
+               	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                   <table class='table table-hover table-responsive table-bordered'>
+                       <tr><td>แจ้งเรื่องต่าง ๆ ให้คณะกรรมการรุ่นทราบ</td></tr>
+                       <tr><td>
+                       <select name="urgent">
+                       <option value="เร่งด่วน">เร่งด่วน</option>
+                       <option value="ไม่ด่วน">ไม่ด่วน</option>
+                       </select>
+                         <select name="type">
+                           <option value="เพื่อทราบ">เพื่อทราบ</option>
+                           <option value="เพื่อพิจารณาดำเนินการ">เพื่อพิจารณาดำเนินการ</option>
+                           <option value="เพื่ออนุมัติ">เพื่ออนุมัติ</option>
+                         </select></td></tr>
+                         <tr>
+                             <td>หัวเรื่อง<input type='text' name='title' class='form-control' /></td>
+                             </tr>
+                           <td>ระบุรายละเอียดข้อมูลที่ต้องการแจ้งกรรมการรุ่น</td>
+                           <td><textarea name="comment" rows="10" cols="30"class='form-control' /></textarea></td>
+                       </tr>
+                   <tr><td>
+                       ผู้แจ้ง<input type='hidden' name='name' value="<?php $user_info = isset($_SESSION["user_info"]) ? $_SESSION['user_info'] : ""; echo $user_info;?>" /><?php echo $user_info;?>
+                     </td>
+                 </tr>
+                       <tr>
+                           <td></td>
+                           <td>  <input type="hidden"name="id" value="<?php echo $id;?>">
+                                 <input type="hidden"name="formSubmit" value="true">
+                               <input type='submit' value='Save' class='btn btn-primary' />
 
+                           </td>
+                       </tr>
+                   </table>
+               </form>
+               <?php } // end request_form ?>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
