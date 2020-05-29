@@ -15,6 +15,7 @@ if(!isset($_SESSION["type"]) || $_SESSION["type"] !== "admin"){
 // Include config file
 require_once "config.php";
 require_once "vendor/autoload.php"
+require_once "vendor/settings.php"
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,7 +63,9 @@ require_once "vendor/autoload.php"
         $return = save_record_image($_FILES['record_image'],'test');
         $imgbb_url = $return['data']['url'];
 
-        \Cloudinary\Uploader::upload($_FILES['record_image']);
+        $arr_result = \Cloudinary\Uploader::upload("/images/".$_FILES['record_image']['tmp_name']);
+        print_r($arr_result);
+
         echo $imgbb_url;
         //insert_imgbb($imgbb_url);
       }
