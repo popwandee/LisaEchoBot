@@ -55,7 +55,7 @@ require_once "vendor/settings.php";
       <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
       	<input type="file" name="record_image" class="form-control" accept="image/*">
       	<input type="text" name="filename" class="form-control">
-      	<button type="submit">Upload</button>
+      	<input type="submit" name='submit' value="submit" class='btn btn-primary'>
       </form>
     <?php
       if (!empty($_FILES['record_image'])) {
@@ -91,7 +91,7 @@ require_once "vendor/settings.php";
          curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
          curl_setopt($ch, CURLOPT_POST, 1);
          curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
-         $extension = pathinfo($image['name'],PATHINFO_EXTENSION);
+         //$extension = pathinfo($image['name'],PATHINFO_EXTENSION);
         // $file_name = ($name)? $name.'.'.$extension : $image['name'] ;
          $data = array('image' => base64_encode(file_get_contents($image['tmp_name'])), 'name' => $name);
          curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
