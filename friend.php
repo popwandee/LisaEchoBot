@@ -1,15 +1,17 @@
 <?php
 // Initialize the session
 session_start();
-/*
+
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;
 }
-*/
+
 // Include config file
 require_once "config.php";
+require_once "vendor/autoload.php";
+require_once "vendor/settings.php";
 
 ?>
 <!DOCTYPE html>
@@ -49,7 +51,12 @@ require_once "config.php";
 
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
-       <?php if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;}?>
+       <?php if(isset($_SESSION["message"])){
+         $message=$_SESSION['message'];
+         echo $message;
+       }else{
+         $_SESSION['message']='';
+       }?>
       <div class="page-header">
           <table  class='table table-hover table-responsive table-bordered'>
             <tr><td><h3>รบกวนตอบแบบฟอร์มเพื่อรวบรวมข้อมูลเพื่อน ๆ ล่าสุดครับ แบบฟอร์มอยู่ด้านล่างนะครับ</h3></td></tr>
@@ -68,11 +75,26 @@ require_once "config.php";
         $Tel1 = isset($_POST['Tel1']) ? $_POST['Tel1'] : "";
         $LineID = isset($_POST['LineID']) ? $_POST['LineID'] : "";
         $comment = isset($_POST['comment']) ? $_POST['comment'] : "";
-        insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment);
-        show_friend();
+
+        if (!empty($_FILES['record_image'])) { //record_image
+
+          $return = save_record_image($_FILES['record_image'],'');
+          $imgbb_url = $return['data']['url'];
+          $img_url=$return['data']['image']['url'];
+
+          //insert_imgbb($imgbb_url);
+        }
+      insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url);
+      show_friend();
       }else{
         show_friend();
       }
+
+ if(isset($_SESSION["message"])){
+   $message=$_SESSION['message'];
+   echo $message;
+   $_SESSION['message']='';
+ }
 
 function show_friend(){
       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
@@ -112,11 +134,12 @@ function show_friend(){
            $Email=$rec->Email;
            $Tel1=$rec->Tel1;
            $LineID=$rec->LineID;
+           //$file_url=$rec->file_url;
            ?>
       <tr><td><?php echo $i;?></td>
-                       <td class="text-nowrap"><?php echo $rank;?>
+                       <td class="text-nowrap"><a href='friend_preview.php?_id=<?php echo $_id;?>'><?php echo $rank;?>
                          <?php echo " ".$name;?>
-                       <?php echo " ".$lastname;?></td>
+                       <?php echo " ".$lastname;?></a></td>
                        <td><?php echo $position;?></td>
                        <td><?php echo $province;?></td>
                        <td><?php echo $Email;?></td>
@@ -145,7 +168,7 @@ function show_friend(){
             </div>
           </div>
           <div class="panel-body">
-	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
     <table  class='table table-hover table-responsive table-bordered'>
         <tr>
             <td>ยศ ชื่อ สกุล</td>
@@ -271,12 +294,17 @@ function show_friend(){
             <td><textarea name="comment" rows="10" cols="30"class='form-control' />รายละเอียดข้อมูลเพิ่มเติมค่ะ</textarea></td>
         </tr>
         <tr>
+          <td>รูปภาพ</td>
+          <td>	<input type="file" name="record_image" class="form-control" accept="image/*"></td>
+        </tr>
+        <tr>
             <td></td>
             <td><input type="hidden"name="formSubmit" value="true">
                 <input type='submit' value='Save' class='btn btn-primary' />
 
             </td>
         </tr>
+
     </table>
 </form>
 </div class="panel-body">
@@ -285,7 +313,7 @@ function show_friend(){
 
 <?php
 
-function insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment){
+function insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url){
 
   $newData = json_encode(array(
   	'rank' => $rank,
@@ -297,6 +325,7 @@ function insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$L
     'Tel1'=>$Tel1,
     'LineID' =>$LineID ,
   	'comment' => $comment,
+  	'img_url' => $img_url,
     'password' =>'$2y$10$iY75qUiPFNQBrpzZsd8ybe2yijNigzOsFAMeNtkqDxGSqP22UkzGu',
     'type'=> 'สมาชิก',
     'approved'=> 0,
@@ -316,7 +345,29 @@ function insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$L
            }
 } //function insert_friend
 ?>
+<?php
+function save_record_image($image,$name = null){
+  $IMGBB_API_KEY = '6c23a11220bb2c1f7b9406175f3b8cbc';
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, 'https://api.imgbb.com/1/upload?key='.$IMGBB_API_KEY);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_POST, 1);
+  curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
+  //$extension = pathinfo($image['name'],PATHINFO_EXTENSION);
+ // $file_name = ($name)? $name.'.'.$extension : $image['name'] ;
+  $data = array('image' => base64_encode(file_get_contents($image['tmp_name'])), 'name' => $name);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+  $result = curl_exec($ch);
+  if (curl_errno($ch)) {
+      return 'Error:' . curl_error($ch);
+  }else{
+    return json_decode($result, true);
+  }
+  curl_close($ch);
+}
 
+
+?>
 </div><!-- jumbotron-->
 </div><!-- container theme-showcase-->
  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
