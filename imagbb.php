@@ -55,7 +55,7 @@ require_once "config.php";
       	<input type="file" name="record_image" accept="image/*">
       	<button type="submit">Guardar</button>
       </form>
-
+<img src='https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/95736235_157455389101365_4497114901063401472_o_cquej7.jpg'>
       <?php
       if (!empty($_FILES['record_image'])) {
         echo "\n We got image ";print_r($_FILES['record_image']);
