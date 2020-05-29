@@ -165,9 +165,9 @@ function show_image($img, $options = array(), $caption = '')
       $image=$_FILES['record_image'];
       $extension = pathinfo($image['name'],PATHINFO_EXTENSION);
       $file_name = ($name)? $name.'.'.$extension : $image['name'] ;
-      $data = array('image' => base64_encode(file_get_contents($image['tmp_name'])), 'name' => $file_name);
+      $files = array('image' => base64_encode(file_get_contents($image['tmp_name'])), 'name' => $file_name);
       //global $files, $img_paths, $default_upload_options, $eager_params;
-
+      
       echo "\n data is ";print_r($data);
       //insert_imgbb($imgbb_url);
     }
