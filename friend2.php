@@ -73,14 +73,14 @@ require_once "vendor/settings.php";
 
         if (!empty($_FILES['record_image'])) {
           echo "\n We got image ";print_r($_FILES['record_image']);
-          $return = save_record_image($_FILES['record_image']);
+          $return = save_record_image($_FILES['record_image'],'');
           $imgbb_url = $return['data']['url'];
           echo $imgbb_url;echo "\n Return is ";print_r($return);
           $img_url=$return['data']['image']['url'];
           $_SESSION['message']="imgbb_url is ".$imgbb_url." img_url is ".$img_url;
 
           //insert_imgbb($imgbb_url);
-        }
+        }else{$_SESSION['message']=$_SESSION['message']."empty record_image";}
       //  insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url);
         //show_friend();
       }else{
