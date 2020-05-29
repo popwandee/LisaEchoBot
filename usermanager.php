@@ -55,7 +55,7 @@ require_once "config.php";
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
     <div class='table-responsive'>
       <table align='center' class='table table-hover table-responsive table-bordered'>
-  <tr>  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+  <tr>  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
    <td align='right'>ค้นหาด้วยชื่อ<br><input type='text' name='name' class='form-control' />
       <br><input type='hidden' name='form_no' value='search_name'>
       <input type='submit' value='ค้นหา' class='btn btn-primary' />
@@ -200,14 +200,14 @@ require_once "config.php";
        $approved=$rec->approved;
 ?>
        <tr><td width='10%'><?php echo "{$id}";?></td>
-         <td width='30%' class='text-nowrap'><?php echo "{$rank} {$name} {$lastname}";?></td>
+         <td width='30%' class='text-nowrap'><a href="friend_preview.php?_id=<?php echo $_id; ?>"><?php echo "{$rank} {$name} {$lastname}";?></a></td>
          <td width='20%'><?php echo "{$position}";?></td>
          <td width='20%'><?php echo "{$Tel1}";?></td>
          <td width='10%'><?php echo "{$type}";?></td>
          <td width='20%'>
           <?php if($approved){ ?>
                   <button type="button" class="btn btn-xs btn-success">อนุมัติแล้ว</button>
-                  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" >
                     <input type="hidden" name="user_id" value="<?php echo $_id;?>">
                     <input type='hidden' name='form_no' value='user_approved'>
                     <input type='hidden' name='approved' value='1'>
@@ -286,9 +286,10 @@ if($isData >0){
      $LineID=$data->LineID;
      $comment=$data->comment;
      $type = $data->type;
+     $img_url = $data->img_url;
         ?>
         <table><tr><td>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
 
         <table  class='table table-hover table-responsive table-bordered'>
             <tr>
@@ -399,6 +400,9 @@ if($isData >0){
     </td>
             </tr>
             <tr>
+                <td colspan="2"><img src="<?php echo $img_url;?>"></td>
+                </tr>
+            <tr>
                 <td>Email</td>
                 <td><input type='text' name='Email' value="<?php echo $Email;?>" class='form-control' /></td>
                 </tr>
@@ -415,6 +419,10 @@ if($isData >0){
                 <td>รายละเอียดเพิ่มเติม</td>
                 <td><textarea name="comment" rows="10" cols="30"class='form-control' /><?php echo $comment;?></textarea></td>
             </tr>
+        <tr>
+            <td>เปลี่ยนรูปภาพ</td>
+            <td><input type="file" name="record_image" class="form-control" accept="image/*"></td>
+        </tr>
             <tr>
                 <td></td>
       <br>ประเภทสมาชิก :<select name="type">
