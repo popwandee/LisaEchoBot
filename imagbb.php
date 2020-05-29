@@ -63,7 +63,7 @@ require_once "vendor/settings.php"
         $return = save_record_image($_FILES['record_image'],'test');
         $imgbb_url = $return['data']['url'];
 
-        $arr_result = \Cloudinary\Uploader::upload("/images/".$_FILES['record_image']['tmp_name']);
+        $arr_result = \Cloudinary\Uploader::upload("/images/".$imgbb_url);
         print_r($arr_result);
 
         echo $imgbb_url;
