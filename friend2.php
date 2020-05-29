@@ -87,6 +87,11 @@ require_once "vendor/settings.php";
         show_friend();
       }
 
+ if(isset($_SESSION["message"])){
+   $message=$_SESSION['message'];
+   echo $message;$_SESSION['message']='';
+ }
+
 function show_friend(){
       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
       $data = json_decode($json);
