@@ -86,8 +86,8 @@ $_SESSION['message']=$_SESSION['message']."We got formSubmit";
 
           //insert_imgbb($imgbb_url);
         }else{$_SESSION['message']=$_SESSION['message']."empty record_image";}
-      //  insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url);
-        //show_friend();
+      insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url);
+      show_friend();
       }else{
         show_friend();
       }
