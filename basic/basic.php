@@ -10,6 +10,9 @@ if (is_file(__DIR__ . '/../vendor/autoload.php') && is_readable(__DIR__ . '/../v
 
 if (file_exists('/../vendor/settings.php')) {
     include '/../vendor/settings.php';echo "\n found settings.php";
+}else{
+echo "Not found setting.php";
+exit;
 }
 
 $sample_paths = array(
