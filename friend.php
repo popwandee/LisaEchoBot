@@ -77,12 +77,9 @@ require_once "vendor/settings.php";
         $comment = isset($_POST['comment']) ? $_POST['comment'] : "";
 
         if (!empty($_FILES['record_image'])) { //record_image
-
           $return = save_record_image($_FILES['record_image'],'');
-          $imgbb_url = $return['data']['url'];
           $img_url=$return['data']['image']['url'];
 
-          //insert_imgbb($imgbb_url);
         }
       insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url);
       show_friend();

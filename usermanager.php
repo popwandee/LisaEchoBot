@@ -142,6 +142,14 @@ require_once "config.php";
                $type = $data->type;$update_type = isset($_POST['type']) ? $_POST['type'] : "";
                if($type!=$update_type){update_field($user_id,'type',$update_type);}
 
+               if (!empty($_FILES['record_image'])) { //record_image
+                 $return = save_record_image($_FILES['record_image'],'');
+                 $img_url=$return['data']['image']['url'];
+                 if(!empty($img_url)){
+                   update_field($user_id,'img_url',$img_url);
+                 }
+               }
+               // retrieve database
                $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
                $data = json_decode($json);
                $isData=sizeof($data);
