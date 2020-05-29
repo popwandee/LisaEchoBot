@@ -19,7 +19,6 @@
 namespace LINE\LINEBot\TemplateActionBuilder;
 
 use LINE\LINEBot\Constant\ActionType;
-use LINE\LINEBot\Util\BuildUtil;
 use LINE\LINEBot\TemplateActionBuilder;
 
 /**
@@ -53,10 +52,10 @@ class UriTemplateActionBuilder implements TemplateActionBuilder
      */
     public function buildTemplateAction()
     {
-        return BuildUtil::removeNullElements([
+        return [
             'type' => ActionType::URI,
             'label' => $this->label,
             'uri' => $this->uri,
-        ]);
+        ];
     }
 }

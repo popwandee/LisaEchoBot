@@ -19,9 +19,8 @@
 namespace LINE\Tests\LINEBot;
 
 use LINE\LINEBot\Response;
-use PHPUnit\Framework\TestCase;
 
-class ResponseTest extends TestCase
+class ResponseTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetHeader()
     {

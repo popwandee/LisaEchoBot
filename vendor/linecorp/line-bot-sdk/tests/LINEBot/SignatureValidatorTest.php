@@ -19,9 +19,8 @@
 namespace LINE\Tests\LINEBot;
 
 use LINE\LINEBot\SignatureValidator;
-use PHPUnit\Framework\TestCase;
 
-class SignatureValidatorTest extends TestCase
+class SignatureValidatorTest extends \PHPUnit_Framework_TestCase
 {
     private static $channelSecret = 'testsecret';
     private static $json = <<<JSON
@@ -175,9 +174,6 @@ class SignatureValidatorTest extends TestCase
 }
 JSON;
 
-    /**
-     * @throws \LINE\LINEBot\Exception\InvalidSignatureException
-     */
     public function testValidateSignature()
     {
         $this->assertTrue(SignatureValidator::validateSignature(

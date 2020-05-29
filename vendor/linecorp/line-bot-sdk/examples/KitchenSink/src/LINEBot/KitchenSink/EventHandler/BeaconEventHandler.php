@@ -44,9 +44,6 @@ class BeaconEventHandler implements EventHandler
         $this->beaconEvent = $beaconEvent;
     }
 
-    /**
-     * @throws \ReflectionException
-     */
     public function handle()
     {
         $this->bot->replyText(

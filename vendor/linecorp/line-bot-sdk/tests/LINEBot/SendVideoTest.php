@@ -22,14 +22,13 @@ use LINE\LINEBot;
 use LINE\LINEBot\Constant\MessageType;
 use LINE\LINEBot\MessageBuilder\VideoMessageBuilder;
 use LINE\Tests\LINEBot\Util\DummyHttpClient;
-use PHPUnit\Framework\TestCase;
 
-class SendVideoTest extends TestCase
+class SendVideoTest extends \PHPUnit_Framework_TestCase
 {
     public function testReplyVideo()
     {
         $mock = function ($testRunner, $httpMethod, $url, $data) {
-            /** @var \PHPUnit\Framework\TestCase $testRunner */
+            /** @var \PHPUnit_Framework_TestCase $testRunner */
             $testRunner->assertEquals('POST', $httpMethod);
             $testRunner->assertEquals('https://api.line.me/v2/bot/message/reply', $url);
 
@@ -55,7 +54,7 @@ class SendVideoTest extends TestCase
     public function testPushVideo()
     {
         $mock = function ($testRunner, $httpMethod, $url, $data) {
-            /** @var \PHPUnit\Framework\TestCase $testRunner */
+            /** @var \PHPUnit_Framework_TestCase $testRunner */
             $testRunner->assertEquals('POST', $httpMethod);
             $testRunner->assertEquals('https://api.line.me/v2/bot/message/push', $url);
 

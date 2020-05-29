@@ -22,14 +22,13 @@ use LINE\LINEBot;
 use LINE\LINEBot\Constant\MessageType;
 use LINE\LINEBot\MessageBuilder\LocationMessageBuilder;
 use LINE\Tests\LINEBot\Util\DummyHttpClient;
-use PHPUnit\Framework\TestCase;
 
-class SendLocationTest extends TestCase
+class SendLocationTest extends \PHPUnit_Framework_TestCase
 {
     public function testReplyLocation()
     {
         $mock = function ($testRunner, $httpMethod, $url, $data) {
-            /** @var \PHPUnit\Framework\TestCase $testRunner */
+            /** @var \PHPUnit_Framework_TestCase $testRunner */
             $testRunner->assertEquals('POST', $httpMethod);
             $testRunner->assertEquals('https://api.line.me/v2/bot/message/reply', $url);
 
@@ -57,7 +56,7 @@ class SendLocationTest extends TestCase
     public function testPushLocation()
     {
         $mock = function ($testRunner, $httpMethod, $url, $data) {
-            /** @var \PHPUnit\Framework\TestCase $testRunner */
+            /** @var \PHPUnit_Framework_TestCase $testRunner */
             $testRunner->assertEquals('POST', $httpMethod);
             $testRunner->assertEquals('https://api.line.me/v2/bot/message/push', $url);
 

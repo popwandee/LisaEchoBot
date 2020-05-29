@@ -20,7 +20,6 @@ namespace LINE\LINEBot\MessageBuilder;
 
 use LINE\LINEBot\Constant\MessageType;
 use LINE\LINEBot\MessageBuilder;
-use LINE\LINEBot\QuickReplyBuilder;
 
 /**
  * A builder class for sticker message.
@@ -31,28 +30,19 @@ class StickerMessageBuilder implements MessageBuilder
 {
     /** @var string */
     private $packageId;
-
     /** @var string */
     private $stickerId;
-
-    /** @var array */
-    private $message = [];
-
-    /** @var QuickReplyBuilder|null */
-    private $quickReply;
 
     /**
      * StickerMessageBuilder constructor.
      *
      * @param string $packageId
      * @param string $stickerId
-     * @param QuickReplyBuilder|null $quickReply
      */
-    public function __construct($packageId, $stickerId, QuickReplyBuilder $quickReply = null)
+    public function __construct($packageId, $stickerId)
     {
         $this->packageId = $packageId;
         $this->stickerId = $stickerId;
-        $this->quickReply = $quickReply;
     }
 
     /**
@@ -62,22 +52,12 @@ class StickerMessageBuilder implements MessageBuilder
      */
     public function buildMessage()
     {
-        if (!empty($this->message)) {
-            return $this->message;
-        }
-
-        $sticker = [
-            'type' => MessageType::STICKER,
-            'packageId' => $this->packageId,
-            'stickerId' => $this->stickerId,
+        return [
+            [
+                'type' => MessageType::STICKER,
+                'packageId' => $this->packageId,
+                'stickerId' => $this->stickerId,
+            ]
         ];
-
-        if ($this->quickReply) {
-            $sticker['quickReply'] = $this->quickReply->buildQuickReply();
-        }
-
-        $this->message[] = $sticker;
-
-        return $this->message;
     }
 }

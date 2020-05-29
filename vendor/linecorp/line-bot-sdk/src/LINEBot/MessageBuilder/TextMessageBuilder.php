@@ -20,7 +20,6 @@ namespace LINE\LINEBot\MessageBuilder;
 
 use LINE\LINEBot\Constant\MessageType;
 use LINE\LINEBot\MessageBuilder;
-use LINE\LINEBot\QuickReplyBuilder;
 
 /**
  * A builder class for text message.
@@ -31,12 +30,8 @@ class TextMessageBuilder implements MessageBuilder
 {
     /** @var string[] */
     private $texts;
-
     /** @var array */
     private $message = [];
-
-    /** @var QuickReplyBuilder|null */
-    private $quickReply;
 
     /**
      * TextMessageBuilder constructor.
@@ -54,21 +49,12 @@ class TextMessageBuilder implements MessageBuilder
      */
     public function __construct($text, $extraTexts = null)
     {
-        $extras = [];
+        $extra = [];
         if (!is_null($extraTexts)) {
             $args = func_get_args();
-            $extras = array_slice($args, 1);
-
-            foreach ($extras as $key => $extra) {
-                if ($extra instanceof QuickReplyBuilder) {
-                    $this->quickReply = $extra;
-                    unset($extras[$key]);
-                    break;
-                }
-            }
-            $extras = array_values($extras);
+            $extra = array_slice($args, 1);
         }
-        $this->texts = array_merge([$text], $extras);
+        $this->texts = array_merge([$text], $extra);
     }
 
     /**
@@ -87,14 +73,6 @@ class TextMessageBuilder implements MessageBuilder
                 'type' => MessageType::TEXT,
                 'text' => $text,
             ];
-        }
-
-        if ($this->quickReply) {
-            $lastKey = count($this->message) - 1;
-
-            // If the user receives multiple message objects.
-            // The quickReply property of the last message object is displayed.
-            $this->message[$lastKey]['quickReply'] = $this->quickReply->buildQuickReply();
         }
 
         return $this->message;

@@ -22,14 +22,13 @@ use LINE\LINEBot;
 use LINE\LINEBot\Constant\MessageType;
 use LINE\LINEBot\MessageBuilder\StickerMessageBuilder;
 use LINE\Tests\LINEBot\Util\DummyHttpClient;
-use PHPUnit\Framework\TestCase;
 
-class SendStickerTest extends TestCase
+class SendStickerTest extends \PHPUnit_Framework_TestCase
 {
     public function testReplySticker()
     {
         $mock = function ($testRunner, $httpMethod, $url, $data) {
-            /** @var \PHPUnit\Framework\TestCase $testRunner */
+            /** @var \PHPUnit_Framework_TestCase $testRunner */
             $testRunner->assertEquals('POST', $httpMethod);
             $testRunner->assertEquals('https://api.line.me/v2/bot/message/reply', $url);
 
@@ -52,7 +51,7 @@ class SendStickerTest extends TestCase
     public function testPushSticker()
     {
         $mock = function ($testRunner, $httpMethod, $url, $data) {
-            /** @var \PHPUnit\Framework\TestCase $testRunner */
+            /** @var \PHPUnit_Framework_TestCase $testRunner */
             $testRunner->assertEquals('POST', $httpMethod);
             $testRunner->assertEquals('https://api.line.me/v2/bot/message/push', $url);
 

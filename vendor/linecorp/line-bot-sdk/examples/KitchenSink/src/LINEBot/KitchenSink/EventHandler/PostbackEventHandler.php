@@ -44,9 +44,6 @@ class PostbackEventHandler implements EventHandler
         $this->postbackEvent = $postbackEvent;
     }
 
-    /**
-     * @throws \ReflectionException
-     */
     public function handle()
     {
         $this->bot->replyText(

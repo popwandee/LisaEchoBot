@@ -44,10 +44,6 @@ class JoinEventHandler implements EventHandler
         $this->joinEvent = $joinEvent;
     }
 
-    /**
-     * @throws LINEBot\Exception\InvalidEventSourceException
-     * @throws \ReflectionException
-     */
     public function handle()
     {
         if ($this->joinEvent->isGroupEvent()) {
