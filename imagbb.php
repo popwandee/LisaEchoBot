@@ -62,7 +62,20 @@ require_once "vendor/settings.php";
         echo "\n We got image ";print_r($_FILES['record_image']);
         $return = save_record_image($_FILES['record_image'],'test');
         $imgbb_url = $return['data']['url'];
-        echo $imgbb_url;
+        echo $imgbb_url;echo "\n Return is ";print_r($return);
+        /*
+        $newData = json_encode(array(
+         'fle_name' => $return['data']['url'],
+         'file_url' => $imgbb_url) );
+        $opts = array('http' => array( 'method' => "POST",
+                                       'header' => "Content-type: application/json",
+                                       'content' => $newData
+                                                   )
+                                                );
+        $url = 'https://api.mlab.com/api/1/databases/crma51/collections/img?apiKey='.MLAB_API_KEY;
+        $context = stream_context_create($opts);
+        $returnValue = file_get_contents($url,false,$context);
+        */
         //insert_imgbb($imgbb_url);
       }
        ?>
@@ -84,17 +97,7 @@ require_once "vendor/settings.php";
              return 'Error:' . curl_error($ch);
          }else{
            return json_decode($result, true);
-           $newData = json_encode(array(
-           	'fle_name' => $file_name
-           	'file_url' => $file_url) );
-           $opts = array('http' => array( 'method' => "POST",
-                                          'header' => "Content-type: application/json",
-                                          'content' => $newData
-                                                      )
-                                                   );
-           $url = 'https://api.mlab.com/api/1/databases/crma51/collections/img?apiKey='.MLAB_API_KEY;
-           $context = stream_context_create($opts);
-           $returnValue = file_get_contents($url,false,$context);
+
          }
          curl_close($ch);
        }
