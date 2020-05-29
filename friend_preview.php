@@ -94,7 +94,7 @@ function showdata($_id)
              ?>
              <table><tr><td>
              <table  class='table table-hover table-responsive table-bordered'>
-             <tr><td colspan="2"><img src="<?php echo $img_url;?>"></td></tr>
+             <tr><td colspan="2"><img src="<?php echo $img_url;?>" width='300'></td></tr>
                  <tr>
                      <td>ยศ ชื่อ สกุล</td>
                      <td><?php echo $rank;?><?php echo $name;?><?php echo $lastname;?></td>
