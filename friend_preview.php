@@ -102,9 +102,7 @@ require_once "config.php";
                 <?php }else{ // not approved ?>ยังไม่อนุมัติ
                 <?php } //end id approved ?>
          </td></tr>
-         <tr><td colspan="6">
-        <img src="<?php {$img_url}?>">
-         </td>
+         <tr><td colspan="6"><img src="<?php echo $img_url;?>"></td>
        </tr>
      </tbody>
       </table>
