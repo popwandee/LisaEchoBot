@@ -143,9 +143,11 @@ require_once "config.php";
                if($type!=$update_type){update_field($user_id,'type',$update_type);}
 
                if (!empty($_FILES['record_image'])) { //record_image
+                 $_SESSION['message']="get record_image and save record image";
                  $return = save_record_image($_FILES['record_image'],'');
-                 $img_url=$return['data']['image']['url'];
+                 $img_url=$return['data']['image']['url'];$_SESSION['message']=$_SESSION['message']." Return from save image.";
                  if(!empty($img_url)){
+                   $_SESSION['message']=$_SESSION['message']." got img_url is ".$img_url;
                    update_field($user_id,'img_url',$img_url);
                  }
                }
@@ -180,6 +182,9 @@ require_once "config.php";
       if($isData >0){
           showdata($data);
         }
+    }
+    if(isset($_SESSION['message'])){
+      $message=$_SESSION['message'];echo $message; $_SESSION['message']='';
     }
      ?>
 
