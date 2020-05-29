@@ -15,14 +15,14 @@ echo "Not found setting.php";
 exit;
 }
 
-$sample_paths = array(
+$img_paths = array(
     'pizza' => getcwd() . DIRECTORY_SEPARATOR . 'pizza.jpg',
     'lake' => getcwd() . DIRECTORY_SEPARATOR . 'lake.jpg',
-    'couple' => 'http://res.cloudinary.com/demo/image/upload/couple.jpg',
+    'couple' => 'http://res.cloudinary.com/dly6ftryr/image/upload/couple.jpg',
 );
 
 
-$default_upload_options = array('tags' => 'basic_sample');
+$default_upload_options = array('tags' => 'img_crma51');
 $eager_params = array('width' => 200, 'height' => 150, 'crop' => 'scale');
 $files = array();
 
@@ -33,24 +33,24 @@ $files = array();
  */
 function do_uploads()
 {
-    global $files, $sample_paths, $default_upload_options, $eager_params;
+    global $files, $img_paths, $default_upload_options, $eager_params;
 
     # public_id will be generated on Cloudinary's backend.
-    $files['unnamed_local'] = \Cloudinary\Uploader::upload($sample_paths['pizza'], $default_upload_options);
+    $files['unnamed_local'] = \Cloudinary\Uploader::upload($img_paths['pizza'], $default_upload_options);
 
     # Same image, uploaded with a public_id
     $files['named_local'] = \Cloudinary\Uploader::upload(
-        $sample_paths['pizza'],
+        $img_paths['pizza'],
         array_merge(
             $default_upload_options,
-            array('public_id' => 'custom_name')
+            array('public_id' => 'crma51')
         )
     );
 
     # Eager transformations are applied as soon as the file is uploaded, instead of waiting
     # for a user to request them.
     $files['eager'] = \Cloudinary\Uploader::upload(
-        $sample_paths['lake'],
+        $img_paths['lake'],
         array_merge(
             $default_upload_options,
             array(
@@ -63,12 +63,12 @@ function do_uploads()
     # In the two following examples, the file is fetched from a remote URL and stored in Cloudinary.
     # This allows you to apply the same transformations, and serve those using Cloudinary's CDN layer.
     $files['remote'] = \Cloudinary\Uploader::upload(
-        $sample_paths['couple'],
+        $img_paths['couple'],
         $default_upload_options
     );
 
     $files['remote_trans'] = \Cloudinary\Uploader::upload(
-        $sample_paths['couple'],
+        $img_paths['couple'],
         array_merge(
             $default_upload_options,
             array(
@@ -155,6 +155,23 @@ function show_image($img, $options = array(), $caption = '')
 <body>
     <h1>Cloudinary - Basic PHP Sample</h1>
     <h2>Uploading ... </h2>
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
+      <input type="file" name="record_image" accept="image/*">
+      <button type="submit">Guardar</button>
+    </form>
+    <?php
+    if (!empty($_FILES['record_image'])) {
+      echo "\n We got image ";print_r($_FILES['record_image']);
+      $image=$_FILES['record_image'];
+      $extension = pathinfo($image['name'],PATHINFO_EXTENSION);
+      $file_name = ($name)? $name.'.'.$extension : $image['name'] ;
+      $data = array('image' => base64_encode(file_get_contents($image['tmp_name'])), 'name' => $file_name);
+      //global $files, $img_paths, $default_upload_options, $eager_params;
+
+      echo "\n data is ";print_r($data);
+      //insert_imgbb($imgbb_url);
+    }
+     ?>
     <?php do_uploads(); ?>
     <h3>... Done uploading!</h3>
 
