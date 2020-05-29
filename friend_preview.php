@@ -56,6 +56,7 @@ require_once "config.php";
 	  <?php
 
       $_id = isset($_GET['_id']) ? $_GET['_id'] : "";
+      /*
       if(!empty($_id)){
             $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$_id.'?apiKey='.MLAB_API_KEY);
           $data = json_decode($json);
@@ -65,6 +66,8 @@ require_once "config.php";
                showdata($data);
             }
           }//end if not empty id
+          */
+          show_form($_id)
      ?>
 
      <?php
@@ -128,10 +131,9 @@ if($isData >0){
      $LineID=$data->LineID;
      $comment=$data->comment;
      $type = $data->type;
+     $img_url=$data->img_url;
         ?>
         <table><tr><td>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-
         <table  class='table table-hover table-responsive table-bordered'>
             <tr>
                 <td>ยศ ชื่อ สกุล</td>
@@ -257,21 +259,8 @@ if($isData >0){
                 <td>รายละเอียดเพิ่มเติม</td>
                 <td><textarea name="comment" rows="10" cols="30"class='form-control' /><?php echo $comment;?></textarea></td>
             </tr>
-            <tr>
-                <td></td>
-      <br>ประเภทสมาชิก :<select name="type">
-<option value="<?php echo $type;?>" selected><?php echo $type;?></option>
-<option value="สมาชิก">สมาชิก</option>
-<option value="กรรมการ">กรรมการ</option>
-<option value="เหรัญญิก">เหรัญญิก</option>
-<option value="admin">Admin</option>
-</select></td><td>
-      <input type="hidden" name="user_id" value="<?php echo $user_id;?>">
-      <input type='hidden' name='form_no' value='user_edit'>
-      <input type='hidden' name='edited' value='1'>
-      <button type="submit" class="btn btn-xs btn-warning">ยืนยัน</button>
-      </form>
-    </td></tr></table>
+            <tr><td colspan="2"><img src="<?php echo $img_url;?>"></td></tr>
+</table>
       <?php
     }// if isData > 0;
       exit;
