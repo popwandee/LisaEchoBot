@@ -75,7 +75,9 @@ require_once "config.php";
 
       if (!empty($_FILES['record_image'])) {
       	$return = save_record_image($_FILES['record_image'],'test');
-      	echo $return['data']['url'];
+      	$imgbb_url = $return['data']['url'];
+        echo $imgbb_url;
+        insert_imgbb($imgbb_url);
       }
       ?>
       <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
@@ -83,7 +85,7 @@ require_once "config.php";
       	<button type="submit">Guardar</button>
       </form>
 
-      <?php function_insert_imgbb($imgbb_url){
+      <?php insert_imgbb($imgbb_url){
         $newData = json_encode(array(
           'imgbb_url'=>$imgbb_url,
           'status'=>'new') );
