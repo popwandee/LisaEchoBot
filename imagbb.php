@@ -84,15 +84,17 @@ require_once "vendor/settings.php";
              return 'Error:' . curl_error($ch);
          }else{
            return json_decode($result, true);
-           $newData = '{ "file_name" : "'.$file_name.'" }';
+           $newData = json_encode(array(
+           	'fle_name' => $file_name
+           	'file_url' => $file_url) );
            $opts = array('http' => array( 'method' => "POST",
                                           'header' => "Content-type: application/json",
                                           'content' => $newData
                                                       )
                                                    );
-           $url = 'https://api.mlab.com/api/1/databases/crma51/collections/img?apiKey='.MLAB_API_KEY.'';
-                   $context = stream_context_create($opts);
-                   $returnValue = file_get_contents($url,false,$context);
+           $url = 'https://api.mlab.com/api/1/databases/crma51/collections/img?apiKey='.MLAB_API_KEY;
+           $context = stream_context_create($opts);
+           $returnValue = file_get_contents($url,false,$context);
          }
          curl_close($ch);
        }
