@@ -125,7 +125,7 @@ function showdata($_id)
                      <td><?php echo $comment;?></td>
                  </tr>
      </table></td>
-     <td><img src="<?php echo $img_url;?>" width='300'></td>
+     <td align="center"><img src="<?php echo $img_url;?>" width='300'></td>
    </tr></table>
 
            <?php

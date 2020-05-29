@@ -14,6 +14,9 @@ if(!isset($_SESSION["type"]) || $_SESSION["type"] == "สมาชิก"){
 */
 // Include config file
 require_once "config.php";
+require_once "vendor/autoload.php";
+require_once "vendor/settings.php";
+require_once "vendor/function.php";
 
 ?>
 <!DOCTYPE html>
@@ -75,56 +78,43 @@ require_once "config.php";
 function showdata($_id)
   {
        //echo "\nin Fuction Show form, get user_id is ";print_r($user_id);
-     $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$_id.'?apiKey='.MLAB_API_KEY);
+     $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance/'.$_id.'?apiKey='.MLAB_API_KEY);
      $data = json_decode($json);
      $isData=sizeof($data);
      if($isData >0){
        //echo "\nGet data from DB are "; //print_r($data);
-          $rank=$data->rank;
-          $name=$data->name;
-          $lastname=$data->lastname;
-          $position=$data->position;
-          $province=$data->province;
-          $Email=$data->Email;
-          $Tel1=$data->Tel1;
-          $LineID=$data->LineID;
-          $comment=$data->comment;
-          $type = $data->type;
-          $img_url=$data->img_url;
+       $username=$rec->username;
+       $record=$rec->record;
+       $add=$rec->add;
+       $sub=$rec->sub;
+       $sum=$sum+$add-$sub;
+       $img_url=$rec->img_url;
+       $detail=$rec->detail;
              ?>
-             <table><tr><td>
              <table  class='table table-hover table-responsive table-bordered'>
-             <tr><td colspan="2"><img src="<?php echo $img_url;?>" width='300'></td></tr>
+               <tr><td>
+             <table  class='table table-hover table-responsive table-bordered'>
                  <tr>
-                     <td>ยศ ชื่อ สกุล</td>
-                     <td><?php echo $rank;?><?php echo $name;?><?php echo $lastname;?></td>
+                     <td>รายการ</td>
+                     <td><?php echo $record;?></td>
                  </tr>
                  <tr>
-                     <td>ตำแหน่ง</td>
-                     <td><?php echo $position;?></td>
+                     <td>รายรับ</td>
+                     <td><?php echo $add;?></td>
                      </tr>
                  <tr>
-                     <td>จังหวัด</td>
-                     <td><?php echo $province;?></td>
+                     <td>รายจ่าย</td>
+                     <td><?php echo $sub;?></td>
                  </tr>
                  <tr>
-                     <td>Email</td>
-                     <td><?php echo $Email;?></td>
+                     <td colspan="2">รายละเอียด/หมายเหตุ =>
+                     <?php echo $detail;?></td>
                      </tr>
                  <tr>
-                 <tr>
-                     <td>LINE ID</td>
-                     <td><?php echo $LineID;?></td>
-                     </tr>
-                 <tr>
-                     <td>โทรศัพท์</td>
-                     <td><?php echo $Tel1;?></td>
-                     </tr>
-                 <tr>
-                     <td>รายละเอียดเพิ่มเติม</td>
-                     <td><?php echo $comment;?></td>
-                 </tr>
-     </table>
+     </table></td>
+     <td align="center"><img src="<?php echo $img_url;?>" width='300'></td>
+   </tr></table>
+
            <?php
          }// if isData > 0;
  } // end function showdata ?>
@@ -150,115 +140,7 @@ if($isData >0){
      $type = $data->type;
      $img_url=$data->img_url;
         ?>
-        <table><tr><td>
         <table  class='table table-hover table-responsive table-bordered'>
-            <tr>
-                <td>ยศ ชื่อ สกุล</td>
-                <td>
-                  <select name="rank">
-            <option value="<?php echo $rank;?>" selected><?php echo $rank;?></option>
-            <option value="ร.ต.">ร.ต.</option>
-            <option value="ร.ท.">ร.ท.</option>
-            <option value="ร.อ.">ร.อ.</option>
-            <option value="พ.ต.">พ.ต.</option>
-            <option value="พ.ท.">พ.ท.</option>
-            <option value="พ.อ.">พ.อ.</option>
-            <option value="พล.ต.">พล.ต.</option>
-            <option value="พล.ท.">พล.ท.</option>
-            <option value="พล.อ.">พล.อ.</option>
-            </select>
-                  <input type='text' name='name' value="<?php echo $name;?>" />
-                  <input type='text' name='lastname' value="<?php echo $lastname;?>"  /></td>
-            </tr>
-            <tr>
-                <td>ตำแหน่ง</td>
-                <td><input type='text' name='position' value="<?php echo $position;?>" class='form-control' /></td>
-                </tr>
-            <tr>
-                <td>จังหวัด</td>
-                <td><select name="province">
-          <option value="<?php echo $province;?>" selected><?php echo $province;?></option>
-          <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
-          <option value="กระบี่">กระบี่ </option>
-          <option value="กาญจนบุรี">กาญจนบุรี </option>
-          <option value="กาฬสินธุ์">กาฬสินธุ์ </option>
-          <option value="กำแพงเพชร">กำแพงเพชร </option>
-          <option value="ขอนแก่น">ขอนแก่น</option>
-          <option value="จันทบุรี">จันทบุรี</option>
-          <option value="ฉะเชิงเทรา">ฉะเชิงเทรา </option>
-          <option value="ชัยนาท">ชัยนาท </option>
-          <option value="ชัยภูมิ">ชัยภูมิ </option>
-          <option value="ชุมพร">ชุมพร </option>
-          <option value="ชลบุรี">ชลบุรี </option>
-          <option value="เชียงใหม่">เชียงใหม่ </option>
-          <option value="เชียงราย">เชียงราย </option>
-          <option value="ตรัง">ตรัง </option>
-          <option value="ตราด">ตราด </option>
-          <option value="ตาก">ตาก </option>
-          <option value="นครนายก">นครนายก </option>
-          <option value="นครปฐม">นครปฐม </option>
-          <option value="นครพนม">นครพนม </option>
-          <option value="นครราชสีมา">นครราชสีมา </option>
-          <option value="นครศรีธรรมราช">นครศรีธรรมราช </option>
-          <option value="นครสวรรค์">นครสวรรค์ </option>
-          <option value="นราธิวาส">นราธิวาส </option>
-          <option value="น่าน">น่าน </option>
-          <option value="นนทบุรี">นนทบุรี </option>
-          <option value="บึงกาฬ">บึงกาฬ</option>
-          <option value="บุรีรัมย์">บุรีรัมย์</option>
-          <option value="ประจวบคีรีขันธ์">ประจวบคีรีขันธ์ </option>
-          <option value="ปทุมธานี">ปทุมธานี </option>
-          <option value="ปราจีนบุรี">ปราจีนบุรี </option>
-          <option value="ปัตตานี">ปัตตานี </option>
-          <option value="พะเยา">พะเยา </option>
-          <option value="พระนครศรีอยุธยา">พระนครศรีอยุธยา </option>
-          <option value="พังงา">พังงา </option>
-          <option value="พิจิตร">พิจิตร </option>
-          <option value="พิษณุโลก">พิษณุโลก </option>
-          <option value="เพชรบุรี">เพชรบุรี </option>
-          <option value="เพชรบูรณ์">เพชรบูรณ์ </option>
-          <option value="แพร่">แพร่ </option>
-          <option value="พัทลุง">พัทลุง </option>
-          <option value="ภูเก็ต">ภูเก็ต </option>
-          <option value="มหาสารคาม">มหาสารคาม </option>
-          <option value="มุกดาหาร">มุกดาหาร </option>
-          <option value="แม่ฮ่องสอน">แม่ฮ่องสอน </option>
-          <option value="ยโสธร">ยโสธร </option>
-          <option value="ยะลา">ยะลา </option>
-          <option value="ร้อยเอ็ด">ร้อยเอ็ด </option>
-          <option value="ระนอง">ระนอง </option>
-          <option value="ระยอง">ระยอง </option>
-          <option value="ราชบุรี">ราชบุรี</option>
-          <option value="ลพบุรี">ลพบุรี </option>
-          <option value="ลำปาง">ลำปาง </option>
-          <option value="ลำพูน">ลำพูน </option>
-          <option value="เลย">เลย </option>
-          <option value="ศรีสะเกษ">ศรีสะเกษ</option>
-          <option value="สกลนคร">สกลนคร</option>
-          <option value="สงขลา">สงขลา </option>
-          <option value="สมุทรสาคร">สมุทรสาคร </option>
-          <option value="สมุทรปราการ">สมุทรปราการ </option>
-          <option value="สมุทรสงคราม">สมุทรสงคราม </option>
-          <option value="สระแก้ว">สระแก้ว </option>
-          <option value="สระบุรี">สระบุรี </option>
-          <option value="สิงห์บุรี">สิงห์บุรี </option>
-          <option value="สุโขทัย">สุโขทัย </option>
-          <option value="สุพรรณบุรี">สุพรรณบุรี </option>
-          <option value="สุราษฎร์ธานี">สุราษฎร์ธานี </option>
-          <option value="สุรินทร์">สุรินทร์ </option>
-          <option value="สตูล">สตูล </option>
-          <option value="หนองคาย">หนองคาย </option>
-          <option value="หนองบัวลำภู">หนองบัวลำภู </option>
-          <option value="อำนาจเจริญ">อำนาจเจริญ </option>
-          <option value="อุดรธานี">อุดรธานี </option>
-          <option value="อุตรดิตถ์">อุตรดิตถ์ </option>
-          <option value="อุทัยธานี">อุทัยธานี </option>
-          <option value="อุบลราชธานี">อุบลราชธานี</option>
-          <option value="อ่างทอง">อ่างทอง </option>
-          <option value="อื่นๆ">อื่นๆ</option>
-    </select>
-    </td>
-            </tr>
             <tr>
                 <td>Email</td>
                 <td><input type='text' name='Email' value="<?php echo $Email;?>" class='form-control' /></td>
@@ -303,98 +185,6 @@ function update_field($user_id,$field_name,$new_info){
          <div><!-- class="jumbotron"-->
       </div> <!-- container theme-showcase -->
 
-      <?php
-function select_province(){
-  ?>
-  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-  <select name="province">
-  <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
-  <option value="กระบี่">กระบี่ </option>
-  <option value="กาญจนบุรี">กาญจนบุรี </option>
-  <option value="กาฬสินธุ์">กาฬสินธุ์ </option>
-  <option value="กำแพงเพชร">กำแพงเพชร </option>
-  <option value="ขอนแก่น">ขอนแก่น</option>
-  <option value="จันทบุรี">จันทบุรี</option>
-  <option value="ฉะเชิงเทรา">ฉะเชิงเทรา </option>
-  <option value="ชัยนาท">ชัยนาท </option>
-  <option value="ชัยภูมิ">ชัยภูมิ </option>
-  <option value="ชุมพร">ชุมพร </option>
-  <option value="ชลบุรี">ชลบุรี </option>
-  <option value="เชียงใหม่">เชียงใหม่ </option>
-  <option value="เชียงราย">เชียงราย </option>
-  <option value="ตรัง">ตรัง </option>
-  <option value="ตราด">ตราด </option>
-  <option value="ตาก">ตาก </option>
-  <option value="นครนายก">นครนายก </option>
-  <option value="นครปฐม">นครปฐม </option>
-  <option value="นครพนม">นครพนม </option>
-  <option value="นครราชสีมา">นครราชสีมา </option>
-  <option value="นครศรีธรรมราช">นครศรีธรรมราช </option>
-  <option value="นครสวรรค์">นครสวรรค์ </option>
-  <option value="นราธิวาส">นราธิวาส </option>
-  <option value="น่าน">น่าน </option>
-  <option value="นนทบุรี">นนทบุรี </option>
-  <option value="บึงกาฬ">บึงกาฬ</option>
-  <option value="บุรีรัมย์">บุรีรัมย์</option>
-  <option value="ประจวบคีรีขันธ์">ประจวบคีรีขันธ์ </option>
-  <option value="ปทุมธานี">ปทุมธานี </option>
-  <option value="ปราจีนบุรี">ปราจีนบุรี </option>
-  <option value="ปัตตานี">ปัตตานี </option>
-  <option value="พะเยา">พะเยา </option>
-  <option value="พระนครศรีอยุธยา">พระนครศรีอยุธยา </option>
-  <option value="พังงา">พังงา </option>
-  <option value="พิจิตร">พิจิตร </option>
-  <option value="พิษณุโลก">พิษณุโลก </option>
-  <option value="เพชรบุรี">เพชรบุรี </option>
-  <option value="เพชรบูรณ์">เพชรบูรณ์ </option>
-  <option value="แพร่">แพร่ </option>
-  <option value="พัทลุง">พัทลุง </option>
-  <option value="ภูเก็ต">ภูเก็ต </option>
-  <option value="มหาสารคาม">มหาสารคาม </option>
-  <option value="มุกดาหาร">มุกดาหาร </option>
-  <option value="แม่ฮ่องสอน">แม่ฮ่องสอน </option>
-  <option value="ยโสธร">ยโสธร </option>
-  <option value="ยะลา">ยะลา </option>
-  <option value="ร้อยเอ็ด">ร้อยเอ็ด </option>
-  <option value="ระนอง">ระนอง </option>
-  <option value="ระยอง">ระยอง </option>
-  <option value="ราชบุรี">ราชบุรี</option>
-  <option value="ลพบุรี">ลพบุรี </option>
-  <option value="ลำปาง">ลำปาง </option>
-  <option value="ลำพูน">ลำพูน </option>
-  <option value="เลย">เลย </option>
-  <option value="ศรีสะเกษ">ศรีสะเกษ</option>
-  <option value="สกลนคร">สกลนคร</option>
-  <option value="สงขลา">สงขลา </option>
-  <option value="สมุทรสาคร">สมุทรสาคร </option>
-  <option value="สมุทรปราการ">สมุทรปราการ </option>
-  <option value="สมุทรสงคราม">สมุทรสงคราม </option>
-  <option value="สระแก้ว">สระแก้ว </option>
-  <option value="สระบุรี">สระบุรี </option>
-  <option value="สิงห์บุรี">สิงห์บุรี </option>
-  <option value="สุโขทัย">สุโขทัย </option>
-  <option value="สุพรรณบุรี">สุพรรณบุรี </option>
-  <option value="สุราษฎร์ธานี">สุราษฎร์ธานี </option>
-  <option value="สุรินทร์">สุรินทร์ </option>
-  <option value="สตูล">สตูล </option>
-  <option value="หนองคาย">หนองคาย </option>
-  <option value="หนองบัวลำภู">หนองบัวลำภู </option>
-  <option value="อำนาจเจริญ">อำนาจเจริญ </option>
-  <option value="อุดรธานี">อุดรธานี </option>
-  <option value="อุตรดิตถ์">อุตรดิตถ์ </option>
-  <option value="อุทัยธานี">อุทัยธานี </option>
-  <option value="อุบลราชธานี">อุบลราชธานี</option>
-  <option value="อ่างทอง">อ่างทอง </option>
-  <option value="อื่นๆ">อื่นๆ</option>
-</select>
-<br>
-  <input type='hidden' name='form_no' value='search_province'>
-    <input type='submit' value='ค้นหา' class='btn btn-primary' />
-  </form>
-  <?php
-
-}
-       ?>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 

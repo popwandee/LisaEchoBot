@@ -9,6 +9,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 }
 // Include config file
 require_once "config.php";
+require_once "vendor/autoload.php";
+require_once "vendor/settings.php";
+require_once "vendor/function.php";
 
 ?>
 <!DOCTYPE html>
@@ -80,7 +83,15 @@ require_once "config.php";
        $record = isset($_POST['record']) ? $_POST['record'] : "";
        $add = isset($_POST['add']) ? $_POST['add'] : "";
        $sub = isset($_POST['sub']) ? $_POST['sub'] : "";
-       insert_finance_record($username,$record,$add,$sub);
+       $detail = isset($_POST['detail']) ? $_POST['detail'] : "";
+
+       if (!empty($_FILES['record_image'])) { //record_image
+         $return = save_record_image($_FILES['record_image'],'');
+         $img_url=$return['data']['image']['url'];
+       }
+
+       $img_url = isset($img_url) ? $img_url : "";
+       insert_finance_record($username,$record,$add,$sub,$detail,$img_url);
        $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY);
 
             break;
@@ -124,10 +135,12 @@ function showdata($data)
        $add=$rec->add;
        $sub=$rec->sub;
        $sum=$sum+$add-$sub;
+       $img_url=$rec->img_url;
+       $detail=$rec->detail;
        // creating new table row per record
        echo "<tr>";
          echo "<td width='10%'>{$id}</td>";
-         echo "<td width='40%' class='text-nowrap'>{$record}</td>";
+         echo "<td width='40%' class='text-nowrap'><a href='finance_preview.php?_id={$_id}'>{$record}</a></td>";
          echo "<td width='10%'>{$add}</td>";
          echo "<td width='10%'>{$sub}</td>";
          echo "<td width='10%'>{$sum}</td>";
@@ -154,8 +167,10 @@ function showdata($data)
          <td><input type='text' name='record'></td>
          <td><input type='text' name='add'></td>
          <td><input type='text' name='sub'></td>
-         <td colspan="2"><button type="submit" class="btn btn-xs btn-info">เพิ่มรายการ</button></td>
-         </tr></form>
+         </tr>
+       <tr><td><textarea name="detail" rows="3" cols="30"class='form-control' />รายละเอียด/หมายเหตุ</textarea></td></tr>
+       <tr><td><button type="submit" class="btn btn-xs btn-info">เพิ่มรายการ</button></td></tr>
+     </form>
 
          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
            <tr><td colspan="6" align="center">เงินรุ่นคงเหลือ <input type="input" name="sum" value="<?php echo $sum; ?>">
