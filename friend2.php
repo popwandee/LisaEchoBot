@@ -71,15 +71,16 @@ require_once "vendor/settings.php";
         $LineID = isset($_POST['LineID']) ? $_POST['LineID'] : "";
         $comment = isset($_POST['comment']) ? $_POST['comment'] : "";
 
-       $img_name = isset($_FILES['record_image']) ? $_FILES['record_image']['name'] : "";
-       $_SESSION['message']="img_name is ".$img_name;
-       if(!empty($img_name)){echo "\n img_name is".$img_name;
-         $return = save_record_image($_FILES['record_image'],$name);
-         //$file_name=$return['data']['image']['filename'];
-         $img_url=isset($return['data']['image']['url']) ? $return['data']['image']['url'] : "";
-         $_SESSION['message']=$_SESSION['message']."\nimg_url is ".$img_url;
-       }
-       $message=$_SESSION['message'];
+        if (!empty($_FILES['record_image'])) {
+          echo "\n We got image ";print_r($_FILES['record_image']);
+          $return = save_record_image($_FILES['record_image']);
+          $imgbb_url = $return['data']['url'];
+          echo $imgbb_url;echo "\n Return is ";print_r($return);
+          $img_url=$return['data']['image']['url'];
+          $_SESSION['message']="imgbb_url is ".$imgbb_url." img_url is ".$img_url;
+
+          //insert_imgbb($imgbb_url);
+        }
       //  insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url);
         //show_friend();
       }else{
