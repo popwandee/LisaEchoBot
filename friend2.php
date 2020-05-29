@@ -77,7 +77,7 @@ require_once "vendor/settings.php";
           $imgbb_url = $return['data']['url'];
           echo $imgbb_url;echo "\n Return is ";print_r($return);
           $img_url=$return['data']['image']['url'];
-          $_SESSION['message']="imgbb_url is ".$imgbb_url." img_url is ".$img_url;
+          $_SESSION['message']=$_SESSION['message']."imgbb_url is ".$imgbb_url." img_url is ".$img_url;
 
           //insert_imgbb($imgbb_url);
         }else{$_SESSION['message']=$_SESSION['message']."empty record_image";}
@@ -338,6 +338,7 @@ function insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$L
 ?>
 <?php
 function save_record_image($image,$name = null){
+  $_SESSION['message']=$_SESSION['message']."in save_record_image.";
   $IMGBB_API_KEY = '6c23a11220bb2c1f7b9406175f3b8cbc';
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, 'https://api.imgbb.com/1/upload?key='.$IMGBB_API_KEY);
@@ -350,10 +351,10 @@ function save_record_image($image,$name = null){
   curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
   $result = curl_exec($ch);
   if (curl_errno($ch)) {
-      return 'Error:' . curl_error($ch);
+      return 'Error:' . curl_error($ch);$_SESSION['message']=$_SESSION['message']."Save image Error.";
   }else{
     return json_decode($result, true);
-
+$_SESSION['message']=$_SESSION['message']." Save image OK";
   }
   curl_close($ch);
 }
