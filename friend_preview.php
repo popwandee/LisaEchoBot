@@ -55,9 +55,9 @@ require_once "config.php";
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
 	  <?php
 
-      $id = isset($_GET['id']) ? $_GET['id'] : "";
-      if(!empty($id)){
-            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/'.id.'?apiKey='.MLAB_API_KEY);
+      $_id = isset($_GET['_id']) ? $_GET['_id'] : "";
+      if(!empty($_id)){
+            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$_id.'?apiKey='.MLAB_API_KEY);
           $data = json_decode($json);
           $isData=sizeof($data);
           if($isData >0){
