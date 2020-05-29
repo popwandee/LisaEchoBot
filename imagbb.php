@@ -49,6 +49,15 @@ require_once "config.php";
 </head>
 <body>
     <?php include 'navigation.html';?>
+    <?php
+    if (!empty($_FILES['record_image'])) {
+      //$return = save_record_image($_FILES['record_image'],'test');
+      //$imgbb_url = $return['data']['url'];
+      //echo $imgbb_url;
+      //insert_imgbb($imgbb_url);
+      echo "\n We got image ";print_r($_FILES['record_image']);
+    }
+     ?>
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
       <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
