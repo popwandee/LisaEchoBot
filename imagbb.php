@@ -63,6 +63,7 @@ require_once "vendor/settings.php";
         $return = save_record_image($_FILES['record_image'],'test');
         $imgbb_url = $return['data']['url'];
         echo $imgbb_url;echo "\n Return is ";print_r($return);
+        print_r($return['data']['image']);
         /*
         $newData = json_encode(array(
          'fle_name' => $return['data']['url'],
