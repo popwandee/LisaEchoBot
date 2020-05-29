@@ -63,6 +63,7 @@ require_once "config.php";
         $imgbb_url = $return['data']['url'];
         echo $imgbb_url;
         //insert_imgbb($imgbb_url);
+        \Cloudinary\Uploader::upload("/home/sample.jpg");
       }
        ?>
 
