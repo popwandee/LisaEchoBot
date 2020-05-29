@@ -53,17 +53,15 @@ require_once "vendor/settings.php";
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
       <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
-      	<input type="file" name="record_image" accept="image/*">
-      	<button type="submit">Guardar</button>
+      	<input type="file" name="record_image" class="form-control" accept="image/*">
+      	<input type="text" name="filename" class="form-control">
+      	<button type="submit">Upload</button>
       </form>
-<img src='https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/95736235_157455389101365_4497114901063401472_o_cquej7.jpg'>
-      <?php
+    <?php
       if (!empty($_FILES['record_image'])) {
         echo "\n We got image ";print_r($_FILES['record_image']);
         $return = save_record_image($_FILES['record_image'],'test');
         $imgbb_url = $return['data']['url'];
-
-
         echo $imgbb_url;
         //insert_imgbb($imgbb_url);
       }
@@ -79,8 +77,6 @@ require_once "vendor/settings.php";
          curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
          $extension = pathinfo($image['name'],PATHINFO_EXTENSION);
          $file_name = ($name)? $name.'.'.$extension : $image['name'] ;
-         $arr_result = \Cloudinary\Uploader::upload($file_name);
-         print_r($arr_result);
          $data = array('image' => base64_encode(file_get_contents($image['tmp_name'])), 'name' => $file_name);
          curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
          $result = curl_exec($ch);
@@ -88,6 +84,15 @@ require_once "vendor/settings.php";
              return 'Error:' . curl_error($ch);
          }else{
            return json_decode($result, true);
+           $newData = '{ "file_name" : "'.$file_name.'" }';
+           $opts = array('http' => array( 'method' => "POST",
+                                          'header' => "Content-type: application/json",
+                                          'content' => $newData
+                                                      )
+                                                   );
+           $url = 'https://api.mlab.com/api/1/databases/crma51/collections/img?apiKey='.MLAB_API_KEY.'';
+                   $context = stream_context_create($opts);
+                   $returnValue = file_get_contents($url,false,$context);
          }
          curl_close($ch);
        }
