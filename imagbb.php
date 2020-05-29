@@ -79,7 +79,7 @@ require_once "vendor/settings.php";
          curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
          $extension = pathinfo($image['name'],PATHINFO_EXTENSION);
          $file_name = ($name)? $name.'.'.$extension : $image['name'] ;
-         $arr_result = Uploader::upload($file_name);
+         $arr_result = Cloudinary::Uploader::upload($file_name);
          print_r($arr_result);
          $data = array('image' => base64_encode(file_get_contents($image['tmp_name'])), 'name' => $file_name);
          curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
