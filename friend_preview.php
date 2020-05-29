@@ -103,7 +103,7 @@ require_once "config.php";
                 <?php } //end id approved ?>
          </td></tr>
          <tr><td colspan="6">
-        <img src="$img_url">
+        <img src="<?php {$img_url}?>">
          </td>
        </tr>
      </tbody>
