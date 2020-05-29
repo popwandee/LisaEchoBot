@@ -92,9 +92,9 @@ function showdata($_id)
           $type = $data->type;
           $img_url=$data->img_url;
              ?>
+             <table><tr><td>
              <table  class='table table-hover table-responsive table-bordered'>
-               <tr><td>
-             <table  class='table table-hover table-responsive table-bordered'>
+             <tr><td colspan="2"><img src="<?php echo $img_url;?>" width='300'></td></tr>
                  <tr>
                      <td>ยศ ชื่อ สกุล</td>
                      <td><?php echo $rank;?><?php echo $name;?><?php echo $lastname;?></td>
@@ -124,10 +124,7 @@ function showdata($_id)
                      <td>รายละเอียดเพิ่มเติม</td>
                      <td><?php echo $comment;?></td>
                  </tr>
-     </table></td>
-     <td><img src="<?php echo $img_url;?>" width='300'></td>
-   </tr></table>
-
+     </table>
            <?php
          }// if isData > 0;
  } // end function showdata ?>
