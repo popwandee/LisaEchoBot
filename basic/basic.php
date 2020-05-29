@@ -4,12 +4,12 @@ if (is_file(__DIR__ . '/../vendor/autoload.php') && is_readable(__DIR__ . '/../v
     require_once __DIR__.'/../vendor/autoload.php';echo "found autoload.php";
 } else {
     // Fallback to legacy autoloader
-    require_once __DIR__.'/../vendor/autoload.php';echo "\n not found autoload.php";
+    require_once __DIR__.'/../vendor/autoload.php';
     require_once __DIR__.'/../vendor/cloudinary/cloudinary_php/src/Helpers.php';
 }
 
-if (file_exists('vendor/settings.php')) {
-    include 'vendor/settings.php';echo "\n found settings.php";
+if (file_exists('/../vendor/settings.php')) {
+    include '/../vendor/settings.php';echo "\n found settings.php";
 }
 
 $sample_paths = array(
