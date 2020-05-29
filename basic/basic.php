@@ -8,8 +8,8 @@ if (is_file(__DIR__ . '/../vendor/autoload.php') && is_readable(__DIR__ . '/../v
     require_once __DIR__.'/../vendor/cloudinary/cloudinary_php/src/Helpers.php';
 }
 
-if (file_exists('/../vendor/settings.php')) {
-    include '/../vendor/settings.php';echo "\n found settings.php";
+if (file_exists(__DIR__ . '/../vendor/settings.php')) {
+    include __DIR__ . '/../vendor/settings.php';echo "\n found settings.php";
 }else{
 echo "Not found setting.php";
 exit;
