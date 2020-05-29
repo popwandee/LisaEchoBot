@@ -59,8 +59,9 @@ require_once "vendor/settings.php";
       </form>
     <?php
       if (!empty($_FILES['record_image'])) {
+        $file_name=$_POST['filename'];
         echo "\n We got image ";print_r($_FILES['record_image']);
-        $return = save_record_image($_FILES['record_image'],'test');
+        $return = save_record_image($_FILES['record_image'],$file_name);
         $imgbb_url = $return['data']['url'];
         echo $imgbb_url;echo "\n Return is ";print_r($return);
         print_r($return['data']['image']);
