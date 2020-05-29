@@ -63,8 +63,6 @@ require_once "vendor/settings.php";
         $return = save_record_image($_FILES['record_image'],'test');
         $imgbb_url = $return['data']['url'];
 
-        $arr_result = \Cloudinary\Uploader::upload("/images/$imgbb_url");
-        print_r($arr_result);
 
         echo $imgbb_url;
         //insert_imgbb($imgbb_url);
@@ -81,6 +79,8 @@ require_once "vendor/settings.php";
          curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
          $extension = pathinfo($image['name'],PATHINFO_EXTENSION);
          $file_name = ($name)? $name.'.'.$extension : $image['name'] ;
+         $arr_result = \Cloudinary\Uploader::upload($file_name);
+         print_r($arr_result);
          $data = array('image' => base64_encode(file_get_contents($image['tmp_name'])), 'name' => $file_name);
          curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
          $result = curl_exec($ch);
