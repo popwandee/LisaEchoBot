@@ -64,11 +64,12 @@ require_once "vendor/settings.php";
         $return = save_record_image($_FILES['record_image'],$file_name);
         $imgbb_url = $return['data']['url'];
         echo $imgbb_url;echo "\n Return is ";print_r($return);
-        print_r($return['data']['image']);
-        /*
+        $file_name=$return['data']['image']['filename'];
+        $file_url=$return['data']['image']['url'];
+
         $newData = json_encode(array(
-         'fle_name' => $return['data']['url'],
-         'file_url' => $imgbb_url) );
+         'fle_name' => $file_name,
+         'file_url' => $file_url) );
         $opts = array('http' => array( 'method' => "POST",
                                        'header' => "Content-type: application/json",
                                        'content' => $newData
@@ -77,7 +78,7 @@ require_once "vendor/settings.php";
         $url = 'https://api.mlab.com/api/1/databases/crma51/collections/img?apiKey='.MLAB_API_KEY;
         $context = stream_context_create($opts);
         $returnValue = file_get_contents($url,false,$context);
-        */
+
         //insert_imgbb($imgbb_url);
       }
        ?>
