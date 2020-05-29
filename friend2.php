@@ -51,7 +51,12 @@ require_once "vendor/settings.php";
 
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
-       <?php if(isset($_SESSION["message"])){$message=$_SESSION['message'];echo $message;}?>
+       <?php if(isset($_SESSION["message"])){
+         $message=$_SESSION['message'];
+         echo $message;
+       }else{
+         $_SESSION['message']='';
+       }?>
       <div class="page-header">
           <table  class='table table-hover table-responsive table-bordered'>
             <tr><td><h3>รบกวนตอบแบบฟอร์มเพื่อรวบรวมข้อมูลเพื่อน ๆ ล่าสุดครับ แบบฟอร์มอยู่ด้านล่างนะครับ</h3></td></tr>
@@ -70,12 +75,12 @@ require_once "vendor/settings.php";
         $Tel1 = isset($_POST['Tel1']) ? $_POST['Tel1'] : "";
         $LineID = isset($_POST['LineID']) ? $_POST['LineID'] : "";
         $comment = isset($_POST['comment']) ? $_POST['comment'] : "";
-
-        if (!empty($_FILES['record_image'])) {
-          echo "\n We got image ";print_r($_FILES['record_image']);
+$_SESSION['message']=$_SESSION['message']."We got formSubmit";
+        if (!empty($_FILES['record_image'])) { //record_image
+          $_SESSION['message']=$_SESSION['message']."\n We got image ";print_r($_FILES['record_image']);
           $return = save_record_image($_FILES['record_image'],'');
           $imgbb_url = $return['data']['url'];
-          echo $imgbb_url;echo "\n Return is ";print_r($return);
+          $_SESSION['message']=$_SESSION['message']."\n Return is ".$imgbb_url;
           $img_url=$return['data']['image']['url'];
           $_SESSION['message']=$_SESSION['message']."imgbb_url is ".$imgbb_url." img_url is ".$img_url;
 
@@ -89,7 +94,8 @@ require_once "vendor/settings.php";
 
  if(isset($_SESSION["message"])){
    $message=$_SESSION['message'];
-   echo $message;$_SESSION['message']='';
+   echo $message;
+   $_SESSION['message']='';
  }
 
 function show_friend(){
