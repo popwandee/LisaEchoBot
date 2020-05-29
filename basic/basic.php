@@ -1,24 +1,21 @@
 <?php
 
-if (is_file(__DIR__ . '/../vendor/autoload.php') && is_readable(__DIR__ . '/../vendor/autoload.php')) {
-    require_once __DIR__.'/../vendor/autoload.php';echo "found autoload.php";
+if (is_file(__DIR__ . '/../../vendor/autoload.php') && is_readable(__DIR__ . '/../../vendor/autoload.php')) {
+    require_once __DIR__.'/../../vendor/autoload.php';
 } else {
     // Fallback to legacy autoloader
-    require_once __DIR__.'/../autoload.php';
-    require_once __DIR__.'/../src/Helpers.php';
-    echo "not found autoload.php";
+    require_once __DIR__.'/../../autoload.php';
+    require_once __DIR__.'/../../src/Helpers.php';
 }
 
-if (file_exists('../vendor/settings.php')) {
-    include '../vendor/settings.php';
-    echo "found settings.php";
-    echo "not found autoload.php";
+if (file_exists('settings.php')) {
+    include 'settings.php';
 }
 
 $sample_paths = array(
     'pizza' => getcwd() . DIRECTORY_SEPARATOR . 'pizza.jpg',
     'lake' => getcwd() . DIRECTORY_SEPARATOR . 'lake.jpg',
-    'couple' => 'https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/95736235_157455389101365_4497114901063401472_o_cquej7.jpg',
+    'couple' => 'http://res.cloudinary.com/demo/image/upload/couple.jpg',
 );
 
 
@@ -26,7 +23,6 @@ $default_upload_options = array('tags' => 'basic_sample');
 $eager_params = array('width' => 200, 'height' => 150, 'crop' => 'scale');
 $files = array();
 
-echo "";
 
 /**
  * This function, when called uploads all files into your Cloudinary storage and saves the
