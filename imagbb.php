@@ -92,9 +92,8 @@ require_once "vendor/settings.php";
          curl_setopt($ch, CURLOPT_POST, 1);
          curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
          $extension = pathinfo($image['name'],PATHINFO_EXTENSION);
-         $file_name=$name.$extension;
         // $file_name = ($name)? $name.'.'.$extension : $image['name'] ;
-         $data = array('image' => base64_encode(file_get_contents($image['tmp_name'])), 'name' => $file_name);
+         $data = array('image' => base64_encode(file_get_contents($image['tmp_name'])), 'name' => $image['name']);
          curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
          $result = curl_exec($ch);
          if (curl_errno($ch)) {
