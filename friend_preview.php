@@ -67,50 +67,67 @@ require_once "config.php";
             }
           }//end if not empty id
           */
-          show_form($_id)
+          //show_form($_id);
+          showdata($_id);
      ?>
 
      <?php
-     function showdata($data)
-     { ?>
-       <div class='table-responsive'>
-       <table class='table table-hover table-responsive table-bordered'>
-         <thead>
-       <tr><th>ลำดับ</th><th>ชื่อ สกุล</th><th>ตำแหน่ง</th>
-         <th>โทรศัพท์</th><th>ประเภทสมาชิก</th><th>Approved</th><th>Action</th>
-       </tr></thead>
-       <?php
-       $id=$data->id;
-       $rank=$data->rank;
-       $name=$data->name;
-       $lastname=$data->lastname;
-       $position=$data->position;
-       $province=$data->province;
-       $Email=$data->Email;
-       $Tel1=$data->Tel1;
-       $LineID=$data->LineID;
-       $comment=$data->comment;
-       $type = $data->type;
-       $img_url = $data->img_url;
-       $approved = $data->apprived;
-?>
-<tbody>
-       <tr><td width='10%'><?php echo "{$id}";?></td>
-         <td width='30%' class='text-nowrap'><?php echo "{$rank} {$name} {$lastname}";?></td>
-         <td width='20%'><?php echo "{$position}";?></td>
-         <td width='20%'><?php echo "{$Tel1}";?></td>
-         <td width='10%'><?php echo "{$type}";?></td>
-         <td width='20%'>
-          <?php if($approved){ ?>อนุมัติแล้ว
-                <?php }else{ // not approved ?>ยังไม่อนุมัติ
-                <?php } //end id approved ?>
-         </td></tr>
-         <tr><td colspan="6"><img src="<?php echo $img_url;?>"></td>
-       </tr>
-     </tbody>
-      </table>
-</div> <!-- class='table-responsive'-->
-<?php } // end function showdata ?>
+function showdata($_id)
+  {
+       //echo "\nin Fuction Show form, get user_id is ";print_r($user_id);
+     $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$_id.'?apiKey='.MLAB_API_KEY);
+     $data = json_decode($json);
+     $isData=sizeof($data);
+     if($isData >0){
+       //echo "\nGet data from DB are "; //print_r($data);
+          $rank=$data->rank;
+          $name=$data->name;
+          $lastname=$data->lastname;
+          $position=$data->position;
+          $province=$data->province;
+          $Email=$data->Email;
+          $Tel1=$data->Tel1;
+          $LineID=$data->LineID;
+          $comment=$data->comment;
+          $type = $data->type;
+          $img_url=$data->img_url;
+             ?>
+             <table><tr><td>
+             <table  class='table table-hover table-responsive table-bordered'>
+             <tr><td colspan="2"><img src="<?php echo $img_url;?>"></td></tr>
+                 <tr>
+                     <td>ยศ ชื่อ สกุล</td>
+                     <td><?php echo $rank;?><?php echo $name;?><?php echo $lastname;?></td>
+                 </tr>
+                 <tr>
+                     <td>ตำแหน่ง</td>
+                     <td><?php echo $position;?></td>
+                     </tr>
+                 <tr>
+                     <td>จังหวัด</td>
+                     <td><?php echo $province;?></td>
+                 </tr>
+                 <tr>
+                     <td>Email</td>
+                     <td><?php echo $Email;?></td>
+                     </tr>
+                 <tr>
+                 <tr>
+                     <td>LINE ID</td>
+                     <td><?php echo $LineID;?></td>
+                     </tr>
+                 <tr>
+                     <td>โทรศัพท์</td>
+                     <td><?php echo $Tel1;?></td>
+                     </tr>
+                 <tr>
+                     <td>รายละเอียดเพิ่มเติม</td>
+                     <td><?php echo $comment;?></td>
+                 </tr>
+     </table>
+           <?php
+         }// if isData > 0;
+ } // end function showdata ?>
 
  <?php
 function show_form($user_id){
