@@ -170,7 +170,7 @@ function show_friend(){
             </div>
           </div>
           <div class="panel-body">
-	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
     <table  class='table table-hover table-responsive table-bordered'>
         <tr>
             <td>ยศ ชื่อ สกุล</td>
