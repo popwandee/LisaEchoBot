@@ -101,7 +101,8 @@ require_once "config.php";
           <?php if($approved){ ?>อนุมัติแล้ว
                 <?php }else{ // not approved ?>ยังไม่อนุมัติ
                 <?php } //end id approved ?>
-         </td><td width='10%'>
+         </td></tr>
+         <tr><td colspan="6">
         <img src="$img_url">
          </td>
        </tr>
