@@ -125,15 +125,15 @@ function show_friend(){
            //$file_url=$rec->file_url;
            ?>
       <tr><td><?php echo $i;?></td>
-                       <td class="text-nowrap"><?php echo $rank;?>
+                       <td class="text-nowrap"><a href='friend_preview.php?_id=<?php echo $_id;?>'><?php echo $rank;?>
                          <?php echo " ".$name;?>
-                       <?php echo " ".$lastname;?></td>
+                       <?php echo " ".$lastname;?></a></td>
                        <td><?php echo $position;?></td>
                        <td><?php echo $province;?></td>
                        <td><?php echo $Email;?></td>
                        <td><?php echo $LineID;?></td>
                        <td><?php echo $Tel1;?></td>
-                       <td><a href='comment.php?id=<?php echo $_id;?>'>แจ้งแก้ไข</a><a href='friend_preview.php?id=<?php echo $_id;?>'>ข้อมูลเพิ่มเติม</a></td>
+                       <td><a href='comment.php?id=<?php echo $_id;?>'>แจ้งแก้ไข</a></td>
                    </tr>
            <?php    } //end foreach
              ?>
