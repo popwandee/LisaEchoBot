@@ -81,7 +81,7 @@ require_once "vendor/settings.php";
        }
        $message=$_SESSION['message'];
       //  insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url);
-        show_friend();
+        //show_friend();
       }else{
         show_friend();
       }
