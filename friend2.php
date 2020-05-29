@@ -72,10 +72,10 @@ require_once "vendor/settings.php";
         $comment = isset($_POST['comment']) ? $_POST['comment'] : "";
 
        $img_name = isset($_FILES['record_image']) ? $_FILES['record_image']['name'] : "";
-       if(!empty($img_name)){
+       if(!empty($img_name)){echo "\n img_name is"$img_name;
          $return = save_record_image($_FILES['record_image'],$name);
          //$file_name=$return['data']['image']['filename'];
-         $img_url=isset($return['data']['image']['url']) ? $return['data']['image']['url'] : "";
+         $img_url=isset($return['data']['image']['url']) ? $return['data']['image']['url'] : "";echo "\nimg_url is ".$img_url;exit;
        }
         insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url);
         show_friend();
