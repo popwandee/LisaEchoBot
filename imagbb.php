@@ -49,58 +49,12 @@ require_once "config.php";
 </head>
 <body>
     <?php include 'navigation.html';?>
-
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
-      <?php
-      function save_record_image($image,$name = null){
-      	$IMGBB_API_KEY = '6c23a11220bb2c1f7b9406175f3b8cbc';
-      	$ch = curl_init();
-      	curl_setopt($ch, CURLOPT_URL, 'https://api.imgbb.com/1/upload?key='.$IMGBB_API_KEY);
-      	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-      	curl_setopt($ch, CURLOPT_POST, 1);
-      	curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
-      	$extension = pathinfo($image['name'],PATHINFO_EXTENSION);
-      	$file_name = ($name)? $name.'.'.$extension : $image['name'] ;
-      	$data = array('image' => base64_encode(file_get_contents($image['tmp_name'])), 'name' => $file_name);
-      	curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-      	$result = curl_exec($ch);
-      	if (curl_errno($ch)) {
-      	    return 'Error:' . curl_error($ch);
-      	}else{
-      		return json_decode($result, true);
-      	}
-      	curl_close($ch);
-      }
-
-      if (!empty($_FILES['record_image'])) {
-      	$return = save_record_image($_FILES['record_image'],'test');
-      	$imgbb_url = $return['data']['url'];
-        echo $imgbb_url;
-        insert_imgbb($imgbb_url);
-      }
-      ?>
       <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
       	<input type="file" name="record_image" accept="image/*">
       	<button type="submit">Guardar</button>
       </form>
-
-      <?php insert_imgbb($imgbb_url){
-        $newData = json_encode(array(
-          'imgbb_url'=>$imgbb_url,
-          'status'=>'new') );
-        $opts = array('http' => array( 'method' => "POST",
-                                     'header' => "Content-type: application/json",
-                                     'content' => $newData
-                                                 )
-                                              );
-        $url = 'https://api.mlab.com/api/1/databases/crma51/collections/imgbb?apiKey='.MLAB_API_KEY.'';
-              $context = stream_context_create($opts);
-              $returnValue = file_get_contents($url,false,$context);
-
-      }
-
-      ?>
 </div><!-- jumbotron-->
 </div><!-- container theme-showcase-->
  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
