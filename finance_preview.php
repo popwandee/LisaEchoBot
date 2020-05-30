@@ -1,17 +1,17 @@
 <?php
 // Initialize the session
 session_start();
-/*
+
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;
 }
-if(!isset($_SESSION["type"]) || $_SESSION["type"] == "สมาชิก"){
-    header("location: index.php?message=You are not admin.");
-    exit;
+// ตรวจสอบ ประเภทสมาชิก
+if(isset($_SESSION['type'])){    $user_type = $_SESSION['type'];
+}else{                           $user_type = "";
 }
-*/
+
 // Include config file
 require_once "config.php";
 require_once "vendor/autoload.php";
@@ -52,6 +52,19 @@ require_once "vendor/function.php";
 </head>
 <body>
   <?php include 'navigation.html';?>
+  <?php
+  // ตรวจสอบ $_id จาก _GET และ _POST
+        if(isset($_GET['_id'])){         $_id = $_GET['_id'];
+        }elseif(isset($_POST['_id'])){   $_id = $_POST['_id'];
+        }else{                           $_id = "";
+        }
+
+//      ตรวจสอบ Action จาก _GET หรือ _POST
+        if(isset($_GET['action'])){         $action = $_GET['action'];
+        }elseif(isset($_POST['action'])){   $action = $_POST['action'];
+        }else{                              $action = "";
+        }
+  ?>
     <div class="container theme-showcase" role="main">
     <div class="jumbotron">
       <h1>AFAPS40 - CRMA51</h1>
@@ -59,26 +72,48 @@ require_once "vendor/function.php";
            <?php $message=isset($_SESSION['message']) ? $_SESSION['message'] : '';
                  echo $message;$_SESSION['message']='';?>
 <?php // core Logic
-// ตรวจสอบ $_id จาก _GET และ _POST
-      if(isset($_GET['_id'])){         $_id = $_GET['_id'];
-      }elseif(isset($_POST['_id'])){   $_id = $_POST['_id'];
-      }else{                           $_id="";
-      }
+
 // check action from user
 if(!empty($_id)){
-  if(isset($_GET['action'])){ $action = $_GET['action'] ? $_GET['action'] : "";
-    switch ($action) {
-      case 'preview':
-        showdata($_id);
-        break;
-      case 'form':
-        show_form($_id);
-        break;
-      default:
-        echo "ไม่มีรายการแสดงข้อมูล";
-        break;
-    }// end switch
-  }// end if isset action
+  switch ($user_type) {
+    case 'admin':
+
+      echo "สวัสดีค่ะ คุณเป็น Admin จปร.๕๑";
+      switch ($action) {
+        case 'preview':
+          showdata($_id);
+          break;
+        case 'form':
+          show_form($_id);
+          break;
+        default:
+          echo "ไม่มีรายการแสดงข้อมูล";
+          break;
+      }// end switch
+
+      break;// จบงาน Admin
+    case 'เหรัญญิก':
+
+      echo "สวัสดีค่ะ คุณเป็นเหรัญญิก จปร.๕๑";
+      switch ($action) {
+        case 'preview':
+          showdata($_id);
+          break;
+        case 'form':
+          show_form($_id);
+          break;
+        default:
+          echo "ไม่มีรายการแสดงข้อมูล";
+          break;
+      }// end switch
+
+      break; // จบงาน เหรัญญิก
+    default: // สมาชิกทั่วไป
+      echo "สวัสดีค่ะ คุณเป็นสมาชิก จปร.๕๑";
+      showdata($_id);
+      break;
+  }
+
   else{ // ไม่ได้มาจาก _GET Action
     echo "may from post";
   }// สิ้นสุดกรณี _GET action else _POST formSubmit
