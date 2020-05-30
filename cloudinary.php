@@ -1,9 +1,9 @@
 <?php
 // Include config file
-require_once "config.php";
-require_once "vendor/autoload.php";
-require_once "vendor/settings.php";
-require_once "vendor/function.php";
+require "config.php";
+require "vendor/autoload.php";
+require "vendor/settings.php";
+require "vendor/function.php";
 
 ?>
 <button id="upload_widget" class="cloudinary-button">Upload files</button>
@@ -31,7 +31,7 @@ if(isset($_POST['submit'])){
   $file_name = $_FILES['file']['name'];
   $file_tmp = $_FILES['file']['tmp_name'];
 
-  \Cloudinary\Uploader::upload($file_tmp,array("$name"=>$slug));
+  \Cloudinary\Uploader::upload($file_tmp,array($name=>$slug));
 }
 ?>
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
@@ -41,5 +41,5 @@ if(isset($_POST['submit'])){
                 <input type='submit' value='Submit' class='btn btn-primary' /></td></tr>
            </table>
        </form>
-
-       <?php echo cl_image_tag($slug);?>
+<img src="https://res.cloudinary.com/dly6ftryr/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1590735946/95736235_157455389101365_4497114901063401472_o_cquej7.jpg">
+       <?php echo cl_image_tag('img_crma51');?>
