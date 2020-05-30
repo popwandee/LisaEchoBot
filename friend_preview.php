@@ -66,6 +66,20 @@ require_once "vendor/function.php";
           }else{$_id="";}
 
           if(!empty($_id)){
+            if(isset($_GET['action'])){
+              $action = $_GET['action'] ? $_GET['action'] : "";
+              switch ($action) {
+                case 'preview':
+                  showdata($_id);
+                  break;
+                case 'form':
+                  show_form($_id);
+                  break;
+                default:
+                  // code...
+                  break;
+              }// end switch
+            }// end if isset action
             if(isset($_SESSION['type']) && (($_SESSION['type'])=='admin')){
               // check if from formSubmit
               if(isset($_POST['formSubmit'])){
@@ -119,11 +133,13 @@ require_once "vendor/function.php";
                   $_SESSION['message']=$_SESSION['message']." ไม่พบข้อมูลในฐานข้อมูลที่ต้องการแก้ไข/";
                 }// end if isData > 0
               }else{
+                echo "<a href='friend_preview.php?_id=$_id&action=preview'><button type='button' class='btn btn-xs btn-success'>แสดงตัวอย่าง</button>";
                     show_form($_id);
               }// end if isset formSubmit
 
             }else{ // not a financemanager
-                  showdata($_id);
+              echo "<a href='friend_preview.php?_id=$_id&action=form'><button type='button' class='btn btn-xs btn-success'>แก้ไข (เฉพาะ Admin)</button>";
+              showdata($_id);
             }// end is financemanager
           }// end if not empty $_id
 
@@ -340,7 +356,7 @@ if($isData >0){
             </tr>
             <tr><td colspan="2"></td></tr>
 </table></td>
-<td><img src="<?php echo $img_url;?>"></td></tr>
+<td><img src="<?php echo $img_url;?>" width="300"></td></tr>
 <tr><td colspan="2">
 <input type="hidden"name="_id" value="<?php echo $_id;?>">
   <input type="hidden"name="formSubmit" value="true">
