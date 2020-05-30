@@ -112,11 +112,8 @@ if(!empty($_id)){
       echo "สวัสดีค่ะ คุณเป็นสมาชิก จปร.๕๑";
       showdata($_id);
       break;
-  }
+  }// จบการตรวจสอบประเภทสมาชิก
 
-  else{ // ไม่ได้มาจาก _GET Action
-    echo "may from post";
-  }// สิ้นสุดกรณี _GET action else _POST formSubmit
 }// end !empty $_id
 ?>
 
