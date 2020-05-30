@@ -114,11 +114,13 @@ if(!empty($_id)){
                  }
                }// end if !empty _FILES
              } // end if isData>0
+             header("location: index.php?_id=$_id");
           break;// end case edited
 
         default:
+          showdata($_id);
           show_form($_id);
-          break; //end default swtich action 
+          break; //end default swtich action
       } // end switch action
       break;// จบงาน Admin
     case 'เหรัญญิก':
