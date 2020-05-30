@@ -66,7 +66,7 @@ require_once "vendor/function.php";
           }else{$_id="";}
 
           if(!empty($_id)){
-            if(isset($_SESSION['type']) && (($_SESSION['type'])=='admin')||(($_SESSION['type'])=='เหรัญญิก'){
+            if(isset($_SESSION['type']) && (($_SESSION['type'])=='admin')){
               // check if from formSubmit
               if(isset($_POST['formSubmit'])){
                 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY);
@@ -345,7 +345,7 @@ if($isData >0){
 <input type="hidden"name="_id" value="<?php echo $_id;?>">
   <input type="hidden"name="formSubmit" value="true">
   <input type='submit' value='Save' class='btn btn-primary' />
-</td></tr></table>  
+</td></tr></table>
       <?php
     }// if isData > 0;
       exit;
