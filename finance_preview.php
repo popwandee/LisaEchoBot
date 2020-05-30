@@ -153,7 +153,7 @@ function show_form($_id){
   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance/'.$_id.'?apiKey='.MLAB_API_KEY);
 $data = json_decode($json);
 $isData=sizeof($data);
-if($isData >0){
+if($isData >0){print_r($data);
   //echo "\nGet data from DB are "; //print_r($data);
   $username=$rec->username;
   $record=$rec->record;
@@ -195,7 +195,7 @@ if($isData >0){
 </form>
       <?php
     }// if isData > 0;
-
+else{echo "not found data";}
 } // end function show_form
 
   ?>
