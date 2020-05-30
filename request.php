@@ -224,7 +224,9 @@ function new_request_form(){ ?>
       <td>หัวเรื่อง <input type='text' name='title' class='form-control' /></td></tr>
       <td>ระบุรายละเอียดข้อมูลที่ต้องการแจ้งกรรมการรุ่น
           <textarea name="comment" rows="10" cols="30"class='form-control' /></textarea></td></tr>
-      <tr><td>ผู้แจ้ง : <?php $user_info = isset($_SESSION["user_info"]) ? $_SESSION['user_info'] : ""; echo $user_info;?></td></tr>
+      <tr><td>ผู้แจ้ง :
+        <?php $user_info = isset($_SESSION["user_info"]) ? $_SESSION['user_info'] : "";
+        echo $user_info;?><input type="hidden"name="name" value="<?php echo $user_info;?>"></td></tr>
       <tr><td>แนบรูปภาพ<input type='file' name='record_image' class='form-control' /></td></tr>
       <tr><td><input type="hidden"name="action" value="newrequest">
               <input type="hidden"name="status" value="แจ้งใหม่">
@@ -271,8 +273,10 @@ function review_request($_id){
                  <tr><td>สถานะ <select name="status" class='form-control' >
                    <option value="<?php echo $status;?>" selected><?php echo $status;?></option>
                    <option value="แจ้งใหม่">แจ้งใหม่</option>
+                   <option value="รับทราบแล้ว">รับทราบแล้ว รอมติฯ</option>
+                   <option value="อนุมัติแล้ว">อนุมัติแล้ว</option>
+                   <option value="อยู่ระหว่างดำเนินการ">อยู่ระหว่างดำเนินการ</option>
                    <option value="ดำเนินการแล้ว">ดำเนินการแล้ว</option>
-                   <option value="เพื่ออนุมัติแล้ว">อนุมัติแล้ว</option>
                  </select></td></tr>
                  <tr><td align='center'><img src="<?php echo $img_url;?>" width="300"></td></tr>
                  <tr><td>แนบรูปภาพ<input type='file' name='record_image' class='form-control' /></td></tr>
