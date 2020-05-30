@@ -31,7 +31,7 @@ if(isset($_POST['submit'])){
   $file_name = $_FILES['file']['name'];
   $file_tmp = $_FILES['file']['tmp_name'];
 
-//  \Cloudinary\Uploader::upload($file_tmp,array('$name'->$slug))
+  \Cloudinary\Uploader::upload($file_tmp,array('$name'=>$slug))
 }
 ?>
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
