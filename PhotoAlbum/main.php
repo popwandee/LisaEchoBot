@@ -1,7 +1,7 @@
 <?php
 namespace PhotoAlbum;
 
-require __DIR__ . '/lib/rb.php';
+require __DIR__ .'/lib/rb.php';
 require 'autoloader.php';
 
 error_reporting(E_ALL | E_STRICT);
