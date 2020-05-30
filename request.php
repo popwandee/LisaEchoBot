@@ -113,23 +113,23 @@ switch ($action) {
     $isData=sizeof($data);
     if($isData >0){
 
-     $name_db=$data->name;//echo $name_db.$name;
-     if($name!=$name_db){update_field($_id,'name',$name);}
+     $name_db=$data->name;$update_name = isset($_POST['name']) ? $_POST['name'] : "";
+     if($update_name!=$name_db){update_field($_id,'name',$update_name);}
 
-     $title_db=$data->title;//echo $title_db.$title;
-     if($title!=$title_db){update_field($_id,'title',$title);}
+     $title_db=$data->title;$update_title = isset($_POST['title']) ? $_POST['title'] : "";
+     if($update_title!=$title_db){update_field($_id,'title',$update_title);}
 
-     $detail_db=$data->detail;//echo $detail_db.$detail;
-     if($detail!=$detail_db){update_field($_id,'detail',$detail);}
+     $detail_db=$data->detail;$update_detail = isset($_POST['detail']) ? $_POST['detail'] : "";
+     if($update_detail!=$detail_db){update_field($_id,'detail',$update_detail);}
 
-     $type_db=$data->type;//echo $type_db.$type;
-     if($type!=$type_db){update_field($_id,'type',$type);}
+     $type_db=$data->type;$update_type = isset($_POST['type']) ? $_POST['type'] : "";
+     if($update_type!=$type_db){update_field($_id,'type',$update_type);}
 
-     $urgent_db=$data->urgent;//echo $urgent_db.$urgent;
-     if($urgent!=$urgent_db){update_field($_id,'urgent',$urgent);}
+     $urgent_db=$data->urgent;$update_urgent = isset($_POST['urgent']) ? $_POST['urgent'] : "";
+     if($update_urgent!=$urgent_db){update_field($_id,'urgent',$update_urgent);}
 
-     $status_db=$data->status;//echo $status_db.$status;
-     if($status!=$status_db){update_field($_id,'status',$status);}
+     $status_db=$data->status;$update_status = isset($_POST['status']) ? $_POST['status'] : "";
+     if($update_status!=$status_db){update_field($_id,'status',$update_status);}
 
      if (!empty($_FILES['record_image'])) { //record_image
        $return = save_record_image($_FILES['record_image'],'');
@@ -273,6 +273,7 @@ function review_request($_id){
                    <option value="ดำเนินการแล้ว">ดำเนินการแล้ว</option>
                    <option value="เพื่ออนุมัติแล้ว">อนุมัติแล้ว</option>
                  </select></td></tr>
+                 <tr><td><img src="<?php echo $img_url;?>" width="300"></td></tr>
                  <tr><td>แนบรูปภาพ<input type='file' name='record_image' class='form-control' /></td></tr>
                <tr><td> <input type="hidden"name="_id" value="<?php echo $_id;?>">
                     <input type="hidden"name="action" value="edited">
