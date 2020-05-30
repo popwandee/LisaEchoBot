@@ -58,22 +58,50 @@ require_once "vendor/function.php";
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
 	  <?php
 
+// from financemanager
       $_id = isset($_GET['_id']) ? $_GET['_id'] : "";
-      /*
       if(!empty($_id)){
-            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$_id.'?apiKey='.MLAB_API_KEY);
-          $data = json_decode($json);
-          $isData=sizeof($data);
-          if($isData >0){
-            //echo "\nGet data from DB are "; //print_r($data);
-               showdata($data);
-            }
-          }//end if not empty id
-          */
-          //show_form($_id);
-          showdata($_id);
-     ?>
+        if(isset($_SESSION['type']) && (($_SESSION['type'])=='สมาชิก')){
+          // check if from formSubmit
+          if(isset($_POST['formSubmit'])){
+            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance/'.$_id.'?apiKey='.MLAB_API_KEY);
+            $data = json_decode($json);
+            $isData=sizeof($data);
+            if($isData >0){
+              //echo "\nGet data from DB are "; //print_r($data);
+                 $record=$data->record;$update_record = isset($_POST['record']) ? $_POST['record'] : "";
+                 if($record!=$update_record){update_field($_id,'record',$update_record);}
 
+                 $add=$data->add;$update_add = isset($_POST['add']) ? $_POST['add'] : "";
+                 if($add!=$update_add){update_field($_id,'add',$update_add);}
+
+                 $sub=$data->sub;$update_sub = isset($_POST['sub']) ? $_POST['sub'] : "";
+                 if($sub!=$update_sub){update_field($_id,'sub',$update_sub);}
+
+                 $detail=$data->detail;$update_detail = isset($_POST['detail']) ? $_POST['detail'] : "";
+                 if($detail!=$update_detail){update_field($_id,'detail',$update_detail);}
+
+                 if (!empty($_FILES['record_image'])) { //record_image
+                   $return = save_record_image($_FILES['record_image'],'');
+                   $img_url=$return['data']['image']['url'];
+                   if(!empty($img_url)){
+                     update_field($_id,'img_url',$img_url);
+                   }
+                 }
+
+            }// end if isData > 0
+          }else{
+                show_form($_id);
+          }// end if isset formSubmit
+
+        }else{ // not a financemanager
+              showdata($_id);
+        }// end is financemanager
+      }// end if not empty $_id
+
+
+
+     ?>
      <?php
 function showdata($_id)
   {
@@ -92,7 +120,7 @@ function showdata($_id)
        $detail=$rec->detail;
              ?>
              <table  class='table table-hover table-responsive table-bordered'>
-               <tr><td>
+               <tr><td width='50%'>
              <table  class='table table-hover table-responsive table-bordered'>
                  <tr>
                      <td>รายการ</td>
@@ -112,7 +140,7 @@ function showdata($_id)
                      </tr>
                  <tr>
      </table></td>
-     <td align="center"><img src="<?php echo $img_url;?>" width='300'></td>
+     <td  width="50%" align="center"><img src="<?php echo $img_url;?>" width='300'></td>
    </tr></table>
 
            <?php
@@ -120,55 +148,60 @@ function showdata($_id)
  } // end function showdata ?>
 
  <?php
-function show_form($user_id){
+function show_form($_id){
   //echo "\nin Fuction Show form, get user_id is ";print_r($user_id);
-  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY);
-
+  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance/'.$_id.'?apiKey='.MLAB_API_KEY);
 $data = json_decode($json);
 $isData=sizeof($data);
 if($isData >0){
   //echo "\nGet data from DB are "; //print_r($data);
-     $rank=$data->rank;
-     $name=$data->name;
-     $lastname=$data->lastname;
-     $position=$data->position;
-     $province=$data->province;
-     $Email=$data->Email;
-     $Tel1=$data->Tel1;
-     $LineID=$data->LineID;
-     $comment=$data->comment;
-     $type = $data->type;
-     $img_url=$data->img_url;
+  $username=$rec->username;
+  $record=$rec->record;
+  $add=$rec->add;
+  $sub=$rec->sub;
+  $sum=$sum+$add-$sub;
+  $img_url=$rec->img_url;
+  $detail=$rec->detail;
         ?>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
         <table  class='table table-hover table-responsive table-bordered'>
             <tr>
-                <td>Email</td>
-                <td><input type='text' name='Email' value="<?php echo $Email;?>" class='form-control' /></td>
+                <td>รายการเคลื่อนไหว</td>
+                <td><input type='text' name='record' value="<?php echo $record;?>" class='form-control' /></td>
                 </tr>
             <tr>
             <tr>
-                <td>LINE ID</td>
-                <td><input type='text' name='LineID' value="<?php echo $LineID;?>" class='form-control' /></td>
+                <td>รายรับ</td>
+                <td><input type='text' name='LineID' value="<?php echo $add;?>" class='form-control' /></td>
                 </tr>
             <tr>
-                <td>โทรศัพท์</td>
-                <td><input type='text' name='Tel1' value="<?php echo $Tel1;?>" class='form-control' /></td>
+                <td>รายจ่าย</td>
+                <td><input type='text' name='Tel1' value="<?php echo $sub;?>" class='form-control' /></td>
                 </tr>
             <tr>
-                <td>รายละเอียดเพิ่มเติม</td>
-                <td><textarea name="comment" rows="10" cols="30"class='form-control' /><?php echo $comment;?></textarea></td>
+                <td>รายละเอียด/หมายเหตุ</td>
+                <td><textarea name="detail" rows="3" cols="30"class='form-control' /><?php echo $detail;?></textarea></td>
+            </tr>
+        <tr>
+            <td>เปลี่ยนรูปภาพ</td>
+            <td><input type='file' name='record_image' class='form-control' /></td>
             </tr>
             <tr><td colspan="2"><img src="<?php echo $img_url;?>"></td></tr>
+            <tr><td colspan="2">
+              <input type="hidden"name="_id" value="<?php echo $_id;?>">
+              <input type="hidden"name="formSubmit" value="true">
+              <input type='submit' value='Save' class='btn btn-primary' /></td></tr>
 </table>
+</form>
       <?php
     }// if isData > 0;
-      exit;
+
 } // end function show_form
 
   ?>
 
 <?php
-function update_field($user_id,$field_name,$new_info){
+function update_field($_id,$field_name,$new_info){
 
         $newData = '{ "$set" : { "'.$field_name.'" : "'.$new_info.'"} }';
         $opts = array('http' => array( 'method' => "PUT",
@@ -176,7 +209,7 @@ function update_field($user_id,$field_name,$new_info){
                                        'content' => $newData
                                                    )
                                                 );
-        $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY;
+        $url = 'https://api.mlab.com/api/1/databases/crma51/collections/finance/'.$_id.'?apiKey='.MLAB_API_KEY;
                 $context = stream_context_create($opts);
                 $returnValue = file_get_contents($url,false,$context);
 
