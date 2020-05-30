@@ -30,18 +30,17 @@
 </head>
 <body>
 <?php
-if (is_file(__DIR__ .'vendor/cloudinary/cloudinary_php/autoload.php') && is_readable(__DIR__ .'vendor/cloudinary/cloudinary_php/autoload.php')) {
-    require_once __DIR__.'vendor/cloudinary/cloudinary_php/autoload.php';
-    echo "found autoload";
-}
 
-
+// importing the necessary Cloudinary files
+require 'Cloudinary.php';
+require 'Uploader.php';
+require 'Helpers.php';
+require 'Api.php';
 \Cloudinary::config(array(
     'cloud_name' => 'dly6ftryr',
     'api_key' => '979642835457647',
     'api_secret' => 'hOm8JS7iHanEnFaqB9Y7qDwT5CQ'
 ));
-
 
 function create_photo($file_path, $orig_name)
 {
