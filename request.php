@@ -141,6 +141,8 @@ switch ($action) {
      }// end if !empty _FILES
 
     }// end if data>0
+    show_all_request();
+    new_request_form();
     break;
   default:
     new_request_form();
@@ -209,26 +211,26 @@ function show_all_request(){
 <?php
 function new_request_form(){ ?>
   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
-  <table class='table table-hover table-responsive table-bordered' width="500">
-    <tr><td>แจ้งเรื่องต่าง ๆ ให้คณะกรรมการรุ่นทราบ</td></tr>
-    <tr><td>ความเร่งด่วน <select name="urgent">
+  <table class='table table-hover table-responsive table-bordered' width="300">
+    <tr><td colspan="2">แจ้งเรื่องต่าง ๆ ให้คณะกรรมการรุ่นทราบ</td></tr>
+    <tr><td>ความเร่งด่วน <select name="urgent" class='form-control' >
             <option value="เร่งด่วน">เร่งด่วน</option>
             <option value="ไม่ด่วน">ไม่ด่วน</option>
-            </select>
-            ความมุ่งหมาย <select name="type">
+          </select></td>
+        <td>ความมุ่งหมาย <select name="type" class='form-control' >
             <option value="เพื่อทราบ">เพื่อทราบ</option>
             <option value="เพื่อพิจารณาดำเนินการ">เพื่อดำเนินการ</option>
             <option value="เพื่ออนุมัติ">เพื่ออนุมัติ</option>
             </select></td></tr>
     <tr>
-      <td>หัวเรื่อง <input type='text' name='title' class='form-control' /></td></tr>
-      <td>ระบุรายละเอียดข้อมูลที่ต้องการแจ้งกรรมการรุ่น
-          <textarea name="comment" rows="10" cols="30"class='form-control' /></textarea></td></tr>
-      <tr><td>ผู้แจ้ง :
+      <td>หัวเรื่อง </td><td><input type='text' name='title' class='form-control' /></td></tr>
+      <td colspan="2">ระบุรายละเอียดข้อมูลที่ต้องการแจ้งกรรมการรุ่น<br>
+          <textarea name="detail" rows="10" cols="30"class='form-control' /></textarea></td></tr>
+      <tr><td>ผู้แจ้ง :</td><td>
         <?php $user_info = isset($_SESSION["user_info"]) ? $_SESSION['user_info'] : "";
         echo $user_info;?><input type="hidden"name="name" value="<?php echo $user_info;?>"></td></tr>
-      <tr><td>แนบรูปภาพ<input type='file' name='record_image' class='form-control' /></td></tr>
-      <tr><td><input type="hidden"name="action" value="newrequest">
+      <tr><td colspan="2">แนบรูปภาพ<input type='file' name='record_image' class='form-control' /></td></tr>
+      <tr><td colspan="2" align="center"><input type="hidden"name="action" value="newrequest">
               <input type="hidden"name="status" value="แจ้งใหม่">
               <input type='submit' value='Save' class='btn btn-primary' /></td></tr>
       </table>
@@ -254,23 +256,23 @@ function review_request($_id){
     <div class="panel-heading"><h3 class="panel-title">รายการแจ้งคณะกรรมการรุ่น</h3></div>
     <div class="table-responsive">
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
-          <table class="table table-sm table-hover table-striped" width="500">
-                 <tr><td class="text-nowrap">เรื่อง<input type="text"name="title" value="<?php echo $title;?>"class='form-control' ></td></tr>
-                 <tr><td class="text-nowrap">ผู้แจ้ง<?php echo $name;?></td></tr>
-                 <tr><td>ความมุ่งหมาย <select name="type" class='form-control' >
+          <table class="table table-sm table-hover table-striped" width="300">
+                 <tr><td class="text-nowrap" colspan="2">เรื่อง<input type="text"name="title" value="<?php echo $title;?>"class='form-control' ></td></tr>
+                 <tr><td>ผู้แจ้ง</td><td class="text-nowrap"><?php echo $name;?></td></tr>
+                 <tr><td>ความมุ่งหมาย</td><td> <select name="type" class='form-control' >
                 <option value="<?php echo $type;?>" selected><?php echo $type;?></option>
                 <option value="เพื่อทราบ">เพื่อทราบ</option>
                 <option value="เพื่อพิจารณาดำเนินการ">เพื่อดำเนินการ</option>
                 <option value="เพื่ออนุมัติ">เพื่ออนุมัติ</option>
               </select></td></tr>
-                 <tr><td>ความเร่งด่วน <select name="urgent" class='form-control' >
+                 <tr><td>ความเร่งด่วน</td><td> <select name="urgent" class='form-control' >
                   <option value="<?php echo $urgent;?>" selected><?php echo $urgent;?></option>
                   <option value="เร่งด่วน">เร่งด่วน</option>
                   <option value="ไม่ด่วน">ไม่ด่วน</option>
                   </select>
                     </td></tr>
-               <tr><td>รายละเอียด <textarea name="detail" rows="10" cols="30"class='form-control'><?php echo $detail;?></textarea></td></tr>
-                 <tr><td>สถานะ <select name="status" class='form-control' >
+               <tr><td colspan="2">รายละเอียด <br><textarea name="detail" rows="10" cols="30"class='form-control'><?php echo $detail;?></textarea></td></tr>
+                 <tr><td>สถานะ </td><td><select name="status" class='form-control' >
                    <option value="<?php echo $status;?>" selected><?php echo $status;?></option>
                    <option value="แจ้งใหม่">แจ้งใหม่</option>
                    <option value="รับทราบแล้ว">รับทราบแล้ว รอมติฯ</option>
@@ -278,9 +280,9 @@ function review_request($_id){
                    <option value="อยู่ระหว่างดำเนินการ">อยู่ระหว่างดำเนินการ</option>
                    <option value="ดำเนินการแล้ว">ดำเนินการแล้ว</option>
                  </select></td></tr>
-                 <tr><td align='center'><img src="<?php echo $img_url;?>" width="300"></td></tr>
-                 <tr><td>แนบรูปภาพ<input type='file' name='record_image' class='form-control' /></td></tr>
-               <tr><td> <input type="hidden"name="_id" value="<?php echo $_id;?>">
+                 <tr><td align='center' colspan="2"><img src="<?php echo $img_url;?>" width="300"></td></tr>
+                 <tr><td colspan="2">แนบรูปภาพ<input type='file' name='record_image' class='form-control' /></td></tr>
+               <tr><td colspan="2" align="center"> <input type="hidden"name="_id" value="<?php echo $_id;?>">
                     <input type="hidden"name="action" value="edited">
                     <input type='submit' value='Submit' class='btn btn-primary' /></td></tr>
                </table>
