@@ -32,18 +32,18 @@
 <body>
 <?php
 require __DIR__ .'/lib/rb.php';
-if (is_file(__DIR__ . 'vendor/cloudinary/cloudinary_php/autoload.php') && is_readable(__DIR__ . 'vendor/cloudinary/cloudinary_php/autoload.php')) {
+if (is_file(__DIR__ .'vendor/cloudinary/cloudinary_php/autoload.php') && is_readable(__DIR__ .'vendor/cloudinary/cloudinary_php/autoload.php')) {
     require_once __DIR__.'vendor/cloudinary/cloudinary_php/autoload.php';
-} else {
-    // Fallback to legacy autoloader
-    require_once __DIR__.'vendor/cloudinary/cloudinary_php/autoload.php';
-    require_once __DIR__.'vendor/cloudinary/cloudinary_php/src/Helpers.php';
+    echo "found autoload";
 }
 
-error_reporting(E_ALL | E_STRICT);
 
-// Sets up Cloudinary's parameters and RB's DB
-include 'vendor/settings.php';
+\Cloudinary::config(array(
+    'cloud_name' => 'dly6ftryr',
+    'api_key' => '979642835457647',
+    'api_secret' => 'hOm8JS7iHanEnFaqB9Y7qDwT5CQ'
+));
+
 
 function create_photo($file_path, $orig_name)
 {
