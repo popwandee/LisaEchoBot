@@ -133,12 +133,12 @@ require_once "vendor/function.php";
                   $_SESSION['message']=$_SESSION['message']." ไม่พบข้อมูลในฐานข้อมูลที่ต้องการแก้ไข/";
                 }// end if isData > 0
               }else{
-                echo "<a href='friend_preview.php?_id=$_id&action=preview'><button type='button' class='btn btn-xs btn-success'>แสดงตัวอย่าง</button>";
+                echo "<a href='friend_preview.php?_id=$_id&action=preview'><button type='button' class='btn btn-xs btn-success'>แสดงตัวอย่าง</button></a>";
                     show_form($_id);
               }// end if isset formSubmit
 
             }else{ // not a financemanager
-              echo "<a href='friend_preview.php?_id=$_id&action=form'><button type='button' class='btn btn-xs btn-success'>แก้ไข (เฉพาะ Admin)</button>";
+              echo "<a href='friend_preview.php?_id=$_id&action=form'><button type='button' class='btn btn-xs btn-success'>แก้ไข (เฉพาะ Admin)</button></a>";
               showdata($_id);
             }// end is financemanager
           }// end if not empty $_id
