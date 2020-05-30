@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -31,7 +30,6 @@
 </head>
 <body>
 <?php
-require __DIR__ .'/lib/rb.php';
 if (is_file(__DIR__ .'vendor/cloudinary/cloudinary_php/autoload.php') && is_readable(__DIR__ .'vendor/cloudinary/cloudinary_php/autoload.php')) {
     require_once __DIR__.'vendor/cloudinary/cloudinary_php/autoload.php';
     echo "found autoload";
