@@ -1,3 +1,11 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Cloudinary</title>
+  <link rel="stylesheet" href="https://cdnis.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 <?php
 if(isset($_POST['submit'])){
   $name = $_POST['name'];
@@ -5,15 +13,11 @@ if(isset($_POST['submit'])){
   $file_name = $_FILES['file']['name'];
   $file_tmp = $_FILES['file']['tmp_name'];
 
-  \Cloudinary\Uploader::upload($file_tmp,array($name=>$slug));
+  \Cloudinary\Uploader::upload($file_tmp,array('tag'=>$slug));
 }
 ?>
 <div class="card">
   <img src="https://res.cloudinary.com/dly6ftryr/image/upload/v1590754500/mjbmpyflc6vmqsfbmmgd.jpg" id="img-preview" />
-<label class="file-upload-container" for="file-upload">
-<input id="file-upload" type="file" style="display:none;">
-Select an Image
-</label>
 </div>
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
       <table class="table table-sm table-hover table-striped" width="300">
@@ -23,6 +27,5 @@ Select an Image
            </table>
        </form>
        <?php echo cl_image_tag('img_crma51');?>
-
-       <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-       <script src="app.js"></script>
+</body>
+</html>
