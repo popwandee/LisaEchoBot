@@ -111,7 +111,7 @@ require_once "vendor/function.php";
 
                  if (!empty($_FILES['record_image'])) { //record_image
                    $return = save_record_image($_FILES['record_image'],'');
-                     $img_url=$return['data']['image']['url'];
+                   $img_url=$return['data']['image']['url'];
                    if(!empty($img_url)){
                      update_field($_id,'img_url',$img_url);
                      //$_SESSION['message']=$_SESSION['message']." บันทึกรูปภาพ ".$img_url." แล้ว/";
@@ -134,7 +134,7 @@ require_once "vendor/function.php";
         echo "<a href='friend_preview.php?_id=$_id&action=form'><button type='button' class='btn btn-xs btn-success'>แก้ไข (เฉพาะ Admin)</button></a>";
         showdata($_id);
       }// end is financemanager
-    }// end if not empty $_id
+      }// end if not empty $_id
 
      ?>
      <?php
@@ -146,13 +146,12 @@ function showdata($_id)
      $isData=sizeof($data);
      if($isData >0){
        //echo "\nGet data from DB are "; //print_r($data);
-       $username=$rec->username;
-       $record=$rec->record;
-       $add=$rec->add;
-       $sub=$rec->sub;
+       $record=$data->record;
+       $add=$data->add;
+       $sub=$data->sub;
        $sum=$sum+$add-$sub;
-       $img_url=$rec->img_url;
-       $detail=$rec->detail;
+       $img_url=$data->img_url;
+       $detail=$data->detail;
              ?>
              <table  class='table table-hover table-responsive table-bordered'>
                <tr><td colspan="2">
@@ -192,7 +191,7 @@ function show_form($_id){
   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance/'.$_id.'?apiKey='.MLAB_API_KEY);
 $data = json_decode($json);
 $isData=sizeof($data);
-if($isData >0){print_r($data);
+if($isData >0){
   //echo "\nGet data from DB are "; //print_r($data);
   $record=$data->record;
   $add=$data->add;
