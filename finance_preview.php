@@ -61,7 +61,7 @@ require_once "vendor/function.php";
 // from financemanager
       $_id = isset($_GET['_id']) ? $_GET['_id'] : "";
       if(!empty($_id)){
-        if(isset($_SESSION['type']) && (($_SESSION['type'])=='สมาชิก')){
+        if(isset($_SESSION['type']) && (($_SESSION['type'])=='admin')){
           // check if from formSubmit
           if(isset($_POST['formSubmit'])){
             $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance/'.$_id.'?apiKey='.MLAB_API_KEY);
