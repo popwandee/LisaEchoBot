@@ -14,6 +14,9 @@ if(!isset($_SESSION["type"]) || $_SESSION["type"] == "สมาชิก"){
 */
 // Include config file
 require_once "config.php";
+require_once "vendor/autoload.php";
+require_once "vendor/settings.php";
+require_once "vendor/function.php";
 
 ?>
 <!DOCTYPE html>
@@ -54,21 +57,76 @@ require_once "config.php";
       <h1>AFAPS40 - CRMA51</h1>
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
 	  <?php
+    // from financemanager
+    // ตรวจสอบ $_id จาก _GET และ _POST
+          if(isset($_GET['_id'])){
+            $_id=$_GET['_id'];
+          }elseif(isset($_POST['_id'])){
+            $_id = $_POST['_id'] ;
+          }else{$_id="";}
 
-      $_id = isset($_GET['_id']) ? $_GET['_id'] : "";
-      /*
-      if(!empty($_id)){
-            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$_id.'?apiKey='.MLAB_API_KEY);
-          $data = json_decode($json);
-          $isData=sizeof($data);
-          if($isData >0){
-            //echo "\nGet data from DB are "; //print_r($data);
-               showdata($data);
-            }
-          }//end if not empty id
-          */
-          //show_form($_id);
-          showdata($_id);
+          if(!empty($_id)){
+            if(isset($_SESSION['type']) && (($_SESSION['type'])=='admin')||(($_SESSION['type'])=='เหรัญญิก'){
+              // check if from formSubmit
+              if(isset($_POST['formSubmit'])){
+                $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY);
+                $data = json_decode($json);
+                $isData=sizeof($data);
+                if($isData >0){
+                  //echo "\nGet data from DB are "; //print_r($data);
+                     $rank=$data->rank;$update_rank = isset($_POST['rank']) ? $_POST['rank'] : "";
+                     if($rank!=$update_rank){update_field($user_id,'rank',$update_rank);}
+
+                     $name=$data->name;$update_name = isset($_POST['name']) ? $_POST['name'] : "";
+                     if($name!=$update_name){update_field($user_id,'name',$update_name);}
+
+                     $lastname=$data->lastname;$update_lastname = isset($_POST['lastname']) ? $_POST['lastname'] : "";
+                     if($lastname!=$update_lastname){update_field($user_id,'lastname',$update_lastname);}
+
+                     $position=$data->position;$update_position = isset($_POST['position']) ? $_POST['position'] : "";
+                     if($position!=$update_position){update_field($user_id,'position',$update_position);}
+
+                     $province=$data->province;$update_province = isset($_POST['province']) ? $_POST['province'] : "";
+                     if($province!=$update_province){update_field($user_id,'province',$update_province);}
+
+                     $Email=$data->Email;$update_Email = isset($_POST['Email']) ? $_POST['Email'] : "";
+                     if($Email!=$update_Email){update_field($user_id,'Email',$update_Email);}
+
+                     $Tel1=$data->Tel1;$update_Tel1 = isset($_POST['Tel1']) ? $_POST['Tel1'] : "";
+                     if($Tel1!=$update_Tel1){update_field($user_id,'Tel1',$update_Tel1);}
+
+                     $LineID=$data->LineID;$update_LineID = isset($_POST['LineID']) ? $_POST['LineID'] : "";
+                     if($LineID!=$update_LineID){update_field($user_id,'LineID',$update_LineID);}
+
+                     $comment=$data->comment;$update_comment = isset($_POST['comment']) ? $_POST['comment'] : "";
+                     if($comment!=$update_comment){update_field($user_id,'comment',$update_comment);}
+
+                     $type = $data->type;$update_type = isset($_POST['type']) ? $_POST['type'] : "";
+                     if($type!=$update_type){update_field($user_id,'type',$update_type);}
+
+                     if (!empty($_FILES['record_image'])) { //record_image
+                       $_SESSION['message']="get record_image and save record image";
+                       $return = save_record_image($_FILES['record_image'],'');
+                       $img_url=$return['data']['image']['url'];$_SESSION['message']=$_SESSION['message']." Return from save image.";
+                       if(!empty($img_url)){
+                         $_SESSION['message']=$_SESSION['message']." got img_url is ".$img_url;
+                         update_field($user_id,'img_url',$img_url);
+                       }
+                     }
+                     // retrieve database
+                         showdata($_id);
+                   }else{
+                  $_SESSION['message']=$_SESSION['message']." ไม่พบข้อมูลในฐานข้อมูลที่ต้องการแก้ไข/";
+                }// end if isData > 0
+              }else{
+                    show_form($_id);
+              }// end if isset formSubmit
+
+            }else{ // not a financemanager
+                  showdata($_id);
+            }// end is financemanager
+          }// end if not empty $_id
+
      ?>
 
      <?php
@@ -153,6 +211,7 @@ if($isData >0){
      $type = $data->type;
      $img_url=$data->img_url;
         ?>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
         <table><tr><td>
         <table  class='table table-hover table-responsive table-bordered'>
             <tr>
@@ -279,8 +338,14 @@ if($isData >0){
                 <td>รายละเอียดเพิ่มเติม</td>
                 <td><textarea name="comment" rows="10" cols="30"class='form-control' /><?php echo $comment;?></textarea></td>
             </tr>
-            <tr><td colspan="2"><img src="<?php echo $img_url;?>"></td></tr>
-</table>
+            <tr><td colspan="2"></td></tr>
+</table></td>
+<td><img src="<?php echo $img_url;?>"></td></tr>
+<tr><td colspan="2">
+<input type="hidden"name="_id" value="<?php echo $_id;?>">
+  <input type="hidden"name="formSubmit" value="true">
+  <input type='submit' value='Save' class='btn btn-primary' />
+</td></tr></table>  
       <?php
     }// if isData > 0;
       exit;
