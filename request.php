@@ -87,7 +87,7 @@ switch ($action) {
     $type= isset($_POST['type']) ? $_POST['type'] : '';
     $urgent= isset($_POST['urgent']) ? $_POST['urgent'] : '';
     $status= isset($_POST['status']) ? $_POST['status'] : '';
-
+    $today = date("F j, Y, G:i");
          if (!empty($_FILES['record_image'])) { //record_image
            $return = save_record_image($_FILES['record_image'],'');
            $img_url=$return['data']['image']['url'];
@@ -98,6 +98,7 @@ switch ($action) {
          }// end if !empty _FILES
 
     $newData = json_encode(array(
+      'date'=>$today,
       'name'=>$name,
       'title' => $title,
       'detail' => $detail,
