@@ -79,12 +79,93 @@ if(!empty($_id)){
     case 'admin':
       echo "สวัสดีค่ะ คุณเป็น Admin จปร.๕๑";
       showdata($_id);
-      show_form($_id);
+      switch ($action) {
+        case 'edited':
+          // get data from database to compare
+          $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance/'.$_id.'?apiKey='.MLAB_API_KEY);
+          $data = json_decode($json);
+          $isData=sizeof($data);
+
+          // get parameter from _POST and compare to update field in database
+          if($isData >0){
+              //$_SESSION['message']=$_SESSION['message']." ตรวจสอบพบข้อมูลในฐานข้อมูล";
+               $record=$data->record;$update_record = isset($_POST['record']) ? $_POST['record'] : "";
+               if($record!=$update_record){update_field($_id,'record',$update_record);}
+               //$_SESSION['message']=$_SESSION['message']." update $record with $update_record/";
+
+               $add=$data->add;$update_add = isset($_POST['add']) ? $_POST['add'] : "";
+               if($add!=$update_add){update_field($_id,'add',$update_add);}
+               //$_SESSION['message']=$_SESSION['message']." update $add with $update_add/";
+
+               $sub=$data->sub;$update_sub = isset($_POST['sub']) ? $_POST['sub'] : "";
+               if($sub!=$update_sub){update_field($_id,'sub',$update_sub);}
+               //$_SESSION['message']=$_SESSION['message']." update $sub with $update_sub/";
+
+               $detail=$data->detail;$update_detail = isset($_POST['detail']) ? $_POST['detail'] : "";
+               if($detail!=$update_detail){update_field($_id,'detail',$update_detail);}
+               //$_SESSION['message']=$_SESSION['message']." update $detail with $update_detail/";
+
+               if (!empty($_FILES['record_image'])) { //record_image
+                 $return = save_record_image($_FILES['record_image'],'');
+                 $img_url=$return['data']['image']['url'];
+                 if(!empty($img_url)){
+                   update_field($_id,'img_url',$img_url);
+                   //$_SESSION['message']=$_SESSION['message']." บันทึกรูปภาพ ".$img_url." แล้ว/";
+                 }
+               }// end if !empty _FILES
+             } // end if isData>0
+          break;// end case edited
+
+        default:
+          show_form($_id);
+          break; //end default swtich action 
+      } // end switch action
       break;// จบงาน Admin
     case 'เหรัญญิก':
       echo "สวัสดีค่ะ คุณเป็นเหรัญญิก จปร.๕๑";
       showdata($_id);
-      show_form($_id);
+      switch ($action) {
+        case 'edited':
+          // get data from database to compare
+          $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance/'.$_id.'?apiKey='.MLAB_API_KEY);
+          $data = json_decode($json);
+          $isData=sizeof($data);
+
+          // get parameter from _POST and compare to update field in database
+          if($isData >0){
+              //$_SESSION['message']=$_SESSION['message']." ตรวจสอบพบข้อมูลในฐานข้อมูล";
+               $record=$data->record;$update_record = isset($_POST['record']) ? $_POST['record'] : "";
+               if($record!=$update_record){update_field($_id,'record',$update_record);}
+               //$_SESSION['message']=$_SESSION['message']." update $record with $update_record/";
+
+               $add=$data->add;$update_add = isset($_POST['add']) ? $_POST['add'] : "";
+               if($add!=$update_add){update_field($_id,'add',$update_add);}
+               //$_SESSION['message']=$_SESSION['message']." update $add with $update_add/";
+
+               $sub=$data->sub;$update_sub = isset($_POST['sub']) ? $_POST['sub'] : "";
+               if($sub!=$update_sub){update_field($_id,'sub',$update_sub);}
+               //$_SESSION['message']=$_SESSION['message']." update $sub with $update_sub/";
+
+               $detail=$data->detail;$update_detail = isset($_POST['detail']) ? $_POST['detail'] : "";
+               if($detail!=$update_detail){update_field($_id,'detail',$update_detail);}
+               //$_SESSION['message']=$_SESSION['message']." update $detail with $update_detail/";
+
+               if (!empty($_FILES['record_image'])) { //record_image
+                 $return = save_record_image($_FILES['record_image'],'');
+                 $img_url=$return['data']['image']['url'];
+                 if(!empty($img_url)){
+                   update_field($_id,'img_url',$img_url);
+                   //$_SESSION['message']=$_SESSION['message']." บันทึกรูปภาพ ".$img_url." แล้ว/";
+                 }
+               }// end if !empty _FILES
+             } // end if isData>0
+          break;// end case edited
+
+        default:
+          show_form($_id);
+          break; //end swtich action
+      }
+
       break; // จบงาน เหรัญญิก
     default: // สมาชิกทั่วไป
       echo "สวัสดีค่ะ คุณเป็นสมาชิก จปร.๕๑";
@@ -192,6 +273,7 @@ if($isData >0){
             <tr><td colspan="2">
               <input type="hidden"name="_id" value="<?php echo $_id;?>">
               <input type="hidden"name="formSubmit" value="true">
+              <input type="hidden"name="action" value="edited">
               <input type='submit' value='Save' class='btn btn-primary' /></td></tr>
 </table>
 </form>
