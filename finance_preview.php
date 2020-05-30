@@ -78,7 +78,6 @@ if(!empty($_id)){
   switch ($user_type) {
     case 'admin':
       echo "สวัสดีค่ะ คุณเป็น Admin จปร.๕๑";
-      showdata($_id);
       switch ($action) {
         case 'edited':
           // get data from database to compare
@@ -113,8 +112,9 @@ if(!empty($_id)){
                    //$_SESSION['message']=$_SESSION['message']." บันทึกรูปภาพ ".$img_url." แล้ว/";
                  }
                }// end if !empty _FILES
-             } // end if isData>0
-             header("location: index.php?_id=$_id");
+              } // end if isData>0
+                showdata($_id);
+                show_form($_id);
           break;// end case edited
 
         default:
