@@ -209,7 +209,7 @@ function show_all_request(){
 <?php
 function new_request_form(){ ?>
   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
-  <table class='table table-hover table-responsive table-bordered'>
+  <table class='table table-hover table-responsive table-bordered' width="500">
     <tr><td>แจ้งเรื่องต่าง ๆ ให้คณะกรรมการรุ่นทราบ</td></tr>
     <tr><td>ความเร่งด่วน <select name="urgent">
             <option value="เร่งด่วน">เร่งด่วน</option>
@@ -252,7 +252,7 @@ function review_request($_id){
     <div class="panel-heading"><h3 class="panel-title">รายการแจ้งคณะกรรมการรุ่น</h3></div>
     <div class="table-responsive">
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
-          <table class="table table-sm table-hover table-striped">
+          <table class="table table-sm table-hover table-striped" width="500">
                  <tr><td class="text-nowrap">เรื่อง<input type="text"name="title" value="<?php echo $title;?>"class='form-control' ></td></tr>
                  <tr><td class="text-nowrap">ผู้แจ้ง<?php echo $name;?></td></tr>
                  <tr><td>ความมุ่งหมาย <select name="type" class='form-control' >
