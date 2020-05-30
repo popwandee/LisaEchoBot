@@ -9,6 +9,7 @@ if(isset($_POST['submit'])){
 }
 ?>
 <div class="card">
+  <img src="https://res.cloudinary.com/dly6ftryr/image/upload/v1590754500/mjbmpyflc6vmqsfbmmgd.jpg" id="img-preview" />
 <label class="file-upload-container" for="file-upload">
 <input id="file-upload" type="file" style="display:none;">
 Select an Image
