@@ -62,7 +62,7 @@ require_once "vendor/function.php";
 	  <?php
 
 // from financemanager
-// ตรวจสอบ $_id จาก _GET และ _POST 
+// ตรวจสอบ $_id จาก _GET และ _POST
       if(isset($_GET['_id'])){
         $_id=$_GET['_id'];
       }elseif(isset($_POST['_id'])){
@@ -96,10 +96,10 @@ $_SESSION['message']=$_SESSION['message']." update $record with $update_record/"
                  $_SESSION['message']=$_SESSION['message']." update $detail with $update_detail/";
                  if (!empty($_FILES['record_image'])) { //record_image
                    $return = save_record_image($_FILES['record_image'],'');
-                   if(!empty($return)){
                      $img_url=$return['data']['image']['url'];
+                   if(!empty($img_url)){
                      update_field($_id,'img_url',$img_url);
-                     $_SESSION['message']=$_SESSION['message']." /บันทึกรูปภาพ ".$img_url;
+                     $_SESSION['message']=$_SESSION['message']." บันทึกรูปภาพ ".$img_url." แล้ว/";
                    }
                  }
                  $message=isset($_SESSION['message']) ? $_SESSION['message'] : '';
@@ -107,7 +107,7 @@ $_SESSION['message']=$_SESSION['message']." update $record with $update_record/"
                  // หลังจากแก้ไขข้อมูลแล้ว แสดงข้อมูลที่แก้ไขให้เห็น
                 show_form($_id);
             }else{
-              $_SESSION['message']=$_SESSION['message']." ไม่พบข้อมูลในฐานข้อมูลที่ต้องการแก้ไข";
+              $_SESSION['message']=$_SESSION['message']." ไม่พบข้อมูลในฐานข้อมูลที่ต้องการแก้ไข/";
             }// end if isData > 0
           }else{
                 show_form($_id);
@@ -198,11 +198,11 @@ if($isData >0){print_r($data);
             <tr>
             <tr>
                 <td>รายรับ</td>
-                <td><input type='text' name='LineID' value="<?php echo $add;?>" class='form-control' /></td>
+                <td><input type='text' name='add' value="<?php echo $add;?>" class='form-control' /></td>
                 </tr>
             <tr>
                 <td>รายจ่าย</td>
-                <td><input type='text' name='Tel1' value="<?php echo $sub;?>" class='form-control' /></td>
+                <td><input type='text' name='sub' value="<?php echo $sub;?>" class='form-control' /></td>
                 </tr>
             <tr>
                 <td>รายละเอียด/หมายเหตุ</td>
