@@ -58,6 +58,32 @@ require_once "vendor/function.php";
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
            <?php $message=isset($_SESSION['message']) ? $_SESSION['message'] : '';
                  echo $message;$_SESSION['message']='';?>
+<?php // core Logic
+// ตรวจสอบ $_id จาก _GET และ _POST
+      if(isset($_GET['_id'])){         $_id = $_GET['_id'];
+      }elseif(isset($_POST['_id'])){   $_id = $_POST['_id'];
+      }else{                           $_id="";
+      }
+// check action from user
+if(!empty($_id)){
+  if(isset($_GET['action'])){ $action = $_GET['action'] ? $_GET['action'] : "";
+    switch ($action) {
+      case 'preview':
+        showdata($_id);
+        break;
+      case 'form':
+        show_form($_id);
+        break;
+      default:
+        echo "ไม่มีรายการแสดงข้อมูล";
+        break;
+    }// end switch
+  }// end if isset action
+  else{ // ไม่ได้มาจาก _GET Action
+    echo "may from post";
+  }// สิ้นสุดกรณี _GET action else _POST formSubmit
+}// end !empty $_id
+?>
 
 <?php
 function showdata($_id)
