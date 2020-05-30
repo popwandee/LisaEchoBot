@@ -77,36 +77,14 @@ require_once "vendor/function.php";
 if(!empty($_id)){
   switch ($user_type) {
     case 'admin':
-
       echo "สวัสดีค่ะ คุณเป็น Admin จปร.๕๑";
-      switch ($action) {
-        case 'preview':
-          showdata($_id);
-          break;
-        case 'form':
-          show_form($_id);
-          break;
-        default:
-          echo "ไม่มีรายการแสดงข้อมูล";
-          break;
-      }// end switch
-
+      showdata($_id);
+      show_form($_id);
       break;// จบงาน Admin
     case 'เหรัญญิก':
-
       echo "สวัสดีค่ะ คุณเป็นเหรัญญิก จปร.๕๑";
-      switch ($action) {
-        case 'preview':
-          showdata($_id);
-          break;
-        case 'form':
-          show_form($_id);
-          break;
-        default:
-          echo "ไม่มีรายการแสดงข้อมูล";
-          break;
-      }// end switch
-
+      showdata($_id);
+      show_form($_id);
       break; // จบงาน เหรัญญิก
     default: // สมาชิกทั่วไป
       echo "สวัสดีค่ะ คุณเป็นสมาชิก จปร.๕๑";
