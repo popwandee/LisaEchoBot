@@ -68,7 +68,8 @@ require_once "vendor/function.php";
             $data = json_decode($json);
             $isData=sizeof($data);
             if($isData >0){
-              //echo "\nGet data from DB are "; //print_r($data);
+
+                $_SESSION['message']=$_SESSION['message']." ตรวจสอบพบข้อมูลในฐานข้อมูล";
                  $record=$data->record;$update_record = isset($_POST['record']) ? $_POST['record'] : "";
                  if($record!=$update_record){update_field($_id,'record',$update_record);}
 
@@ -83,12 +84,16 @@ require_once "vendor/function.php";
 
                  if (!empty($_FILES['record_image'])) { //record_image
                    $return = save_record_image($_FILES['record_image'],'');
-                   $img_url=$return['data']['image']['url'];
-                   if(!empty($img_url)){
+                   if(!empty($return)){
+                     $img_url=$return['data']['image']['url'];
                      update_field($_id,'img_url',$img_url);
+                     $_SESSION['message']=$_SESSION['message']." /บันทึกรูปภาพ ".$img_url;
                    }
                  }
-
+                 // หลังจากแก้ไขข้อมูลแล้ว แสดงข้อมูลที่แก้ไขให้เห็น
+                show_form($_id);
+            }else{
+              $_SESSION['message']=$_SESSION['message']." ไม่พบข้อมูลในฐานข้อมูลที่ต้องการแก้ไข";
             }// end if isData > 0
           }else{
                 show_form($_id);
@@ -120,6 +125,10 @@ function showdata($_id)
        $detail=$rec->detail;
              ?>
              <table  class='table table-hover table-responsive table-bordered'>
+               <tr><td colspan="2">
+                  <?php $message=isset($_SESSION['message']) ? $_SESSION['message'] : '';
+                        echo $message;$_SESSION['message']='';?>
+               </td></tr>
                <tr><td width='50%'>
              <table  class='table table-hover table-responsive table-bordered'>
                  <tr>
@@ -155,7 +164,6 @@ $data = json_decode($json);
 $isData=sizeof($data);
 if($isData >0){print_r($data);
   //echo "\nGet data from DB are "; //print_r($data);
-  $username=$data->username;
   $record=$data->record;
   $add=$data->add;
   $sub=$data->sub;
@@ -184,7 +192,7 @@ if($isData >0){print_r($data);
             </tr>
         <tr>
             <td>เปลี่ยนรูปภาพ</td>
-            <td><input type='file' name='record_image' class='form-control' /></td>
+            <td><input type="file" name="record_image" class="form-control" accept="image/*"></td>
             </tr>
             <tr><td colspan="2"><img src="<?php echo $img_url;?>"></td></tr>
             <tr><td colspan="2">
