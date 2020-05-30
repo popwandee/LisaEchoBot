@@ -149,7 +149,7 @@ $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
 
 <?php
 function show_10_request(){
-    $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/request?l=10apiKey='.MLAB_API_KEY);
+    $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/request?l=10&apiKey='.MLAB_API_KEY);
     $data = json_decode($json);
                   $isData=sizeof($data);
                   if($isData >0){
