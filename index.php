@@ -93,7 +93,16 @@ $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
                   </div>
                 </div>
               </div><!-- /.col-sm-4 -->
-
+              <div class="col-sm-4">
+                <div class="panel panel-info">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">เรื่องแจ้งกรรมการรุ่น</h3>
+                  </div>
+                  <div class="panel-body">
+                    <?php show_10_request();?>
+                  </div>
+                </div>
+              </div><!-- /.col-sm-4 -->
             </div>
 
               </div> <!-- /container -->
@@ -137,6 +146,28 @@ $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
                 </div>
               </div>
             </footer>
+
+<?php
+function show_10_request(){
+    $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/request?l=10apiKey='.MLAB_API_KEY);
+    $data = json_decode($json);
+                  $isData=sizeof($data);
+                  if($isData >0){
+                    foreach($data as $rec){
+                      $i++;
+                      $_id=$rec->_id;
+                      foreach($_id as $rec_id){
+                      $_id=$rec_id;
+                      }
+                       $name=$rec->name;
+                       $title=$rec->title;
+                       ?>
+      <a href="request.php?action=review&_id=<?php echo $_id;?> "><?php echo $title;?></a> : <?php echo $name;?><br>
+      <?php    } //end foreach
+               }else{ echo "ยังไม่มีข้อมูลค่ะ"; }
+  }// end function show_friend
+?>
+
             <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
             <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
