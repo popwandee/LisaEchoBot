@@ -224,7 +224,7 @@ function new_request_form(){ ?>
       <td>หัวเรื่อง <input type='text' name='title' class='form-control' /></td></tr>
       <td>ระบุรายละเอียดข้อมูลที่ต้องการแจ้งกรรมการรุ่น
           <textarea name="comment" rows="10" cols="30"class='form-control' /></textarea></td></tr>
-      <tr><td>ผู้แจ้ง : <input type='hidden' name='name' value="<?php $user_info = isset($_SESSION["user_info"]) ? $_SESSION['user_info'] : ""; echo $user_info;?>" /><?php echo $user_info;?></td></tr>
+      <tr><td>ผู้แจ้ง : <?php $user_info = isset($_SESSION["user_info"]) ? $_SESSION['user_info'] : ""; echo $user_info;?></td></tr>
       <tr><td>แนบรูปภาพ<input type='file' name='record_image' class='form-control' /></td></tr>
       <tr><td><input type="hidden"name="action" value="newrequest">
               <input type="hidden"name="status" value="แจ้งใหม่">
@@ -254,7 +254,7 @@ function review_request($_id){
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
           <table class="table table-sm table-hover table-striped">
                  <tr><td class="text-nowrap">เรื่อง<input type="text"name="title" value="<?php echo $title;?>"class='form-control' ></td></tr>
-                 <tr><td class="text-nowrap">ผู้แจ้ง<input type="text"name="name" value="<?php echo $name;?>"class='form-control' ></td></tr>
+                 <tr><td class="text-nowrap">ผู้แจ้ง<?php echo $name;?></td></tr>
                  <tr><td>ความมุ่งหมาย <select name="type" class='form-control' >
                 <option value="<?php echo $type;?>" selected><?php echo $type;?></option>
                 <option value="เพื่อทราบ">เพื่อทราบ</option>
