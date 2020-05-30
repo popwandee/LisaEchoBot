@@ -74,7 +74,7 @@ require_once "vendor/function.php";
 
  <?php show_all_request();?>
 <?php // core logic
-if(!empty($_id)){
+
 switch ($action) {
   case 'review':
     echo "action is review and not empty _id is $_id, call function review_request";
@@ -146,7 +146,7 @@ switch ($action) {
     new_request_form();
     break;
 }//end switch action
-}// end if !empty $_id
+
 ?>
 </div><!-- jumbotron-->
 </div><!-- container theme-showcase-->
