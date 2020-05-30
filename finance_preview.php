@@ -173,6 +173,10 @@ if($isData >0){print_r($data);
         ?>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
         <table  class='table table-hover table-responsive table-bordered'>
+          <tr><td colspan="2">
+             <?php $message=isset($_SESSION['message']) ? $_SESSION['message'] : '';
+                   echo $message;$_SESSION['message']='';?>
+          </td></tr>
             <tr>
                 <td>รายการเคลื่อนไหว</td>
                 <td><input type='text' name='record' value="<?php echo $record;?>" class='form-control' /></td>
