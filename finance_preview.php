@@ -160,13 +160,15 @@ if(!empty($_id)){
                    //$_SESSION['message']=$_SESSION['message']." บันทึกรูปภาพ ".$img_url." แล้ว/";
                  }
                }// end if !empty _FILES
-             } // end if isData>0
+              } // end if isData>0
+                showdata($_id);
+                show_form($_id);
           break;// end case edited
 
         default:
           show_form($_id);
-          break; //end swtich action
-      }
+          break; //end default swtich action
+      }//end swtich action
 
       break; // จบงาน เหรัญญิก
     default: // สมาชิกทั่วไป
