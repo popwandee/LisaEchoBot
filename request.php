@@ -1,15 +1,22 @@
 <?php
 // Initialize the session
 session_start();
-/*
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;
 }
-*/
+// ตรวจสอบ ประเภทสมาชิก
+if(isset($_SESSION['type'])){    $user_type = $_SESSION['type'];
+}else{                           $user_type = "";
+}
+
 // Include config file
 require_once "config.php";
+require_once "vendor/autoload.php";
+require_once "vendor/settings.php";
+require_once "vendor/function.php";
+
 ?>
 
 <!DOCTYPE html>
@@ -45,68 +52,102 @@ require_once "config.php";
 </head>
 <body>
     <?php include 'navigation.html';?>
+    <?php
+    // ตรวจสอบ $_id จาก _GET และ _POST
+          if(isset($_GET['_id'])){         $_id = $_GET['_id'];
+          }elseif(isset($_POST['_id'])){   $_id = $_POST['_id'];
+          }else{                           $_id = "";
+          }
 
-    <div class="container theme-showcase" role="main">
-    <div class="jumbotron">
-      <?php
-        $action= isset($_GET['action']) ? $_GET['action'] : "";
-        $_id = isset($_GET['_id']) ? $_GET['_id'] : "";
-        if(($action == 'review') && (!empty($_id))){
-          echo "action is review and not empty _id is $_id, call function review_request";
-          review_request($_id);
-        }else{
-          new_request_form();
-        }
-        if(isset($_POST['formSubmit'])){
-          if(isset($_POST['_id'])){$_id=$_POST['_id'];}else{$_id=''; }
-          if(isset($_POST['name'])){$name=$_POST['name'];}else{$name=''; }
-          if(isset($_POST['title'])){$title=$_POST['title'];}else{$title=''; }
-          if(isset($_POST['detail'])){$detail=$_POST['detail'];}else{$detail=''; }
-          if(isset($_POST['type'])){$type=$_POST['type'];}else{$type=''; }
-          if(isset($_POST['urgent'])){$urgent=$_POST['urgent'];}else{$urgent=''; }
-          if(isset($_POST['status'])){$status=$_POST['status'];}else{$status=''; }
-          $newData = json_encode(array(
-            'name'=>$name,
-            'title' => $title,
-            'detail' => $detail,
-            'type' => $type ,
-            'urgent' => $urgent,
-            'status'=>'แจ้งใหม่') );
-            $type_form_Submit=$_POST['formSubmit'];
-            if($type_form_Submit=='newrequest'){
-              insert_request($newData);
-            }elseif ($type_form_Submit=='edited') {
-
-              $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/request/'.$_id.'?apiKey='.MLAB_API_KEY);
-            $data = json_decode($json);
-            $isData=sizeof($data);
-            if($isData >0){
-
-                 $name_db=$data->name;//echo $name_db.$name;
-                 if($name!=$name_db){update_field($_id,'name',$name);}
-
-                 $title_db=$data->title;//echo $title_db.$title;
-                 if($title!=$title_db){update_field($_id,'title',$title);}
-
-                 $detail_db=$data->detail;//echo $detail_db.$detail;
-                 if($detail!=$detail_db){update_field($_id,'detail',$detail);}
-
-                 $type_db=$data->type;//echo $type_db.$type;
-                 if($type!=$type_db){update_field($_id,'type',$type);}
-
-                 $urgent_db=$data->urgent;//echo $urgent_db.$urgent;
-                 if($urgent!=$urgent_db){update_field($_id,'urgent',$urgent);}
-
-                 $status_db=$data->status;//echo $status_db.$status;
-                 if($status!=$status_db){update_field($_id,'status',$status);}
-
-}// end if data>0
-}else{
-
-}// Submit formbut not newrequest nor edited
-        } // end if isset _POST['formSubmit']
+  //      ตรวจสอบ Action จาก _GET หรือ _POST
+          if(isset($_GET['action'])){         $action = $_GET['action'];
+          }elseif(isset($_POST['action'])){   $action = $_POST['action'];
+          }else{                              $action = "";
+          }
           ?>
-<?php show_all_request();?>
+          <div class="container theme-showcase" role="main">
+          <div class="jumbotron">
+            <h1>AFAPS40 - CRMA51</h1>
+            <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
+                 <?php $message=isset($_SESSION['message']) ? $_SESSION['message'] : '';
+                       echo $message;$_SESSION['message']='';?>
+
+ <?php show_all_request();?>
+<?php // core logic
+if(!empty($_id)){
+switch ($action) {
+  case 'review':
+    echo "action is review and not empty _id is $_id, call function review_request";
+    review_request($_id);
+    break;
+  case 'newrequest' :
+    $name= isset($_POST['name']) ? $_POST['name'] : '';
+    $title= isset($_POST['title']) ? $_POST['title'] : '';
+    $detail= isset($_POST['detail']) ? $_POST['detail'] : '';
+    $type= isset($_POST['type']) ? $_POST['type'] : '';
+    $urgent= isset($_POST['urgent']) ? $_POST['urgent'] : '';
+    $status= isset($_POST['status']) ? $_POST['status'] : '';
+
+         if (!empty($_FILES['record_image'])) { //record_image
+           $return = save_record_image($_FILES['record_image'],'');
+           $img_url=$return['data']['image']['url'];
+           if(!empty($img_url)){
+             update_field($_id,'img_url',$img_url);
+             //$_SESSION['message']=$_SESSION['message']." บันทึกรูปภาพ ".$img_url." แล้ว/";
+           }
+         }// end if !empty _FILES
+
+    $newData = json_encode(array(
+      'name'=>$name,
+      'title' => $title,
+      'detail' => $detail,
+      'type' => $type ,
+      'urgent' => $urgent,
+      'img_url' => $img_url,
+      'status'=>'แจ้งใหม่') );
+      insert_request($newData);
+    break; // end case newrequest
+  case 'edited' :
+    $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/request/'.$_id.'?apiKey='.MLAB_API_KEY);
+    $data = json_decode($json);
+    $isData=sizeof($data);
+    if($isData >0){
+
+     $name_db=$data->name;//echo $name_db.$name;
+     if($name!=$name_db){update_field($_id,'name',$name);}
+
+     $title_db=$data->title;//echo $title_db.$title;
+     if($title!=$title_db){update_field($_id,'title',$title);}
+
+     $detail_db=$data->detail;//echo $detail_db.$detail;
+     if($detail!=$detail_db){update_field($_id,'detail',$detail);}
+
+     $type_db=$data->type;//echo $type_db.$type;
+     if($type!=$type_db){update_field($_id,'type',$type);}
+
+     $urgent_db=$data->urgent;//echo $urgent_db.$urgent;
+     if($urgent!=$urgent_db){update_field($_id,'urgent',$urgent);}
+
+     $status_db=$data->status;//echo $status_db.$status;
+     if($status!=$status_db){update_field($_id,'status',$status);}
+
+     if (!empty($_FILES['record_image'])) { //record_image
+       $return = save_record_image($_FILES['record_image'],'');
+       $img_url=$return['data']['image']['url'];
+       if(!empty($img_url)){
+         update_field($_id,'img_url',$img_url);
+         //$_SESSION['message']=$_SESSION['message']." บันทึกรูปภาพ ".$img_url." แล้ว/";
+       }
+     }// end if !empty _FILES
+
+    }// end if data>0
+    break;
+  default:
+    new_request_form();
+    break;
+}//end switch action
+}// end if !empty $_id
+?>
 </div><!-- jumbotron-->
 </div><!-- container theme-showcase-->
 
@@ -147,7 +188,7 @@ function show_all_request(){
            $status=$rec->status;
            ?>
       <tr><td><?php echo $i;?></td>
-      <td class="text-nowrap"><?php echo $title;?></td>
+      <td class="text-nowrap"><a href="request_preview.php?action=review&_id=<?php echo $_id;?> "><?php echo $title;?></a></td>
       <td class="text-nowrap"><?php echo $name;?></td>
       <td><?php echo $urgent;?></td>
       <td><?php echo $status;?></td>
@@ -167,63 +208,53 @@ function show_all_request(){
 
 <?php
 function new_request_form(){ ?>
-               	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-                   <table class='table table-hover table-responsive table-bordered'>
-                       <tr><td>แจ้งเรื่องต่าง ๆ ให้คณะกรรมการรุ่นทราบ</td></tr>
-                       <tr><td>
-                       <select name="urgent">
-                       <option value="เร่งด่วน">เร่งด่วน</option>
-                       <option value="ไม่ด่วน">ไม่ด่วน</option>
-                       </select>
-                         <select name="type">
-                           <option value="เพื่อทราบ">เพื่อทราบ</option>
-                           <option value="เพื่อพิจารณาดำเนินการ">เพื่อพิจารณาดำเนินการ</option>
-                           <option value="เพื่ออนุมัติ">เพื่ออนุมัติ</option>
-                         </select></td></tr>
-                         <tr>
-                             <td>หัวเรื่อง<input type='text' name='title' class='form-control' /></td>
-                             </tr>
-                           <td>ระบุรายละเอียดข้อมูลที่ต้องการแจ้งกรรมการรุ่น
-                           <textarea name="comment" rows="10" cols="30"class='form-control' /></textarea></td>
-                       </tr>
-                   <tr><td>
-                       ผู้แจ้ง : <input type='hidden' name='name' value="<?php $user_info = isset($_SESSION["user_info"]) ? $_SESSION['user_info'] : ""; echo $user_info;?>" /><?php echo $user_info;?>
-                     </td>
-                 </tr>
-                       <tr><td><input type="hidden"name="formSubmit" value="newrequest">
-                               <input type='submit' value='Save' class='btn btn-primary' />
-
-                           </td>
-                       </tr>
-                   </table>
-               </form>
- <?php
-  } // end request_form ?>
+  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
+  <table class='table table-hover table-responsive table-bordered'>
+    <tr><td>แจ้งเรื่องต่าง ๆ ให้คณะกรรมการรุ่นทราบ</td></tr>
+    <tr><td><select name="urgent">
+            <option value="เร่งด่วน">เร่งด่วน</option>
+            <option value="ไม่ด่วน">ไม่ด่วน</option>
+            </select>
+            <select name="type">
+            <option value="เพื่อทราบ">เพื่อทราบ</option>
+            <option value="เพื่อพิจารณาดำเนินการ">เพื่อพิจารณาดำเนินการ</option>
+            <option value="เพื่ออนุมัติ">เพื่ออนุมัติ</option>
+            </select></td></tr>
+    <tr>
+      <td>หัวเรื่อง<input type='text' name='title' class='form-control' /></td></tr>
+      <td>ระบุรายละเอียดข้อมูลที่ต้องการแจ้งกรรมการรุ่น
+          <textarea name="comment" rows="10" cols="30"class='form-control' /></textarea></td></tr>
+      <tr><td>ผู้แจ้ง : <input type='hidden' name='name' value="<?php $user_info = isset($_SESSION["user_info"]) ? $_SESSION['user_info'] : ""; echo $user_info;?>" /><?php echo $user_info;?></td></tr>
+      <tr><td>แนบรูปภาพ<input type='file' name='record_image' class='form-control' /></td></tr>
+      <tr><td><input type="hidden"name="action" value="newrequest">
+              <input type='submit' value='Save' class='btn btn-primary' /></td></tr>
+      </table>
+    </form>
+<?php } // end request_form ?>
 
 <?php
 function review_request($_id){
-                 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/request/'.$_id.'?apiKey='.MLAB_API_KEY);
-                 $data = json_decode($json);
-                 $isData=sizeof($data);print_r($data);
-                 if($isData >0){
-                   $i=0;
-                      $name=$data->name;
-                      $title=$data->title;
-                      $detail=$data->detail;
-                      $type=$data->type;
-                      $urgent=$data->urgent;
-                      $status=$data->status;
-                   ?>
-                     <div class="panel panel-success">
-                       <div class="panel-heading">
-                         <h3 class="panel-title">รายการแจ้งคณะกรรมการรุ่น</h3>
-                       </div>
-                       <div class="table-responsive">
-                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-                           <table class="table table-sm table-hover table-striped">
+  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/request/'.$_id.'?apiKey='.MLAB_API_KEY);
+  $data = json_decode($json);
+  $isData=sizeof($data);print_r($data);
+  if($isData >0){
+    $i=0;
+    $name=$data->name;
+    $title=$data->title;
+    $detail=$data->detail;
+    $type=$data->type;
+    $urgent=$data->urgent;
+    $status=$data->status;
+    $img_url=$data->img_url;
+?>
+    <div class="panel panel-success">
+    <div class="panel-heading"><h3 class="panel-title">รายการแจ้งคณะกรรมการรุ่น</h3></div>
+    <div class="table-responsive">
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
+          <table class="table table-sm table-hover table-striped">
                  <tr><td class="text-nowrap"><input type="text"name="title" value="<?php echo $title;?>"class='form-control' ></td></tr>
                  <tr><td class="text-nowrap"><input type="text"name="name" value="<?php echo $name;?>"class='form-control' ></td></tr>
-              <tr><td><select name="type" class='form-control' >
+                 <tr><td><select name="type" class='form-control' >
                 <option value="<?php echo $type;?>" selected><?php echo $type;?></option>
                 <option value="เพื่อทราบ">เพื่อทราบ</option>
                 <option value="เพื่อพิจารณาดำเนินการ">เพื่อพิจารณาดำเนินการ</option>
@@ -242,8 +273,9 @@ function review_request($_id){
                    <option value="ดำเนินการแล้ว">ดำเนินการแล้ว</option>
                    <option value="เพื่ออนุมัติแล้ว">อนุมัติแล้ว</option>
                  </select></td></tr>
-                <tr><td> <input type="hidden"name="_id" value="<?php echo $_id;?>">
-                    <input type="hidden"name="formSubmit" value="edited">
+                 <tr><td>แนบรูปภาพ<input type='file' name='record_image' class='form-control' /></td></tr>
+               <tr><td> <input type="hidden"name="_id" value="<?php echo $_id;?>">
+                    <input type="hidden"name="action" value="edited">
                     <input type='submit' value='Submit' class='btn btn-primary' /></td></tr>
                </table>
            </form>
