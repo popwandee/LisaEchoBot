@@ -76,7 +76,7 @@ require_once "vendor/function.php";
 
 switch ($action) {
   case 'review':
-    echo "action is review and not empty _id is $_id, call function review_request";
+    //echo "action is review and not empty _id is $_id, call function review_request";
     review_request($_id);
     show_all_request();
     break;
@@ -106,6 +106,7 @@ switch ($action) {
       'img_url' => $img_url,
       'status'=>'แจ้งใหม่') );
       insert_request($newData);
+      $_SESSION['message']=$_SESSION['message']." เพิ่มเรื่องแจ้งคณะกรรมการรุ่นเรียบร้อยแล้ว";
       show_all_request();
     break; // end case newrequest
   case 'edited' :
@@ -142,6 +143,7 @@ switch ($action) {
      }// end if !empty _FILES
 
     }// end if data>0
+    $_SESSION['message']=$_SESSION['message']." แก้ไข/ปรับปรุงเรื่องแจ้งคณะกรรมการรุ่นเรียบร้อยแล้ว";
     show_all_request();
     new_request_form();
     break;
@@ -221,7 +223,7 @@ function new_request_form(){ ?>
           </select></td>
         <td>ความมุ่งหมาย <select name="type" class='form-control' >
             <option value="เพื่อทราบ">เพื่อทราบ</option>
-            <option value="เพื่อพิจารณาดำเนินการ">เพื่อดำเนินการ</option>
+            <option value="เพื่อดำเนินการ">เพื่อดำเนินการ</option>
             <option value="เพื่ออนุมัติ">เพื่ออนุมัติ</option>
             </select></td></tr>
     <tr>
@@ -243,7 +245,7 @@ function new_request_form(){ ?>
 function review_request($_id){
   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/request/'.$_id.'?apiKey='.MLAB_API_KEY);
   $data = json_decode($json);
-  $isData=sizeof($data);print_r($data);
+  $isData=sizeof($data);
   if($isData >0){
     $i=0;
     $name=$data->name;
@@ -264,7 +266,7 @@ function review_request($_id){
                  <tr><td>ความมุ่งหมาย</td><td> <select name="type" class='form-control' >
                 <option value="<?php echo $type;?>" selected><?php echo $type;?></option>
                 <option value="เพื่อทราบ">เพื่อทราบ</option>
-                <option value="เพื่อพิจารณาดำเนินการ">เพื่อดำเนินการ</option>
+                <option value="เพื่อดำเนินการ">เพื่อดำเนินการ</option>
                 <option value="เพื่ออนุมัติ">เพื่ออนุมัติ</option>
               </select></td></tr>
                  <tr><td>ความเร่งด่วน</td><td> <select name="urgent" class='form-control' >
