@@ -155,13 +155,13 @@ $data = json_decode($json);
 $isData=sizeof($data);
 if($isData >0){print_r($data);
   //echo "\nGet data from DB are "; //print_r($data);
-  $username=$rec->username;
-  $record=$rec->record;
-  $add=$rec->add;
-  $sub=$rec->sub;
+  $username=$data->username;
+  $record=$data->record;
+  $add=$data->add;
+  $sub=$data->sub;
   $sum=$sum+$add-$sub;
-  $img_url=$rec->img_url;
-  $detail=$rec->detail;
+  $img_url=$data->img_url;
+  $detail=$data->detail;
         ?>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
         <table  class='table table-hover table-responsive table-bordered'>
