@@ -148,8 +148,9 @@ $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
             </footer>
 
 <?php
-function show_10_request(){ 
-    $url= "https://api.mlab.com/api/1/databases/crma51/collections/request?l=10&apiKey=".MLAB_API_KEY;
+function show_10_request(){
+  $q = '?s={ "date" : -1 }&sk=0&l=10';
+    $url= "https://api.mlab.com/api/1/databases/crma51/collections/request".$q."&apiKey=".MLAB_API_KEY;
     $json = file_get_contents($url);
     $data = json_decode($json);
                   $isData=sizeof($data);
