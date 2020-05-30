@@ -62,7 +62,9 @@ require_once "vendor/function.php";
 	  <?php
 
 // from financemanager
+// ตรวจสอบ $_id จาก _GET และ _POST ถ้ามาจาก _POST ใช้ _POST
       $_id = isset($_GET['_id']) ? $_GET['_id'] : "";
+      $_id = isset($_POST['_id']) ? $_POST['_id'] : "";
       if(!empty($_id)){
         if(isset($_SESSION['type']) && (($_SESSION['type'])=='admin')){
           // check if from formSubmit
@@ -238,6 +240,7 @@ function update_field($_id,$field_name,$new_info){
                 }else{
                   $_SESSION['message']=$_SESSION['message']." F Can not update $_id - $field_name/";
                 }
+                $message=$_SESSION['message'];echo $message;
                 return;
 }
  ?>
