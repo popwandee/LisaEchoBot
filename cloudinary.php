@@ -31,14 +31,34 @@
 </head>
 <body>
 <?php
-if(isset($_POST['submit'])){
-  $name = $_POST['name'];
-  $slug = $_POST['slug'];
-  $file_name = $_FILES['file']['name'];
-  $file_tmp = $_FILES['file']['tmp_name'];
+require __DIR__ .'/lib/rb.php';
+require 'autoloader.php';
 
-  \Cloudinary\Uploader::upload($file_tmp,array('tag'=>$slug));
+error_reporting(E_ALL | E_STRICT);
+
+// Sets up Cloudinary's parameters and RB's DB
+include 'settings.php';
+
+function create_photo($file_path, $orig_name)
+{
+    # Upload the received image file to Cloudinary
+    $result = \Cloudinary\Uploader::upload($file_path, array(
+            "tags" => "backend_photo_album",
+            "public_id" => $orig_name,
+    ));
+
+    unlink($file_path);
+    return $result;
 }
+if(isset($_FILES["files"])){
+  $files = $_FILES["files"];
+  $files = is_array($files) ? $files : array( $files );
+  $files_data = array();
+  foreach ($files["tmp_name"] as $index => $value) {
+      array_push($files_data, create_photo($value, $files["name"][$index]));
+  }
+}
+
 ?>
 <div class="card">
   <img src="https://res.cloudinary.com/dly6ftryr/image/upload/v1590754500/mjbmpyflc6vmqsfbmmgd.jpg" id="img-preview" />
@@ -50,6 +70,13 @@ if(isset($_POST['submit'])){
                 <input type='submit' value='Submit' class='btn btn-primary' /></td></tr>
            </table>
        </form>
-       <?php echo cl_image_tag('img_crma51');?>
+
+       <div id='backend_upload'>
+           <h1>Upload through your server</h1>
+           <form action="upload_backend.php" method="post" enctype="multipart/form-data">
+               <input id="fileupload" type="file" name="files[]" multiple accept="image/gif, image/jpeg, image/png">
+               <input type="submit" value="Upload">
+           </form>
+       </div>
 </body>
 </html>
