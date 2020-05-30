@@ -198,7 +198,8 @@ $rank=$rec->rank;$name=$rec->name;$lastname=$rec->lastname;
   $LineID=$rec->LineID;
 ?>
 <tr><td><?php echo "{$id}";?></td>
-    <td class='text-nowrap'><?php echo "{$rank} "; ?> <?php echo "{$name} "; ?> <?php echo "{$lastname} "; ?></td>
+    <td class='text-nowrap'><a href='friend_preview.php?_id=<?php echo $_id;?>'>
+      <?php echo "{$rank} "; ?> <?php echo "{$name} "; ?> <?php echo "{$lastname} "; ?></a></td>
     <td><?php echo "{$position}";?></td>
     <td><?php echo "{$province}";?></td>
     <td><?php echo "{$Email}";?></td>
