@@ -212,7 +212,7 @@ if($isData >0){print_r($data);
             <td>เปลี่ยนรูปภาพ</td>
             <td><input type="file" name="record_image" class="form-control" accept="image/*"></td>
             </tr>
-            <tr><td colspan="2"><img src="<?php echo $img_url;?>"></td></tr>
+            <tr><td colspan="2"><img src="<?php echo $img_url;?>" width='300'></td></tr>
             <tr><td colspan="2">
               <input type="hidden"name="_id" value="<?php echo $_id;?>">
               <input type="hidden"name="formSubmit" value="true">
