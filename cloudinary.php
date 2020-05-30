@@ -43,7 +43,7 @@ if (is_file(__DIR__ . 'vendor/cloudinary/cloudinary_php/autoload.php') && is_rea
 error_reporting(E_ALL | E_STRICT);
 
 // Sets up Cloudinary's parameters and RB's DB
-include 'settings.php';
+include 'vendor/settings.php';
 
 function create_photo($file_path, $orig_name)
 {
@@ -66,12 +66,9 @@ if(isset($_FILES["files"])){
 }
 
 ?>
-<div class="card">
-  <img src="https://res.cloudinary.com/dly6ftryr/image/upload/v1590754500/mjbmpyflc6vmqsfbmmgd.jpg" id="img-preview" />
-</div>
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
       <table class="table table-sm table-hover table-striped" width="300">
-     <tr><td colspan="2">แนบรูปภาพ<input type='file' name='file' class='form-control' /></td></tr>
+     <tr><td colspan="2">แนบรูปภาพ<input type='file' name='files[]' class='form-control' /></td></tr>
            <tr><td colspan="2" align="center"><input type="text"name="name" required="" placeholder="name"><input type="text"name="name" required="" placeholder="slug">
                 <input type='submit' value='Submit' class='btn btn-primary' /></td></tr>
            </table>
