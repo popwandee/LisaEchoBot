@@ -62,9 +62,13 @@ require_once "vendor/function.php";
 	  <?php
 
 // from financemanager
-// ตรวจสอบ $_id จาก _GET และ _POST ถ้ามาจาก _POST ใช้ _POST
-      $_id = isset($_GET['_id']) ? $_GET['_id'] : "";
-      $_id = isset($_POST['_id']) ? $_POST['_id'] : "";
+// ตรวจสอบ $_id จาก _GET และ _POST 
+      if(isset($_GET['_id'])){
+        $_id=$_GET['_id'];
+      }elseif(isset($_POST['_id'])){
+        $_id = $_POST['_id'] ;
+      }else{$_id="";}
+
       if(!empty($_id)){
         if(isset($_SESSION['type']) && (($_SESSION['type'])=='admin')){
           // check if from formSubmit
