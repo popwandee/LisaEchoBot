@@ -137,7 +137,9 @@ require_once "vendor/function.php";
                     show_form($_id);
               }// end if isset formSubmit
 
-            }else{ // not a financemanager
+            }
+
+              if(isset($_SESSION['type']) && (($_SESSION['type'])=='สมาชิก')){ // not a financemanager
               echo "<a href='friend_preview.php?_id=$_id&action=form'><button type='button' class='btn btn-xs btn-success'>แก้ไข (เฉพาะ Admin)</button></a>";
               showdata($_id);
             }// end is financemanager
