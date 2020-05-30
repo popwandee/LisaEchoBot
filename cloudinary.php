@@ -42,4 +42,4 @@ if(isset($_POST['submit'])){
            </table>
        </form>
 
-       <?php echo cl_image_tag('sample');?>
+       <?php echo cl_image_tag($slug);?>
