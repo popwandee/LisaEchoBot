@@ -56,88 +56,10 @@ require_once "vendor/function.php";
     <div class="jumbotron">
       <h1>AFAPS40 - CRMA51</h1>
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
-
            <?php $message=isset($_SESSION['message']) ? $_SESSION['message'] : '';
                  echo $message;$_SESSION['message']='';?>
-	  <?php
 
-// from financemanager
-// ตรวจสอบ $_id จาก _GET และ _POST
-      if(isset($_GET['_id'])){
-        $_id=$_GET['_id'];
-      }elseif(isset($_POST['_id'])){
-        $_id = $_POST['_id'] ;
-      }else{$_id="";}
-
-      if(!empty($_id)){
-        if(isset($_GET['action'])){
-          $action = $_GET['action'] ? $_GET['action'] : "";
-          switch ($action) {
-            case 'preview':
-              showdata($_id);
-              break;
-            case 'form':
-              show_form($_id);
-              break;
-            default:
-              // code...
-              break;
-          }// end switch
-        }// end if isset action
-
-        if(isset($_SESSION['type']) && (($_SESSION['type'])=='เหรัญญิก')){
-          // check if from formSubmit
-          if(isset($_POST['formSubmit'])){
-            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance/'.$_id.'?apiKey='.MLAB_API_KEY);
-            $data = json_decode($json);
-            $isData=sizeof($data);
-            if($isData >0){
-                //$_SESSION['message']=$_SESSION['message']." ตรวจสอบพบข้อมูลในฐานข้อมูล";
-                 $record=$data->record;$update_record = isset($_POST['record']) ? $_POST['record'] : "";
-                 if($record!=$update_record){update_field($_id,'record',$update_record);}
-                 //$_SESSION['message']=$_SESSION['message']." update $record with $update_record/";
-
-                 $add=$data->add;$update_add = isset($_POST['add']) ? $_POST['add'] : "";
-                 if($add!=$update_add){update_field($_id,'add',$update_add);}
-                 //$_SESSION['message']=$_SESSION['message']." update $add with $update_add/";
-
-                 $sub=$data->sub;$update_sub = isset($_POST['sub']) ? $_POST['sub'] : "";
-                 if($sub!=$update_sub){update_field($_id,'sub',$update_sub);}
-                 //$_SESSION['message']=$_SESSION['message']." update $sub with $update_sub/";
-
-                 $detail=$data->detail;$update_detail = isset($_POST['detail']) ? $_POST['detail'] : "";
-                 if($detail!=$update_detail){update_field($_id,'detail',$update_detail);}
-                 //$_SESSION['message']=$_SESSION['message']." update $detail with $update_detail/";
-
-                 if (!empty($_FILES['record_image'])) { //record_image
-                   $return = save_record_image($_FILES['record_image'],'');
-                   $img_url=$return['data']['image']['url'];
-                   if(!empty($img_url)){
-                     update_field($_id,'img_url',$img_url);
-                     //$_SESSION['message']=$_SESSION['message']." บันทึกรูปภาพ ".$img_url." แล้ว/";
-                   }
-                 }
-
-                 // หลังจากแก้ไขข้อมูลแล้ว แสดงข้อมูลที่แก้ไขให้เห็น
-                show_form($_id);
-            }else{
-              $_SESSION['message']=$_SESSION['message']." ไม่พบข้อมูลในฐานข้อมูลที่ต้องการแก้ไข/";
-            }// end if isData > 0
-          }else{
-            echo "<a href='friend_preview.php?_id=$_id&action=preview'><button type='button' class='btn btn-xs btn-success'>แสดงตัวอย่าง</button></a>";
-                show_form($_id);
-          }// end if isset formSubmit
-
-        } // not a financemanager
-
-        if(($_SESSION['type'])=='สมาชิก') || (($_SESSION['type'])=='admin')){ // not a financemanager
-        echo "<a href='friend_preview.php?_id=$_id&action=form'><button type='button' class='btn btn-xs btn-success'>แก้ไข (เฉพาะ Admin)</button></a>";
-        showdata($_id);
-      }// end is financemanager
-      }// end if not empty $_id
-
-     ?>
-     <?php
+<?php
 function showdata($_id)
   {
        //echo "\nin Fuction Show form, get user_id is ";print_r($user_id);
