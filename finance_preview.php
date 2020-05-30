@@ -70,6 +70,22 @@ require_once "vendor/function.php";
       }else{$_id="";}
 
       if(!empty($_id)){
+        if(isset($_GET['action'])){
+          $action = $_GET['action'] ? $_GET['action'] : "";
+          switch ($action) {
+            case 'preview':
+              showdata($_id);
+              break;
+            case 'form':
+              show_form($_id);
+              break;
+            default:
+              // code...
+              break;
+          }// end switch
+        }// end if isset action
+
+      if(!empty($_id)){
         if(isset($_SESSION['type']) && (($_SESSION['type'])=='admin')||(($_SESSION['type'])=='เหรัญญิก')){
           // check if from formSubmit
           if(isset($_POST['formSubmit'])){
@@ -109,13 +125,17 @@ require_once "vendor/function.php";
               $_SESSION['message']=$_SESSION['message']." ไม่พบข้อมูลในฐานข้อมูลที่ต้องการแก้ไข/";
             }// end if isData > 0
           }else{
+            echo "<a href='friend_preview.php?_id=$_id&action=preview'><button type='button' class='btn btn-xs btn-success'>แสดงตัวอย่าง</button></a>";
                 show_form($_id);
           }// end if isset formSubmit
 
-        }else{ // not a financemanager
-              showdata($_id);
-        }// end is financemanager
-      }// end if not empty $_id
+        } // not a financemanager
+
+        if(isset($_SESSION['type']) && (($_SESSION['type'])=='สมาชิก')){ // not a financemanager
+        echo "<a href='friend_preview.php?_id=$_id&action=form'><button type='button' class='btn btn-xs btn-success'>แก้ไข (เฉพาะ Admin)</button></a>";
+        showdata($_id);
+      }// end is financemanager
+    }// end if not empty $_id
 
 
 
@@ -184,6 +204,9 @@ if($isData >0){print_r($data);
   $img_url=$data->img_url;
   $detail=$data->detail;
         ?>
+        <table  class='table table-hover table-responsive table-bordered'>
+          <tr><td>
+
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
         <table  class='table table-hover table-responsive table-bordered'>
           <tr><td colspan="2">
@@ -211,13 +234,15 @@ if($isData >0){print_r($data);
             <td>เปลี่ยนรูปภาพ</td>
             <td><input type="file" name="record_image" class="form-control" accept="image/*"></td>
             </tr>
-            <tr><td colspan="2"><img src="<?php echo $img_url;?>" width='300'></td></tr>
+            <tr><td colspan="2"></td></tr>
             <tr><td colspan="2">
               <input type="hidden"name="_id" value="<?php echo $_id;?>">
               <input type="hidden"name="formSubmit" value="true">
               <input type='submit' value='Save' class='btn btn-primary' /></td></tr>
 </table>
 </form>
+</td><td> <img src="<?php echo $img_url;?>" width='300'></td></tr>
+</table>
       <?php
     }// if isData > 0;
 else{echo "not found data";}
