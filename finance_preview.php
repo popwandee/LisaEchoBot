@@ -85,8 +85,7 @@ require_once "vendor/function.php";
           }// end switch
         }// end if isset action
 
-      if(!empty($_id)){
-        if(isset($_SESSION['type']) && (($_SESSION['type'])=='admin')||(($_SESSION['type'])=='เหรัญญิก')){
+        if(isset($_SESSION['type']) && (($_SESSION['type'])=='เหรัญญิก')){
           // check if from formSubmit
           if(isset($_POST['formSubmit'])){
             $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance/'.$_id.'?apiKey='.MLAB_API_KEY);
@@ -131,13 +130,11 @@ require_once "vendor/function.php";
 
         } // not a financemanager
 
-        if(isset($_SESSION['type']) && (($_SESSION['type'])=='สมาชิก')){ // not a financemanager
+        if(($_SESSION['type'])=='สมาชิก') || (($_SESSION['type'])=='admin')){ // not a financemanager
         echo "<a href='friend_preview.php?_id=$_id&action=form'><button type='button' class='btn btn-xs btn-success'>แก้ไข (เฉพาะ Admin)</button></a>";
         showdata($_id);
       }// end is financemanager
     }// end if not empty $_id
-
-
 
      ?>
      <?php
