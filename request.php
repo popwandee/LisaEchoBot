@@ -72,13 +72,13 @@ require_once "vendor/function.php";
                  <?php $message=isset($_SESSION['message']) ? $_SESSION['message'] : '';
                        echo $message;$_SESSION['message']='';?>
 
- <?php show_all_request();?>
 <?php // core logic
 
 switch ($action) {
   case 'review':
     echo "action is review and not empty _id is $_id, call function review_request";
     review_request($_id);
+    show_all_request();
     break;
   case 'newrequest' :
     $name= isset($_POST['name']) ? $_POST['name'] : '';
@@ -106,6 +106,7 @@ switch ($action) {
       'img_url' => $img_url,
       'status'=>'แจ้งใหม่') );
       insert_request($newData);
+      show_all_request();
     break; // end case newrequest
   case 'edited' :
     $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/request/'.$_id.'?apiKey='.MLAB_API_KEY);
@@ -145,6 +146,7 @@ switch ($action) {
     new_request_form();
     break;
   default:
+    show_all_request();
     new_request_form();
     break;
 }//end switch action
