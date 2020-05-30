@@ -1,30 +1,4 @@
 <?php
-// Include config file
-require "config.php";
-require "vendor/autoload.php";
-require "vendor/settings.php";
-require "vendor/function.php";
-
-?>
-<button id="upload_widget" class="cloudinary-button">Upload files</button>
-<script> cloudinary.setCloudName("dly6ftryr");</script>
-<script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-var myWidget = cloudinary.createUploadWidget({
-  cloudName: 'dly6ftryr',
-  uploadPreset: 'my_preset'}, (error, result) => {
-    if (!error && result && result.event === "success") {
-      console.log('Done! Here is the image info: ', result.info);
-    }
-  }
-)
-
-document.getElementById("upload_widget").addEventListener("click", function(){
-    myWidget.open();
-  }, false);
-</script>
-<?php
 if(isset($_POST['submit'])){
   $name = $_POST['name'];
   $slug = $_POST['slug'];
@@ -34,6 +8,8 @@ if(isset($_POST['submit'])){
   \Cloudinary\Uploader::upload($file_tmp,array($name=>$slug));
 }
 ?>
+<input id="file-upload" type="file" style="display:none;">
+Select an Image
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
       <table class="table table-sm table-hover table-striped" width="300">
      <tr><td colspan="2">แนบรูปภาพ<input type='file' name='file' class='form-control' /></td></tr>
@@ -42,3 +18,6 @@ if(isset($_POST['submit'])){
            </table>
        </form>
        <?php echo cl_image_tag('img_crma51');?>
+
+       <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+       <script src="app.js"></script>
