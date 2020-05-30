@@ -56,6 +56,9 @@ require_once "vendor/function.php";
     <div class="jumbotron">
       <h1>AFAPS40 - CRMA51</h1>
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
+
+           <?php $message=isset($_SESSION['message']) ? $_SESSION['message'] : '';
+                 echo $message;$_SESSION['message']='';?>
 	  <?php
 
 // from financemanager
