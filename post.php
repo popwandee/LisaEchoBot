@@ -19,63 +19,20 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 }
 
 ?>
-<?php // core logic
+<?php
+// ตรวจสอบ $_id จาก _GET และ _POST
+      if(isset($_GET['_id'])){         $_id = $_GET['_id'];
+      }elseif(isset($_POST['_id'])){   $_id = $_POST['_id'];
+      }else{                           $_id = "";
+      }
 
-switch ($action) {
-  case 'review':
-    //echo "action is review and not empty _id is $_id, call function review_request";
-    //review_post($_id);
-    //show_all_post();
-    break;
-  case 'newpost' :
-    $name= isset($_POST['name']) ? $_POST['name'] : '';
-    $title= isset($_POST['title']) ? $_POST['title'] : '';
-    $detail= isset($_POST['detail']) ? $_POST['detail'] : '';
-    $category= isset($_POST['category']) ? $_POST['category'] : '';
-    $status= isset($_POST['status']) ? $_POST['status'] : '';
-    $post_time = date("F j, Y, G:i");
-    if (!empty($_FILES["record_image"]['tmp_name'])) { //record_image
-      $files = $_FILES["record_image"]['tmp_name'];
-      $cloudUpload = \Cloudinary\Uploader::upload($files);
-      $img_url = iseet($cloudUpload['secure_url']) ? $cloudUpload['secure_url'] : '';
-         }// end if !empty _FILES
-
-    $newData = json_encode(array(
-      'date'=>$today,
-      'name'=>$name,
-      'title' => $title,
-      'detail' => $detail,
-      'category' => $category ,
-      'post_time' => $post_time,
-      'img_url' => $img_url,
-      'status'=>'publish') );
-      //insert_post($newData);
-      $_SESSION['message']=$_SESSION['message']." โพสต์เรียบร้อยแล้ว";
-      //show_all_post();
-    break; // end case newrequest
-  case 'comment' :
-     $comment_no = isset($_POST['comment_no']) ? $_POST['comment_no'] : "";
-     $user_comment_name = isset($_POST['user_comment_name']) ? $_POST['user_comment_name'] : "";
-     $title = isset($_POST['title']) ? $_POST['title'] : "";
-     $detail = isset($_POST['detail']) ? $_POST['detail'] : "";
-     $img_url ='';
-          if (!empty($_FILES['record_image'])) { //record_image
-            $files = $_FILES["record_image"]['tmp_name'];
-            $cloudUpload = \Cloudinary\Uploader::upload($files);
-            $img_url = $cloudUpload['secure_url'];
-          }// end if !empty _FILES
-
-     $comment_data = '{"'.$comment_no.'":{"user_comment_name":"'.$user_comment_name.'","title":"'.$title.'","detail":"'.$detail.'","img_url":"'.$img_url.'",}}';
-     //insert_post_comment($_id,$comment_data);
-    $_SESSION['message']=$_SESSION['message']." แสดงความเห็นเรียบร้อยแล้ว";
-    //show_all_post();
-    break;
-  default:
-    //show_all_post();
-    break;
-}//end switch action
-
+//      ตรวจสอบ Action จาก _GET หรือ _POST
+      if(isset($_GET['action'])){         $action = $_GET['action'];
+      }elseif(isset($_POST['action'])){   $action = $_POST['action'];
+      }else{                              $action = "";
+      }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -109,26 +66,68 @@ switch ($action) {
 </head>
 <body>
     <?php include 'navigation.html';?>
-    <?php
-    // ตรวจสอบ $_id จาก _GET และ _POST
-          if(isset($_GET['_id'])){         $_id = $_GET['_id'];
-          }elseif(isset($_POST['_id'])){   $_id = $_POST['_id'];
-          }else{                           $_id = "";
-          }
 
-  //      ตรวจสอบ Action จาก _GET หรือ _POST
-          if(isset($_GET['action'])){         $action = $_GET['action'];
-          }elseif(isset($_POST['action'])){   $action = $_POST['action'];
-          }else{                              $action = "";
-          }
-          ?>
-          <div class="container theme-showcase" role="main">
-          <div class="jumbotron">
-            <h1>AFAPS40 - CRMA51</h1>
-            <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
-                 <?php $message=isset($_SESSION['message']) ? $_SESSION['message'] : '';
-                       echo $message;$_SESSION['message']='';?>
+    <div class="container theme-showcase" role="main">
+    <div class="jumbotron">
+      <h1>AFAPS40 - CRMA51</h1><p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
+      <?php $message=isset($_SESSION['message']) ? $_SESSION['message'] : ''; echo $message;$_SESSION['message']='';?>
+      <?php // core logic
 
+      switch ($action) {
+        case 'review':
+          //echo "action is review and not empty _id is $_id, call function review_request";
+          //review_post($_id);
+          show_all_post();
+          break;
+        case 'newpost' :
+          $name= isset($_POST['name']) ? $_POST['name'] : '';
+          $title= isset($_POST['title']) ? $_POST['title'] : '';
+          $detail= isset($_POST['detail']) ? $_POST['detail'] : '';
+          $category= isset($_POST['category']) ? $_POST['category'] : '';
+          $status= isset($_POST['status']) ? $_POST['status'] : '';
+          $post_time = date("F j, Y, G:i");
+          if (!empty($_FILES["record_image"]['tmp_name'])) { //record_image
+            $files = $_FILES["record_image"]['tmp_name'];
+            $cloudUpload = \Cloudinary\Uploader::upload($files);
+            $img_url = iseet($cloudUpload['secure_url']) ? $cloudUpload['secure_url'] : '';
+               }// end if !empty _FILES
+
+          $newData = json_encode(array(
+            'date'=>$today,
+            'name'=>$name,
+            'title' => $title,
+            'detail' => $detail,
+            'category' => $category ,
+            'post_time' => $post_time,
+            'img_url' => $img_url,
+            'status'=>'publish') );
+            //insert_post($newData);
+            $_SESSION['message']=$_SESSION['message']." โพสต์เรียบร้อยแล้ว";
+            //show_all_post();
+          break; // end case newrequest
+        case 'comment' :
+           $comment_no = isset($_POST['comment_no']) ? $_POST['comment_no'] : "";
+           $user_comment_name = isset($_POST['user_comment_name']) ? $_POST['user_comment_name'] : "";
+           $title = isset($_POST['title']) ? $_POST['title'] : "";
+           $detail = isset($_POST['detail']) ? $_POST['detail'] : "";
+           $img_url ='';
+                if (!empty($_FILES['record_image'])) { //record_image
+                  $files = $_FILES["record_image"]['tmp_name'];
+                  $cloudUpload = \Cloudinary\Uploader::upload($files);
+                  $img_url = $cloudUpload['secure_url'];
+                }// end if !empty _FILES
+
+           $comment_data = '{"'.$comment_no.'":{"user_comment_name":"'.$user_comment_name.'","title":"'.$title.'","detail":"'.$detail.'","img_url":"'.$img_url.'",}}';
+           //insert_post_comment($_id,$comment_data);
+          $_SESSION['message']=$_SESSION['message']." แสดงความเห็นเรียบร้อยแล้ว";
+          show_all_post();
+          break;
+        default:
+          show_all_post();
+          break;
+      }//end switch action
+
+      ?>
 
 </div><!-- jumbotron-->
 </div><!-- container theme-showcase-->
@@ -141,3 +140,6 @@ switch ($action) {
 
 </body>
 </html>
+<?php function show_all_post(){ ?>
+show_all_post
+<?php }// end function show_all_post ?>
