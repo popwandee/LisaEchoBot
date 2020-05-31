@@ -141,5 +141,49 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 </body>
 </html>
 <?php function show_all_post(){ ?>
-show_all_post
+  <?php
+  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/post?apiKey='.MLAB_API_KEY);
+  $data = json_decode($json);
+  $isData=sizeof($data);
+  if($isData >0){
+    $i=0;
+    ?>
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">ประชาสัมพันธ์กิจกรรม</h3>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-sm table-hover table-striped">
+              <tbody>
+                <?php
+    foreach($data as $rec){
+      $i++;
+      $_id=$rec->_id;
+      foreach($_id as $rec_id){
+      $_id=$rec_id;
+      }
+       $name=$rec->name;
+       $title=$rec->title;
+       $detail=$rec->detail;
+       $category=$rec->category;
+       $post_time=$rec->post_time;
+       $status=$rec->status;
+       $img_url=$rec->img_url;
+       ?>
+  <tr><td width='70%'><?php echo $title." : ".$post_time;?></td><td><?php echo $name;?></td></tr>
+  <tr><td colspan="2">
+    <table class="table table-sm table-hover table-striped">
+      <tr><td><img src="<?php echo $img_url;?>" width="200"></td>
+        <td><?php echo $detail;?></td></tr>
+    </table></td></tr>
+  <tr><td colspan="2">Read :  / Like : </td></tr>
+       <?php    } //end foreach ?>
+       </tbody>
+     </table>
+ </div><!-- class="table-responsive"> -->
+ </div><!-- class="panel panel-success"> -->
+       <?php
+       }else{
+       echo "ยังไม่มี POST ค่ะ";
+           }
 <?php }// end function show_all_post ?>
