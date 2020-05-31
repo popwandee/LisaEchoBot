@@ -66,9 +66,9 @@ $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : "";
     // from financemanager
     // ตรวจสอบ $_id จาก _GET และ _POST
           if(isset($_GET['_id'])){
-            $_id=$_GET['_id'];
+            $_id = $_GET['_id'];
           }elseif(isset($_POST['_id'])){
-            $_id = $_POST['_id'] ;
+            $_id = $_POST['_id'];
           }else{$_id="";}
 
           if(!empty($_id)){
@@ -88,7 +88,7 @@ $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : "";
             }// end if isset action
             echo "User Id is ".$user_id;
 
-            if(($user_id =='_id') || (($_SESSION['type'])=='admin')){
+            if(($user_id == $_id) || (($_SESSION['type'])=='admin')){
               // check if from formSubmit
               if(isset($_POST['formSubmit'])){
                 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY);
@@ -132,7 +132,6 @@ $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : "";
                        $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
                        $img_url = $cloudUpload['secure_url'];
                         if(!empty($img_url)){
-                         $_SESSION['message']=$_SESSION['message']." got img_url is ".$img_url;
                          update_field($user_id,'img_url',$img_url);
                        }
                      }
