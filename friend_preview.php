@@ -12,8 +12,14 @@ if(!isset($_SESSION["type"]) || $_SESSION["type"] == "สมาชิก"){
     exit;
 }
 */
+
+// Cloudinary
+require 'vendor/cloudinary/cloudinary_php/src/Cloudinary.php';
+require 'vendor/cloudinary/cloudinary_php/src/Uploader.php';
+require 'vendor/cloudinary/cloudinary_php/src/Api.php';
+
 // Include config file
-require_once "config.php";
+require_once "config.php";// mlab
 require_once "vendor/autoload.php";
 require_once "vendor/function.php";
 
@@ -118,10 +124,11 @@ require_once "vendor/function.php";
                      if($type!=$update_type){update_field($user_id,'type',$update_type);}
 
                      if (!empty($_FILES['record_image'])) { //record_image
-                       $_SESSION['message']="get record_image and save record image";
-                       $return = save_record_image($_FILES['record_image'],'');
-                       $img_url=$return['data']['image']['url'];$_SESSION['message']=$_SESSION['message']." Return from save image.";
-                       if(!empty($img_url)){
+                       $files = $_FILES["record_image"]['tmp_name'];
+                       $option= array("public_id" => "$Tel1");
+                       $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
+                       $img_url = $cloudUpload['secure_url'];
+                        if(!empty($img_url)){
                          $_SESSION['message']=$_SESSION['message']." got img_url is ".$img_url;
                          update_field($user_id,'img_url',$img_url);
                        }
