@@ -83,11 +83,14 @@ require_once "vendor/function.php";
         $comment = isset($_POST['comment']) ? $_POST['comment'] : "";
 
         if (!empty($_FILES['record_image'])) { //record_image
-          $return = save_record_image($_FILES['record_image'],'');
-          $img_url=$return['data']['image']['url'];
+
+          //$return = save_record_image($_FILES['record_image'],'');
+          //$img_url=$return['data']['image']['url'];
+          $cloudUpload = \Cloudinary\Uploader::upload($_FILES["record_image"]['tmp_name']);
+          print_r($cloudUpload);
 
         }
-      insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url);
+      //insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url);
       show_friend();
       }else{
         show_friend();
