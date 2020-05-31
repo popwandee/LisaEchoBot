@@ -204,7 +204,7 @@ function insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$L
   $context = stream_context_create($opts);
   $returnValue = file_get_contents($url,false,$context);
           if($returnValue){
-            $message=$_SESSION['message']='=> เพิ่มข้อมูลสำเร็จ. ขอบคุณค่ะ';
+            $message=$_SESSION['message']='=> เพิ่มข้อมูลสำเร็จ. ขอบคุณค่ะ ผู้ดูแลระบบจะพิจารณาอนุมัติรายชื่อ หลังจากนั้นคุณสามารถเข้าระบบได้ด้วยหมายเลขโทรศัพท์ และรหัสผ่านที่ผู้ดูแลระบบจะจัดส่งให้นะคะ';
             return $message;
             }else{
             $message=$_SESSION['message']='=> เพิ่มข้อมูลไม่สำเร็จ.';
