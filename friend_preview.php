@@ -65,10 +65,10 @@ require_once "vendor/function.php";
     // from financemanager
     // ตรวจสอบ $_id จาก _GET และ _POST
           if(isset($_GET['_id'])){
-            $_id=$_GET['_id'];echo "GET id ".$_id;
+            $_id=$_GET['_id'];
           }elseif(isset($_POST['_id'])){
-            $_id = $_POST['_id'] ;echo "POST id ".$_id;
-          }else{$_id="";echo "No id.";}
+            $_id = $_POST['_id'] ;
+          }else{$_id="";}
 
           if(!empty($_id)){
             if(isset($_GET['action'])){
@@ -208,7 +208,11 @@ function showdata($_id)
                  </tr>
      </table></td>
      <td align="center"><img src="<?php echo $img_url;?>" width='300'></td>
-   </tr></table>
+   </tr>
+ <tr><td colspan="2"><?php echo cl_image_tag("$Tel1", array("transformation"=>array(
+  array("width"=>200, "height"=>200, "gravity"=>"face", "radius"=>"max", "crop"=>"crop"),
+  array("width"=>200, "crop"=>"scale")
+)));?></tr></table>
 
            <?php
          }// if isData > 0;
