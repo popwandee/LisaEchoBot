@@ -2,7 +2,7 @@
 require 'vendor/cloudinary/cloudinary_php/src/Cloudinary.php';
 require 'vendor/cloudinary/cloudinary_php/src/Uploader.php';
 require 'vendor/cloudinary/cloudinary_php/src/Api.php';
-require 'vendor/settings.php';
+require 'config.php';
 
 
 ?>
