@@ -23,6 +23,7 @@ require_once "config.php";// mlab
 require_once "vendor/autoload.php";
 require_once "vendor/function.php";
 
+$user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : ""; echo "User Id is ".$user_id;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -210,8 +211,7 @@ function showdata($_id)
      <td align="center"><img src="<?php echo $img_url;?>" width='300'></td>
    </tr>
  <tr><td colspan="2"><?php echo cl_image_tag($img_url, array("transformation"=>array(
-  array("width"=>200, "height"=>200, "gravity"=>"face", "radius"=>"max", "crop"=>"crop"),
-  array("overlay"=>array("font_family"=>"Parisienne", "font_size"=>35, "font_weight"=>"bold", "text"=>"Memories%20from%20our%20trip"), "color"=>"#990C47", "y"=>155)
+  array("width"=>100, "height"=>100, "gravity"=>"face", "radius"=>"max", "crop"=>"crop")
 )));?></tr></table>
 
            <?php
@@ -366,7 +366,7 @@ if($isData >0){
                 <td>รายละเอียดเพิ่มเติม</td>
                 <td><textarea name="comment" rows="10" cols="30"class='form-control' /><?php echo $comment;?></textarea></td>
             </tr>
-            <tr><td colspan="2"></td></tr>
+            <tr><td colspan="2">เปลี่ยนรูปภาพ<input type="file" name="record_image" class="form-control" accept="image/*"></td></tr>
 </table></td>
 <td><img src="<?php echo $img_url;?>" width="300"></td></tr>
 <tr><td colspan="2">

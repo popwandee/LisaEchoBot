@@ -52,7 +52,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
      $isData=sizeof($data);
      if($isData >0){
         // มีข้อมูลผู้ใช้อยู่
+
      foreach($data as $rec){
+       $_id=$rec->_id;
+       foreach($_id as $rec_id){
+       $_id=$rec_id;
+       }
         $username=$rec->Tel1;
         $rank=$rec->rank;
         $name=$rec->name;
@@ -72,6 +77,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
                             // Store data in session variables
                             $_SESSION["loggedin"] = true;
+                            $_SESSION["user_id"] = $_id;
                             $_SESSION["username"] = $username;
                             $_SESSION["user_info"] = $rank.$name.' '.$lastname;
                             $_SESSION["position"] =  $position;
