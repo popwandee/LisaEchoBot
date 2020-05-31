@@ -91,41 +91,41 @@ $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : "";
                 if($isData >0){
                   //echo "\nGet data from DB are "; //print_r($data);
                      $rank=$data->rank;$update_rank = isset($_POST['rank']) ? $_POST['rank'] : "";
-                     if($rank!=$update_rank){update_field($user_id,'rank',$update_rank);}
+                     if($rank!=$update_rank){update_field($_id,'rank',$update_rank);}
 
                      $name=$data->name;$update_name = isset($_POST['name']) ? $_POST['name'] : "";
-                     if($name!=$update_name){update_field($user_id,'name',$update_name);}
+                     if($name!=$update_name){update_field($_id,'name',$update_name);}
 
                      $lastname=$data->lastname;$update_lastname = isset($_POST['lastname']) ? $_POST['lastname'] : "";
-                     if($lastname!=$update_lastname){update_field($user_id,'lastname',$update_lastname);}
+                     if($lastname!=$update_lastname){update_field($_id,'lastname',$update_lastname);}
 
                      $position=$data->position;$update_position = isset($_POST['position']) ? $_POST['position'] : "";
-                     if($position!=$update_position){update_field($user_id,'position',$update_position);}
+                     if($position!=$update_position){update_field($_id,'position',$update_position);}
 
                      $province=$data->province;$update_province = isset($_POST['province']) ? $_POST['province'] : "";
-                     if($province!=$update_province){update_field($user_id,'province',$update_province);}
+                     if($province!=$update_province){update_field($_id,'province',$update_province);}
 
                      $Email=$data->Email;$update_Email = isset($_POST['Email']) ? $_POST['Email'] : "";
-                     if($Email!=$update_Email){update_field($user_id,'Email',$update_Email);}
+                     if($Email!=$update_Email){update_field($_id,'Email',$update_Email);}
 
                      $Tel1=$data->Tel1;$update_Tel1 = isset($_POST['Tel1']) ? $_POST['Tel1'] : "";
-                     if($Tel1!=$update_Tel1){update_field($user_id,'Tel1',$update_Tel1);}
+                     if($Tel1!=$update_Tel1){update_field($_id,'Tel1',$update_Tel1);}
 
                      $LineID=$data->LineID;$update_LineID = isset($_POST['LineID']) ? $_POST['LineID'] : "";
-                     if($LineID!=$update_LineID){update_field($user_id,'LineID',$update_LineID);}
+                     if($LineID!=$update_LineID){update_field($_id,'LineID',$update_LineID);}
 
                      $comment=$data->comment;$update_comment = isset($_POST['comment']) ? $_POST['comment'] : "";
-                     if($comment!=$update_comment){update_field($user_id,'comment',$update_comment);}
+                     if($comment!=$update_comment){update_field($_id,'comment',$update_comment);}
 
                      $type = $data->type;$update_type = isset($_POST['type']) ? $_POST['type'] : "";
-                     if($type!=$update_type){update_field($user_id,'type',$update_type);}
+                     if($type!=$update_type){update_field($_id,'type',$update_type);}
 
                      if (!empty($_FILES['record_image'])) { //record_image
                        $files = $_FILES["record_image"]['tmp_name'];
                        $cloudUpload = \Cloudinary\Uploader::upload($files);
                        $img_url = $cloudUpload['secure_url'];
                         if(!empty($img_url)){
-                         update_field($user_id,'img_url',$img_url);
+                         update_field($_id,'img_url',$img_url);
                        }
                      }
                      // retrieve database

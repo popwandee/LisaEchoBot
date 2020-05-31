@@ -111,45 +111,45 @@ if(!isset($_SESSION["type"]) || $_SESSION["type"] == "สมาชิก"){
 
            break;
       case "user_edit" : //echo "\nCase edit user";
-      $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : "";
+      $_id = isset($_POST['_id']) ? $_POST['_id'] : "";
       $edited = isset($_POST['edited']) ? $_POST['edited'] : 0;
           if($edited){
             //echo "\nGet data from edit user form.";
             // Get data from database to Compare
-          $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY);
+          $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$_id.'?apiKey='.MLAB_API_KEY);
           $data = json_decode($json);
           $isData=sizeof($data);
           if($isData >0){
             //echo "\nGet data from DB are "; //print_r($data);
                $rank=$data->rank;$update_rank = isset($_POST['rank']) ? $_POST['rank'] : "";
-               if($rank!=$update_rank){update_field($user_id,'rank',$update_rank);}
+               if($rank!=$update_rank){update_field($_id,'rank',$update_rank);}
 
                $name=$data->name;$update_name = isset($_POST['name']) ? $_POST['name'] : "";
-               if($name!=$update_name){update_field($user_id,'name',$update_name);}
+               if($name!=$update_name){update_field($_id,'name',$update_name);}
 
                $lastname=$data->lastname;$update_lastname = isset($_POST['lastname']) ? $_POST['lastname'] : "";
-               if($lastname!=$update_lastname){update_field($user_id,'lastname',$update_lastname);}
+               if($lastname!=$update_lastname){update_field($_id,'lastname',$update_lastname);}
 
                $position=$data->position;$update_position = isset($_POST['position']) ? $_POST['position'] : "";
-               if($position!=$update_position){update_field($user_id,'position',$update_position);}
+               if($position!=$update_position){update_field($_id,'position',$update_position);}
 
                $province=$data->province;$update_province = isset($_POST['province']) ? $_POST['province'] : "";
-               if($province!=$update_province){update_field($user_id,'province',$update_province);}
+               if($province!=$update_province){update_field($_id,'province',$update_province);}
 
                $Email=$data->Email;$update_Email = isset($_POST['Email']) ? $_POST['Email'] : "";
-               if($Email!=$update_Email){update_field($user_id,'Email',$update_Email);}
+               if($Email!=$update_Email){update_field($_id,'Email',$update_Email);}
 
                $Tel1=$data->Tel1;$update_Tel1 = isset($_POST['Tel1']) ? $_POST['Tel1'] : "";
-               if($Tel1!=$update_Tel1){update_field($user_id,'Tel1',$update_Tel1);}
+               if($Tel1!=$update_Tel1){update_field($_id,'Tel1',$update_Tel1);}
 
                $LineID=$data->LineID;$update_LineID = isset($_POST['LineID']) ? $_POST['LineID'] : "";
-               if($LineID!=$update_LineID){update_field($user_id,'LineID',$update_LineID);}
+               if($LineID!=$update_LineID){update_field($_id,'LineID',$update_LineID);}
 
                $comment=$data->comment;$update_comment = isset($_POST['comment']) ? $_POST['comment'] : "";
-               if($comment!=$update_comment){update_field($user_id,'comment',$update_comment);}
+               if($comment!=$update_comment){update_field($_id,'comment',$update_comment);}
 
                $type = $data->type;$update_type = isset($_POST['type']) ? $_POST['type'] : "";
-               if($type!=$update_type){update_field($user_id,'type',$update_type);}
+               if($type!=$update_type){update_field($_id,'type',$update_type);}
 
                if (!empty($_FILES['record_image'])) { //record_image
                  $files = $_FILES["record_image"]['tmp_name'];
@@ -158,7 +158,7 @@ if(!isset($_SESSION["type"]) || $_SESSION["type"] == "สมาชิก"){
                  $img_url = $cloudUpload['secure_url'];
                   if(!empty($img_url)){
                    $_SESSION['message']=$_SESSION['message']." got img_url is ".$img_url;
-                   update_field($user_id,'img_url',$img_url);
+                   update_field($_id,'img_url',$img_url);
                  }
                }
                // retrieve database
@@ -171,7 +171,7 @@ if(!isset($_SESSION["type"]) || $_SESSION["type"] == "สมาชิก"){
              }
 
           }else{//echo "\nShow form for edit user";
-            show_form($user_id);
+            show_form($_id);
             }
           //  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
 
@@ -264,7 +264,7 @@ if(!isset($_SESSION["type"]) || $_SESSION["type"] == "สมาชิก"){
 <?php $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
 </span>
 <?php
-function user_approved($user_id,$approved){
+function user_approved($_id,$approved){
   if($approved){
   $newData = '{ "$set" : { "approved" : 0 } }';
   $_SESSION['message']='ยกเลิกการอนุมัติสิทธิ์เข้าใช้ระบบ';
@@ -277,7 +277,7 @@ function user_approved($user_id,$approved){
                                  'content' => $newData
                                              )
                                           );
-  $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY.'';
+  $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$_id.'?apiKey='.MLAB_API_KEY.'';
           $context = stream_context_create($opts);
           $returnValue = file_get_contents($url,false,$context);
           if($returnValue){
@@ -291,9 +291,9 @@ function user_approved($user_id,$approved){
  ?>
 
  <?php
-function show_form($user_id){
+function show_form($_id){
   //echo "\nin Fuction Show form, get user_id is ";print_r($user_id);
-  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY);
+  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$_id.'?apiKey='.MLAB_API_KEY);
 
 $data = json_decode($json);
 $isData=sizeof($data);
@@ -455,7 +455,7 @@ if($isData >0){
 <option value="เหรัญญิก">เหรัญญิก</option>
 <option value="admin">Admin</option>
 </select></td><td>
-      <input type="hidden" name="user_id" value="<?php echo $user_id;?>">
+      <input type="hidden" name="user_id" value="<?php echo $_id;?>">
       <input type='hidden' name='form_no' value='user_edit'>
       <input type='hidden' name='edited' value='1'>
       <button type="submit" class="btn btn-xs btn-warning">ยืนยัน</button>
@@ -469,7 +469,7 @@ if($isData >0){
   ?>
 
 <?php
-function update_field($user_id,$field_name,$new_info){
+function update_field($_id,$field_name,$new_info){
 
         $newData = '{ "$set" : { "'.$field_name.'" : "'.$new_info.'"} }';
         $opts = array('http' => array( 'method' => "PUT",
@@ -477,7 +477,7 @@ function update_field($user_id,$field_name,$new_info){
                                        'content' => $newData
                                                    )
                                                 );
-        $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY;
+        $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$_id.'?apiKey='.MLAB_API_KEY;
                 $context = stream_context_create($opts);
                 $returnValue = file_get_contents($url,false,$context);
 
