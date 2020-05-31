@@ -259,7 +259,7 @@ if($isData >0){
                 </tr>
             <tr>
                 <td>จังหวัด</td>
-                <td><?php select_province();?> </td>
+                <td><?php select_province($province);?> </td>
             </tr>
             <tr>
                 <td>Email</td>

@@ -23,9 +23,10 @@ function save_record_image($image,$name = null){
 ?>
 
 <?php
-function select_province(){
+function select_province($province= NULL){
 ?>
 <select name="province">
+<option value="<?php echo $province;?>" selected><?php echo $province;?></option>
 <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
 <option value="กระบี่">กระบี่ </option>
 <option value="กาญจนบุรี">กาญจนบุรี </option>
