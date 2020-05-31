@@ -150,11 +150,11 @@ foreach ($events as $event) {
                        if($isData >0){
                        foreach($data as $rec){
                          $textReplyMessage = $rec->answer."\n\n";
-                           				         /*if(isset($rec->Image) and (!$hasImageUrlStatus) and ($count<5)){
-                           		 	                  $imageUrl="https://thaitimes.online/wp-content/uploads/".$rec->Image;
-                           	                                  $imageMessage = new ImageMessageBuilder($imageUrl,$imageUrl);
-                           	                                  $multiMessage->add($imageMessage);
-                           		                            }*/
+                         //if(isset($rec->Image) and (!$hasImageUrlStatus) and ($count<5)){
+                        $imageUrl="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/girls1.jpg";
+                        $imageMessage = new ImageMessageBuilder($imageUrl,$imageUrl);
+                        $multiMessage->add($imageMessage);
+                        //}*/
                          $count++;
                        }//end for each
                        $textMessage = new TextMessageBuilder($textReplyMessage);
