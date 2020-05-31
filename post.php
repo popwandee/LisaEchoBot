@@ -149,141 +149,27 @@ switch ($action) {
 
 <?php
 function show_all_post(){
-      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/post?apiKey='.MLAB_API_KEY);
-      $data = json_decode($json);
-      $isData=sizeof($data);
-      if($isData >0){
-        $i=0;
-        ?>
-          <div class="panel panel-success">
-            <div class="panel-heading">
-              <h3 class="panel-title">รายการแจ้งคณะกรรมการรุ่น</h3>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-sm table-hover table-striped">
-                  <tbody>
-                    <?php
-        foreach($data as $rec){
-          $i++;
-          $_id=$rec->_id;
-          foreach($_id as $rec_id){
-          $_id=$rec_id;
-          }
-           $name=$rec->name;
-           $title=$rec->title;
-           $detail=$rec->detail;
-           $category=$rec->category;
-           $post_time=$rec->post_time;
-           $status=$rec->status;
-           $img_url=$rec->img_url;
-           ?>
-      <tr><td width='70%'><?php echo $title." : ".$post_time;?></td><td><?php echo $name;?></td></tr>
-      <tr><td colspan="2">
-        <table class="table table-sm table-hover table-striped">
-          <tr><td><img src="<?php echo $img_url;?>" width="200"></td>
-            <td><?php echo $detail;?></td></tr>
-        </table></td></tr>
-      <tr><td colspan="2">Read :  / Like : </td></tr>
-           <?php    } //end foreach ?>
-           </tbody>
-         </table>
-     </div><!-- class="table-responsive"> -->
-     </div><!-- class="panel panel-success"> -->
-           <?php
-           }else{
-           echo "ยังไม่ม POST ค่ะ";
-               }
+
              }// end function show_all_post
                ?>
 
 <?php
 function new_post_form(){ ?>
-  <?php $name = $_SESSION['user_info'];?>
-  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
-  <table class='table table-hover table-responsive table-bordered' width="300">
-    <tr><td colspan="2">โพสต์ประชาสัมพันธ์ <input type='hidden' name='name' value='<?php echo $name;?>' class='form-control' /></td></tr>
-      <td colspan="2">รายละเอียด<br>
-          <textarea name="detail" rows="10" cols="30"class='form-control' /></textarea></td></tr>
-        <tr><td colspan="2">แนบรูปภาพ<input type='file' name='record_image' class='form-control' /></td></tr>
-      <tr><td>ผู้โพสต์ :</td><td>
-        <?php $user_info = isset($_SESSION["user_info"]) ? $_SESSION['user_info'] : "";
-        echo $user_info;?><input type="hidden"name="name" value="<?php echo $user_info;?>"></td></tr>
-      <tr><td colspan="2" align="center"><input type="hidden"name="action" value="newpost">
-              <input type="hidden"name="status" value="publish">
-              <input type='submit' value='Save' class='btn btn-primary' /></td></tr>
-      </table>
-    </form>
+
 <?php } // end request_form ?>
 
 <?php
 function review_post($_id){
-  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/post/'.$_id.'?apiKey='.MLAB_API_KEY);
-  $data = json_decode($json);
-  $isData=sizeof($data);
-  if($isData >0){
-    $i=0;
-    $name=$data->name;
-    $title=$data->title;
-    $detail=$data->detail;
-    $category=$data->category;
-    $post_time=$data->post_time;
-    $status=$data->status;
-    $img_url=$data->img_url;
-?>
-    <div class="panel panel-success">
-    <div class="panel-heading"><h3 class="panel-title"><?php echo $title;?></h3></div>
-    <div class="table-responsive">
-          <table class="table table-sm table-hover table-striped" width="300">
-            <tr><td width='70%'><?php echo $title." : ".$post_time;?></td><td><?php echo $name;?></td></tr>
-            <tr><td colspan="2">
-              <table class="table table-sm table-hover table-striped">
-                <tr><td><img src="<?php echo $img_url;?>" width="200"></td>
-                  <td><?php echo $detail;?></td></tr>
-              </table></td></tr>
-            <tr><td colspan="2">Read :  / Like : </td></tr>
-               </table>
-      <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
-        <table class='table table-hover table-responsive table-bordered' width="300">
-        <td colspan="2">ความเห็น<br>
-                <textarea name="detail" rows="10" cols="30"class='form-control' /></textarea></td></tr>
-              <tr><td colspan="2">รูปภาพ<input type='file' name='record_image' class='form-control' /></td></tr>
-            <input type="hidden"name="name" value="<?php echo $user_info;?>"></td></tr>
-            <tr><td colspan="2" align="center"><input type="hidden"name="action" value="newpost">
-                    <input type="hidden"name="status" value="publish">
-                    <input type='submit' value='แสดงความเห็น' class='btn btn-primary' /></td></tr>
-            </table>
-      </form>
-               </div>
-               </div>
-                      <?php
-                     }// end if >0
+
                 }// end function review request
                 ?>
 <?php function insert_post($newData){
-$opts = array('http' => array( 'method' => "POST",
-                             'header' => "Content-type: application/json",
-                             'content' => $newData
-                                         )
-                                      );
-$url = 'https://api.mlab.com/api/1/databases/crma51/collections/post?apiKey='.MLAB_API_KEY.'';
-      $context = stream_context_create($opts);
-      $returnValue = file_get_contents($url,false,$context);
       return;
 }//end function insert_request
  ?>
  <?php
  function insert_post_comment($_id,$comment_data);}{
-   $comment_data = '{"'.$comment_no.'":{"user_comment_name":"'.$user_comment_name.'","title":"'.$title.'","detail":"'.$detail.'","img_url":"'.$img_url.'",}}';
 
-         $newData = '{ "$set" : '.$comment_data.'}';
-         $opts = array('http' => array( 'method' => "PUT",
-                                        'header' => "Content-type: application/json",
-                                        'content' => $newData
-                                                    )
-                                                 );
-         $url = 'https://api.mlab.com/api/1/databases/crma51/collections/post/'.$_id.'?apiKey='.MLAB_API_KEY;
-                 $context = stream_context_create($opts);
-                 $returnValue = file_get_contents($url,false,$context);
                  return;
  }
   ?>
