@@ -89,8 +89,8 @@ require 'vendor/cloudinary/cloudinary_php/src/Api.php';
           //$return = save_record_image($_FILES['record_image'],'');
           $img_url=$return['tags']['secure_url'];
           echo $img_url;
-exit;
-        }
+
+        }exit;
       insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url);
       show_friend();
       }else{
