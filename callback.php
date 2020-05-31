@@ -139,38 +139,8 @@ foreach ($events as $event) {
                 $replyData = $multiMessage;
               }// end if $explodeText['0']!=#
                   break;
-                  case '?':
-                       //$textReplyMessage = $textReplyMessage.'Case # ask people. ';
-                       $find_word=substr($explodeText[0], 1);
-                       //$textReplyMessage =$textReplyMessage.'Fine word '.$find_word.' ask people.';
-                       $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$find_word.'"}}');
-                       $data = json_decode($json);
-                       $isData=sizeof($data);
-                       $count = 1;
-                       if($isData >0){
-                       foreach($data as $rec){
-                         $textReplyMessage = $rec->answer."\n\n";
-                         //if(isset($rec->Image) and (!$hasImageUrlStatus) and ($count<5)){
-                        $imageUrl="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/girls1.jpg";
-                        $imageMessage = new ImageMessageBuilder($imageUrl,$imageUrl);
-                        $multiMessage->add($imageMessage);
-                        //}*/
-                         $count++;
-                       }//end for each
-                       $textMessage = new TextMessageBuilder($textReplyMessage);
-                       $multiMessage->add($textMessage);
-                       $replyData = $multiMessage;
-                       }else{
-                         $imageUrl="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/girls1.jpg";
-                         $imageMessage = new ImageMessageBuilder($imageUrl,$imageUrl);
-                         $multiMessage->add($imageMessage);
-                           	$textReplyMessage=$textReplyMessage."..ไม่มีข้อมูล.. ";
-                             $textMessage = new TextMessageBuilder($textReplyMessage);
-                             $multiMessage->add($textMessage);
-                             $replyData = $multiMessage;
-                           	}
-                       break;
-                               case '!':
+
+              case '!':
                                    $indexCount=0;$answer='';
                                    foreach($explodeText as $rec){
                                    $indexCount++;
@@ -204,6 +174,29 @@ foreach ($events as $event) {
 
                                      $replyData = $multiMessage;
                                      break;
+                default:
+                     //$textReplyMessage = $textReplyMessage.'Case # ask people. ';
+                     $find_word=substr($explodeText[0], 1);
+                     //$textReplyMessage =$textReplyMessage.'Fine word '.$find_word.' ask people.';
+                     $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$find_word.'"}}');
+                     $data = json_decode($json);
+                     $isData=sizeof($data);
+                     $count = 1;
+                     if($isData >0){
+                     foreach($data as $rec){
+                       $textReplyMessage = $rec->answer."\n\n";
+                       //if(isset($rec->Image) and (!$hasImageUrlStatus) and ($count<5)){
+                      $imageUrl="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/girls1.jpg";
+                      $imageMessage = new ImageMessageBuilder($imageUrl,$imageUrl);
+                      $multiMessage->add($imageMessage);
+                      //}*/
+                       $count++;
+                     }//end for each
+                     $textMessage = new TextMessageBuilder($textReplyMessage);
+                     $multiMessage->add($textMessage);
+                     $replyData = $multiMessage;
+                     }
+                     break;
   }//end switch $explodeText[0]
 
 	    // ส่วนส่งกลับข้อมูลให้ LINE
