@@ -54,27 +54,44 @@ require_once "vendor/function.php";
       </div>
       <div class="jumbotron">
       <?php
-      if(!isset($_POST['formSubmit'])){ // มาจากหน้าอื่นๆ ไม่ได้คลิกยืนยันที่ฟอร์มแก้ไขข้อมูล
+      if(isset($_POST['formSubmit'])) { // มาจากหน้าอื่นๆ ไม่ได้คลิกยืนยันที่ฟอร์มแก้ไขข้อมูล
       // ดึงข้อมูลจากฐานข้อมูล
-      $id=$_GET['id'];//echo "GET ID: ".$id;
-      $url="https://api.mlab.com/api/1/databases/crma51/collections/friend/".$id."?apiKey=".MLAB_API_KEY;
-      $json = file_get_contents($url);//echo "\nurl is =>".$url;
-      $data = json_decode($json);//echo "\n data is =>";print_r($data);
-      $isData=sizeof($data);
-      $i=0;
-      if($isData >0){
-        // มีข้อมูลผู้ใช้อยู่
-        $rank=$data->rank;
-        $name=$data->name;
-        $lastname=$data->lastname;
-        $position=$data->position;
-        $province=$data->province;
-        $Email=$data->Email;
-        $Tel1=$data->Tel1;
-        $LineID=$data->LineID;
-      }// end isData>0
-      else{
-      echo "NO data";
+      if(isset($_POST['id'])){$id=$_POST['id'];}else{$id=''; }
+      if(isset($_POST['rank'])){$rank=$_POST['rank'];}else{$rank=''; }
+      if(isset($_POST['name'])){$name=$_POST['name'];}else{$name=''; }
+      if(isset($_POST['lastname'])){$lastname=$_POST['lastname'];}else{$lastname=''; }
+      if(isset($_POST['postition'])){$position=$_POST['position'];}else{$position=''; }
+      if(isset($_POST['province'])){$province=$_POST['province'];}else{$province=''; }
+      if(isset($_POST['Email'])){$Email=$_POST['Email'];}else{$Email=''; }
+      if(isset($_POST['Tel1'])){$Tel1=$_POST['Tel1'];}else{$Tel1=''; }
+      if(isset($_POST['LineID'])){$LineID=$_POST['LineID'];}else{$LineID=''; }
+      if(isset($_POST['comment'])){$comment=$_POST['comment'];}else{$comment=''; }
+      $newData = json_encode(array(
+      'userid' => $id,
+      'name'=>$rank.' '.$name.' '.$lastname,
+      'content' => 'position: '.$postion.' province: '.$province.' Email: '.$Email.' Telephone: '.$Tel1.' LineID: '.$LineID ,
+      'comment' => $comment,
+      'status'=>0 );
+      $opts = array('http' => array( 'method' => "POST",
+                                   'header' => "Content-type: application/json",
+                                   'content' => $newData
+                                               )
+                                            );
+      $url = 'https://api.mlab.com/api/1/databases/crma51/collections/comment?apiKey='.MLAB_API_KEY.'';
+            $context = stream_context_create($opts);
+            $returnValue = file_get_contents($url,false,$context);
+
+            if($returnValue){
+           $message= "<div align='center' class='alert alert-success'>รับแจ้งแก้ไขข้อมูล ".$name." เรียบร้อย</div>";
+           echo $message;
+
+              }else{
+           $message= "<div align='center' class='alert alert-danger'>ไม่สามารถบันทึกรับแจ้งการแก้ไขข้อมูลได้</div>";
+        echo $message;
+                     }
+          $_SESSION["message"]=$message;
+            header("location: friend.php");
+              exit;
       }
       ?>
 <?php show_all_comment();?>
