@@ -140,8 +140,9 @@ switch ($action) {
      if($update_status!=$status_db){update_field($_id,'status',$update_status);}
 
      if (!empty($_FILES['record_image'])) { //record_image
-       $return = save_record_image($_FILES['record_image'],'');
-       $img_url=$return['data']['image']['url'];
+       $files = $_FILES["record_image"]['tmp_name'];
+       $cloudUpload = \Cloudinary\Uploader::upload($files);
+       $img_url = $cloudUpload['secure_url'];
        if(!empty($img_url)){
          update_field($_id,'img_url',$img_url);
          //$_SESSION['message']=$_SESSION['message']." บันทึกรูปภาพ ".$img_url." แล้ว/";
@@ -268,7 +269,7 @@ function review_request($_id){
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
           <table class="table table-sm table-hover table-striped" width="300">
                  <tr><td class="text-nowrap" colspan="2">เรื่อง<input type="text"name="title" value="<?php echo $title;?>"class='form-control' ></td></tr>
-                 <tr><td>ผู้แจ้ง</td><td class="text-nowrap"><?php echo $name;?></td></tr>
+                 <tr><td>ผู้แจ้ง</td><td class="text-nowrap"><input type="hidden" name="name" value="<?php echo $name;?>"><?php echo $name;?></td></tr>
                  <tr><td>ความมุ่งหมาย</td><td> <select name="type" class='form-control' >
                 <option value="<?php echo $type;?>" selected><?php echo $type;?></option>
                 <option value="เพื่อทราบ">เพื่อทราบ</option>
