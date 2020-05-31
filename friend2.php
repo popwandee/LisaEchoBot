@@ -88,7 +88,8 @@ require_once "vendor/function.php";
           //$img_url=$return['data']['image']['url'];
           $files = $_FILES["record_image"]['tmp_name'];
           $cloudUpload = \Cloudinary\Uploader::upload($files);
-          echo "Public_id ".$cloudUpload['public_id']." URL".$cloudUpload['tags']['secure_url'];
+          print_r($cloudUpload);
+          echo "\nPublic_id ".$cloudUpload['public_id']." URL".$cloudUpload['secure_url'];
 
         }
       //insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url);
