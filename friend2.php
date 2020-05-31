@@ -83,17 +83,13 @@ require_once "vendor/function.php";
         $comment = isset($_POST['comment']) ? $_POST['comment'] : "";
 
         if (!empty($_FILES['record_image'])) { //record_image
-
-          //$return = save_record_image($_FILES['record_image'],'');
-          //$img_url=$return['data']['image']['url'];
           $files = $_FILES["record_image"]['tmp_name'];
           $option= array("public_id" => "$Tel1");
           $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
-          print_r($cloudUpload);
-          echo "\nPublic_id ".$cloudUpload['public_id']." URL".$cloudUpload['secure_url'];
+          $img_url = $cloudUpload['secure_url'];
 
         }
-      //insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url);
+      insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url);
       show_friend();
       }else{
         show_friend();
@@ -296,11 +292,11 @@ function show_friend(){
             </tr>
         <tr>
             <td>โทรศัพท์</td>
-            <td><input type='text' name='Tel1'  class='form-control' /></td>
+            <td><input type='text' name='Tel1'  class='form-control' required='' /></td>
             </tr>
         <tr>
-            <td>ข้อมูลเพิ่มเติม</td>
-            <td><textarea name="comment" rows="10" cols="30"class='form-control' />รายละเอียดข้อมูลเพิ่มเติมค่ะ</textarea></td>
+            <td>ข้อมูลเพิ่มเติม - รายละเอียดข้อมูลเพิ่มเติมค่ะ เช่นมีหมายเลขโทรศัพท์มากกว่า 1 หมายเลข หมายเลขหลักให้ระบุในช่องโทรศัพท์ เพื่อใช้ล็อกอินเข้าระบบ สำหรับหมายเลขเพิ่มเติมให้แจ้งตรงนี้นะคะ</td>
+            <td><textarea name="comment" rows="10" cols="30"class='form-control' /></textarea></td>
         </tr>
         <tr>
           <td>รูปภาพ</td>
