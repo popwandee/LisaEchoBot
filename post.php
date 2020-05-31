@@ -1,15 +1,6 @@
 <?php
 // Initialize the session
 session_start();
-// Check if the user is logged in, if not then redirect him to login page
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-    header("location: login.php");
-    exit;
-}
-// ตรวจสอบ ประเภทสมาชิก
-if(isset($_SESSION['type'])){    $user_type = $_SESSION['type'];
-}else{                           $user_type = "";
-}
 
 
 // Cloudinary
@@ -21,6 +12,16 @@ require 'vendor/cloudinary/cloudinary_php/src/Api.php';
 require_once "config.php";// mlab
 require_once "vendor/autoload.php";
 require_once "vendor/function.php";
+
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
+// ตรวจสอบ ประเภทสมาชิก
+if(isset($_SESSION['type'])){    $user_type = $_SESSION['type'];
+}else{                           $user_type = "";
+}
 
 ?>
 
@@ -138,21 +139,21 @@ switch ($action) {
 </div><!-- container theme-showcase-->
 
 <?php function show_all_post(){ ?>
-
+show_all_post
 <?php }// end function show_all_post ?>
 
 <?php function new_post_form(){ ?>
-
+new_post_form
 <?php } // end request_form ?>
 
 <?php function review_post($_id){ ?>
-
+review_post
 <?php  }// end function review request   ?>
 <?php function insert_post($newData){ ?>
-
+insert_post
 <?php }//end function insert_request ?>
  <?php function insert_post_comment($_id,$comment_data)}{ ?>
-
+insert_post_comment
  <?php }  ?>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
