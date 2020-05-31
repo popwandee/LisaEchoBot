@@ -142,7 +142,7 @@ function show_friend(){
            //$file_url=$rec->file_url;
            ?>
       <tr><td><?php echo $i;?></td>
-                       <td class="text-nowrap"><a href='friend_preview.php?_id=<?php echo $_id;?>'><?php echo $rank;?>
+                       <td class="text-nowrap"><a href='friend_preview.php?_id=<?php echo $_id;?>&action=preview'><?php echo $rank;?>
                          <?php echo " ".$name;?>
                        <?php echo " ".$lastname;?></a></td>
                        <td><?php echo $position;?></td>
