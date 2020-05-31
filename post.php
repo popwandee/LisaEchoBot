@@ -2,7 +2,6 @@
 // Initialize the session
 session_start();
 
-
 // Cloudinary
 require 'vendor/cloudinary/cloudinary_php/src/Cloudinary.php';
 require 'vendor/cloudinary/cloudinary_php/src/Uploader.php';
@@ -78,23 +77,6 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 </div><!-- jumbotron-->
 </div><!-- container theme-showcase-->
 
-<?php function show_all_post(){ ?>
-show_all_post
-<?php }// end function show_all_post ?>
-
-<?php function new_post_form(){ ?>
-new_post_form
-<?php } // end request_form ?>
-
-<?php function review_post($_id){ ?>
-review_post
-<?php  }// end function review request   ?>
-<?php function insert_post($newData){ ?>
-insert_post
-<?php }//end function insert_request ?>
- <?php function insert_post_comment($_id,$comment_data)}{ ?>
-insert_post_comment
- <?php }  ?>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
