@@ -12,6 +12,12 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 require_once "config.php";
 require_once "vendor/autoload.php";
 require_once "vendor/settings.php";
+require_once "vendor/function.php";
+// Require Cloudinaty
+require 'vendor/cloudinary/cloudinary_php/src/Cloudinary.php';
+require 'vendor/cloudinary/cloudinary_php/src/Uploader.php';
+require 'vendor/cloudinary/cloudinary_php/src/Api.php';
+
 
 ?>
 <!DOCTYPE html>
@@ -75,17 +81,14 @@ require_once "vendor/settings.php";
         $Tel1 = isset($_POST['Tel1']) ? $_POST['Tel1'] : "";
         $LineID = isset($_POST['LineID']) ? $_POST['LineID'] : "";
         $comment = isset($_POST['comment']) ? $_POST['comment'] : "";
-$_SESSION['message']=$_SESSION['message']."We got formSubmit";
-        if (!empty($_FILES['record_image'])) { //record_image
-          $_SESSION['message']=$_SESSION['message']."\n We got image ";print_r($_FILES['record_image']);
-          $return = save_record_image($_FILES['record_image'],'');
-          $imgbb_url = $return['data']['url'];
-          $_SESSION['message']=$_SESSION['message']."\n Return is ".$imgbb_url;
-          $img_url=$return['data']['image']['url'];
-          $_SESSION['message']=$_SESSION['message']."imgbb_url is ".$imgbb_url." img_url is ".$img_url;
 
-          //insert_imgbb($imgbb_url);
-        }else{$_SESSION['message']=$_SESSION['message']."empty record_image";}
+        if (!empty($_FILES['record_image'])) { //record_image
+          $return = \Cloudinary\Uploader::upload($_FILES["record_image"]['tmp_name']);
+          //$return = save_record_image($_FILES['record_image'],'');
+          $img_url=$return['tags']['secure_url'];
+          echo $img_url;
+exit;
+        }
       insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url);
       show_friend();
       }else{
@@ -347,31 +350,7 @@ function insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$L
            }
 } //function insert_friend
 ?>
-<?php
-function save_record_image($image,$name = null){
-  $_SESSION['message']=$_SESSION['message']."in save_record_image.";
-  $IMGBB_API_KEY = '6c23a11220bb2c1f7b9406175f3b8cbc';
-  $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, 'https://api.imgbb.com/1/upload?key='.$IMGBB_API_KEY);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  curl_setopt($ch, CURLOPT_POST, 1);
-  curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
-  //$extension = pathinfo($image['name'],PATHINFO_EXTENSION);
- // $file_name = ($name)? $name.'.'.$extension : $image['name'] ;
-  $data = array('image' => base64_encode(file_get_contents($image['tmp_name'])), 'name' => $name);
-  curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-  $result = curl_exec($ch);
-  if (curl_errno($ch)) {
-      return 'Error:' . curl_error($ch);$_SESSION['message']=$_SESSION['message']."Save image Error.";
-  }else{
-    return json_decode($result, true);
-$_SESSION['message']=$_SESSION['message']." Save image OK";
-  }
-  curl_close($ch);
-}
 
-
-?>
 </div><!-- jumbotron-->
 </div><!-- container theme-showcase-->
  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
