@@ -1,13 +1,7 @@
 <?php
 // Initialize the session
 session_start();
-/*
-// Check if the user is logged in, if not then redirect him to login page
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-    header("location: login.php");
-    exit;
-}
-*/
+
 
 // Cloudinary
 require 'vendor/cloudinary/cloudinary_php/src/Cloudinary.php';
@@ -18,6 +12,13 @@ require 'vendor/cloudinary/cloudinary_php/src/Api.php';
 require_once "config.php";// mlab
 require_once "vendor/autoload.php";
 require_once "vendor/function.php";
+
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -59,7 +60,7 @@ require_once "vendor/function.php";
     <div class="jumbotron">
        <?php if(isset($_SESSION["message"])){
          $message=$_SESSION['message'];
-         echo $message;
+
        }else{
          $_SESSION['message']='';
        }?>
@@ -70,7 +71,7 @@ require_once "vendor/function.php";
 
       </div>
       <?php
-      show_form();
+
       if(isset($_POST['formSubmit'])){
         $rank = isset($_POST['rank']) ? $_POST['rank'] : "";
         $name = isset($_POST['name']) ? $_POST['name'] : "";
@@ -90,9 +91,9 @@ require_once "vendor/function.php";
 
         }
       insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url);
-      show_friend();
+      echo $message; $_SESSION['message']='';
       }else{
-        show_friend();
+      show_form();
       }
 
  if(isset($_SESSION["message"])){
@@ -101,69 +102,7 @@ require_once "vendor/function.php";
    $_SESSION['message']='';
  }
 
-function show_friend(){
-      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY);
-      $data = json_decode($json);
-      $isData=sizeof($data);
-      if($isData >0){
-        $i=0;
-        ?>
-          <div class="panel panel-success">
-            <div class="panel-heading">
-              <h3 class="panel-title">เพื่อนที่กรอกข้อมูลแล้ว</h3>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-sm table-hover table-striped">
-                  <thead>
-                    <tr>
-                      <th>ลำดับ</th><th>ยศ ชื่อ สกุล</th>
-            <th>ตำแหน่ง</th>
-            <th>จังหวัด</th>
-            <th>Email</th>
-            <th>LINE ID</th>
-            <th>Telephone number</th>
-          <th>Action</th></tr>
-          </thead><tbody>
-        <?php
-        foreach($data as $rec){
-          $i++;
-          $_id=$rec->_id;
-          foreach($_id as $rec_id){
-          $_id=$rec_id;
-          }
-           $rank=$rec->rank;
-           $name=$rec->name;
-           $lastname=$rec->lastname;
-           $position=$rec->position;
-           $province=$rec->province;
-           $Email=$rec->Email;
-           $Tel1=$rec->Tel1;
-           $LineID=$rec->LineID;
-           //$file_url=$rec->file_url;
-           ?>
-      <tr><td><?php echo $i;?></td>
-                       <td class="text-nowrap"><a href='friend_preview.php?_id=<?php echo $_id;?>&action=preview'><?php echo $rank;?>
-                         <?php echo " ".$name;?>
-                       <?php echo " ".$lastname;?></a></td>
-                       <td><?php echo $position;?></td>
-                       <td><?php echo $province;?></td>
-                       <td><?php echo $Email;?></td>
-                       <td><?php echo $LineID;?></td>
-                       <td><?php echo $Tel1;?></td>
-                       <td><a href='comment.php?id=<?php echo $_id;?>'>แจ้งแก้ไข</a></td>
-                   </tr>
-           <?php    } //end foreach
-             ?>
-           </tbody>
-         </table>
-     </div><!-- class="table-responsive"> -->
-     </div><!-- class="panel panel-success"> -->
-           <?php
-           }else{
-           echo "ยังไม่มีข้อมูลค่ะ";
-               }
-             }// end function show_friend
-               ?>
+?>
 <?php function show_form(){ ?>
         <div class="panel panel-success">
           <div class="panel-heading">
