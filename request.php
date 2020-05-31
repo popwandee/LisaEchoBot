@@ -11,10 +11,15 @@ if(isset($_SESSION['type'])){    $user_type = $_SESSION['type'];
 }else{                           $user_type = "";
 }
 
+
+// Cloudinary
+require 'vendor/cloudinary/cloudinary_php/src/Cloudinary.php';
+require 'vendor/cloudinary/cloudinary_php/src/Uploader.php';
+require 'vendor/cloudinary/cloudinary_php/src/Api.php';
+
 // Include config file
-require_once "config.php";
+require_once "config.php";// mlab
 require_once "vendor/autoload.php";
-require_once "vendor/settings.php";
 require_once "vendor/function.php";
 
 ?>

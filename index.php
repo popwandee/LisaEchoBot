@@ -13,8 +13,15 @@ $position = isset($_SESSION["position"]) ? $_SESSION["position"] : "";
 $province = isset($_SESSION["province"]) ? $_SESSION["province"] : "";
 
 
+// Cloudinary
+require 'vendor/cloudinary/cloudinary_php/src/Cloudinary.php';
+require 'vendor/cloudinary/cloudinary_php/src/Uploader.php';
+require 'vendor/cloudinary/cloudinary_php/src/Api.php';
+
 // Include config file
-require_once "config.php";
+require_once "config.php";// mlab
+require_once "vendor/autoload.php";
+require_once "vendor/function.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
