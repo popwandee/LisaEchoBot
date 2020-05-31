@@ -214,9 +214,9 @@ function showdata($_id)
  } // end function showdata ?>
 
  <?php
-function show_form($user_id){
+function show_form($_id){
   //echo "\nin Fuction Show form, get user_id is ";print_r($user_id);
-  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY);
+  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$_id.'?apiKey='.MLAB_API_KEY);
 
 $data = json_decode($json);
 $isData=sizeof($data);
