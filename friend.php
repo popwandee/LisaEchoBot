@@ -90,8 +90,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
           $img_url = $cloudUpload['secure_url'];
 
         }
-      insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url);
+      $result=insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url);
       echo $message; $_SESSION['message']='';
+      echo $result;
       }else{
       show_form();
       }
@@ -203,9 +204,11 @@ function insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$L
   $context = stream_context_create($opts);
   $returnValue = file_get_contents($url,false,$context);
           if($returnValue){
-            $_SESSION['message']='=> เพิ่มข้อมูลสำเร็จ.';
+            $message=$_SESSION['message']='=> เพิ่มข้อมูลสำเร็จ.';
+            return $message;
             }else{
-            $_SESSION['message']='=> เพิ่มข้อมูลไม่สำเร็จ.';
+            $message=$_SESSION['message']='=> เพิ่มข้อมูลไม่สำเร็จ.';
+            return $message;
            }
 } //function insert_friend
 ?>
