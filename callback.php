@@ -161,6 +161,9 @@ foreach ($events as $event) {
                        $multiMessage->add($textMessage);
                        $replyData = $multiMessage;
                        }else{
+                         $imageUrl="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/girls1.jpg";
+                         $imageMessage = new ImageMessageBuilder($imageUrl,$imageUrl);
+                         $multiMessage->add($imageMessage);
                            	$textReplyMessage=$textReplyMessage."..ไม่มีข้อมูล.. ";
                              $textMessage = new TextMessageBuilder($textReplyMessage);
                              $multiMessage->add($textMessage);

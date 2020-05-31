@@ -142,7 +142,7 @@ $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : "";
               }// end if isset formSubmit
 
             }else{ // not admin or own data
-              echo "<a href='friend_preview.php?_id=$_id&action=form'><button type='button' class='btn btn-xs btn-success'>แก้ไข (เฉพาะ Admin)</button></a>";
+              echo "<a href='friend_preview.php?_id=$_id&action=form'><button type='button' class='btn btn-xs btn-success'>แก้ไข (เฉพาะ Admin และเจ้าของข้อมูล)</button></a>";
               showdata($_id);
             }
 
