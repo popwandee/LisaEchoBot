@@ -8,15 +8,17 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     exit;
 }
 */
+
+// Cloudinary
+require 'vendor/cloudinary/cloudinary_php/src/Cloudinary.php';
+require 'vendor/cloudinary/cloudinary_php/src/Uploader.php';
+require 'vendor/cloudinary/cloudinary_php/src/Api.php';
+
 // Include config file
 require_once "config.php";
 require_once "vendor/autoload.php";
 require_once "vendor/settings.php";
 require_once "vendor/function.php";
-// Cloudinary
-require 'vendor/cloudinary/cloudinary_php/src/Cloudinary.php';
-require 'vendor/cloudinary/cloudinary_php/src/Uploader.php';
-require 'vendor/cloudinary/cloudinary_php/src/Api.php';
 
 ?>
 <!DOCTYPE html>
