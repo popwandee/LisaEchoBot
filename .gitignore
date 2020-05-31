@@ -1,5 +1,3 @@
 !/logs/.gitkeep
 /logs/*
-config.php
-vendor/setting.php
 *.phar
