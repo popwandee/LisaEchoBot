@@ -116,11 +116,6 @@ switch ($action) {
       show_all_post();
     break; // end case newrequest
   case 'comment' :
-    $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/post/'.$_id.'?apiKey='.MLAB_API_KEY);
-    $data = json_decode($json);
-    $isData=sizeof($data);
-    if($isData >0){
-
      $comment_no = isset($_POST['comment_no']) ? $_POST['comment_no'] : "";
      $user_comment_name = isset($_POST['user_comment_name']) ? $_POST['user_comment_name'] : "";
      $title = isset($_POST['title']) ? $_POST['title'] : "";
@@ -137,10 +132,7 @@ switch ($action) {
           }// end if !empty _FILES
 
      $comment_data = '{"'.$comment_no.'":{"user_comment_name":"'.$user_comment_name.'","title":"'.$title.'","detail":"'.$detail.'","img_url":"'.$img_url.'",}}';
-     insert_post_comment($_id,$comment_data);}
-
-
-    }// end if data>0
+     insert_post_comment($_id,$comment_data);
     $_SESSION['message']=$_SESSION['message']." แสดงความเห็นเรียบร้อยแล้ว";
     show_all_post();
     new_comment_form();
