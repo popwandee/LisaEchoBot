@@ -15,7 +15,6 @@ if(!isset($_SESSION["type"]) || $_SESSION["type"] == "สมาชิก"){
 // Include config file
 require_once "config.php";
 require_once "vendor/autoload.php";
-require_once "vendor/settings.php";
 require_once "vendor/function.php";
 
 ?>
