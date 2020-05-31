@@ -288,7 +288,7 @@ if($isData >0){
 </td></tr></table>
       <?php
     }// if isData > 0;
-      exit;
+
 } // end function show_form
 
   ?>
