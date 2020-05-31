@@ -123,8 +123,7 @@ $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : "";
 
                      if (!empty($_FILES['record_image'])) { //record_image
                        $files = $_FILES["record_image"]['tmp_name'];
-                       $option= array("public_id" => $Tel1);
-                       $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
+                       $cloudUpload = \Cloudinary\Uploader::upload($files);
                        $img_url = $cloudUpload['secure_url'];
                         if(!empty($img_url)){
                          update_field($user_id,'img_url',$img_url);
