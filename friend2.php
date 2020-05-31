@@ -10,7 +10,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 */
 // Include config file
 require_once "config.php";
-require_once "vendor/autoload.php";
+//require_once "vendor/autoload.php";
 require_once "vendor/settings.php";
 require_once "vendor/function.php";
 // Require Cloudinaty
@@ -85,7 +85,7 @@ require 'vendor/cloudinary/cloudinary_php/src/Api.php';
         if (!empty($_FILES['record_image'])) { //record_image
           $files=$_FILES["record_image"]['tmp_name'];
           $option=array("folder" => "friend","public_id" => $Tel1);
-          $return = \Cloudinary\Uploader::upload($files,$option));
+          $return = \Cloudinary\Uploader::upload($files,$option);
           //$return = save_record_image($_FILES['record_image'],'');
           $img_url=$return['tags']['secure_url'];
           echo $img_url;
