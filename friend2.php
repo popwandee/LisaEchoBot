@@ -10,14 +10,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 */
 // Include config file
 require_once "config.php";
-//require_once "vendor/autoload.php";
+require_once "vendor/autoload.php";
 require_once "vendor/settings.php";
 require_once "vendor/function.php";
-// Require Cloudinaty
-require 'vendor/cloudinary/cloudinary_php/src/Cloudinary.php';
-require 'vendor/cloudinary/cloudinary_php/src/Uploader.php';
-require 'vendor/cloudinary/cloudinary_php/src/Api.php';
-
 
 ?>
 <!DOCTYPE html>
@@ -83,14 +78,10 @@ require 'vendor/cloudinary/cloudinary_php/src/Api.php';
         $comment = isset($_POST['comment']) ? $_POST['comment'] : "";
 
         if (!empty($_FILES['record_image'])) { //record_image
-          $files=$_FILES["record_image"]['tmp_name'];
-          $option=array("folder" => "friend","public_id" => $Tel1);
-          $return = \Cloudinary\Uploader::upload($files,$option);
-          //$return = save_record_image($_FILES['record_image'],'');
-          $img_url=$return['tags']['secure_url'];
-          echo $img_url;
+          $return = save_record_image($_FILES['record_image'],'');
+          $img_url=$return['data']['image']['url'];
 
-        }exit;
+        }
       insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url);
       show_friend();
       }else{
