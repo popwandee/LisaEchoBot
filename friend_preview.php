@@ -123,7 +123,7 @@ $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : "";
 
                      if (!empty($_FILES['record_image'])) { //record_image
                        $files = $_FILES["record_image"]['tmp_name'];
-                       $option= array("public_id" => "$Tel1");
+                       $option= array("public_id" => $Tel1);
                        $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
                        $img_url = $cloudUpload['secure_url'];
                         if(!empty($img_url)){
@@ -207,9 +207,7 @@ function showdata($_id)
      </table></td>
      <td align="center"><img src="<?php echo $img_url;?>" width='300'></td>
    </tr>
- <tr><td colspan="2"><?php echo cl_image_tag($img_url, array("transformation"=>array(
-  array("width"=>100, "height"=>100, "gravity"=>"face", "radius"=>"max", "crop"=>"crop")
-)));?></tr></table>
+ </table>
 
            <?php
          }// if isData > 0;
