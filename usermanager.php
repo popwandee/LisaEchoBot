@@ -2,15 +2,6 @@
 // Initialize the session
 session_start();
 
-// Check if the user is logged in, if not then redirect him to login page
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-    header("location: login.php");
-    exit;
-}
-if(!isset($_SESSION["type"]) || $_SESSION["type"] == "สมาชิก"){
-    header("location: index.php?message=You are not admin.");
-    exit;
-}
 
 // Cloudinary
 require 'vendor/cloudinary/cloudinary_php/src/Cloudinary.php';
@@ -21,6 +12,17 @@ require 'vendor/cloudinary/cloudinary_php/src/Api.php';
 require_once "config.php";// mlab
 require_once "vendor/autoload.php";
 require_once "vendor/function.php";
+
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
+if(!isset($_SESSION["type"]) || $_SESSION["type"] == "สมาชิก"){
+    header("location: index.php?message=You are not admin.");
+    exit;
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -150,10 +152,11 @@ require_once "vendor/function.php";
                if($type!=$update_type){update_field($user_id,'type',$update_type);}
 
                if (!empty($_FILES['record_image'])) { //record_image
-                 $_SESSION['message']="get record_image and save record image";
-                 $return = save_record_image($_FILES['record_image'],'');
-                 $img_url=$return['data']['image']['url'];$_SESSION['message']=$_SESSION['message']." Return from save image.";
-                 if(!empty($img_url)){
+                 $files = $_FILES["record_image"]['tmp_name'];
+                 $option= array("public_id" => "$Tel1");
+                 $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
+                 $img_url = $cloudUpload['secure_url'];
+                  if(!empty($img_url)){
                    $_SESSION['message']=$_SESSION['message']." got img_url is ".$img_url;
                    update_field($user_id,'img_url',$img_url);
                  }
@@ -574,30 +577,6 @@ function select_province(){
   <?php
 
 }
-       ?>
-
-       <?php
-       function save_record_image($image,$name = null){
-         $IMGBB_API_KEY = '6c23a11220bb2c1f7b9406175f3b8cbc';
-         $ch = curl_init();
-         curl_setopt($ch, CURLOPT_URL, 'https://api.imgbb.com/1/upload?key='.$IMGBB_API_KEY);
-         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-         curl_setopt($ch, CURLOPT_POST, 1);
-         curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
-         //$extension = pathinfo($image['name'],PATHINFO_EXTENSION);
-        // $file_name = ($name)? $name.'.'.$extension : $image['name'] ;
-         $data = array('image' => base64_encode(file_get_contents($image['tmp_name'])), 'name' => $name);
-         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-         $result = curl_exec($ch);
-         if (curl_errno($ch)) {
-             return 'Error:' . curl_error($ch);
-         }else{
-           return json_decode($result, true);
-         }
-         curl_close($ch);
-       }
-
-
        ?>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>

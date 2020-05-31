@@ -211,7 +211,8 @@ function showdata($_id)
    </tr>
  <tr><td colspan="2"><?php echo cl_image_tag($img_url, array("transformation"=>array(
   array("width"=>200, "height"=>200, "gravity"=>"face", "radius"=>"max", "crop"=>"crop"),
-  array("width"=>200, "crop"=>"scale")
+  array("width"=>200, "crop"=>"scale"),
+  array("overlay"=>array("font_family"=>"Parisienne", "font_size"=>35, "font_weight"=>"bold", "text"=>"Memories%20from%20our%20trip"), "color"=>"#990C47", "y"=>155)
 )));?></tr></table>
 
            <?php
