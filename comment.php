@@ -53,35 +53,7 @@ require_once "vendor/function.php";
       <span class="label label-primary">แจ้งแก้ไขข้อมูล</span>
       </div>
       <div class="jumbotron">
-      <?php
-      if(isset($_POST['formSubmit'])) { // มาจากหน้าอื่นๆ ไม่ได้คลิกยืนยันที่ฟอร์มแก้ไขข้อมูล
-      // ดึงข้อมูลจากฐานข้อมูล
-      if(isset($_POST['id'])){$id=$_POST['id'];}else{$id=''; }
-      if(isset($_POST['rank'])){$rank=$_POST['rank'];}else{$rank=''; }
-      if(isset($_POST['name'])){$name=$_POST['name'];}else{$name=''; }
-      if(isset($_POST['lastname'])){$lastname=$_POST['lastname'];}else{$lastname=''; }
-      if(isset($_POST['postition'])){$position=$_POST['position'];}else{$position=''; }
-      if(isset($_POST['province'])){$province=$_POST['province'];}else{$province=''; }
-      if(isset($_POST['Email'])){$Email=$_POST['Email'];}else{$Email=''; }
-      if(isset($_POST['Tel1'])){$Tel1=$_POST['Tel1'];}else{$Tel1=''; }
-      if(isset($_POST['LineID'])){$LineID=$_POST['LineID'];}else{$LineID=''; }
-      if(isset($_POST['comment'])){$comment=$_POST['comment'];}else{$comment=''; }
-      $newData = json_encode(array(
-      'userid' => $id,
-      'name'=>$rank.' '.$name.' '.$lastname,
-      'content' => 'position: '.$postion.' province: '.$province.' Email: '.$Email.' Telephone: '.$Tel1.' LineID: '.$LineID ,
-      'comment' => $comment,
-      'status'=>0 );
-      $opts = array('http' => array( 'method' => "POST",
-                                   'header' => "Content-type: application/json",
-                                   'content' => $newData
-                                               )
-                                            );
-      $url = 'https://api.mlab.com/api/1/databases/crma51/collections/comment?apiKey='.MLAB_API_KEY;
-            $context = stream_context_create($opts);
-            $returnValue = file_get_contents($url,false,$context);
-      }
-      ?>
+
 <?php show_all_comment();?>
 <?php
 function show_all_comment(){
@@ -129,6 +101,8 @@ function show_all_comment(){
              }// end function show_friend
                ?>
 
+             </div><!-- jumbotron-->
+             </div><!-- container theme-showcase-->
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
