@@ -294,7 +294,7 @@ if($isData >0){
   ?>
 
 <?php
-function update_field($user_id,$field_name,$new_info){
+function update_field($_id,$field_name,$new_info){
 
         $newData = '{ "$set" : { "'.$field_name.'" : "'.$new_info.'"} }';
         $opts = array('http' => array( 'method' => "PUT",
@@ -302,7 +302,7 @@ function update_field($user_id,$field_name,$new_info){
                                        'content' => $newData
                                                    )
                                                 );
-        $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY;
+        $url = 'https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$_id.'?apiKey='.MLAB_API_KEY;
                 $context = stream_context_create($opts);
                 $returnValue = file_get_contents($url,false,$context);
 
