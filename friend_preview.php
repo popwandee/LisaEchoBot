@@ -148,12 +148,11 @@ $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : "";
                 show_form($_id);
               }// end if isset formSubmit
 
-            }
-
-              if(($_SESSION['type'])=='เหรัญญิก' || (($_SESSION['type'])=='สมาชิก')){ // not a financemanager
+            }else{ // not admin or own data
               echo "<a href='friend_preview.php?_id=$_id&action=form'><button type='button' class='btn btn-xs btn-success'>แก้ไข (เฉพาะ Admin)</button></a>";
               showdata($_id);
-            }// end is financemanager
+            }
+
           }// end if not empty $_id
 
      ?>
