@@ -23,7 +23,7 @@ require_once "config.php";// mlab
 require_once "vendor/autoload.php";
 require_once "vendor/function.php";
 
-$user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : ""; echo "User Id is ".$user_id;
+$user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : "";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -86,7 +86,9 @@ $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : ""; echo "User I
                   break;
               }// end switch
             }// end if isset action
-            if(isset($_SESSION['type']) && (($_SESSION['type'])=='admin')){
+            echo "User Id is ".$user_id;
+
+            if(($user_id =='_id') || (($_SESSION['type'])=='admin')){
               // check if from formSubmit
               if(isset($_POST['formSubmit'])){
                 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend/'.$user_id.'?apiKey='.MLAB_API_KEY);
@@ -141,12 +143,14 @@ $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : ""; echo "User I
                 }// end if isData > 0
               }else{
                 echo "<a href='friend_preview.php?_id=$_id&action=preview'><button type='button' class='btn btn-xs btn-success'>แสดงตัวอย่าง</button></a>";
-                    show_form($_id);
+                if($user_id==$_id){echo "คุณสามารถแก้ไขข้อมูลตัวเองได้";}
+                if(($_SESSION['type'])=='admin'){echo "Admin แก้ไขข้อูลเพื่อน ๆ ได้";}
+                show_form($_id);
               }// end if isset formSubmit
 
             }
 
-              if(isset($_SESSION['type']) && (($_SESSION['type'])=='สมาชิก')){ // not a financemanager
+              if(($_SESSION['type'])=='เหรัญญิก' || (($_SESSION['type'])=='สมาชิก')){ // not a financemanager
               echo "<a href='friend_preview.php?_id=$_id&action=form'><button type='button' class='btn btn-xs btn-success'>แก้ไข (เฉพาะ Admin)</button></a>";
               showdata($_id);
             }// end is financemanager

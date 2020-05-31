@@ -238,7 +238,7 @@ else{ // set formSubmit from form
     'name'=>$rank.' '.$name.' '.$lastname,
     'content' => 'position: '.$postion.' province: '.$province.' Email: '.$Email.' Telephone: '.$Tel1.' LineID: '.$LineID ,
   	'comment' => $comment,
-    'status'=>'เพิ่มใหม่') );
+    'status'=>0 );
   $opts = array('http' => array( 'method' => "POST",
                                  'header' => "Content-type: application/json",
                                  'content' => $newData
