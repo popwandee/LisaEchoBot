@@ -133,9 +133,10 @@ $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : "";
                    }else{
                   $_SESSION['message']=$_SESSION['message']." ไม่พบข้อมูลในฐานข้อมูลที่ต้องการแก้ไข/";
                 }// end if isData > 0
-              }else{
+              }else{ // ไม่ได้มาจากหอร์ม แสดงฟอร์ม
                 echo "<a href='friend_preview.php?_id=$_id&action=preview'><button type='button' class='btn btn-xs btn-success'>แสดงตัวอย่าง</button></a>";
-                if($user_id==$_id){echo "คุณสามารถแก้ไขข้อมูลตัวเองได้";}
+                echo "user_id is ".$user_id." _id is ".$_id;
+                if($user_id==$_id){ echo "คุณสามารถแก้ไขข้อมูลตัวเองได้";}
                 if(($_SESSION['type'])=='admin'){echo "Admin แก้ไขข้อูลเพื่อน ๆ ได้";}
                 show_form($_id);
               }// end if isset formSubmit
