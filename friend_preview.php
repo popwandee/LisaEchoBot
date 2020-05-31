@@ -209,7 +209,7 @@ function showdata($_id)
      </table></td>
      <td align="center"><img src="<?php echo $img_url;?>" width='300'></td>
    </tr>
- <tr><td colspan="2"><?php echo cl_image_tag("$Tel1", array("transformation"=>array(
+ <tr><td colspan="2"><?php echo cl_image_tag($img_url, array("transformation"=>array(
   array("width"=>200, "height"=>200, "gravity"=>"face", "radius"=>"max", "crop"=>"crop"),
   array("width"=>200, "crop"=>"scale")
 )));?></tr></table>

@@ -205,7 +205,7 @@ $rank=$rec->rank;$name=$rec->name;$lastname=$rec->lastname;
   $LineID=$rec->LineID;
 ?>
 <tr><td><?php echo "{$id}";?></td>
-    <td class='text-nowrap'><a href='friend_preview.php?_id=<?php echo $_id;?>'>
+    <td class='text-nowrap'><a href='friend_preview.php?_id=<?php echo $_id;?>&action=preview'>
       <?php echo "{$rank} "; ?> <?php echo "{$name} "; ?> <?php echo "{$lastname} "; ?></a></td>
     <td><?php echo "{$position}";?></td>
     <td><?php echo "{$province}";?></td>

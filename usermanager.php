@@ -12,7 +12,6 @@ if(!isset($_SESSION["type"]) || $_SESSION["type"] == "สมาชิก"){
     exit;
 }
 
-
 // Cloudinary
 require 'vendor/cloudinary/cloudinary_php/src/Cloudinary.php';
 require 'vendor/cloudinary/cloudinary_php/src/Uploader.php';
