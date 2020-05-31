@@ -87,7 +87,7 @@ require_once "vendor/function.php";
           //$return = save_record_image($_FILES['record_image'],'');
           //$img_url=$return['data']['image']['url'];
           $files = $_FILES["record_image"]['tmp_name'];
-          $option= array("public_id" => "sample_id");
+          $option= array("public_id" => "$Tel1");
           $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
           print_r($cloudUpload);
           echo "\nPublic_id ".$cloudUpload['public_id']." URL".$cloudUpload['secure_url'];
