@@ -120,7 +120,7 @@ $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : "";
                      $type = $data->type;$update_type = isset($_POST['type']) ? $_POST['type'] : "";
                      if($type!=$update_type){update_field($_id,'type',$update_type);}
 
-                     if (!empty($_FILES["record_image"]['tmp_name'];)) { //record_image
+                     if (!empty($_FILES["record_image"]['tmp_name'])) { //record_image
                        $files = $_FILES["record_image"]['tmp_name'];
                        $cloudUpload = \Cloudinary\Uploader::upload($files);
                        $img_url = $cloudUpload['secure_url'];
