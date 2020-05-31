@@ -65,10 +65,10 @@ require_once "vendor/function.php";
     // from financemanager
     // ตรวจสอบ $_id จาก _GET และ _POST
           if(isset($_GET['_id'])){
-            $_id=$_GET['_id'];
+            $_id=$_GET['_id'];echo "GET id ".$_id;
           }elseif(isset($_POST['_id'])){
-            $_id = $_POST['_id'] ;
-          }else{$_id="";}
+            $_id = $_POST['_id'] ;echo "POST id ".$_id;
+          }else{$_id="";echo "No id.";}
 
           if(!empty($_id)){
             if(isset($_GET['action'])){
@@ -81,7 +81,7 @@ require_once "vendor/function.php";
                   show_form($_id);
                   break;
                 default:
-                  // code...
+                  showdata($_id);
                   break;
               }// end switch
             }// end if isset action
