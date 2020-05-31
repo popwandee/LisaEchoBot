@@ -77,21 +77,9 @@ require_once "vendor/function.php";
                                    'content' => $newData
                                                )
                                             );
-      $url = 'https://api.mlab.com/api/1/databases/crma51/collections/comment?apiKey='.MLAB_API_KEY.'';
+      $url = 'https://api.mlab.com/api/1/databases/crma51/collections/comment?apiKey='.MLAB_API_KEY;
             $context = stream_context_create($opts);
             $returnValue = file_get_contents($url,false,$context);
-
-            if($returnValue){
-           $message= "<div align='center' class='alert alert-success'>รับแจ้งแก้ไขข้อมูล ".$name." เรียบร้อย</div>";
-           echo $message;
-
-              }else{
-           $message= "<div align='center' class='alert alert-danger'>ไม่สามารถบันทึกรับแจ้งการแก้ไขข้อมูลได้</div>";
-        echo $message;
-                     }
-          $_SESSION["message"]=$message;
-            header("location: friend.php");
-              exit;
       }
       ?>
 <?php show_all_comment();?>
