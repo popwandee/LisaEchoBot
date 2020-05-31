@@ -95,11 +95,7 @@ switch ($action) {
     if (!empty($_FILES["record_image"]['tmp_name'])) { //record_image
       $files = $_FILES["record_image"]['tmp_name'];
       $cloudUpload = \Cloudinary\Uploader::upload($files);
-      $img_url = $cloudUpload['secure_url'];
-           if(!empty($img_url)){
-             update_field($_id,'img_url',$img_url);
-             //$_SESSION['message']=$_SESSION['message']." บันทึกรูปภาพ ".$img_url." แล้ว/";
-           }
+      $img_url = iseet($cloudUpload['secure_url']) ? $cloudUpload['secure_url'] : '';
          }// end if !empty _FILES
 
     $newData = json_encode(array(
@@ -120,26 +116,20 @@ switch ($action) {
      $user_comment_name = isset($_POST['user_comment_name']) ? $_POST['user_comment_name'] : "";
      $title = isset($_POST['title']) ? $_POST['title'] : "";
      $detail = isset($_POST['detail']) ? $_POST['detail'] : "";
-
+     $img_url ='';
           if (!empty($_FILES['record_image'])) { //record_image
             $files = $_FILES["record_image"]['tmp_name'];
             $cloudUpload = \Cloudinary\Uploader::upload($files);
             $img_url = $cloudUpload['secure_url'];
-            if(!empty($img_url)){
-              update_field($_id,'img_url',$img_url);
-              //$_SESSION['message']=$_SESSION['message']." บันทึกรูปภาพ ".$img_url." แล้ว/";
-            }
           }// end if !empty _FILES
 
      $comment_data = '{"'.$comment_no.'":{"user_comment_name":"'.$user_comment_name.'","title":"'.$title.'","detail":"'.$detail.'","img_url":"'.$img_url.'",}}';
      insert_post_comment($_id,$comment_data);
     $_SESSION['message']=$_SESSION['message']." แสดงความเห็นเรียบร้อยแล้ว";
     show_all_post();
-    new_comment_form();
     break;
   default:
     show_all_post();
-    new_comment_form();
     break;
 }//end switch action
 
@@ -147,32 +137,23 @@ switch ($action) {
 </div><!-- jumbotron-->
 </div><!-- container theme-showcase-->
 
-<?php
-function show_all_post(){
+<?php function show_all_post(){ ?>
 
-             }// end function show_all_post
-               ?>
+<?php }// end function show_all_post ?>
 
-<?php
-function new_post_form(){ ?>
+<?php function new_post_form(){ ?>
 
 <?php } // end request_form ?>
 
-<?php
-function review_post($_id){
+<?php function review_post($_id){ ?>
 
-                }// end function review request
-                ?>
-<?php function insert_post($newData){
-      return;
-}//end function insert_request
- ?>
- <?php
- function insert_post_comment($_id,$comment_data);}{
+<?php  }// end function review request   ?>
+<?php function insert_post($newData){ ?>
 
-                 return;
- }
-  ?>
+<?php }//end function insert_request ?>
+ <?php function insert_post_comment($_id,$comment_data)}{ ?>
+
+ <?php }  ?>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
