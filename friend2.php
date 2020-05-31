@@ -83,7 +83,9 @@ require 'vendor/cloudinary/cloudinary_php/src/Api.php';
         $comment = isset($_POST['comment']) ? $_POST['comment'] : "";
 
         if (!empty($_FILES['record_image'])) { //record_image
-          $return = \Cloudinary\Uploader::upload($_FILES["record_image"]['tmp_name']);
+          $files=$_FILES["record_image"]['tmp_name'];
+          $option=array("folder" => "friend","public_id" =>$Tel1;
+          $return = \Cloudinary\Uploader::upload($files,$option));
           //$return = save_record_image($_FILES['record_image'],'');
           $img_url=$return['tags']['secure_url'];
           echo $img_url;
