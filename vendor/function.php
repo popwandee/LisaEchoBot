@@ -25,7 +25,6 @@ function save_record_image($image,$name = null){
 <?php
 function select_province(){
 ?>
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
 <select name="province">
 <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
 <option value="กระบี่">กระบี่ </option>
@@ -106,10 +105,6 @@ function select_province(){
 <option value="อ่างทอง">อ่างทอง </option>
 <option value="อื่นๆ">อื่นๆ</option>
 </select>
-<br>
-<input type='hidden' name='form_no' value='search_province'>
-<input type='submit' value='ค้นหา' class='btn btn-primary' />
-</form>
 <?php
 
 }
