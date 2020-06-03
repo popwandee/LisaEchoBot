@@ -134,18 +134,20 @@ function showdata($data)
          echo "<th>คงเหลือ</th>";
          echo "<th>Action</th>";
        echo "</tr>";
-       $id=0;$sum=0;
+       $id=0;$summary=0;
        foreach($data as $rec){
        $id++;
        $_id=$rec->_id;
        foreach($_id as $rec_id){
        $_id=$rec_id;
        }
+       $sum=0;
        $username=$rec->username;
        $record=$rec->record;
        $add=$rec->add;
        $sub=$rec->sub;
-       $sum=$sum+$add-$sub;
+       $summary=$sum=$summary+$add-$sub;
+       //$summary=$summary+$sum;
        $add = number_format($add, 2);
        $sub = number_format($sub, 2);
        $sum = number_format($sum, 2);
@@ -188,7 +190,7 @@ function showdata($data)
      </form>
 
          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-           <tr><td colspan="6" align="center">เงินรุ่นคงเหลือ <input type="input" name="sum" value="<?php echo $sum; ?>">
+           <tr><td colspan="6" align="center">เงินรุ่นคงเหลือ <input type="input" name="sum" value="<?php echo $summary; ?>">
             <input type='hidden' name='form_no' value='sum_record'>
             <button type="submit" class="btn btn-xs btn-info">ยืนยันสรุปรายการ</button>(ครั้งเดียว)</td>
             </tr></form>
