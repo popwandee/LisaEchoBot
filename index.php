@@ -96,7 +96,7 @@ $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
                     <h3 class="panel-title">สถานะเงินรุ่น</h3>
                   </div>
                   <div class="panel-body">
-                    คงเหลือ...<?php echo $sum;?> บาท
+                    คงเหลือ...<?php $sum=number_format($sum, 2);echo $sum;?> บาท
                     <span class="list-group-item">ยังไม่ใช่ข้อมูลจริงนะครับ</span>
                   </div>
                 </div>
