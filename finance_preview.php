@@ -124,7 +124,7 @@ if(!empty($_id)){
 
                if (!empty($_FILES['record_image'])) { //record_image
                  $files = $_FILES["record_image"]['tmp_name'];
-                 $target_file = basename($_FILES["record_image"]["name"]
+                 $target_file = basename($_FILES["record_image"]["name"]);
                  $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
                  $public_id =$today;
                  $option=array("public_id" => $public_id);
