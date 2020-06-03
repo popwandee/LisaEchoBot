@@ -1,7 +1,7 @@
 <?php
 // Initialize the session
 session_start();
-/*
+
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
@@ -11,7 +11,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 if(isset($_SESSION['type'])){    $user_type = $_SESSION['type'];
 }else{                           $user_type = "";
 }
-*/
+
 
 // Cloudinary
 require 'vendor/cloudinary/cloudinary_php/src/Cloudinary.php';
@@ -88,7 +88,7 @@ switch ($action) {
     review_post($img_url);
     break;
   case 'newpost' :
-    $name= isset($_POST['name']) ? htmlspecialchars($_POST['name']) : '';
+    $name= isset($_SESSION['user_info']) ? htmlspecialchars($_SESSION['user_info']) : '';
     $title= isset($_POST['title']) ? htmlspecialchars($_POST['title']) : '';
     $detail= isset($_POST['detail']) ? htmlspecialchars($_POST['detail']) : '';
     $today = date("Ymd-His");
@@ -146,15 +146,13 @@ switch ($action) {
 
     }// end if data>0
     $_SESSION['message']=$_SESSION['message']." แก้ไข/ปรับปรุงเรื่องแจ้งคณะกรรมการรุ่นเรียบร้อยแล้ว";
-    show_all_post();
     new_post_form();
     break;
   default:
-    show_all_post();
     new_post_form();
     break;
 }//end switch action
-
+    show_all_post();
 ?>
 </div><!-- jumbotron-->
 </div><!-- container theme-showcase-->
@@ -199,6 +197,7 @@ function show_all_post(){
         <?php echo cl_image_tag("$img_url4", array("width"=>100));?></a>
       </td>
       </tr>
+      <tr><td><?php echo $rec->detail;?></td></tr>
            <?php    } //end foreach ?>
            </tbody>
          </table>
@@ -206,7 +205,7 @@ function show_all_post(){
      </div><!-- class="panel panel-success"> -->
            <?php
            }else{
-           echo "ยังไม่มีข้อมูลแจ้งแก้ไขค่ะ";
+           echo "ยังไม่มีข้อมูลค่ะ";
                }
              }// end function show_friend
                ?>
