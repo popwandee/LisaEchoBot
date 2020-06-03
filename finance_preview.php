@@ -123,8 +123,13 @@ if(!empty($_id)){
                //$_SESSION['message']=$_SESSION['message']." update $detail with $update_detail/";
 
                if (!empty($_FILES['record_image'])) { //record_image
-                 $return = save_record_image($_FILES['record_image'],'');
-                 $img_url=$return['data']['image']['url'];
+                 $files = $_FILES["record_image"]['tmp_name'];
+                 $target_file = basename($_FILES["record_image"]["name"]
+                 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+                 $public_id =$today;
+                 $option=array("public_id" => $public_id);
+                 $img_url =$public_id.".".$imageFileType;
+                 $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
                  if(!empty($img_url)){
                    update_field($_id,'img_url',$img_url);
                    //$_SESSION['message']=$_SESSION['message']." บันทึกรูปภาพ ".$img_url." แล้ว/";
@@ -171,8 +176,13 @@ if(!empty($_id)){
                //$_SESSION['message']=$_SESSION['message']." update $detail with $update_detail/";
 
                if (!empty($_FILES['record_image'])) { //record_image
-                 $return = save_record_image($_FILES['record_image'],'');
-                 $img_url=$return['data']['image']['url'];
+                 $files = $_FILES["record_image"]['tmp_name'];
+                 $target_file = basename($_FILES["record_image"]["name"]
+                 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+                 $public_id =$today;
+                 $option=array("public_id" => $public_id);
+                 $img_url =$public_id.".".$imageFileType;
+                 $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
                  if(!empty($img_url)){
                    update_field($_id,'img_url',$img_url);
                    //$_SESSION['message']=$_SESSION['message']." บันทึกรูปภาพ ".$img_url." แล้ว/";
@@ -239,7 +249,7 @@ function showdata($_id)
                      </tr>
                  <tr>
      </table></td>
-     <td  width="50%" align="center"><img src="<?php echo $img_url;?>" width='300'></td>
+     <td  width="50%" align="center"><?php echo cl_image_tag("$img_url", array("width"=>100));?></td>
    </tr></table>
 
            <?php

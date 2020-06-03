@@ -227,7 +227,7 @@ function show_all_request(){
      </div><!-- class="panel panel-success"> -->
            <?php
            }else{
-           echo "ยังไม่มีข้อมูลแจ้งแก้ไขค่ะ";
+           echo "ยังไม่มีข้อมูลค่ะ";
                }
              }// end function show_friend
                ?>

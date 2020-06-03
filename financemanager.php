@@ -91,8 +91,14 @@ require_once "vendor/function.php";
        $detail = isset($_POST['detail']) ? $_POST['detail'] : "";
 
        if (!empty($_FILES['record_image'])) { //record_image
-         $return = save_record_image($_FILES['record_image'],'');
-         $img_url=$return['data']['image']['url'];
+         $files = $_FILES["record_image"]['tmp_name'];
+         $target_file = basename($_FILES["record_image"]["name"]
+         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+         $public_id =$today;
+         $option=array("public_id" => $public_id);
+         $img_url =$public_id.".".$imageFileType;
+         $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
+
        }
 
        $img_url = isset($img_url) ? $img_url : "";
@@ -140,6 +146,9 @@ function showdata($data)
        $add=$rec->add;
        $sub=$rec->sub;
        $sum=$sum+$add-$sub;
+       $add = number_format($add, 2);
+       $sub = number_format($sub, 2);
+       $sum = number_format($sum, 2);
        $img_url=$rec->img_url;
        $detail=$rec->detail;
        // creating new table row per record
@@ -173,8 +182,9 @@ function showdata($data)
          <td><input type='text' name='add'></td>
          <td><input type='text' name='sub'></td>
          </tr>
-       <tr><td><textarea name="detail" rows="3" cols="30"class='form-control' />รายละเอียด/หมายเหตุ</textarea></td></tr>
-       <tr><td><button type="submit" class="btn btn-xs btn-info">เพิ่มรายการ</button></td></tr>
+       <tr><td colspan="4"><textarea name="detail" rows="3" cols="30"class='form-control' />รายละเอียด/หมายเหตุ</textarea></td></tr>
+       <tr><td colspan="4">แนบรูปภาพ<input type='file' name='record_image' class='form-control' /></td></tr>
+       <tr><td colspan="4"><button type="submit" class="btn btn-xs btn-info">เพิ่มรายการ</button></td></tr>
      </form>
 
          <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
@@ -202,12 +212,14 @@ echo "</div> ";// class='table-responsive'
 
 
 <?php
-      function insert_finance_record($username,$record,$add,$sub){
+      function insert_finance_record($username,$record,$add,$sub,$detail,$img_url){
       $newData = json_encode(array(
         'username' => $username,
         'record' => $record,
         'add' => $add,
-        'sub' => $sub) );
+        'sub' => $sub,
+        'detail' => $detail,
+        'img_url' => $img_url) );
       $opts = array('http' => array( 'method' => "POST",
                                      'header' => "Content-type: application/json",
                                      'content' => $newData
