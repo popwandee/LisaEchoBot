@@ -78,21 +78,8 @@ require_once "vendor/function.php";
           ?>
           <div class="container theme-showcase" role="main">
           <div class="jumbotron">
-            <h1>Gallery</h1>
-            <p>ห้องภาพ บันเทิง</p>
-            <div>
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-           <!-- lisa_echo_bot_website -->
-           <ins class="adsbygoogle"
-                style="display:block"
-                data-ad-client="ca-pub-0730772505870150"
-                data-ad-slot="7819708405"
-                data-ad-format="auto"
-                data-full-width-responsive="true"></ins>
-           <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-           </script>
-           </div>
+            <h1>POST</h1>
+            <p>ประชาสัมพันธ์</p>
 <?php // core logic
 
 switch ($action) {
@@ -241,7 +228,7 @@ function new_post_form(){ ?>
 
   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
   <table class='table table-hover table-responsive' width="100">
-    <tr><td colspan="2" align="center">IMAGE POST</td></tr>
+    <tr><td colspan="2" align="center">ภาพประชาสัมพันธ์</td></tr>
     <tr><td colspan="2">รูปภาพ<input type='file' name='record_image[]' class='form-control' /></td></tr>
     <tr><td colspan="2"><input type='file' name='record_image[]' class='form-control' /></td></tr>
     <tr><td colspan="2"><input type='file' name='record_image[]' class='form-control' /></td></tr>
