@@ -225,8 +225,7 @@ function new_post_form(){ ?>
       <td>ชื่อภาพ</td><td><input type='text' name='title' class='form-control' /></td></tr>
       <td colspan="2">โพสต์<br>
           <textarea name="detail" rows="5" cols="10"class='form-control' /></textarea>
-        <?php $user_info = isset($_SESSION["user_info"]) ? $_SESSION['user_info'] : "";?>
-        <input type="hidden"name="name" value="<?php echo $user_info;?>"></td></tr>
+</td></tr>
       <tr><td colspan="2" align="center"><input type="hidden"name="action" value="newpost">
               <input type='submit' value='POST' class='btn btn-primary' /></td></tr>
       </table>
