@@ -78,8 +78,8 @@ require_once "vendor/function.php";
           ?>
           <div class="container theme-showcase" role="main">
           <div class="jumbotron">
-            <h1>AFAPS40 - CRMA51</h1>
-            <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
+            <h1>Gallery</h1>
+            <p>ห้องภาพ บันเทิง</p>
 <?php // core logic
 
 switch ($action) {
