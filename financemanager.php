@@ -150,7 +150,7 @@ function showdata($data)
        //$summary=$summary+$sum;
        $add = number_format($add, 2);
        $sub = number_format($sub, 2);
-       $sum = number_format($sum, 2);
+       $sum = number_format($sum, 2);//echo $summary."+".$add."-".$sub."=>".$sum."<br>";
        $img_url=$rec->img_url;
        $detail=$rec->detail;
        // creating new table row per record
