@@ -2,14 +2,23 @@
 // Initialize the session
 session_start();
 
+
+// Cloudinary
+require 'vendor/cloudinary/cloudinary_php/src/Cloudinary.php';
+require 'vendor/cloudinary/cloudinary_php/src/Uploader.php';
+require 'vendor/cloudinary/cloudinary_php/src/Api.php';
+
+// Include config file
+require_once "config.php";// mlab
+require_once "vendor/autoload.php";
+require_once "vendor/function.php";
+/*
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;
 }
-
-// Include config file
-require_once "config.php";
+*/
 ?>
 
 <!DOCTYPE html>
