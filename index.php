@@ -63,19 +63,7 @@ require_once "vendor/function.php";
       <h1>AFAPS40 - CRMA51</h1>
       <p>เตรียมทหาร รุ่นที่ 40 จปร.รุ่นที่ 51</p>
     </div>
-    <div>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-   <!-- lisa_echo_bot_website -->
-   <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-0730772505870150"
-        data-ad-slot="7819708405"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
-   <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-   </script>
-   </div>
+
   <hr>
   <button type="button" class="btn btn-xs btn-danger">
 <?php
@@ -129,7 +117,19 @@ $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
 
               <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-
+            <div>
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+           <!-- lisa_echo_bot_website -->
+           <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-0730772505870150"
+                data-ad-slot="7819708405"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+           <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+           </script>
+           </div>
             <!-- Footer -->
             <footer>
               <div class="container">
@@ -141,6 +141,17 @@ $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
                           <span class="fa-stack fa-lg">
                             <i class="fas fa-circle fa-stack-2x"></i>
                             <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                           <!-- lisa_echo_bot_box -->
+                           <ins class="adsbygoogle"
+                                style="display:block"
+                                data-ad-client="ca-pub-0730772505870150"
+                                data-ad-slot="3696345155"
+                                data-ad-format="auto"
+                                data-full-width-responsive="true"></ins>
+                           <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                           </script>
                           </span>
                         </a>
                       </li>
@@ -149,6 +160,17 @@ $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
                           <span class="fa-stack fa-lg">
                             <i class="fas fa-circle fa-stack-2x"></i>
                             <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                           <!-- lisa_echo_bot_box -->
+                           <ins class="adsbygoogle"
+                                style="display:block"
+                                data-ad-client="ca-pub-0730772505870150"
+                                data-ad-slot="3696345155"
+                                data-ad-format="auto"
+                                data-full-width-responsive="true"></ins>
+                           <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                           </script>
                           </span>
                         </a>
                       </li>
@@ -157,6 +179,17 @@ $message = isset($_GET['message']) ? $_GET['message'] : "";   echo $message; ?>
                           <span class="fa-stack fa-lg">
                             <i class="fas fa-circle fa-stack-2x"></i>
                             <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                           <!-- lisa_echo_bot_box -->
+                           <ins class="adsbygoogle"
+                                style="display:block"
+                                data-ad-client="ca-pub-0730772505870150"
+                                data-ad-slot="3696345155"
+                                data-ad-format="auto"
+                                data-full-width-responsive="true"></ins>
+                           <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                           </script>
                           </span>
                         </a>
                       </li>
