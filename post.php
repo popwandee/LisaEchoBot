@@ -80,6 +80,19 @@ require_once "vendor/function.php";
           <div class="jumbotron">
             <h1>Gallery</h1>
             <p>ห้องภาพ บันเทิง</p>
+            <div>
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+           <!-- lisa_echo_bot_website -->
+           <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-0730772505870150"
+                data-ad-slot="7819708405"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+           <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+           </script>
+           </div>
 <?php // core logic
 
 switch ($action) {
@@ -154,6 +167,19 @@ switch ($action) {
 }//end switch action
     show_all_post();
 ?>
+<div>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- lisa_echo_bot_website -->
+<ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-0730772505870150"
+    data-ad-slot="7819708405"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
 </div><!-- jumbotron-->
 </div><!-- container theme-showcase-->
 

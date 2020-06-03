@@ -179,6 +179,27 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   </div> <!-- col-sm-4 -->
   </div> <!-- row -->
        </div> <!-- panel panel-info -->
+
+       <div class="panel panel-info">
+         <div class="row">
+           <div class="col-sm-4" >
+         <div class="panel-body">
+           <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <!-- lisa_echo_bot_box -->
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-0730772505870150"
+               data-ad-slot="3696345155"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <script>
+               (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+       </div> <!-- panel-body -->
+   </div> <!-- col-sm-4 -->
+   </div> <!-- row -->
+        </div> <!-- panel panel-info -->
+
     </div> <!-- page-header -->
       </div> <!-- jumbotron -->
 
