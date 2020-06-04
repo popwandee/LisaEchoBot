@@ -195,9 +195,12 @@ $find_word=substr($explodeText[0],1);
 break;
 
 default:
+
+$textReplyMessage= $textReplyMessage." ค้นหา ".$explodeText[0]." ค่ะ\n\n";
  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$explodeText[0].'"}}');
           $data = json_decode($json);
           $isData=sizeof($data);
+          $textReplyMessage= $textReplyMessage." isData ".$isData." ค่ะ\n\n";
           if($isData >0){
              foreach($data as $rec){
             $textReplyMessage= $textReplyMessage.$rec->answer." ค่ะ\n\n";
@@ -207,10 +210,10 @@ default:
             $replyData = $multiMessage;
          }else{
              $textReplyMessage=$textReplyMessage."..ไม่มีข้อมูล.. ";
-             $textMessage = new TextMessageBuilder($textReplyMessage);
-             $multiMessage->add($textMessage);
-             $replyData = $multiMessage;
             }
+            $textMessage = new TextMessageBuilder($textReplyMessage);
+            $multiMessage->add($textMessage);
+            $replyData = $multiMessage;
 break;
   }//end switch $explodeText[0]
 
