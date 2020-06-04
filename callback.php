@@ -115,11 +115,9 @@ foreach ($events as $event) {
 	$replyData='No Data';
   switch ($text[0]) {
     case '#':
-        //$textReplyMessage = $textReplyMessage.'Case # ask people. ';
         if($explodeText[0]!='#'){
 
         $find_word=substr($explodeText[0], 1);
-        //$textReplyMessage =$textReplyMessage.'Fine word '.$find_word.' ask people.';
 				 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"$or":[{"name":{"$regex":"'.$find_word.'"}},{"lastname":{"$regex":"'.$find_word.'"}},{"province":{"$regex":"'.$find_word.'"}},{"position":{"$regex":"'.$find_word.'"}}]}');
                   $data = json_decode($json);
                   $isData=sizeof($data);
@@ -144,12 +142,7 @@ foreach ($events as $event) {
                      $multiMessage->add($textMessage);
                      $replyData = $multiMessage;
 	                               }
-            }else{ // $explodeText['0']!='#'';
-                $textReplyMessage=$textReplyMessage.$text;
-                $textMessage = new TextMessageBuilder($textReplyMessage);
-                $multiMessage->add($textMessage);
-                $replyData = $multiMessage;
-              }// end if $explodeText['0']!=#
+            }
                   break;
 
   case '!':
@@ -187,38 +180,35 @@ foreach ($events as $event) {
                                      $replyData = $multiMessage;
                                      break;
 default:
-                     //$textReplyMessage = $textReplyMessage.'Case # ask people. ';
-                     $find_word=$explodeText[0];
-                     if(!empty($find_word)){
-                     //$textReplyMessage =$textReplyMessage.'Fine word '.$find_word.' ask people.';
-                     $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$find_word.'"}}');
-                     $data = json_decode($json);
-                     $isData=sizeof($data);
-                     if($isData >0){
-                     foreach($data as $rec){
-                       $textReplyMessage = $rec->answer."\n\n";
-                       $textMessage = new TextMessageBuilder($textReplyMessage);
-                       $multiMessage->add($textMessage);
-                       //if(isset($rec->Image) and (!$hasImageUrlStatus) and ($count<5)){
-                      $imageUrl="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/girls1.jpg";
-                      $imageMessage = new ImageMessageBuilder($imageUrl);
-                      $multiMessage->add($imageMessage);
-                      //}*/
-                       $count++;
-                     }//end for each
-                   }else{// no data from DB
-                     $textReplyMessage = "ลิซ่าไม่รู้ค่ะ";
-                     $textMessage = new TextMessageBuilder($textReplyMessage);
-                     $multiMessage->add($textMessage);
-                   }
-                   }else{
-                     $textReplyMessage="find_word ว่างเปล่า";
-                     $textMessage = new TextMessageBuilder($textReplyMessage);
-                     $multiMessage->add($textMessage);
-                   }
+      if(!empty($explodeText[0])){
+        $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$explodeText[0].'"}}');
+        $data = json_decode($json);
+        $isData=sizeof($data);
+        if($isData >0){
+          foreach($data as $rec){
+            $textReplyMessage = $rec->answer."\n\n";
+            $textMessage = new TextMessageBuilder($textReplyMessage);
+            $multiMessage->add($textMessage);
 
-                   $replyData = $multiMessage;
-                     break;
+            $imageUrl="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/girls1.jpg";
+            $imageMessage = new ImageMessageBuilder($imageUrl);
+            $multiMessage->add($imageMessage);
+
+            $count++;
+            }//end for each
+        }else{// no data from DB
+            $textReplyMessage = "ลิซ่าไม่รู้ค่ะ";
+            $textMessage = new TextMessageBuilder($textReplyMessage);
+            $multiMessage->add($textMessage);
+            }
+      }else{
+        $textReplyMessage="find_word ว่างเปล่า";
+        $textMessage = new ReplyPhotoMessage($textReplyMessage);
+        $multiMessage->add($textMessage);
+        }
+
+        $replyData = $multiMessage;
+        break;
   }//end switch $explodeText[0]
 
 	    // ส่วนส่งกลับข้อมูลให้ LINE
@@ -262,7 +252,7 @@ class ReplyTranslateMessage
     {
 
         return ImageComponentBuilder::builder()
-            ->setUrl('https://www.hooq.info/wp-content/uploads/2019/02/Connect-with-precision.jpg')
+            ->setUrl('https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/girls1.jpg')
             ->setSize(ComponentImageSize::FULL)
             ->setAspectRatio(ComponentImageAspectRatio::R20TO13)
             ->setAspectMode(ComponentImageAspectMode::FIT)
@@ -317,26 +307,26 @@ class ReplyPhotoMessage
      *
      * @return \LINE\LINEBot\MessageBuilder\FlexMessageBuilder
      */
-    public static function get($answer,$photoUrl)
+    public static function get($answer)
     {
         return FlexMessageBuilder::builder()
             ->setAltText('Lisa')
             ->setContents(
                 BubbleContainerBuilder::builder()
-                    ->setHero(self::createHeroBlock('https://thaitimes.online/wp-content/uploads/51724484_1191703040978591_8791088534904635392_n.jpg'))
+                    ->setHero(self::createHeroBlock('https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/girls1.jpg'))
                     ->setBody(self::createBodyBlock($answer))
-                    ->setFooter(self::createFooterBlock('https://thaitimes.online/wp-content/uploads/51724484_1191703040978591_8791088534904635392_n.jpg'))
+                    ->setFooter(self::createFooterBlock('https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/girls1.jpg'))
             );
     }
     private static function createHeroBlock($photoUrl)
     {
 
         return ImageComponentBuilder::builder()
-            ->setUrl('https://thaitimes.online/wp-content/uploads/51724484_1191703040978591_8791088534904635392_n.jpg')
+            ->setUrl('https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/girls1.jpg')
             ->setSize(ComponentImageSize::FULL)
             ->setAspectRatio(ComponentImageAspectRatio::R20TO13)
             ->setAspectMode(ComponentImageAspectMode::FIT)
-            ->setAction(new UriTemplateActionBuilder(null, 'https://thaitimes.online/wp-content/uploads/51724484_1191703040978591_8791088534904635392_n.jpg'));
+            ->setAction(new UriTemplateActionBuilder(null, 'https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/girls1.jpg'));
     }
     private static function createBodyBlock($answer)
     {
