@@ -258,7 +258,7 @@ class ReplyTranslateMessage
     {
 
         return ImageComponentBuilder::builder()
-            ->setUrl('https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/girls1.jpg')
+            ->setUrl('https://res.cloudinary.com/dly6ftryr/image/upload/v1591162862/20200603-054101-1.jpg')
             ->setSize(ComponentImageSize::FULL)
             ->setAspectRatio(ComponentImageAspectRatio::R20TO13)
             ->setAspectMode(ComponentImageAspectMode::FIT)
@@ -319,20 +319,20 @@ class ReplyPhotoMessage
             ->setAltText('Lisa')
             ->setContents(
                 BubbleContainerBuilder::builder()
-                    ->setHero(self::createHeroBlock('https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/girls1.jpg'))
+                    ->setHero(self::createHeroBlock('https://res.cloudinary.com/dly6ftryr/image/upload/v1591162862/20200603-054101-1.jpg'))
                     ->setBody(self::createBodyBlock($answer))
-                    ->setFooter(self::createFooterBlock('https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/girls1.jpg'))
+                    ->setFooter(self::createFooterBlock('https://res.cloudinary.com/dly6ftryr/image/upload/v1591162862/20200603-054101-1.jpg'))
             );
     }
     private static function createHeroBlock($photoUrl)
     {
 
         return ImageComponentBuilder::builder()
-            ->setUrl('https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/girls1.jpg')
+            ->setUrl('https://res.cloudinary.com/dly6ftryr/image/upload/v1591162862/20200603-054101-1.jpg')
             ->setSize(ComponentImageSize::FULL)
             ->setAspectRatio(ComponentImageAspectRatio::R20TO13)
             ->setAspectMode(ComponentImageAspectMode::FIT)
-            ->setAction(new UriTemplateActionBuilder(null, 'https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/girls1.jpg'));
+            ->setAction(new UriTemplateActionBuilder(null, 'https://res.cloudinary.com/dly6ftryr/image/upload/v1591162862/20200603-054101-1.jpg'));
     }
     private static function createBodyBlock($answer)
     {
