@@ -173,16 +173,17 @@ foreach ($events as $event) {
            $replyData = $multiMessage;
           break;
 case '$':
-if($explodeText[0]!='$'){
-$find_word=substr($explodeText[0],1);
- $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$find_word.'"}}');
+ $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY.'&q={"title":{"$regex":"'.$text.'"}}');
           $data = json_decode($json);
           $isData=sizeof($data);
           if($isData >0){
              foreach($data as $rec){
-            $textReplyMessage= $textReplyMessage.$rec->answer." ค่ะ\n\n";
+            $imageUrl0= $rec->"img_url-0";
             }//end for each
-            $textMessage = new TextMessageBuilder($textReplyMessage);
+            $img_url='https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/'.$imgUrl0;
+            $imageMessage = new ImageMessageBuilder($imageMessage);
+            $multiMessage->add($textMessage);
+            $textMessage = new TextMessageBuilder($img_url);
             $multiMessage->add($textMessage);
             $replyData = $multiMessage;
          }else{
@@ -191,7 +192,6 @@ $find_word=substr($explodeText[0],1);
              $multiMessage->add($textMessage);
              $replyData = $multiMessage;
             }
-    }
 break;
 
 default:
