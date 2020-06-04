@@ -189,6 +189,7 @@ foreach ($events as $event) {
                 default:
                      //$textReplyMessage = $textReplyMessage.'Case # ask people. ';
                      $find_word=substr($explodeText[0], 1);
+                     if(!empty($find_word)){
                      //$textReplyMessage =$textReplyMessage.'Fine word '.$find_word.' ask people.';
                      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$find_word.'"}}');
                      $data = json_decode($json);
@@ -208,6 +209,7 @@ foreach ($events as $event) {
                      $multiMessage->add($textMessage);
                      $replyData = $multiMessage;
                      }
+                   }
                      break;
   }//end switch $explodeText[0]
 
