@@ -195,21 +195,22 @@ $find_word=substr($explodeText[0],1);
 break;
 
 default:
-$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$text.'"}}');
-$data = json_decode($json);
-$isData=sizeof($data);
-if($isData >0){
-  foreach($data as $rec){
-    $textReplyMessage = $rec->answer."\n\n";
-    $textMessage = new TextMessageBuilder($textReplyMessage);
-    $multiMessage->add($textMessage);
-
-    $imageUrl="https://res.cloudinary.com/dly6ftryr/image/upload/v1591162862/20200603-054101-1.jpg";
-    $imageMessage = new ImageMessageBuilder($imageUrl);
-    $multiMessage->add($imageMessage);
-    }//end for each
-    $replyData = $multiMessage;
-}// no data from DB
+ $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$explodeText[0].'"}}');
+          $data = json_decode($json);
+          $isData=sizeof($data);
+          if($isData >0){
+             foreach($data as $rec){
+            $textReplyMessage= $textReplyMessage.$rec->answer." ค่ะ\n\n";
+            }//end for each
+            $textMessage = new TextMessageBuilder($textReplyMessage);
+            $multiMessage->add($textMessage);
+            $replyData = $multiMessage;
+         }else{
+             $textReplyMessage=$textReplyMessage."..ไม่มีข้อมูล.. ";
+             $textMessage = new TextMessageBuilder($textReplyMessage);
+             $multiMessage->add($textMessage);
+             $replyData = $multiMessage;
+            }
 break;
   }//end switch $explodeText[0]
 
