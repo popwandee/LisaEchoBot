@@ -181,12 +181,26 @@ case '$':
           if($isData >0){
              foreach($data as $rec){
                $img_index='img_url-0';$img_url0=$rec->$img_index;
+               $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/$img_Url0";
+               $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+               $multiMessage->add($imageMessage);
+                 $img_index='img_url-1';$img_url1=$rec->$img_index;
+                 $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/$img_Url1";
+                 $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+                 $multiMessage->add($imageMessage);
+                   $img_index='img_url-2';$img_url2=$rec->$img_index;
+                   $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/$img_Url2";
+                   $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+                   $multiMessage->add($imageMessage);
+                     $img_index='img_url-3';$img_url3=$rec->$img_index;
+                     $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/$img_Url3";
+                     $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+                     $multiMessage->add($imageMessage);
+                       $img_index='img_url-4';$img_url4=$rec->$img_index;
+                       $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/$img_Url4";
+                       $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+                       $multiMessage->add($imageMessage);
             }//end for each
-            $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/$img_Url0";
-            $imageMessage = new ImageMessageBuilder($img_url,$img_url);
-            $multiMessage->add($imageMessage);
-            $textMessage = new TextMessageBuilder($img_url);
-            $multiMessage->add($textMessage);
          }else{
              $textReplyMessage=$textReplyMessage."..ไม่มีข้อมูล.. ";
              $textMessage = new TextMessageBuilder($textReplyMessage);
