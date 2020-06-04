@@ -152,15 +152,15 @@ foreach ($events as $event) {
               }// end if $explodeText['0']!=#
                   break;
 
-              case '!':
-                                   $indexCount=0;$answer='';
-                                   foreach($explodeText as $rec){
-                                   $indexCount++;
+  case '!':
+      $indexCount=0;$answer='';
+      foreach($explodeText as $rec){
+      $indexCount++;
                                      if($indexCount>1){//น่าจะมีคำถามและคำตอบมาด้วย
                                        $answer= $answer." ".$explodeText[$indexCount];
                                      }
                                    }//end foreach $explodeText นับจำนวนคำ เพื่อตรวจสอบว่ามีคำถามและคำตอบมาด้วย
-                                   if(($indexCount>1) && (!empty($explodeText[2]))){
+      if(($indexCount>1) && (!empty($explodeText[2]))){
                                      //Post New Data
                                      $newData = json_encode(array('question' => $explodeText[1],'answer'=> $answer) );
                                      $opts = array('http' => array( 'method' => "POST",
@@ -172,7 +172,7 @@ foreach ($events as $event) {
                                              $returnValue = file_get_contents($url,false,$context);
                                      if($returnValue){
                                          $textReplyMessage= $textReplyMessage."\nขอบคุณที่สอนน้อง Lisa ค่ะ";
-                                         $textReplyMessage= $textReplyMessage."\nน้อง Lisa จำได้แล้วว่า ".$explodeText[1]." คือ ".$answer;
+                                         $textReplyMessage= $textReplyMessage."\nน้อง Lisa จำได้แล้ว ถ้าถาม ".$explodeText[1]." ให้ตอบว่า ".$answer;
                                          }else{ $textReplyMessage= $textReplyMessage."\nน้อง Lisa ไม่เข้าใจค่ะ";
                                          }
                                        }// end if $indexCount>1 ->> insert database
