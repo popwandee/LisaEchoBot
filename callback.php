@@ -173,26 +173,25 @@ foreach ($events as $event) {
            $replyData = $multiMessage;
           break;
 case '$':
-//$find_word = substr($explodeText[0],1);
-$textReplyMessage = $textReplyMessage." ค้นหา $ ".$explodeText[1]." ค่ะ\n";
-$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$explodeText[1].'"}}');
-$data = json_decode($json);$textReplyMessage = $textReplyMessage." ข้อมูลเจสัน".$json."\n\n";
-$isData=sizeof($data);$textReplyMessage = $textReplyMessage." size data ".$isData;
-if($isData >0){
-  foreach($data as $rec){
-    $textReplyMessage = $rec->answer." ค่ะ\n\n";
-    $textMessage = new TextMessageBuilder($textReplyMessage);
-    $multiMessage->add($textMessage);
-
-    $imageUrl="https://res.cloudinary.com/dly6ftryr/image/upload/v1591162862/20200603-054101-1.jpg";
-    $imageMessage = new ImageMessageBuilder($imageUrl);$textReplyMessage = $textReplyMessage." image Url".$imageUrl;
-    $multiMessage->add($imageMessage);
-    }//end for each
-}// no data from DB
-
-$textMessage = new TextMessageBuilder($textReplyMessage);
-$multiMessage->add($textMessage);
-$replyData = $multiMessage;
+if($explodeText[0]!='$'){
+$find_word=substr($explodeText[0],1);
+ $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$find_word.'"}}');
+          $data = json_decode($json);
+          $isData=sizeof($data);
+          if($isData >0){
+             foreach($data as $rec){
+            $textReplyMessage= $textReplyMessage.$rec->answer." ค่ะ\n\n";
+            }//end for each
+            $textMessage = new TextMessageBuilder($textReplyMessage);
+            $multiMessage->add($textMessage);
+            $replyData = $multiMessage;
+         }else{
+             $textReplyMessage=$textReplyMessage."..ไม่มีข้อมูล.. ";
+             $textMessage = new TextMessageBuilder($textReplyMessage);
+             $multiMessage->add($textMessage);
+             $replyData = $multiMessage;
+            }
+    }
 break;
 
 default:
