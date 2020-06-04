@@ -183,7 +183,7 @@ case '$':
                $img_index='img_url-0';$img_url0=$rec->$img_index;
             }//end for each
             $img_url='https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/'.$img_Url0;
-            $imageMessage = new ImageMessageBuilder($img_url);
+            $imageMessage = new ImageMessageBuilder($img_url,$img_url);
             $multiMessage->add($imageMessage);
             $textMessage = new TextMessageBuilder($img_url);
             $multiMessage->add($textMessage);
@@ -194,6 +194,8 @@ case '$':
              $multiMessage->add($textMessage);
              $replyData = $multiMessage;
             }
+            $flexData = new ReplyPhotoMessage;
+            $replyData = $flexData->get($textReplyMessage);
 break;
 
 default:
