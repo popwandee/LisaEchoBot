@@ -123,15 +123,9 @@ foreach ($events as $event) {
                   $isData=sizeof($data);
 			            $count = 1;
                   if($isData >0){
-                         //$textReplyMessage = $textReplyMessage."Found people. \n";
                      foreach($data as $rec){
-                        $textReplyMessage= $textReplyMessage.$count.' '.$rec->rank.$rec->name.' '.$rec->lastname.' ('.$rec->position.') โทร '.$rec->Tel1." ค่ะ\n\n";
-				         /*if(isset($rec->Image) and (!$hasImageUrlStatus) and ($count<5)){
-		 	                  $imageUrl="https://thaitimes.online/wp-content/uploads/".$rec->Image;
-	                                  $imageMessage = new ImageMessageBuilder($imageUrl,$imageUrl);
-	                                  $multiMessage->add($imageMessage);
-		                            }*/
-			                  $count++;
+                    $textReplyMessage= $textReplyMessage.$count.' '.$rec->rank.$rec->name.' '.$rec->lastname.' ('.$rec->position.') โทร '.$rec->Tel1." ค่ะ\n\n";
+				            $count++;
                     }//end for each
 		                $textMessage = new TextMessageBuilder($textReplyMessage);
 		                $multiMessage->add($textMessage);
@@ -141,44 +135,43 @@ foreach ($events as $event) {
           				   $textMessage = new TextMessageBuilder($textReplyMessage);
                      $multiMessage->add($textMessage);
                      $replyData = $multiMessage;
-	                               }
+	                  }
             }
-                  break;
+            break;
 
   case '!':
       $indexCount=0;$answer='';
       foreach($explodeText as $rec){
       $indexCount++;
-                                     if($indexCount>1){//น่าจะมีคำถามและคำตอบมาด้วย
-                                       $answer= $answer." ".$explodeText[$indexCount];
-                                     }
-                                   }//end foreach $explodeText นับจำนวนคำ เพื่อตรวจสอบว่ามีคำถามและคำตอบมาด้วย
+      if($indexCount>1){//น่าจะมีคำถามและคำตอบมาด้วย
+        $answer= $answer." ".$explodeText[$indexCount];
+        }
+      }//end foreach $explodeText นับจำนวนคำ เพื่อตรวจสอบว่ามีคำถามและคำตอบมาด้วย
       if(($indexCount>1) && (!empty($explodeText[2]))){
-                                     //Post New Data
-                                     $newData = json_encode(array('question' => $explodeText[1],'answer'=> $answer) );
-                                     $opts = array('http' => array( 'method' => "POST",
-                                                   'header' => "Content-type: application/json",
-                                                   'content' => $newData
-                                                     ) );
-                                     $url = 'https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'';
-                                             $context = stream_context_create($opts);
-                                             $returnValue = file_get_contents($url,false,$context);
-                                     if($returnValue){
-                                         $textReplyMessage= $textReplyMessage."\nขอบคุณที่สอนน้อง Lisa ค่ะ";
-                                         $textReplyMessage= $textReplyMessage."\nน้อง Lisa จำได้แล้ว ถ้าถาม ".$explodeText[1]." ให้ตอบว่า ".$answer;
-                                         }else{ $textReplyMessage= $textReplyMessage."\nน้อง Lisa ไม่เข้าใจค่ะ";
-                                         }
-                                       }// end if $indexCount>1 ->> insert database
-                                       else{ // $indexCount>1
-                                           $textReplyMessage= $textReplyMessage."\n ไม่มีคำตอบมาให้ด้วยเหรอค่ะ";
-                                       }
-                                     $textMessage = new TextMessageBuilder($textReplyMessage);
-                                     $multiMessage->add($textMessage);
-                                     $replyData = $multiMessage;
-
-
-                                     $replyData = $multiMessage;
-                                     break;
+        //Post New Data
+        $newData = json_encode(array('question' => $explodeText[1],'answer'=> $answer) );
+        $opts = array('http' => array( 'method' => "POST",
+                      'header' => "Content-type: application/json",
+                      'content' => $newData
+                      ) );
+         $url = 'https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'';
+         $context = stream_context_create($opts);
+         $returnValue = file_get_contents($url,false,$context);
+        if($returnValue){
+          $textReplyMessage= $textReplyMessage."\nขอบคุณที่สอนน้อง Lisa ค่ะ";
+          $textReplyMessage= $textReplyMessage."\nน้อง Lisa จำได้แล้ว ถ้าถาม ".$explodeText[1]." ให้ตอบว่า ".$answer;
+          }else{
+            $textReplyMessage= $textReplyMessage."\nน้อง Lisa ไม่เข้าใจค่ะ";
+          }
+        }// end if $indexCount>1 ->> insert database
+        else{ // $indexCount>1
+          $textReplyMessage= $textReplyMessage."\n ไม่มีคำตอบมาให้ด้วยเหรอค่ะ";
+        }
+           $textMessage = new TextMessageBuilder($textReplyMessage);
+           $multiMessage->add($textMessage);
+           $replyData = $multiMessage;
+           $replyData = $multiMessage;
+          break;
 case '$':
 $find_word="lisa";
 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$find_word.'"}}');
@@ -193,40 +186,36 @@ if($isData >0){
     $imageUrl="https://res.cloudinary.com/dly6ftryr/image/upload/v1591162862/20200603-054101-1.jpg";
     $imageMessage = new ImageMessageBuilder($imageUrl);
     $multiMessage->add($imageMessage);
-    $count++;
     }//end for each
-
     $replyData = $multiMessage;
 }// no data from DB
-
 break;
+
 default:
 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$explodeText[0].'"}}');
 $data = json_decode($json);
 $isData=sizeof($data);
 if($isData >0){
   foreach($data as $rec){
-    $textReplyMessage = $rec->answer." ค่ะ\n\n";
+    $textReplyMessage = $rec->answer."\n\n";
     $textMessage = new TextMessageBuilder($textReplyMessage);
     $multiMessage->add($textMessage);
 
-    $imageUrl="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/girls1.jpg";
+    $imageUrl="https://res.cloudinary.com/dly6ftryr/image/upload/v1591162862/20200603-054101-1.jpg";
     $imageMessage = new ImageMessageBuilder($imageUrl);
     $multiMessage->add($imageMessage);
-    $count++;
     }//end for each
-
     $replyData = $multiMessage;
 }// no data from DB
 break;
   }//end switch $explodeText[0]
 
 	    // ส่วนส่งกลับข้อมูลให้ LINE
-           $response = $bot->replyMessage($replyToken,$replyData);
-           if ($response->isSucceeded()) { echo 'Succeeded!'; return;}
-              // Failed ส่งข้อความไม่สำเร็จ
-             $statusMessage = $response->getHTTPStatus() . ' ' . $response->getRawBody(); echo $statusMessage;
-             $bot->replyText($replyToken, $statusMessage);
+      $response = $bot->replyMessage($replyToken,$replyData);
+      if ($response->isSucceeded()) { echo 'Succeeded!'; return;}
+          // Failed ส่งข้อความไม่สำเร็จ
+          $statusMessage = $response->getHTTPStatus() . ' ' . $response->getRawBody(); echo $statusMessage;
+          $bot->replyText($replyToken, $statusMessage);
 	}//end if event is textMessage
 }// end foreach event
 
