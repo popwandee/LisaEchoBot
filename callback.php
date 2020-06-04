@@ -173,8 +173,9 @@ foreach ($events as $event) {
            $replyData = $multiMessage;
           break;
 case '$':
-$textReplyMessage = $textReplyMessage." ค้นหา $ ".$explodeText[0]." ค่ะ\n";
-$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$explodeText[0].'"}}');
+$find_word=substr($explodeText[0], 1);
+$textReplyMessage = $textReplyMessage." ค้นหา $ ".$find_word." ค่ะ\n";
+$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$find_word.'"}}');
 $data = json_decode($json);$textReplyMessage = $textReplyMessage." ข้อมูลเจสัน".$json."\n\n";
 $isData=sizeof($data);$textReplyMessage = $textReplyMessage." size data ".$isData;
 if($isData >0){
