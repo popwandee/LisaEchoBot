@@ -197,6 +197,8 @@ default:
                      if($isData >0){
                      foreach($data as $rec){
                        $textReplyMessage = $rec->answer."\n\n";
+                       $textMessage = new TextMessageBuilder($textReplyMessage);
+                       $multiMessage->add($textMessage);
                        //if(isset($rec->Image) and (!$hasImageUrlStatus) and ($count<5)){
                       $imageUrl="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/girls1.jpg";
                       $imageMessage = new ImageMessageBuilder($imageUrl);
@@ -204,17 +206,18 @@ default:
                       //}*/
                        $count++;
                      }//end for each
+                   }else{// no data from DB
+                     $textReplyMessage = "ลิซ่าไม่รู้ค่ะ";
                      $textMessage = new TextMessageBuilder($textReplyMessage);
                      $multiMessage->add($textMessage);
-                     $replyData = $multiMessage;
-                     }
+                   }
                    }else{
                      $textReplyMessage="find_word ว่างเปล่า";
                      $textMessage = new TextMessageBuilder($textReplyMessage);
                      $multiMessage->add($textMessage);
-                     $replyData = $multiMessage;
                    }
-                   
+
+                   $replyData = $multiMessage;
                      break;
   }//end switch $explodeText[0]
 
