@@ -195,7 +195,7 @@ $find_word=substr($explodeText[0],1);
 break;
 
 default:
-$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$explodeText[0].'"}}');
+$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$text.'"}}');
 $data = json_decode($json);
 $isData=sizeof($data);
 if($isData >0){
