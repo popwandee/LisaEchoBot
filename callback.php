@@ -194,8 +194,8 @@ case '$':
              $multiMessage->add($textMessage);
              $replyData = $multiMessage;
             }
-            $flexData = new ReplyPhotoMessage;
-            $replyData = $flexData->get($textReplyMessage);
+            //$flexData = new ReplyPhotoMessage;
+            //$replyData = $flexData->get($textReplyMessage);
 break;
 
 default:
