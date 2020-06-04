@@ -173,6 +173,7 @@ foreach ($events as $event) {
            $replyData = $multiMessage;
           break;
 case '$':
+  $text=substr($text,1);
  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY.'&q={"title":{"$regex":"'.$text.'"}}');
           $data = json_decode($json);
           $isData=sizeof($data);
