@@ -182,10 +182,9 @@ case '$':
              foreach($data as $rec){
                $img_index='img_url-0';$img_url0=$rec->$img_index;
                $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-               //$imageMessage = new ImageMessageBuilder($img_url,$img_url);
-               //$multiMessage->add($imageMessage);
-               $textMessage = new TextMessageBuilder($img_url);
-               $multiMessage->add($textMessage);
+               $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+               $multiMessage->add($imageMessage);
+               
                  $img_index='img_url-1';$img_url1=$rec->$img_index;
                  $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
                  //$imageMessage = new ImageMessageBuilder($img_url,$img_url);
