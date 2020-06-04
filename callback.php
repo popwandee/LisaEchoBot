@@ -182,20 +182,20 @@ case '$':
              foreach($data as $rec){
                $img_index='img_url-0';$img_url0=$rec->$img_index;
             }//end for each
-            $img_url='https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/'.$img_Url0;
+            $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/$img_Url0";
             $imageMessage = new ImageMessageBuilder($img_url,$img_url);
             $multiMessage->add($imageMessage);
             $textMessage = new TextMessageBuilder($img_url);
             $multiMessage->add($textMessage);
-            $replyData = $multiMessage;
          }else{
              $textReplyMessage=$textReplyMessage."..ไม่มีข้อมูล.. ";
              $textMessage = new TextMessageBuilder($textReplyMessage);
              $multiMessage->add($textMessage);
-             $replyData = $multiMessage;
             }
             //$flexData = new ReplyPhotoMessage;
             //$replyData = $flexData->get($textReplyMessage);
+
+            $replyData = $multiMessage;
 break;
 
 default:
