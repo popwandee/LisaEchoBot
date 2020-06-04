@@ -175,7 +175,7 @@ foreach ($events as $event) {
 case '$':
 if($explodeText[0]!='$'){
 $find_word=substr($explodeText[0],1);
- $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$find_word.'"}}');
+ $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$find_word.'"}}');
           $data = json_decode($json);
           $isData=sizeof($data);
           if($isData >0){
