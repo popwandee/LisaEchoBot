@@ -174,41 +174,36 @@ foreach ($events as $event) {
           break;
 case '$':
   $text=substr($rawText,1);
-      $textReplyMessage=$textReplyMessage."ค้นหา".$text;
  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY.'&q={"title":{"$regex":"'.$text.'"}}');
           $data = json_decode($json);
-          $isData=sizeof($data);$textReplyMessage=$textReplyMessage."isData ".$isData;
+          $isData=sizeof($data);
           if($isData >0){
              foreach($data as $rec){
-               $img_index='img_url-0';$img_url0=$rec->$img_index;
+               $img_index='img_url-0';
                $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
                $imageMessage = new ImageMessageBuilder($img_url,$img_url);
                $multiMessage->add($imageMessage);
-               
-                 $img_index='img_url-1';$img_url1=$rec->$img_index;
+
+                 $img_index='img_url-1';
                  $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-                 //$imageMessage = new ImageMessageBuilder($img_url,$img_url);
-                 //$multiMessage->add($imageMessage);
-                 $textMessage = new TextMessageBuilder($img_url);
-                 $multiMessage->add($textMessage);
-                   $img_index='img_url-2';$img_url2=$rec->$img_index;
+                 $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+                 $multiMessage->add($imageMessage);
+
+                   $img_index='img_url-2';
                    $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-                   //$imageMessage = new ImageMessageBuilder($img_url,$img_url);
-                   //$multiMessage->add($imageMessage);
-                   $textMessage = new TextMessageBuilder($img_url);
-                   $multiMessage->add($textMessage);
-                     $img_index='img_url-3';$img_url3=$rec->$img_index;
+                   $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+                   $multiMessage->add($imageMessage);
+
+                     $img_index='img_url-3';
                      $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-                     //$imageMessage = new ImageMessageBuilder($img_url,$img_url);
-                     //$multiMessage->add($imageMessage);
-                     $textMessage = new TextMessageBuilder($img_url);
-                     $multiMessage->add($textMessage);
-                       $img_index='img_url-4';$img_url4=$rec->$img_index;
+                     $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+                     $multiMessage->add($imageMessage);
+
+                       $img_index='img_url-4';
                        $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-                       //$imageMessage = new ImageMessageBuilder($img_url,$img_url);
-                       //$multiMessage->add($imageMessage);
-                       $textMessage = new TextMessageBuilder($img_url);
-                       $multiMessage->add($textMessage);
+                       $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+                       $multiMessage->add($imageMessage);
+
             }//end for each
          }else{
              $textReplyMessage=$textReplyMessage."..ไม่มีข้อมูล.. ";
@@ -220,7 +215,40 @@ case '$':
 
             $replyData = $multiMessage;
 break;
+case '*':
+  $text=substr($rawText,1);
+ $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY.'&q={"title":{"$regex":"'.$text.'"}}');
+          $data = json_decode($json);
+          $isData=sizeof($data);
+          if($isData >0){
+             foreach($data as $rec){
+               $img_index='img_url-0';
+               $img_url0="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
 
+                 $img_index='img_url-1';
+                 $img_url1="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+
+                   $img_index='img_url-2';
+                   $img_url2="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+
+                     $img_index='img_url-3';
+                     $img_url3="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+
+                       $img_index='img_url-4';
+                       $img_url4="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+
+
+            }//end for each
+         }else{
+             $textReplyMessage=$textReplyMessage."..ไม่มีข้อมูล.. ";
+             $textMessage = new TextMessageBuilder($textReplyMessage);
+             $multiMessage->add($textMessage);
+            }
+            $flexData = new ReplyPhotoMessage;
+            $replyData = $flexData->get($img_url0,$img_url1,$img_url2,$img_url3,$img_url4);
+
+            //$replyData = $multiMessage;
+break;
 default:
 
 //$textReplyMessage= $textReplyMessage." ค้นหา ".$explodeText[0]." ค่ะ\n\n";
@@ -336,33 +364,33 @@ class ReplyPhotoMessage
      *
      * @return \LINE\LINEBot\MessageBuilder\FlexMessageBuilder
      */
-    public static function get($answer)
+    public static function get($img_url0,$img_url1,$img_url2,$img_url3,$img_url4)
     {
         return FlexMessageBuilder::builder()
             ->setAltText('Lisa')
             ->setContents(
                 BubbleContainerBuilder::builder()
-                    ->setHero(self::createHeroBlock('https://res.cloudinary.com/dly6ftryr/image/upload/v1591162862/20200603-054101-1.jpg'))
-                    ->setBody(self::createBodyBlock($answer))
-                    ->setFooter(self::createFooterBlock('https://res.cloudinary.com/dly6ftryr/image/upload/v1591162862/20200603-054101-1.jpg'))
+                    ->setHero(self::createHeroBlock($img_url0))
+                    ->setBody(self::createBodyBlock($img_url1))
+                    ->setFooter(self::createFooterBlock($img_url2))
             );
     }
-    private static function createHeroBlock($photoUrl)
+    private static function createHeroBlock($img_url0)
     {
 
         return ImageComponentBuilder::builder()
-            ->setUrl('https://res.cloudinary.com/dly6ftryr/image/upload/v1591162862/20200603-054101-1.jpg')
+            ->setUrl($img_url0)
             ->setSize(ComponentImageSize::FULL)
             ->setAspectRatio(ComponentImageAspectRatio::R20TO13)
             ->setAspectMode(ComponentImageAspectMode::FIT)
             ->setAction(new UriTemplateActionBuilder(null, 'https://res.cloudinary.com/dly6ftryr/image/upload/v1591162862/20200603-054101-1.jpg'));
     }
-    private static function createBodyBlock($answer)
+    private static function createBodyBlock($img_url1)
     {
 
 
         $textDetail = TextComponentBuilder::builder()
-            ->setText($answer)
+            ->setText($img_url1)
             ->setSize(ComponentFontSize::LG)
             ->setColor('#000000')
             ->setMargin(ComponentMargin::MD)
@@ -420,7 +448,7 @@ class ReplyPhotoMessage
             //->setContents([$review, $info]);
             ->setContents([$review]);
     }
-    private static function createFooterBlock($photoUrl)
+    private static function createFooterBlock($img_url2)
     {
 
         $websiteButton = ButtonComponentBuilder::builder()
