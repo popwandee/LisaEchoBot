@@ -188,7 +188,7 @@ foreach ($events as $event) {
                                      break;
                 default:
                      //$textReplyMessage = $textReplyMessage.'Case # ask people. ';
-                     $find_word=substr($explodeText[0], 1);
+                     $find_word=$explodeText[0];
                      if(!empty($find_word)){
                      //$textReplyMessage =$textReplyMessage.'Fine word '.$find_word.' ask people.';
                      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$find_word.'"}}');
@@ -200,7 +200,7 @@ foreach ($events as $event) {
                        $textReplyMessage = $rec->answer."\n\n";
                        //if(isset($rec->Image) and (!$hasImageUrlStatus) and ($count<5)){
                       $imageUrl="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/girls1.jpg";
-                      $imageMessage = new ImageMessageBuilder($imageUrl,$imageUrl);
+                      $imageMessage = new ImageMessageBuilder($imageUrl);
                       $multiMessage->add($imageMessage);
                       //}*/
                        $count++;
@@ -309,7 +309,7 @@ class ReplyPhotoMessage
      *
      * @return \LINE\LINEBot\MessageBuilder\FlexMessageBuilder
      */
-    public static function get($answer)
+    public static function get($answer,$photoUrl)
     {
         return FlexMessageBuilder::builder()
             ->setAltText('Lisa')
