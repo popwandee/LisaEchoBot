@@ -179,30 +179,29 @@ foreach ($events as $event) {
 
                                      $replyData = $multiMessage;
                                      break;
-case 'lisa':
-$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$explodeText[1].'"}}');
+case '$':
+
+
+break;
+default:
+$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$explodeText[0].'"}}');
 $data = json_decode($json);
 $isData=sizeof($data);
 if($isData >0){
   foreach($data as $rec){
-    $textReplyMessage = $rec->answer."\n\n";
+    $textReplyMessage = $rec->answer." ค่ะ\n\n";
     $textMessage = new TextMessageBuilder($textReplyMessage);
     $multiMessage->add($textMessage);
 
     $imageUrl="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/girls1.jpg";
     $imageMessage = new ImageMessageBuilder($imageUrl);
     $multiMessage->add($imageMessage);
-
     $count++;
     }//end for each
+
+    $replyData = $multiMessage;
 }// no data from DB
-
-$replyData = $multiMessage;
 break;
-default:
-
-
-        break;
   }//end switch $explodeText[0]
 
 	    // ส่วนส่งกลับข้อมูลให้ LINE
