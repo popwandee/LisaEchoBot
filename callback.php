@@ -180,7 +180,7 @@ foreach ($events as $event) {
                                      $replyData = $multiMessage;
                                      break;
 default:
-      if(!empty($explodeText[0])){
+
         $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$explodeText[0].'"}}');
         $data = json_decode($json);
         $isData=sizeof($data);
@@ -196,16 +196,7 @@ default:
 
             $count++;
             }//end for each
-        }else{// no data from DB
-            $textReplyMessage = "ลิซ่าไม่รู้ค่ะ";
-            $textMessage = new TextMessageBuilder($textReplyMessage);
-            $multiMessage->add($textMessage);
-            }
-      }else{
-        $textReplyMessage="find_word ว่างเปล่า";
-        $textMessage = new ReplyPhotoMessage($textReplyMessage);
-        $multiMessage->add($textMessage);
-        }
+        }// no data from DB
 
         $replyData = $multiMessage;
         break;
