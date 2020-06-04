@@ -3,7 +3,22 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-require __DIR__."/vendor/autoload.php";
+//require __DIR__."/vendor/autoload.php";
+
+// Cloudinary
+require 'vendor/cloudinary/cloudinary_php/src/Cloudinary.php';
+require 'vendor/cloudinary/cloudinary_php/src/Uploader.php';
+require 'vendor/cloudinary/cloudinary_php/src/Api.php';
+
+// Include config file
+require_once "config.php";// mlab
+require_once "vendor/autoload.php";
+require_once "vendor/function.php";
+/*
+define("MLAB_API_KEY", '');
+define("LINE_MESSAGING_API_CHANNEL_SECRET", '');
+define("LINE_MESSAGING_API_CHANNEL_TOKEN", '');
+*/
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\FirePHPHandler;
@@ -66,9 +81,6 @@ use LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder;
 use LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder;
 $logger = new Logger('LineBot');
 $logger->pushHandler(new StreamHandler('php://stderr', Logger::DEBUG));
-define("MLAB_API_KEY", '');
-define("LINE_MESSAGING_API_CHANNEL_SECRET", '');
-define("LINE_MESSAGING_API_CHANNEL_TOKEN", '');
 $bot = new \LINE\LINEBot(
     new \LINE\LINEBot\HTTPClient\CurlHTTPClient(LINE_MESSAGING_API_CHANNEL_TOKEN),
     ['channelSecret' => LINE_MESSAGING_API_CHANNEL_SECRET]
