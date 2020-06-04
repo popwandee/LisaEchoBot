@@ -180,7 +180,24 @@ foreach ($events as $event) {
                                      $replyData = $multiMessage;
                                      break;
 case '$':
+$find_word="lisa";
+$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$find_word.'"}}');
+$data = json_decode($json);
+$isData=sizeof($data);
+if($isData >0){
+  foreach($data as $rec){
+    $textReplyMessage = $rec->answer." ค่ะ\n\n";
+    $textMessage = new TextMessageBuilder($textReplyMessage);
+    $multiMessage->add($textMessage);
 
+    $imageUrl="https://res.cloudinary.com/dly6ftryr/image/upload/v1591162862/20200603-054101-1.jpg";
+    $imageMessage = new ImageMessageBuilder($imageUrl);
+    $multiMessage->add($imageMessage);
+    $count++;
+    }//end for each
+
+    $replyData = $multiMessage;
+}// no data from DB
 
 break;
 default:
