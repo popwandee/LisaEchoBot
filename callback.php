@@ -181,34 +181,34 @@ case '$':
           if($isData >0){
              foreach($data as $rec){
                $img_index='img_url-0';$img_url0=$rec->$img_index;
-               $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/$img_Url0";
+               $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
                //$imageMessage = new ImageMessageBuilder($img_url,$img_url);
                //$multiMessage->add($imageMessage);
-               $textMessage = new TextMessageBuilder($rec->$img_index);
+               $textMessage = new TextMessageBuilder($img_url);
                $multiMessage->add($textMessage);
                  $img_index='img_url-1';$img_url1=$rec->$img_index;
-                 $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/$rec->$img_index";
+                 $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
                  //$imageMessage = new ImageMessageBuilder($img_url,$img_url);
                  //$multiMessage->add($imageMessage);
-                 $textMessage = new TextMessageBuilder($rec->$img_index);
+                 $textMessage = new TextMessageBuilder($img_url);
                  $multiMessage->add($textMessage);
                    $img_index='img_url-2';$img_url2=$rec->$img_index;
-                   $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/$rec->$img_index";
+                   $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
                    //$imageMessage = new ImageMessageBuilder($img_url,$img_url);
                    //$multiMessage->add($imageMessage);
-                   $textMessage = new TextMessageBuilder($rec->$img_index);
+                   $textMessage = new TextMessageBuilder($img_url);
                    $multiMessage->add($textMessage);
                      $img_index='img_url-3';$img_url3=$rec->$img_index;
-                     $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/$rec->$img_index";
+                     $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
                      //$imageMessage = new ImageMessageBuilder($img_url,$img_url);
                      //$multiMessage->add($imageMessage);
-                     $textMessage = new TextMessageBuilder($rec->$img_index);
+                     $textMessage = new TextMessageBuilder($img_url);
                      $multiMessage->add($textMessage);
                        $img_index='img_url-4';$img_url4=$rec->$img_index;
-                       $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/$rec->$img_index";
+                       $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
                        //$imageMessage = new ImageMessageBuilder($img_url,$img_url);
                        //$multiMessage->add($imageMessage);
-                       $textMessage = new TextMessageBuilder($rec->$img_index);
+                       $textMessage = new TextMessageBuilder($img_url);
                        $multiMessage->add($textMessage);
             }//end for each
          }else{
