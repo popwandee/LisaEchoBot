@@ -178,9 +178,9 @@ case '$':
           $isData=sizeof($data);
           if($isData >0){
              foreach($data as $rec){
-            $imageUrl0= $rec->"img_url-0";
+               $img_index='img_url-0';$img_url0=$rec->$img_index;
             }//end for each
-            $img_url='https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/'.$imgUrl0;
+            $img_url='https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/'.$img_Url0;
             $imageMessage = new ImageMessageBuilder($imageMessage);
             $multiMessage->add($textMessage);
             $textMessage = new TextMessageBuilder($img_url);
