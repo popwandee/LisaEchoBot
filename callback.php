@@ -174,16 +174,17 @@ foreach ($events as $event) {
           break;
 case '$':
   $text=substr($text,1);
+      $textReplyMessage=$textReplyMessage."ค้นหา".$text;
  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY.'&q={"title":{"$regex":"'.$text.'"}}');
           $data = json_decode($json);
-          $isData=sizeof($data);
+          $isData=sizeof($data);$textReplyMessage=$textReplyMessage."isData ".$isData;
           if($isData >0){
              foreach($data as $rec){
                $img_index='img_url-0';$img_url0=$rec->$img_index;
             }//end for each
             $img_url='https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/'.$img_Url0;
-            $imageMessage = new ImageMessageBuilder($imageMessage);
-            $multiMessage->add($textMessage);
+            $imageMessage = new ImageMessageBuilder($img_url);
+            $multiMessage->add($imageMessage);
             $textMessage = new TextMessageBuilder($img_url);
             $multiMessage->add($textMessage);
             $replyData = $multiMessage;
