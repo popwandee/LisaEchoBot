@@ -117,7 +117,7 @@ foreach ($events as $event) {
     case '#':
         if($explodeText[0]!='#'){
 
-        $find_word=substr($explodeText[0], 1);
+        $find_word=substr($explodeText[0],1);
 				 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"$or":[{"name":{"$regex":"'.$find_word.'"}},{"lastname":{"$regex":"'.$find_word.'"}},{"province":{"$regex":"'.$find_word.'"}},{"position":{"$regex":"'.$find_word.'"}}]}');
                   $data = json_decode($json);
                   $isData=sizeof($data);
@@ -173,9 +173,9 @@ foreach ($events as $event) {
            $replyData = $multiMessage;
           break;
 case '$':
-$find_word=substr($explodeText[0], 1);
+//$find_word = substr($explodeText[0],1);
 $textReplyMessage = $textReplyMessage." ค้นหา $ ".$find_word." ค่ะ\n";
-$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$find_word.'"}}');
+$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$explodeText[0].'"}}');
 $data = json_decode($json);$textReplyMessage = $textReplyMessage." ข้อมูลเจสัน".$json."\n\n";
 $isData=sizeof($data);$textReplyMessage = $textReplyMessage." size data ".$isData;
 if($isData >0){
