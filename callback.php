@@ -277,7 +277,7 @@ case 'f':
 //$isData=sizeof($data);
 $textReplyMessage="test";
 $flexData = new ReplyFlexMessage;
-$replyData = $flexData->get($rawText,$textReplyMessage);
+$replyData = $flexData->get($textReplyMessage,$textReplyMessage);
 
 break;
 default:
@@ -332,7 +332,7 @@ class ReplyFlexMessage
     {
 
         return ImageComponentBuilder::builder()
-            ->setUrl('https://res.cloudinary.com/dly6ftryr/image/upload/v1591162862/20200603-054101-1.jpg')
+            ->setUrl('')
             ->setSize(ComponentImageSize::FULL)
             ->setAspectRatio(ComponentImageAspectRatio::R20TO13)
             ->setAspectMode(ComponentImageAspectMode::FIT)
