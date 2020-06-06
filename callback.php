@@ -346,10 +346,12 @@ break;
 if(!empty($replyData)){
   // ส่วนส่งกลับข้อมูลให้ LINE
   $response = $bot->replyMessage($replyToken,$replyData);
+  /*
   if ($response->isSucceeded()) { echo 'Succeeded!'; return;}
       // Failed ส่งข้อความไม่สำเร็จ
       $statusMessage = $response->getHTTPStatus() . ' ' . $response->getRawBody(); echo $statusMessage;
       $bot->replyText($replyToken, $statusMessage);
+      */
 }
 
 	}//end if event is textMessage
