@@ -15,7 +15,7 @@ require_once "config.php";// mlab
 require_once "vendor/autoload.php";
 require_once "vendor/function.php";
 require "src/replyphotomessage.php";
-require "src/FlexMessageBuilder.php";
+//require "src/FlexMessageBuilder.php";
 /*
 define("MLAB_API_KEY", '');
 define("LINE_MESSAGING_API_CHANNEL_SECRET", '');
