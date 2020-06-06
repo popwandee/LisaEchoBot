@@ -263,18 +263,15 @@ case '*':
             $replyData = $multiMessage;
 break;
 case '$':
-/*
-$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY.'&q={"type":"summary"}');
-$data = json_decode($json);
-$isData=sizeof($data);
-if($isData >0){
-  $sum=$data->sum;
-    }// if isData > 0;
-    else{
-      $sum="ยังไม่มีข้อมูล";
-    }
-    */
-$textReplyMessage="สรุปยอดเงินรุ่นล่าสุด คงเหลือ  เจ้าค่ะ";
+$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY.'&q={"type":{"$regex":"summary"}}');
+         $data = json_decode($json);
+         $isData=sizeof($data);
+         if($isData >0){
+            foreach($data as $rec){
+              $sum=$rec->sum;
+            }//end foreach
+          } // endif
+$textReplyMessage="สรุปยอดเงินรุ่นล่าสุด คงเหลือ $sum เจ้าค่ะ";
 $textMessage = new TextMessageBuilder($่textReplyMessage);
 $multiMessage->add($textMessage);
 $replyData = $multiMessage;
