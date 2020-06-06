@@ -179,36 +179,30 @@ case '$':
           $isData=sizeof($data);
           if($isData >0){
              foreach($data as $rec){
-               $img_index='img_url-0';$img_url=$rec->$img_index;
-              if(!empty($img_url)){
+               $img_index='img_url-0';
                $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
                $imageMessage = new ImageMessageBuilder($img_url,$img_url);
                $multiMessage->add($imageMessage);
-                }
-               $img_index='img_url-1';$img_url=$rec->$img_index;
-              if(!empty($img_url)){
-               $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-               $imageMessage = new ImageMessageBuilder($img_url,$img_url);
-               $multiMessage->add($imageMessage);
-                }
-               $img_index='img_url-2';$img_url=$rec->$img_index;
-              if(!empty($img_url)){
-               $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-               $imageMessage = new ImageMessageBuilder($img_url,$img_url);
-               $multiMessage->add($imageMessage);
-                }
-               $img_index='img_url-3';$img_url=$rec->$img_index;
-              if(!empty($img_url)){
-               $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-               $imageMessage = new ImageMessageBuilder($img_url,$img_url);
-               $multiMessage->add($imageMessage);
-                }
-               $img_index='img_url-4';$img_url=$rec->$img_index;
-              if(!empty($img_url)){
-               $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-               $imageMessage = new ImageMessageBuilder($img_url,$img_url);
-               $multiMessage->add($imageMessage);
-                }
+
+                 $img_index='img_url-1';
+                 $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+                 $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+                 $multiMessage->add($imageMessage);
+
+                   $img_index='img_url-2';
+                   $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+                   $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+                   $multiMessage->add($imageMessage);
+
+                     $img_index='img_url-3';
+                     $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+                     $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+                     $multiMessage->add($imageMessage);
+
+                       $img_index='img_url-4';
+                       $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+                       $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+                       $multiMessage->add($imageMessage);
             }//end for each
          }else{
              $textReplyMessage=$textReplyMessage."..ไม่มีข้อมูล.. ";
@@ -226,28 +220,22 @@ case '*':
           $data = json_decode($json);
           $isData=sizeof($data);
           if($isData >0){
-            $img_url0=$img_url1=$img_url2=$img_url3=$img_url4="";
              foreach($data as $rec){
-               $img_index='img_url-0';$img_url=$rec->$img_index;
-              if(!empty($img_url)){
-                   $img_url0="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$img_url;
-                  }
-                $img_index='img_url-1';$img_url=$rec->$img_index;
-               if(!empty($img_url)){
-                    $img_url1="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$img_url;
-                  }
-                $img_index='img_url-2';$img_url=$rec->$img_index;
-               if(!empty($img_url)){
-                    $img_url2="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$img_url;
-                    }
-                $img_index='img_url-3';$img_url=$rec->$img_index;
-               if(!empty($img_url)){
-                    $img_url3="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$img_url;
-                    }
-                $img_index='img_url-4';$img_url=$rec->$img_index;
-               if(!empty($img_url)){
-                    $img_url4="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$img_url;
-                    }
+
+               $img_index='img_url-0';
+               $img_url0="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+
+                 $img_index='img_url-1';
+                 $img_url1="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+
+                   $img_index='img_url-2';
+                   $img_url2="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+
+                     $img_index='img_url-3';
+                     $img_url3="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+
+                       $img_index='img_url-4';
+                       $img_url4="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
 
             }//end for each
          }else{
@@ -263,7 +251,9 @@ break;
 default:
 
 //$textReplyMessage= $textReplyMessage." ค้นหา ".$explodeText[0]." ค่ะ\n\n";
- $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question" :"'.$explodeText[0].'"}');
+
+ $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$explodeText[0].'"}}');
+
           $data = json_decode($json);
           $isData=sizeof($data);
           //$textReplyMessage= $textReplyMessage." isData ".$isData." ค่ะ\n\n";
