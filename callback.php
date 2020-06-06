@@ -318,7 +318,7 @@ $json = '{
     ]
   }
 }';
-
+$json2="hello";
 $replyData = $json;
 
 break;
