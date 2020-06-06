@@ -268,8 +268,8 @@ $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collectio
          $isData=sizeof($data);
          if($isData >0){
             foreach($data as $rec){
-              $sum=$rec->sum;
-    $textReplyMessage="สรุปยอดเงินรุ่นล่าสุด คงเหลือ $sum เจ้าค่ะ";
+
+    $textReplyMessage="สรุปยอดเงินรุ่นล่าสุด คงเหลือ $rec เจ้าค่ะ";
     $textMessage = new TextMessageBuilder($่textReplyMessage);
     $multiMessage->add($textMessage);
             }//end foreach
