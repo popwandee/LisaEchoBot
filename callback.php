@@ -252,7 +252,7 @@ default:
 
 //$textReplyMessage= $textReplyMessage." ค้นหา ".$explodeText[0]." ค่ะ\n\n";
 
- $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$explodeText[0].'"}}');
+ $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[0].'"}');
 
           $data = json_decode($json);
           $isData=sizeof($data);
