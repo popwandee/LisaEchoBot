@@ -1,4 +1,14 @@
 ?<?php
+interface FlexBuilder
+{
+    /**
+     * Builds flex message structure.
+     *
+     * @return array Built flex message structure
+     */
+    public function build();
+}
+
 class FlexMessageBuilder implements MessageBuilder
 {
 
