@@ -263,7 +263,7 @@ case '*':
             $replyData = $multiMessage;
 break;
 case '%':
-$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance/5ec50995e7179a6b6362e1f4?apiKey='.MLAB_API_KEY);
+$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY.'&q={"type":"summary"}');
 $data = json_decode($json);
 $isData=sizeof($data);
 if($isData >0){
@@ -272,7 +272,7 @@ if($isData >0){
     else{
       $sum="ยังไม่มีข้อมูล";
     }
-$textReplyMessage="สรุปยอดเงินรุ่นล่าสุด คงเหลือ ".$sum." เจ้าค่ะ";
+$textReplyMessage="สรุปยอดเงินรุ่นล่าสุด คงเหลือ $sum เจ้าค่ะ";
 $textMessage = new TextMessageBuilder($่textReplyMessage);
 $multiMessage->add($textMessage);
 $replyData = $multiMessage;
