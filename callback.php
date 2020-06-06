@@ -132,7 +132,7 @@ foreach ($events as $event) {
 		                $multiMessage->add($textMessage);
                     $replyData = $multiMessage;
 	               }else{
-			               $textReplyMessage=$textReplyMessage."..ไม่มีข้อมูล.. ";
+			               $textReplyMessage=$textReplyMessage."..ลิซ่าไม่รู้ค่ะ.. ";
           				   $textMessage = new TextMessageBuilder($textReplyMessage);
                      $multiMessage->add($textMessage);
                      $replyData = $multiMessage;
@@ -214,11 +214,7 @@ case 'g':
               $multiMessage->add($imageMessage);
             }// if !empty
             }//end for each
-         }else{
-             $textReplyMessage=$textReplyMessage."..ไม่มีข้อมูล.. ";
-             $textMessage = new TextMessageBuilder($textReplyMessage);
-             $multiMessage->add($textMessage);
-            }
+         }
             $replyData = $multiMessage;
 break;
 case '*':
@@ -257,16 +253,12 @@ case '*':
                }
 
             }//end for each
-         }else{
-             $textReplyMessage=$textReplyMessage."..ไม่มีข้อมูล.. ";
-             $textMessage = new TextMessageBuilder($textReplyMessage);
-             $multiMessage->add($textMessage);
-            }
-            $flexData = new ReplyPhotoMessage;
-            $replyData = $flexData->get($img_url0,$img_url1,$img_url2,$img_url3,$img_url4);
-            $textReplyMessage=$textReplyMessage.$img_url0.$img_url1.$img_url2.$img_url3.$img_url4;
-            $textMessage = new TextMessageBuilder($textReplyMessage);
-            $multiMessage->add($textMessage);
+         }
+            //$flexData = new ReplyPhotoMessage;
+            //$replyData = $flexData->get($img_url0,$img_url1,$img_url2,$img_url3,$img_url4);
+            //$textReplyMessage=$textReplyMessage.$img_url0.$img_url1.$img_url2.$img_url3.$img_url4;
+            //$textMessage = new TextMessageBuilder($textReplyMessage);
+            //$multiMessage->add($textMessage);
             $replyData = $multiMessage;
 break;
 case '$':
@@ -319,7 +311,9 @@ $json = '{
   }
 }';
 $json2="hello";
-$replyData = $json2;
+$textMessage = new TextMessageBuilder($่json);
+$multiMessage->add($textMessage);
+$replyData = $multiMessage;
 
 break;
 default:
