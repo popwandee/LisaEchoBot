@@ -14,8 +14,6 @@ require 'vendor/cloudinary/cloudinary_php/src/Api.php';
 require_once "config.php";// mlab
 require_once "vendor/autoload.php";
 require_once "vendor/function.php";
-require "src/replyphotomessage.php";
-//require "src/FlexMessageBuilder.php";
 /*
 define("MLAB_API_KEY", '');
 define("LINE_MESSAGING_API_CHANNEL_SECRET", '');
@@ -173,7 +171,7 @@ foreach ($events as $event) {
            $multiMessage->add($textMessage);
            $replyData = $multiMessage;
           break;
-case 's':
+case '$':
   $text=substr($rawText,1);
  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY.'&q={"title":{"$regex":"'.$text.'"}}');
           $data = json_decode($json);
@@ -218,65 +216,7 @@ case 's':
          }
             $replyData = $multiMessage;
 break;
-case '*':
-  $text=substr($rawText,1);
- $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/post?apiKey='.MLAB_API_KEY.'&q={"title":{"$regex":"'.$text.'"}}');
-          $data = json_decode($json);
-          $isData=sizeof($data);
-          if($isData >0){
-             foreach($data as $rec){
 
-               $img_index='img_url-0';$img_url=$rec->$img_index;
-               if(!empty($img_url)){
-               $img_url0="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-               }
-
-
-              $img_index='img_url-1';$img_url=$rec->$img_index;
-              if(!empty($img_url)){
-                 $img_url1="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-              }
-
-
-              $img_index='img_url-2';$img_url=$rec->$img_index;
-              if(!empty($img_url)){
-               $img_url2="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-               }
-
-               $img_index='img_url-3';$img_url=$rec->$img_index;
-               if(!empty($img_url)){
-                 $img_url3="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-               }
-
-               $img_index='img_url-4';$img_url=$rec->$img_index;
-               if(!empty($img_url)){
-                 $img_url4="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-               }
-
-            }//end for each
-         }
-            //$flexData = new ReplyPhotoMessage;
-            //$replyData = $flexData->get($img_url0,$img_url1,$img_url2,$img_url3,$img_url4);
-            //$textReplyMessage=$textReplyMessage.$img_url0.$img_url1.$img_url2.$img_url3.$img_url4;
-            //$textMessage = new TextMessageBuilder($textReplyMessage);
-            //$multiMessage->add($textMessage);
-            $replyData = $multiMessage;
-break;
-case '$':
-$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY.'&q={"type":{"$regex":"summary"}}');
-         $data = json_decode($json);
-         $isData=sizeof($data);
-         if($isData >0){
-            foreach($data as $rec){
-
-    $textReplyMessage="สรุปยอดเงินรุ่นล่าสุด คงเหลือ $rec เจ้าค่ะ";
-    $textMessage = new TextMessageBuilder($่textReplyMessage);
-    $multiMessage->add($textMessage);
-            }//end foreach
-          } // endif
-$replyData = $multiMessage;
-
-break;
 default:
 
 //$textReplyMessage= $textReplyMessage." ค้นหา ".$explodeText[0]." ค่ะ\n\n";
