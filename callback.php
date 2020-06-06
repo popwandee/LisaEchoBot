@@ -277,7 +277,7 @@ case 'f':
 //$isData=sizeof($data);
 $textReplyMessage="test";
 $flexData = new ReplyFlexMessage;
-$replyData = $flexData->get($explodeText[1],$textReplyMessage);
+$replyData = $flexData->get($rawText,$textReplyMessage);
 
 break;
 default:
