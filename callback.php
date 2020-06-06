@@ -245,8 +245,10 @@ case '*':
             }
             $flexData = new ReplyPhotoMessage;
             $replyData = $flexData->get($img_url0,$img_url1,$img_url2,$img_url3,$img_url4);
-
-            //$replyData = $multiMessage;
+            $textReplyMessage=$textReplyMessage.$img_url0.$img_url1.$img_url2.$img_url3.$img_url4;
+            $textMessage = new TextMessageBuilder($textReplyMessage);
+            $multiMessage->add($textMessage);
+            $replyData = $multiMessage;
 break;
 default:
 
