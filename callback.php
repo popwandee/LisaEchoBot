@@ -263,10 +263,10 @@ case '*':
             $replyData = $multiMessage;
 break;
 case 's':
+/*
 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY.'&q={"type":"summary"}');
 $data = json_decode($json);
 $isData=sizeof($data);
-/*
 if($isData >0){
   $sum=$data->sum;
     }// if isData > 0;
