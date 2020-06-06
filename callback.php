@@ -265,7 +265,7 @@ break;
 case '฿':
 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance/5ec50995e7179a6b6362e1f4?apiKey='.MLAB_API_KEY);
 $data = json_decode($json);
-$isData=sizeof($data);
+$isData=sizeof($data);$sum="ยังไม่มีข้อมูล";
 if($isData >0){
   $sum=$data->sum;
     }// if isData > 0;
