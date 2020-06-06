@@ -14,6 +14,7 @@ require 'vendor/cloudinary/cloudinary_php/src/Api.php';
 require_once "config.php";// mlab
 require_once "vendor/autoload.php";
 require_once "vendor/function.php";
+require_once "src/replyphotomessage.php";
 /*
 define("MLAB_API_KEY", '');
 define("LINE_MESSAGING_API_CHANNEL_SECRET", '');
@@ -170,7 +171,6 @@ foreach ($events as $event) {
            $textMessage = new TextMessageBuilder($textReplyMessage);
            $multiMessage->add($textMessage);
            $replyData = $multiMessage;
-           $replyData = $multiMessage;
           break;
 case '$':
   $text=substr($rawText,1);
@@ -243,8 +243,8 @@ case '*':
              $textMessage = new TextMessageBuilder($textReplyMessage);
              $multiMessage->add($textMessage);
             }
-            //$flexData = new ReplyPhotoMessage;
-            //$replyData = $flexData->get($img_url0,$img_url1,$img_url2,$img_url3,$img_url4);
+            $flexData = new ReplyPhotoMessage;
+            $replyData = $flexData->get($img_url0,$img_url1,$img_url2,$img_url3,$img_url4);
 
             //$replyData = $multiMessage;
 break;
