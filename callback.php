@@ -275,9 +275,51 @@ case 'f':
 //$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[0].'"}');
 //$data = json_decode($json);
 //$isData=sizeof($data);
-$textReplyMessage="test";
-$flexData = new ReplyFlexMessage;
-$replyData = $flexData->get($textReplyMessage,$textReplyMessage);
+$json = '{
+  "type": "bubble",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "header"
+      }
+    ]
+  },
+  "hero": {
+    "type": "image",
+    "url": "https://www.linefriends.com/img/img_sec.jpg",
+    "size": "full",
+    "aspectRatio": "2:1"
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "body"
+      },
+	  {
+        "type": "text",
+        "text": "body"
+      }
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "footer"
+      }
+    ]
+  }
+}';
+
+$replyData = $json;
 
 break;
 default:
