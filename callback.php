@@ -173,7 +173,7 @@ foreach ($events as $event) {
            $multiMessage->add($textMessage);
            $replyData = $multiMessage;
           break;
-case 'g':
+case '$':
   $text=substr($rawText,1);
  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY.'&q={"title":{"$regex":"'.$text.'"}}');
           $data = json_decode($json);
@@ -262,57 +262,15 @@ case '*':
             //$multiMessage->add($textMessage);
             $replyData = $multiMessage;
 break;
-case '$':
-
-//$textReplyMessage= $textReplyMessage." ค้นหา ".$explodeText[0]." ค่ะ\n\n";
-//$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[0].'"}');
-//$data = json_decode($json);
-//$isData=sizeof($data);
-$json = '{
-  "type": "bubble",
-  "header": {
-    "type": "box",
-    "layout": "vertical",
-    "contents": [
-      {
-        "type": "text",
-        "text": "header"
-      }
-    ]
-  },
-  "hero": {
-    "type": "image",
-    "url": "https://www.linefriends.com/img/img_sec.jpg",
-    "size": "full",
-    "aspectRatio": "2:1"
-  },
-  "body": {
-    "type": "box",
-    "layout": "vertical",
-    "contents": [
-      {
-        "type": "text",
-        "text": "body"
-      },
-	  {
-        "type": "text",
-        "text": "body"
-      }
-    ]
-  },
-  "footer": {
-    "type": "box",
-    "layout": "vertical",
-    "contents": [
-      {
-        "type": "text",
-        "text": "footer"
-      }
-    ]
-  }
-}';
-$json2="hello";
-$textMessage = new TextMessageBuilder($่json);
+case '฿':
+$json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance/5ec50995e7179a6b6362e1f4?apiKey='.MLAB_API_KEY);
+$data = json_decode($json);
+$isData=sizeof($data);
+if($isData >0){
+  $sum=$data->sum;
+    }// if isData > 0;
+$textReplyMessage="สรุปยอดเงินรุ่นล่าสุด คงเหลือ ".$sum." เจ้าค่ะ";
+$textMessage = new TextMessageBuilder($่textReplyMessage);
 $multiMessage->add($textMessage);
 $replyData = $multiMessage;
 
