@@ -319,7 +319,7 @@ $json = '{
   }
 }';
 $json2="hello";
-$replyData = $json;
+$replyData = $json2;
 
 break;
 default:
@@ -343,12 +343,15 @@ default:
 break;
   }//end switch $explodeText[0]
 
-	    // ส่วนส่งกลับข้อมูลให้ LINE
-      $response = $bot->replyMessage($replyToken,$replyData);
-      if ($response->isSucceeded()) { echo 'Succeeded!'; return;}
-          // Failed ส่งข้อความไม่สำเร็จ
-          $statusMessage = $response->getHTTPStatus() . ' ' . $response->getRawBody(); echo $statusMessage;
-          $bot->replyText($replyToken, $statusMessage);
+if(!empty($replyData)){
+  // ส่วนส่งกลับข้อมูลให้ LINE
+  $response = $bot->replyMessage($replyToken,$replyData);
+  if ($response->isSucceeded()) { echo 'Succeeded!'; return;}
+      // Failed ส่งข้อความไม่สำเร็จ
+      $statusMessage = $response->getHTTPStatus() . ' ' . $response->getRawBody(); echo $statusMessage;
+      $bot->replyText($replyToken, $statusMessage);
+}
+
 	}//end if event is textMessage
 }// end foreach event
 
