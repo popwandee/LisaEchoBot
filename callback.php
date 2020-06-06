@@ -180,30 +180,35 @@ case '$':
           if($isData >0){
              foreach($data as $rec){
                $img_index='img_url-0';
+              if(!empty($rec->$img_index)){
                $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
                $imageMessage = new ImageMessageBuilder($img_url,$img_url);
                $multiMessage->add($imageMessage);
-
-                 $img_index='img_url-1';
-                 $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-                 $imageMessage = new ImageMessageBuilder($img_url,$img_url);
-                 $multiMessage->add($imageMessage);
-
-                   $img_index='img_url-2';
-                   $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-                   $imageMessage = new ImageMessageBuilder($img_url,$img_url);
-                   $multiMessage->add($imageMessage);
-
-                     $img_index='img_url-3';
-                     $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-                     $imageMessage = new ImageMessageBuilder($img_url,$img_url);
-                     $multiMessage->add($imageMessage);
-
-                       $img_index='img_url-4';
-                       $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-                       $imageMessage = new ImageMessageBuilder($img_url,$img_url);
-                       $multiMessage->add($imageMessage);
-
+                }
+               $img_index='img_url-1';
+              if(!empty($rec->$img_index)){
+               $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+               $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+               $multiMessage->add($imageMessage);
+                }
+               $img_index='img_url-2';
+              if(!empty($rec->$img_index)){
+               $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+               $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+               $multiMessage->add($imageMessage);
+                }
+               $img_index='img_url-3';
+              if(!empty($rec->$img_index)){
+               $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+               $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+               $multiMessage->add($imageMessage);
+                }
+               $img_index='img_url-4';
+              if(!empty($rec->$img_index)){
+               $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+               $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+               $multiMessage->add($imageMessage);
+                }
             }//end for each
          }else{
              $textReplyMessage=$textReplyMessage."..ไม่มีข้อมูล.. ";
@@ -221,22 +226,28 @@ case '*':
           $data = json_decode($json);
           $isData=sizeof($data);
           if($isData >0){
+            $img_url0=$img_url1=$img_url2=$img_url3=$img_url4="";
              foreach($data as $rec){
                $img_index='img_url-0';
-               $img_url0="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-
-                 $img_index='img_url-1';
-                 $img_url1="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-
-                   $img_index='img_url-2';
-                   $img_url2="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-
-                     $img_index='img_url-3';
-                     $img_url3="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-
-                       $img_index='img_url-4';
-                       $img_url4="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-
+                 if(!empty($rec->$img_index)){
+                   $img_url0="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+                  }
+                $img_index='img_url-1';
+                  if(!empty($rec->$img_index)){
+                    $img_url1="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+                  }
+                $img_index='img_url-2';
+                  if(!empty($rec->$img_index)){
+                    $img_url2="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+                    }
+                $img_index='img_url-3';
+                  if(!empty($rec->$img_index)){
+                    $img_url3="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+                    }
+                $img_index='img_url-4';
+                  if(!empty($rec->$img_index)){
+                    $img_url4="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+                    }
 
             }//end for each
          }else{
@@ -252,7 +263,7 @@ break;
 default:
 
 //$textReplyMessage= $textReplyMessage." ค้นหา ".$explodeText[0]." ค่ะ\n\n";
- $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":{"$regex":"'.$explodeText[0].'"}}');
+ $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question" :'.$explodeText[0].'"}');
           $data = json_decode($json);
           $isData=sizeof($data);
           //$textReplyMessage= $textReplyMessage." isData ".$isData." ค่ะ\n\n";
@@ -371,8 +382,8 @@ class ReplyPhotoMessage
             ->setContents(
                 BubbleContainerBuilder::builder()
                     ->setHero(self::createHeroBlock($img_url0))
-                    ->setBody(self::createBodyBlock($img_url1))
-                    ->setFooter(self::createFooterBlock($img_url2))
+                    ->setBody(self::createBodyBlock($img_url1,$img_url2,$img_url3))
+                    ->setFooter(self::createFooterBlock($img_url4))
             );
     }
     private static function createHeroBlock($img_url0)
@@ -385,16 +396,16 @@ class ReplyPhotoMessage
             ->setAspectMode(ComponentImageAspectMode::FIT)
             ->setAction(new UriTemplateActionBuilder(null, 'https://res.cloudinary.com/dly6ftryr/image/upload/v1591162862/20200603-054101-1.jpg'));
     }
-    private static function createBodyBlock($img_url1)
+    private static function createBodyBlock($img_url1,$img_url2,$img_url3)
     {
 
 
         $textDetail = TextComponentBuilder::builder()
-            ->setText($img_url1)
+            ->setText('TextDetail')
             ->setSize(ComponentFontSize::LG)
             ->setColor('#000000')
             ->setMargin(ComponentMargin::MD)
-	    ->setwrap(true)
+	          ->setwrap(true)
             ->setFlex(2);
         $review = BoxComponentBuilder::builder()
             ->setLayout(ComponentLayout::VERTICAL)
@@ -404,34 +415,42 @@ class ReplyPhotoMessage
             ->setSpacing(ComponentSpacing::SM)
             ->setContents([$textDetail]);
 
-	    /*
-        $place = BoxComponentBuilder::builder()
+
+        $image = BoxComponentBuilder::builder()
             ->setLayout(ComponentLayout::BASELINE)
             ->setSpacing(ComponentSpacing::SM)
             ->setContents([
-                TextComponentBuilder::builder()
-                    ->setText('ที่อยู่')
-                    ->setColor('#aaaaaa')
-                    ->setSize(ComponentFontSize::SM)
-                    ->setFlex(1),
-                TextComponentBuilder::builder()
-                    ->setText('Samsen, Bangkok')
-                    ->setWrap(true)
-                    ->setColor('#666666')
-                    ->setSize(ComponentFontSize::SM)
-                    ->setFlex(5)
+              ImageComponentBuilder::builder()
+                  ->setUrl($img_url1)
+                  ->setSize(ComponentImageSize::FULL)
+                  ->setAspectRatio(ComponentImageAspectRatio::R20TO13)
+                  ->setAspectMode(ComponentImageAspectMode::FIT)
+                  ->setAction(new UriTemplateActionBuilder(null, 'https://res.cloudinary.com/dly6ftryr/image/upload/v1591162862/20200603-054101-1.jpg'));
+        ,    ImageComponentBuilder::builder()
+                  ->setUrl($img_url2)
+                  ->setSize(ComponentImageSize::FULL)
+                  ->setAspectRatio(ComponentImageAspectRatio::R20TO13)
+                  ->setAspectMode(ComponentImageAspectMode::FIT)
+                  ->setAction(new UriTemplateActionBuilder(null, 'https://res.cloudinary.com/dly6ftryr/image/upload/v1591162862/20200603-054101-1.jpg'));
+                  ,    ImageComponentBuilder::builder()
+                            ->setUrl($img_url3)
+                            ->setSize(ComponentImageSize::FULL)
+                            ->setAspectRatio(ComponentImageAspectRatio::R20TO13)
+                            ->setAspectMode(ComponentImageAspectMode::FIT)
+                            ->setAction(new UriTemplateActionBuilder(null, 'https://res.cloudinary.com/dly6ftryr/image/upload/v1591162862/20200603-054101-1.jpg'));
+
             ]);
-        $time = BoxComponentBuilder::builder()
+        $detail = BoxComponentBuilder::builder()
             ->setLayout(ComponentLayout::BASELINE)
             ->setSpacing(ComponentSpacing::SM)
             ->setContents([
                 TextComponentBuilder::builder()
-                    ->setText('Time')
+                    ->setText('Title')
                     ->setColor('#aaaaaa')
                     ->setSize(ComponentFontSize::SM)
                     ->setFlex(1),
                 TextComponentBuilder::builder()
-                    ->setText('10:00 - 23:00')
+                    ->setText('detail')
                     ->setWrap(true)
                     ->setColor('#666666')
                     ->setSize(ComponentFontSize::SM)
@@ -442,20 +461,20 @@ class ReplyPhotoMessage
             ->setLayout(ComponentLayout::VERTICAL)
             ->setMargin(ComponentMargin::LG)
             ->setSpacing(ComponentSpacing::SM)
-            ->setContents([$place, $time]);*/
+            ->setContents([$image, $detail]);
         return BoxComponentBuilder::builder()
             ->setLayout(ComponentLayout::VERTICAL)
-            //->setContents([$review, $info]);
-            ->setContents([$review]);
+            ->setContents([$review, $info]);
+            //->setContents([$review]);
     }
-    private static function createFooterBlock($img_url2)
+    private static function createFooterBlock()
     {
 
         $websiteButton = ButtonComponentBuilder::builder()
             ->setStyle(ComponentButtonStyle::LINK)
             ->setHeight(ComponentButtonHeight::SM)
             ->setFlex(0)
-            ->setAction(new UriTemplateActionBuilder('เพิ่มเติม','https://www.thaitimes.online'));
+            ->setAction(new UriTemplateActionBuilder('เว็บรุ่น','https://lisaechobot.herokuapp.com'));
         $spacer = new SpacerComponentBuilder(ComponentSpaceSize::SM);
         return BoxComponentBuilder::builder()
             ->setLayout(ComponentLayout::VERTICAL)
