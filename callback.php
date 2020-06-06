@@ -425,13 +425,13 @@ class ReplyPhotoMessage
                   ->setSize(ComponentImageSize::FULL)
                   ->setAspectRatio(ComponentImageAspectRatio::R20TO13)
                   ->setAspectMode(ComponentImageAspectMode::FIT)
-                  ->setAction(new UriTemplateActionBuilder(null, 'https://res.cloudinary.com/dly6ftryr/image/upload/v1591162862/20200603-054101-1.jpg'));
+                  ->setAction(new UriTemplateActionBuilder(null, 'https://res.cloudinary.com/dly6ftryr/image/upload/v1591162862/20200603-054101-1.jpg'))
         ,    ImageComponentBuilder::builder()
                   ->setUrl($img_url2)
                   ->setSize(ComponentImageSize::FULL)
                   ->setAspectRatio(ComponentImageAspectRatio::R20TO13)
                   ->setAspectMode(ComponentImageAspectMode::FIT)
-                  ->setAction(new UriTemplateActionBuilder(null, 'https://res.cloudinary.com/dly6ftryr/image/upload/v1591162862/20200603-054101-1.jpg'));
+                  ->setAction(new UriTemplateActionBuilder(null, 'https://res.cloudinary.com/dly6ftryr/image/upload/v1591162862/20200603-054101-1.jpg'))
                   ,    ImageComponentBuilder::builder()
                             ->setUrl($img_url3)
                             ->setSize(ComponentImageSize::FULL)
@@ -467,7 +467,7 @@ class ReplyPhotoMessage
             ->setContents([$review, $info]);
             //->setContents([$review]);
     }
-    private static function createFooterBlock()
+    private static function createFooterBlock($img_url4)
     {
 
         $websiteButton = ButtonComponentBuilder::builder()
