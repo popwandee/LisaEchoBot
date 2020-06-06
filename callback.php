@@ -269,11 +269,11 @@ $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collectio
          if($isData >0){
             foreach($data as $rec){
               $sum=$rec->sum;
+    $textReplyMessage="สรุปยอดเงินรุ่นล่าสุด คงเหลือ $sum เจ้าค่ะ";
+    $textMessage = new TextMessageBuilder($่textReplyMessage);
+    $multiMessage->add($textMessage);
             }//end foreach
           } // endif
-$textReplyMessage="สรุปยอดเงินรุ่นล่าสุด คงเหลือ $sum เจ้าค่ะ";
-$textMessage = new TextMessageBuilder($่textReplyMessage);
-$multiMessage->add($textMessage);
 $replyData = $multiMessage;
 
 break;
