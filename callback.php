@@ -211,8 +211,9 @@ case '$':
             }
             $flexData = new ReplyMessage;
             $replyData = $flexData->get($textReplyMessage,$textReplyMessage);
-
-            //$replyData = $multiMessage;
+            $textMessage = new TextMessageBuilder($replyData);
+            $multiMessage->add($textMessage);
+            $replyData = $multiMessage;
 break;
 case '*':
   $text=substr($rawText,1);
