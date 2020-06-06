@@ -173,7 +173,7 @@ foreach ($events as $event) {
            $multiMessage->add($textMessage);
            $replyData = $multiMessage;
           break;
-case '$':
+case 's':
   $text=substr($rawText,1);
  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY.'&q={"title":{"$regex":"'.$text.'"}}');
           $data = json_decode($json);
@@ -262,7 +262,7 @@ case '*':
             //$multiMessage->add($textMessage);
             $replyData = $multiMessage;
 break;
-case 's':
+case '$':
 /*
 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY.'&q={"type":"summary"}');
 $data = json_decode($json);
