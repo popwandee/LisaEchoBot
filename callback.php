@@ -209,10 +209,10 @@ case '$':
              $textMessage = new TextMessageBuilder($textReplyMessage);
              $multiMessage->add($textMessage);
             }
-            //$flexData = new ReplyPhotoMessage;
-            //$replyData = $flexData->get($textReplyMessage);
+            $flexData = new ReplyMessage;
+            $replyData = $flexData->get($textReplyMessage,$textReplyMessage);
 
-            $replyData = $multiMessage;
+            //$replyData = $multiMessage;
 break;
 case '*':
   $text=substr($rawText,1);
@@ -279,3 +279,73 @@ break;
           $bot->replyText($replyToken, $statusMessage);
 	}//end if event is textMessage
 }// end foreach event
+
+class ReplyMessage
+{
+    /**
+     * Create  flex message
+     *
+     * @return \LINE\LINEBot\MessageBuilder\FlexMessageBuilder
+     */
+    public static function get($question,$answer)
+    {
+        return FlexMessageBuilder::builder()
+            ->setAltText('Lisa')
+            ->setContents(
+                BubbleContainerBuilder::builder()
+                    ->setHero(self::createHeroBlock())
+                    ->setBody(self::createBodyBlock($question,$answer))
+                    ->setFooter(self::createFooterBlock())
+            );
+    }
+    private static function createHeroBlock()
+    {
+
+        return ImageComponentBuilder::builder()
+            ->setUrl('https://res.cloudinary.com/dly6ftryr/image/upload/v1591162862/20200603-054101-1.jpg')
+            ->setSize(ComponentImageSize::FULL)
+            ->setAspectRatio(ComponentImageAspectRatio::R20TO13)
+            ->setAspectMode(ComponentImageAspectMode::FIT)
+            ->setAction(new UriTemplateActionBuilder(null, 'https://www.thaitimes.online'));
+    }
+    private static function createBodyBlock($question,$answer)
+    {
+        $title = TextComponentBuilder::builder()
+            ->setText($question)
+            ->setWeight(ComponentFontWeight::BOLD)
+	    ->setwrap(true)
+            ->setSize(ComponentFontSize::SM);
+
+        $textDetail = TextComponentBuilder::builder()
+            ->setText($answer)
+            ->setSize(ComponentFontSize::LG)
+            ->setColor('#000000')
+            ->setMargin(ComponentMargin::MD)
+	    ->setwrap(true)
+            ->setFlex(2);
+        $review = BoxComponentBuilder::builder()
+            ->setLayout(ComponentLayout::VERTICAL)
+            ->setMargin(ComponentMargin::LG)
+            ->setSpacing(ComponentSpacing::SM)
+            ->setContents([$title,$textDetail]);
+        return BoxComponentBuilder::builder()
+            ->setLayout(ComponentLayout::VERTICAL)
+            ->setContents([$review]);
+    }
+
+    private static function createFooterBlock()
+    {
+
+        $websiteButton = ButtonComponentBuilder::builder()
+            ->setStyle(ComponentButtonStyle::LINK)
+            ->setHeight(ComponentButtonHeight::SM)
+            ->setFlex(0)
+            ->setAction(new UriTemplateActionBuilder('เพิ่มเติม','https://www.thaitimes.online'));
+        $spacer = new SpacerComponentBuilder(ComponentSpaceSize::SM);
+        return BoxComponentBuilder::builder()
+            ->setLayout(ComponentLayout::VERTICAL)
+            ->setSpacing(ComponentSpacing::SM)
+            ->setFlex(0)
+            ->setContents([$websiteButton, $spacer]);
+    }
+}
