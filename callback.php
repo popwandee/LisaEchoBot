@@ -14,7 +14,8 @@ require 'vendor/cloudinary/cloudinary_php/src/Api.php';
 require_once "config.php";// mlab
 require_once "vendor/autoload.php";
 require_once "vendor/function.php";
-//require_once "src/replyphotomessage.php";
+require "src/replyphotomessage.php";
+require "src/FlexMessageBuilder.php";
 /*
 define("MLAB_API_KEY", '');
 define("LINE_MESSAGING_API_CHANNEL_SECRET", '');
