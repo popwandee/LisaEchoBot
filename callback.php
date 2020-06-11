@@ -269,7 +269,7 @@ break;
 
 default:
 if( $explodeText[0]=='วันนี้วันเกิด' && (!empty($explodeText[1])) ){
-   $textReplyMessage= "สุขสันต์วันเกิดคุณพี่ ".$explodeText[1]." วันเกิดปีนี้ลิซ่า ขอให้พี่ ".$explodeText[1]."มีความสุข สุขภาพแข็งแรง สมหวังในทุกสิ่งปราถนา เจริญก้าวหน้าในหน้าที่การงานค่ะ";
+   $textReplyMessage= "สุขสันต์วันเกิดคุณพี่".$explodeText[1]."\nวันเกิดปีนี้ลิซ่า ขอให้พี่".$explodeText[1]."มีความสุข สุขภาพแข็งแรง สมหวังในทุกสิ่งปราถนา เจริญก้าวหน้าในหน้าที่การงานค่ะ";
    $textMessage = new TextMessageBuilder($textReplyMessage);
    $multiMessage->add($textMessage);
    $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY);
@@ -289,6 +289,42 @@ if( $explodeText[0]=='วันนี้วันเกิด' && (!empty($explo
    $replyData = $multiMessage;
 }
 if( $rawText=='นม' || $rawText=='สาวๆ'){
+  $multiMessage = getRandomGallery();
+  $replyData = $multiMessage;
+}else{ // $text != นม
+
+ $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[0].'"}');
+
+          $data = json_decode($json);
+          $isData=sizeof($data);
+          //$textReplyMessage= $textReplyMessage." isData ".$isData." ค่ะ\n\n";
+          if($isData >0){
+             foreach($data as $rec){
+            $textReplyMessage= $textReplyMessage.$rec->answer."\n\n";
+            }//end for each
+            $textMessage = new TextMessageBuilder($textReplyMessage);
+            $multiMessage->add($textMessage);
+            $replyData = $multiMessage;
+         }
+       }// end if นม สาวๆ
+
+break;
+  }//end switch $explodeText[0]
+
+if(!empty($replyData)){
+  // ส่วนส่งกลับข้อมูลให้ LINE
+  $response = $bot->replyMessage($replyToken,$replyData);
+  /*
+  if ($response->isSucceeded()) { echo 'Succeeded!'; return;}
+      // Failed ส่งข้อความไม่สำเร็จ
+      $statusMessage = $response->getHTTPStatus() . ' ' . $response->getRawBody(); echo $statusMessage;
+      $bot->replyText($replyToken, $statusMessage);
+      */
+}
+
+	}//end if event is textMessage
+}// end foreach event
+function getRandomGallery(){
   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY);
   $data = json_decode($json);
   $isData=sizeof($data);
@@ -330,42 +366,10 @@ if( $rawText=='นม' || $rawText=='สาวๆ'){
        $imageMessage = new ImageMessageBuilder($img_url,$img_url);
        $multiMessage->add($imageMessage);
      }
-     $replyData = $multiMessage;
+     return $multiMessage;
   }// end if isData>1
-}else{ // $text != นม
 
- $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[0].'"}');
-
-          $data = json_decode($json);
-          $isData=sizeof($data);
-          //$textReplyMessage= $textReplyMessage." isData ".$isData." ค่ะ\n\n";
-          if($isData >0){
-             foreach($data as $rec){
-            $textReplyMessage= $textReplyMessage.$rec->answer."\n\n";
-            }//end for each
-            $textMessage = new TextMessageBuilder($textReplyMessage);
-            $multiMessage->add($textMessage);
-            $replyData = $multiMessage;
-         }
-       }// end if นม สาวๆ
-
-break;
-  }//end switch $explodeText[0]
-
-if(!empty($replyData)){
-  // ส่วนส่งกลับข้อมูลให้ LINE
-  $response = $bot->replyMessage($replyToken,$replyData);
-  /*
-  if ($response->isSucceeded()) { echo 'Succeeded!'; return;}
-      // Failed ส่งข้อความไม่สำเร็จ
-      $statusMessage = $response->getHTTPStatus() . ' ' . $response->getRawBody(); echo $statusMessage;
-      $bot->replyText($replyToken, $statusMessage);
-      */
 }
-
-	}//end if event is textMessage
-}// end foreach event
-
 class ReplyFlexMessage
 {
     /**
