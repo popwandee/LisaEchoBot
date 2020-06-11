@@ -288,7 +288,8 @@ if( $explodeText[0]=='วันนี้วันเกิด' && (!empty($explo
   }
    $replyData = $multiMessage;
 }
-if($explodeText[0]=='หิวนม'){
+$gallery_keyword = array("หิวนม", "นม", "สาวๆ", "สาวสวย", "สาวน่ารัก");
+if(in_array($explodeText[0], $gallery_keyword)) {
   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY);
   $img_url=array();
   $img_url=getRandomGallery($json);
