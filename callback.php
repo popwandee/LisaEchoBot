@@ -131,7 +131,10 @@ foreach ($events as $event) {
 		                $multiMessage->add($textMessage);
                     $replyData = $multiMessage;
 	               }else{
-			               $textReplyMessage=$textReplyMessage."..ลิซ่าไม่รู้ค่ะ.. ";
+                      $noAnser = array("..พักบ้างนะค่ะ.. ","..พี่คิดว่าหนูจะรู้ไหมอ่ะค่ะ.. ","..พี่ธนูว่ายังไงดีค่ะ.. ","..พี่ถามลิซ่ารึเปล่าค่ะ.. ","..ลิซ่าไม่รู้ค่ะ.. ","ไม่มีใครสอนลิซ่าเรื่องนี้ค่ะ","..ลิซ่าจำไม่ได้ค่ะ..","..วันนี้อากาศดีนะค่ะ..","เอ่อ...ไม่มีข้อมูลค่ะ ลองถามใหม่ดีไหมค่ะ");
+                      $count=count($noAnser);
+                      $index = mt_rand(0,$count-1);
+                      $textReplyMessage=$textReplyMessage.$noAnser[$index];
           				   $textMessage = new TextMessageBuilder($textReplyMessage);
                      $multiMessage->add($textMessage);
                      $replyData = $multiMessage;
@@ -184,29 +187,39 @@ case '$':
          $index = mt_rand(0,$count-1);
          $imgurl0="img_url-0";
          $imgurl=$data[$index]->$imgurl0;
+         if(!empty($img_url)){
          $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
          $imageMessage = new ImageMessageBuilder($img_url,$img_url);
          $multiMessage->add($imageMessage);
+       }
          $imgurl1="img_url-1";
          $imgurl=$data[$index]->$imgurl1;
+         if(!empty($img_url)){
          $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
          $imageMessage = new ImageMessageBuilder($img_url,$img_url);
          $multiMessage->add($imageMessage);
+       }
          $imgurl2="img_url-2";
          $imgurl=$data[$index]->$imgurl2;
+         if(!empty($img_url)){
          $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
          $imageMessage = new ImageMessageBuilder($img_url,$img_url);
          $multiMessage->add($imageMessage);
+       }
          $imgurl3="img_url-3";
          $imgurl=$data[$index]->$imgurl3;
+         if(!empty($img_url)){
          $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
          $imageMessage = new ImageMessageBuilder($img_url,$img_url);
          $multiMessage->add($imageMessage);
+       }
          $imgurl4="img_url-4";
          $imgurl=$data[$index]->$imgurl4;
+         if(!empty($img_url)){
          $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
          $imageMessage = new ImageMessageBuilder($img_url,$img_url);
          $multiMessage->add($imageMessage);
+       }
     }// end if isData>1
   }else{ // $text != นม
  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY.'&q={"title":{"$regex":"'.$text.'"}}');
@@ -256,7 +269,50 @@ break;
 
 default:
 
-//$textReplyMessage= $textReplyMessage." ค้นหา ".$explodeText[0]." ค่ะ\n\n";
+if( $explodeText[0]=='นม' || $explodeText[0]=='สาวๆ'){
+  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY);
+  $data = json_decode($json);
+  $isData=sizeof($data);
+  if($isData >1){
+       $count=count($data);
+       $index = mt_rand(0,$count-1);
+       $imgurl0="img_url-0";
+       $imgurl=$data[$index]->$imgurl0;
+       if(!empty($img_url)){
+       $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
+       $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+       $multiMessage->add($imageMessage);
+     }
+       $imgurl1="img_url-1";
+       $imgurl=$data[$index]->$imgurl1;
+       if(!empty($img_url)){
+       $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
+       $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+       $multiMessage->add($imageMessage);
+     }
+       $imgurl2="img_url-2";
+       $imgurl=$data[$index]->$imgurl2;
+       if(!empty($img_url)){
+       $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
+       $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+       $multiMessage->add($imageMessage);
+     }
+       $imgurl3="img_url-3";
+       $imgurl=$data[$index]->$imgurl3;
+       if(!empty($img_url)){
+       $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
+       $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+       $multiMessage->add($imageMessage);
+     }
+       $imgurl4="img_url-4";
+       $imgurl=$data[$index]->$imgurl4;
+       if(!empty($img_url)){
+       $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
+       $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+       $multiMessage->add($imageMessage);
+     }
+  }// end if isData>1
+}else{ // $text != นม
 
  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[0].'"}');
 
@@ -271,6 +327,7 @@ default:
             $multiMessage->add($textMessage);
             $replyData = $multiMessage;
          }
+       }// end if นม สาวๆ
 
 break;
   }//end switch $explodeText[0]

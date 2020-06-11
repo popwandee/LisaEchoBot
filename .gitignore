@@ -2,3 +2,4 @@
 /logs/*
 *.phar
 test.php
+config_real.php
