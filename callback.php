@@ -288,6 +288,16 @@ if( $explodeText[0]=='วันนี้วันเกิด' && (!empty($explo
   }
    $replyData = $multiMessage;
 }
+if($explodeText[0]=='หิวนม'){
+  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY);
+  $img_url=array();
+  $img_url=getRandomGallery($json);
+  for ($x = 0; $x <= 4; $x++){
+    $imageMessage = new ImageMessageBuilder($img_url[$x],$img_url[$x]);
+    $multiMessage->add($imageMessage);
+  }
+  $replyData = $multiMessage;
+}
 if( $rawText=='นม' || $rawText=='สาวๆ'){
   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY);
   $data = json_decode($json);
@@ -365,7 +375,43 @@ if(!empty($replyData)){
 
 	}//end if event is textMessage
 }// end foreach event
+function getRandomGallery($json){
 
+$data = json_decode($json);
+  $isData=sizeof($data);
+  if($isData >1){
+    $img_url=array();
+       $count=count($data);
+       $index = mt_rand(0,$count-1);
+       $imgurl0="img_url-0";
+       $imgurl=$data[$index]->$imgurl0;
+       if(!empty($imgurl)){
+       $img_url[0]="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
+     }
+       $imgurl1="img_url-1";
+       $imgurl=$data[$index]->$imgurl1;
+       if(!empty($imgurl)){
+       $img_url[1]="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
+     }
+       $imgurl2="img_url-2";
+       $imgurl=$data[$index]->$imgurl2;
+       if(!empty($imgurl)){
+       $img_url[2]="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
+     }
+       $imgurl3="img_url-3";
+       $imgurl=$data[$index]->$imgurl3;
+       if(!empty($imgurl)){
+       $img_url[3]="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
+     }
+       $imgurl4="img_url-4";
+       $imgurl=$data[$index]->$imgurl4;
+       if(!empty($imgurl)){
+       $img_url[4]="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
+     }
+  }// end if isData>1
+
+return $img_url;
+}
 class ReplyFlexMessage
 {
     /**
