@@ -268,7 +268,26 @@ case '$':
 break;
 
 default:
-
+if( $explodeText[0]=='วันนี้วันเกิด' && (!empty($explodeText[1])) ){
+   $textReplyMessage= "สุขสันต์วันเกิดคุณพี่ ".$explodeText[1]." วันเกิดปีนี้ลิซ่า ขอให้พี่ ".$explodeText[1]."มีความสุข สุขภาพแข็งแรง สมหวังในทุกสิ่งปราถนา เจริญก้าวหน้าในหน้าที่การงานค่ะ";
+   $textMessage = new TextMessageBuilder($textReplyMessage);
+   $multiMessage->add($textMessage);
+   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY);
+   $data = json_decode($json);
+   $isData=sizeof($data);
+   if($isData >1){
+        $count=count($data);
+        $index = mt_rand(0,$count-1);
+        $imgurl0="img_url-0";
+        $imgurl=$data[$index]->$imgurl0;
+        if(!empty($imgurl)){
+        $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
+        $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+        $multiMessage->add($imageMessage);
+      }
+  }
+   $replyData = $multiMessage;
+}
 if( $rawText=='นม' || $rawText=='สาวๆ'){
   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY);
   $data = json_decode($json);
