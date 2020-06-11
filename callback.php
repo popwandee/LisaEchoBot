@@ -311,6 +311,7 @@ if( $rawText=='นม' || $rawText=='สาวๆ'){
        $imageMessage = new ImageMessageBuilder($img_url,$img_url);
        $multiMessage->add($imageMessage);
      }
+     $replyData = $multiMessage;
   }// end if isData>1
 }else{ // $text != นม
 
