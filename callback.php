@@ -269,7 +269,7 @@ break;
 
 default:
 
-if( $explodeText[0]=='นม' || $explodeText[0]=='สาวๆ'){
+if( $rawText=='นม' || $rawText=='สาวๆ'){
   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY);
   $data = json_decode($json);
   $isData=sizeof($data);
