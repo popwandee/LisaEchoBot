@@ -256,7 +256,7 @@ if(in_array($rawText, $gallery_keyword)) {
 }elseif(in_array($explodeText[0], $fc_keyword)){ // $text != $gallery_keyword
 
   $answer_keyword = array("ลิซ่าเป็น FC ป๋าเอี่ยวค่ะ", "FC #NP ค่ะ", "FC เป้หล่อ", "FC เป้ผี", "FC พี่แดงแมลงวัน");
-  $textReplyMessage= array_rand($answer_keyword,1);
+  $textReplyMessage= $answer_keyword[array_rand($answer_keyword,1)];
   $textMessage = new TextMessageBuilder($textReplyMessage);
   $multiMessage->add($textMessage);
   $replyData = $multiMessage;
