@@ -243,7 +243,7 @@ if( $explodeText[0]=='วันนี้วันเกิด' && (!empty($explo
    $replyData = $multiMessage;
 }
 $gallery_keyword = array("หิวนม", "นม", "สาวๆ", "สาวสวย", "สาวน่ารัก");
-$fc_keyword = array("fCป๋าเอี่ยว", "fc", "เป้หล่อ", "เป้ผี", "แมลงวัน");
+$fc_keyword = array("fc", "เน็ตไอดอล");
 if(in_array($rawText, $gallery_keyword)) {
   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY);
   $img_url=array();
@@ -255,7 +255,7 @@ if(in_array($rawText, $gallery_keyword)) {
   $replyData = $multiMessage;
 }elseif(in_array($explodeText[0], $fc_keyword)){ // $text != $gallery_keyword
 
-  $answer_keyword = array("ลิซ่าเป็น FC ป๋าเอี่ยวค่ะ", "FC #NP ค่ะ", "FC เป้หล่อ", "FC เป้ผี", "FC พี่แดงแมลงวัน");
+  $answer_keyword = array("ลิซ่าเป็น FC ป๋าเอี่ยวค่ะ", "FC #NP พี่คองคะนองตึกค่ะ", "FC เป้หล่อ", "FC เป้ผี", "FC พี่แดงแมลงวัน");
   $textReplyMessage= $answer_keyword[array_rand($answer_keyword,1)];
   $textMessage = new TextMessageBuilder($textReplyMessage);
   $multiMessage->add($textMessage);
