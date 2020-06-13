@@ -260,6 +260,12 @@ if(in_array($rawText, $gallery_keyword)) {
   $textMessage = new TextMessageBuilder($textReplyMessage);
   $multiMessage->add($textMessage);
   $replyData = $multiMessage;
+}elseif($explodeText[0]=='สวัสดีลิซ่า')){ // $text != $gallery_keyword
+    
+    $textReplyMessage= welcome(date("H"));
+    $textMessage = new TextMessageBuilder($textReplyMessage);
+    $multiMessage->add($textMessage);
+    $replyData = $multiMessage;
 }else{
  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[0].'"}');
 
@@ -292,6 +298,28 @@ if(!empty($replyData)){
 
 	}//end if event is textMessage
 }// end foreach event
+function welcome($H){
+
+   if($H < 12){
+
+     return "อรุณสวัสดิ์ค่ะ";
+
+   }elseif($H > 11 && $H < 13){
+
+     return "สวัสดีตอนเที่ยงค่ะ \nพักรับประทานอาหารกลางวันหรือยังค่ะ";
+
+   }elseif($H > 12 && $H < 18){
+
+     return "สวัสดีตอนบ่ายค่ะ";
+
+   }elseif($H > 17){
+
+     return "สวัสดีตอนเย็นค่ะ";
+
+   }
+
+}
+
 function getRandomGallery($json){
 
 $data = json_decode($json);
