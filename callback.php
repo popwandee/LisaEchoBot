@@ -260,8 +260,8 @@ if(in_array($rawText, $gallery_keyword)) {
   $textMessage = new TextMessageBuilder($textReplyMessage);
   $multiMessage->add($textMessage);
   $replyData = $multiMessage;
-}elseif($explodeText[0]=='สวัสดีลิซ่า')){ // $text != $gallery_keyword
-    
+}elseif($explodeText[0]=='สวัสดีลิซ่า'){ // $text != $gallery_keyword
+
     $textReplyMessage= welcome(date("H"));
     $textMessage = new TextMessageBuilder($textReplyMessage);
     $multiMessage->add($textMessage);
