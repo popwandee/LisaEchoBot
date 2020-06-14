@@ -1,7 +1,7 @@
 <?php
 // Initialize the session
 session_start();
-
+/*
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
@@ -11,7 +11,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 if(isset($_SESSION['type'])){    $user_type = $_SESSION['type'];
 }else{                           $user_type = "";
 }
-
+*/
 
 // Cloudinary
 require 'vendor/cloudinary/cloudinary_php/src/Cloudinary.php';
@@ -174,7 +174,7 @@ switch ($action) {
       foreach($data as $rec){
         $summary=$rec->sum;  print_r($rec);
 
-        $summary= number_format($summary);
+        $summary= number_format($number, 2, '.', ',');
         $textReplyMessage="ยอดเงินรุ่นล่าสุดคงเหลือ ".$summary." ตรวจสอบข้อมูล ณ วันที่ ".$dateTimeToday." \n\n ข้อมูลของลิซ่าเป็นข้อมูลเบื้องต้น อาจจะไม่อัพเดต หากต้องการยืนยันยอด กรุณาติดต่อฝ่ายเหรัญญิกโดยตรงนะค่ะ";
         echo $textReplyMessage;
       }
