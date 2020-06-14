@@ -90,13 +90,13 @@ switch ($action) {
     break;
   case 'newpost' :
     $name= isset($_SESSION['user_info']) ? htmlspecialchars($_SESSION['user_info']) : '';
-    $title= isset($_POST['title']) ? htmlspecialchars($_POST['title']) : '';
-    $detail= isset($_POST['detail']) ? htmlspecialchars($_POST['detail']) : '';
+    $question= isset($_POST['question']) ? htmlspecialchars($_POST['question']) : '';
+    $answer= isset($_POST['answer']) ? htmlspecialchars($_POST['answer']) : '';
     $today = date("Ymd-His");
   $newData->name = $name;
   $newData->date = $today;
-  $newData->title = $title;
-  $newData->detail = $detail;
+  $newData->question = $question;
+  $newData->answer = $answer;
 
          if (!empty($_FILES['record_image'])) { //record_image
            $index=0;
@@ -129,11 +129,11 @@ switch ($action) {
      $name_db=$data->name;$update_name = isset($_POST['name']) ? htmlspecialchars($_POST['name']) : "";
      if($update_name!=$name_db){update_field($_id,'name',$update_name);}
 
-     $title_db=$data->title;$update_title = isset($_POST['title']) ? htmlspecialchars($_POST['title']) : "";
-     if($update_title!=$title_db){update_field($_id,'title',$update_title);}
+     $question_db=$data->question;$update_question = isset($_POST['question']) ? htmlspecialchars($_POST['question']) : "";
+     if($update_question!=$question_db){update_field($_id,'question',$update_question);}
 
-     $detail_db=$data->detail;$update_detail = isset($_POST['detail']) ? htmlspecialchars($_POST['detail']) : "";
-     if($update_detail!=$detail_db){update_field($_id,'detail',$update_detail);}
+     $answer_db=$data->answer;$update_answer = isset($_POST['answer']) ? htmlspecialchars($_POST['answer']) : "";
+     if($update_answer!=$answer_db){update_field($_id,'answer',$update_answer);}
 
      if (!empty($_FILES['record_image'])) { //record_image
        $index=0;
@@ -213,7 +213,7 @@ function show_all_post(){
         <?php echo cl_image_tag("$img_url4", array("width"=>100));?></a>
       </td>
       </tr>
-      <tr><td><?php echo $rec->title;?>: <?php echo $rec->detail;?></td></tr>
+      <tr><td><?php echo $rec->question;?>: <?php echo $rec->answer;?></td></tr>
            <?php    } //end foreach ?>
            </tbody>
          </table>
@@ -238,9 +238,9 @@ function new_post_form(){ ?>
     <tr><td colspan="2"><input type='file' name='record_image[]' class='form-control' /></td></tr>
     <tr><td colspan="2"><input type='file' name='record_image[]' class='form-control' /></td></tr>
     <tr>
-      <td>เรื่อง</td><td><input type='text' name='title' class='form-control' /></td></tr>
-      <td colspan="2">รายละเอียด<br>
-          <textarea name="detail" rows="5" cols="10"class='form-control' /></textarea>
+      <td>Question?</td><td><input type='text' name='question' class='form-control' /></td></tr>
+      <td colspan="2">Answer<br>
+          <textarea name="answer" rows="5" cols="10"class='form-control' /></textarea>
 </td></tr>
       <tr><td colspan="2" align="center"><input type="hidden"name="action" value="newpost">
               <input type='submit' value='POST' class='btn btn-primary' /></td></tr>
@@ -273,7 +273,7 @@ $url = 'https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB
       $returnValue = file_get_contents($url,false,$context);
 
       if($returnValue){
-     $message= "<div align='center' class='alert alert-success'>โพสต์ ".$title." เรียบร้อย</div>";
+     $message= "<div align='center' class='alert alert-success'>โพสต์ ".$question." เรียบร้อย</div>";
         }else{
      $message= "<div align='center' class='alert alert-danger'>ไม่สามารถโพสต์ได้</div>";
                }
