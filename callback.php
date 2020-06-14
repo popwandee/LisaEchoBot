@@ -102,7 +102,8 @@ foreach ($events as $event) {
 	// Message Event
  if ($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage) {
   $rawText = $event->getText();
-  $text = strtolower($rawText);
+  //$text = strtolower($rawText);
+  $text = $rawText;
   $explodeText=explode(" ",$text);
   $textReplyMessage="";
 	$log_note=$text;
@@ -267,6 +268,31 @@ if(in_array($rawText, $gallery_keyword)) {
     $textMessage = new TextMessageBuilder($textReplyMessage);
     $multiMessage->add($textMessage);
     $replyData = $multiMessage;
+}elseif($explodeText[0]=="สรุปยอดเงินรุ่น")){ // $text != $gallery_keyword
+  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY.'&s={"date": -1}&sk=0&l=5');
+
+           $data = json_decode($json);
+           $isData=sizeof($data);
+           //$textReplyMessage= $textReplyMessage." isData ".$isData." ค่ะ\n\n";
+           if($isData >0){
+              foreach($data as $rec){
+             $textReplyMessage= $textReplyMessage.$rec->record." ".$rec->add." ".$rec->sub."\n\n";
+             }//end for each
+        $textMessage = new TextMessageBuilder($textReplyMessage);
+        $multiMessage->add($textMessage);
+
+      }// end if
+
+  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY.'&q={"type":"summary"}');
+       $data = json_decode($json);
+       $isData=sizeof($data);
+      if($isData >0){
+        $textReplyMessage= $textReplyMessage."\n\nยอดเงินคงเหลือสุทธิ ".$data->sum."\n\nณ วันที่ ".$dateTimeToday;
+        $textMessage = new TextMessageBuilder($textReplyMessage);
+        $multiMessage->add($textMessage);
+        }// end if
+        $replyData = $multiMessage;
+
 }else{
  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[0].'"}');
 
