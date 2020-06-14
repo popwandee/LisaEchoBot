@@ -173,8 +173,8 @@ switch ($action) {
     if($isData >0){
       foreach($data as $rec){
         $summary=$rec->sum;  print_r($rec);
-        setlocale(LC_MONETARY, 'th_TH');
-        $summary= money_format('%i', $summary);
+
+        $summary= number_format($summary);
         $textReplyMessage="ยอดเงินรุ่นล่าสุดคงเหลือ ".$summary." ตรวจสอบข้อมูล ณ วันที่ ".$dateTimeToday." \n\n ข้อมูลของลิซ่าเป็นข้อมูลเบื้องต้น อาจจะไม่อัพเดต หากต้องการยืนยันยอด กรุณาติดต่อฝ่ายเหรัญญิกโดยตรงนะค่ะ";
         echo $textReplyMessage;
       }
