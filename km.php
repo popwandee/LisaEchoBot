@@ -75,15 +75,7 @@ require_once "vendor/function.php";
           }elseif(isset($_POST['action'])){   $action = $_POST['action'];
           }else{                              $action = "";
           }
-          $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY.'&q={"type":"summary"}');
-          $data = json_decode($json);
-          $isData=sizeof($data);
-                   //$textReplyMessage= $textReplyMessage." isData ".$isData." ค่ะ\n\n";
-          if($isData >0){
-          $summary=$data->sum;
-          $textReplyMessage="ยอดเงินรุ่นล่าสุดคงเหลือ ".$summary." ตรวจสอบข้อมูล ณ วันที่ ".$dateTimeToday." \n\n ข้อมูลของลิซ่าเป็นข้อมูลเบื้องต้น อาจจะไม่อัพเดต หากต้องการยืนยันยอด กรุณาติดต่อฝ่ายเหรัญญิกโดยตรงนะค่ะ";
-          print_r($data);
-          }
+
           ?>
           <div class="container theme-showcase" role="main">
           <div class="jumbotron">
@@ -174,6 +166,15 @@ switch ($action) {
     break;
   default:
     new_post_form();
+    $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY.'&q={"type":"summary"}');
+    $data = json_decode($json);
+    $isData=sizeof($data);
+             //$textReplyMessage= $textReplyMessage." isData ".$isData." ค่ะ\n\n";
+    if($isData >0){
+    $summary=$data->sum;
+    $textReplyMessage="ยอดเงินรุ่นล่าสุดคงเหลือ ".$summary." ตรวจสอบข้อมูล ณ วันที่ ".$dateTimeToday." \n\n ข้อมูลของลิซ่าเป็นข้อมูลเบื้องต้น อาจจะไม่อัพเดต หากต้องการยืนยันยอด กรุณาติดต่อฝ่ายเหรัญญิกโดยตรงนะค่ะ";
+    print_r($data);
+    }
     break;
 }//end switch action
     show_all_post();
