@@ -166,7 +166,7 @@ switch ($action) {
     break;
   default:
     new_post_form();
-    $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY.'&s={"date":-1}');
+    $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY.'&s={"date":-1}&sk=0&l=5');
     $data = json_decode($json);
     $isData=sizeof($data);
              //$textReplyMessage= $textReplyMessage." isData ".$isData." ค่ะ\n\n";
