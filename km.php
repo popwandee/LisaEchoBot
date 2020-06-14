@@ -166,27 +166,6 @@ switch ($action) {
     break;
   default:
     new_post_form();
-    $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY.'&s={"date":-1}&sk=0&l=5');
-    $data = json_decode($json);
-    $isData=sizeof($data);
-             //$textReplyMessage= $textReplyMessage." isData ".$isData." ค่ะ\n\n";
-    if($isData >0){
-      echo "get record";
-    }
-    $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY.'&q={"type":"summary"}');
-    $data = json_decode($json);
-    $isData=sizeof($data);
-             //$textReplyMessage= $textReplyMessage." isData ".$isData." ค่ะ\n\n";
-    if($isData >0){
-      foreach($data as $rec){
-        $summary=$rec->sum;  print_r($rec);
-
-        $summary= number_format($summary, 2, '.', ',');
-        $textReplyMessage="ยอดเงินรุ่นล่าสุดคงเหลือ ".$summary." ตรวจสอบข้อมูล ณ วันที่ ".$dateTimeToday." \n\n ข้อมูลของลิซ่าเป็นข้อมูลเบื้องต้น อาจจะไม่อัพเดต หากต้องการยืนยันยอด กรุณาติดต่อฝ่ายเหรัญญิกโดยตรงนะค่ะ";
-        echo $textReplyMessage;
-      }
-
-    }
     break;
 }//end switch action
     show_all_post();

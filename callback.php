@@ -270,18 +270,42 @@ if(in_array($rawText, $gallery_keyword)) {
     $replyData = $multiMessage;
 }elseif($explodeText[0]=="สรุปยอดเงินรุ่น"){ // $text != $gallery_keyword
 
+  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY.'&s={"date":-1}&sk=0&l=4');
+  $data = json_decode($json);
+  $isData=sizeof($data);
+
+  if($isData >0){
+
+    $i=0;
+    foreach($data as $rec){
+      $i++;
+      $add=$rec->add; $add=number_format($add, 2, '.', ',');
+      $sub=$rec->sub; $sub=number_format($sub, 2, '.', ',');
+      $textReplyMessage=$textReplyMessage.$i." ".$rec->record;
+      if(!empty($add)){$textReplyMessage=$textReplyMessage." ( +".$add.")";}
+      if(!empty($sub)){$textReplyMessage=$textReplyMessage." ( -".$sub.")";}
+      if(!empty($sum)){$textReplyMessage=$textReplyMessage." ".$sum;}
+      $textReplyMessage=$textReplyMessage."\n\n";
+    }
+    $textMessage = new TextMessageBuilder($textReplyMessage);
+    $multiMessage->add($textMessage);
+  }
   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY.'&q={"type":"summary"}');
   $data = json_decode($json);
   $isData=sizeof($data);
            //$textReplyMessage= $textReplyMessage." isData ".$isData." ค่ะ\n\n";
   if($isData >0){
-  $summary=$data->sum;
-  $textReplyMessage="ยอดเงินรุ่นล่าสุดคงเหลือ ".$summary." ตรวจสอบข้อมูล ณ วันที่ ".$dateTimeToday." \n\n ข้อมูลของลิซ่าเป็นข้อมูลเบื้องต้น อาจจะไม่อัพเดต หากต้องการยืนยันยอด กรุณาติดต่อฝ่ายเหรัญญิกโดยตรงนะค่ะ";
-  $textMessage = new TextMessageBuilder($textReplyMessage);
-  $multiMessage->add($textMessage);
-  $replyData = $multiMessage;
-  }
+    foreach($data as $rec){
+      $summary=$rec->sum;
+      $summary= number_format($summary, 2, '.', ',');
+      $textReplyMessage="ยอดเงินรุ่นล่าสุดคงเหลือ ".$summary." ตรวจสอบข้อมูล ณ วันที่ ".$dateTimeToday." \n\n ข้อมูลของลิซ่าเป็นข้อมูลเบื้องต้น อาจจะไม่อัพเดต หากต้องการยืนยันยอด กรุณาติดต่อฝ่ายเหรัญญิกโดยตรงนะค่ะ";
+      $textMessage = new TextMessageBuilder($textReplyMessage);
+      $multiMessage->add($textMessage);
+    }
 
+  }
+  $replyData = $multiMessage;
+  
 }else{
  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[0].'"}');
 
