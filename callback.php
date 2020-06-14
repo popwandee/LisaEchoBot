@@ -275,7 +275,7 @@ if(in_array($rawText, $gallery_keyword)) {
   $isData=sizeof($data);
 
   if($isData >0){
-
+$textReplyMessage="รายการความเคลื่อนไหวเงินรุ่น 5 รายการล่าสุดมีดังนี้ค่ะ (ณ ขณะนี้ยังไม่ได้เรียงลำดับก่อนหลังนะคะ แค่สุ่มมาแสดงเฉยๆ)\n\n";
     $i=0;
     foreach($data as $rec){
       $i++;
@@ -305,7 +305,7 @@ if(in_array($rawText, $gallery_keyword)) {
 
   }
   $replyData = $multiMessage;
-  
+
 }else{
  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[0].'"}');
 
