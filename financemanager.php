@@ -21,7 +21,7 @@ require_once "vendor/function.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
-  <head> 
+  <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -84,6 +84,7 @@ require_once "vendor/function.php";
             break;
 
        case "add_record" :
+       $date = $dateTimeToday;
        $username = isset($_POST['username']) ? $_POST['username'] : "";
        $record = isset($_POST['record']) ? $_POST['record'] : "";
        $add = isset($_POST['add']) ? $_POST['add'] : "";
@@ -102,7 +103,7 @@ require_once "vendor/function.php";
        }
 
        $img_url = isset($img_url) ? $img_url : "";
-       insert_finance_record($username,$record,$add,$sub,$detail,$img_url);
+       insert_finance_record($date,$username,$record,$add,$sub,$detail,$img_url);
        $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY);
 
             break;
@@ -214,8 +215,9 @@ echo "</div> ";// class='table-responsive'
 
 
 <?php
-      function insert_finance_record($username,$record,$add,$sub,$detail,$img_url){
+      function insert_finance_record($date,$username,$record,$add,$sub,$detail,$img_url){
       $newData = json_encode(array(
+        'date' => $date,
         'username' => $username,
         'record' => $record,
         'add' => $add,
