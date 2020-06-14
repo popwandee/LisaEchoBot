@@ -204,13 +204,13 @@ function show_all_post(){
         <?php echo cl_image_tag("km/$img_url0", array("width"=>100, "height"=>100,"radius"=>50, "gravity"=>"face", "crop"=>"thumb"));?></a><?php }//end if !empty img_url ?></td>
         <td><?php if(!empty($img_url0)){ ?><a href="post.php?action=review&img_url=km/<?php echo $img_url0;?>" target="_blank">
         <?php echo cl_image_tag("km/$img_url0", array("width"=>100));?></a><?php }//end if !empty img_url ?>
-        <?php if(!empty($img_url0)){ ?><a href="post.php?action=review&img_url=km/<?php echo $img_url0;?>" target="_blank">
+        <?php if(!empty($img_url1)){ ?><a href="post.php?action=review&img_url=km/<?php echo $img_url0;?>" target="_blank">
         <?php echo cl_image_tag("km/$img_url1", array("width"=>100));?></a><?php }//end if !empty img_url ?>
-        <?php if(!empty($img_url0)){ ?><a href="post.php?action=review&img_url=km/<?php echo $img_url0;?>" target="_blank">
+        <?php if(!empty($img_url2)){ ?><a href="post.php?action=review&img_url=km/<?php echo $img_url0;?>" target="_blank">
         <?php echo cl_image_tag("km/$img_url2", array("width"=>100));?></a><?php }//end if !empty img_url ?>
-        <?php if(!empty($img_url0)){ ?><a href="post.php?action=review&img_url=km/<?php echo $img_url0;?>" target="_blank">
+        <?php if(!empty($img_url3)){ ?><a href="post.php?action=review&img_url=km/<?php echo $img_url0;?>" target="_blank">
         <?php echo cl_image_tag("km/$img_url3", array("width"=>100));?></a><?php }//end if !empty img_url ?>
-        <?php if(!empty($img_url0)){ ?><a href="post.php?action=review&img_url=km/<?php echo $img_url0;?>" target="_blank">
+        <?php if(!empty($img_url4)){ ?><a href="post.php?action=review&img_url=km/<?php echo $img_url0;?>" target="_blank">
         <?php echo cl_image_tag("km/$img_url4", array("width"=>100));?></a><?php }//end if !empty img_url ?>
       </td>
       </tr>
