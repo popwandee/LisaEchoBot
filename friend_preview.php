@@ -96,8 +96,8 @@ $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : "";
                      $name=$data->name;$update_name = isset($_POST['name']) ? $_POST['name'] : "";
                      if($name!=$update_name){update_field($_id,'name',$update_name);}
 
-                    $nickname=$data->nickname;$update_nickname = isset($_POST['nickname']) ? $_POST['nickname'] : "";
-                    if($nickname!=$update_nickname){update_field($_id,'nickname',$update_nickname);}
+                     $nickname=$data->nickname;$update_nickname = isset($_POST['nickname']) ? $_POST['nickname'] : "";
+                     if($nickname!=$update_nickname){update_field($_id,'nickname',$update_nickname);}
 
                      $lastname=$data->lastname;$update_lastname = isset($_POST['lastname']) ? $_POST['lastname'] : "";
                      if($lastname!=$update_lastname){update_field($_id,'lastname',$update_lastname);}
@@ -120,8 +120,9 @@ $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : "";
                      $comment=$data->comment;$update_comment = isset($_POST['comment']) ? $_POST['comment'] : "";
                      if($comment!=$update_comment){update_field($_id,'comment',$update_comment);}
 
-                     $type = $data->type;$update_type = isset($_POST['type']) ? $_POST['type'] : "";
+                     $type = $data->type;$update_type = isset($_POST['type_of_user']) ? $_POST['type_of_user'] : "";
                      if($type!=$update_type){update_field($_id,'type',$update_type);}
+
 
                      $today = date("Ymd-His");
                      if (!empty($_FILES["record_image"]['tmp_name'])) { //record_image
@@ -131,7 +132,6 @@ $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : "";
                          $public_id =$Tel1."-".$today;
                          $option=array("folder" => "friend","public_id" => $public_id);
                          $file_name ="friend/".$public_id.".".$imageFileType;
-                         $newData->$img_index=$file_name;
                          $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
                          $img_url = $file_name;
 
@@ -247,7 +247,8 @@ function show_form($_id){
 $data = json_decode($json);
 $isData=sizeof($data);
 if($isData >0){
-  //echo "\nGet data from DB are "; //print_r($data);
+  //echo "\nGet data from DB are ";
+  print_r($data);
      $rank=$data->rank;
      $name=$data->name;
      $nickname=$data->nickname;
@@ -315,10 +316,11 @@ if($isData >0){
 <td><?php echo cl_image_tag("$img_url", array("width"=>300));?></td></tr>
 <tr><td colspan="2">
 <input type="hidden"name="_id" value="<?php echo $_id;?>">
-<input type="hidden"name="type" value="<?php echo $type;?>">
-  <input type="hidden"name="formSubmit" value="true">
-  <input type='submit' value='Save' class='btn btn-primary' />
+<input type="hidden"name="type_of_user" value="<?php echo $type;?>">
+<input type="hidden"name="formSubmit" value="true">
+<input type='submit' value='Save' class='btn btn-primary' />
 </td></tr></table>
+</form>
       <?php
     }// if isData > 0;
 
