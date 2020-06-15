@@ -315,6 +315,7 @@ if($isData >0){
 <td><?php echo cl_image_tag("$img_url", array("width"=>300));?></td></tr>
 <tr><td colspan="2">
 <input type="hidden"name="_id" value="<?php echo $_id;?>">
+<input type="hidden"name="type" value="<?php echo $type;?>">
   <input type="hidden"name="formSubmit" value="true">
   <input type='submit' value='Save' class='btn btn-primary' />
 </td></tr></table>
