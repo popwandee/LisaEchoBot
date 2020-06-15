@@ -129,7 +129,7 @@ $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : "";
                        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
                        if(!empty($imageFileType)){
                          $public_id =$Tel1;
-                         $option=array("folder" => "friend","public_id" => $public_id);
+                         $option=array("folder" => "friend","public_id" => $public_id, "overwrite"=>"true");
                          $img_url ="friend/$public_id.".$imageFileType;
                          $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
                          update_field($_id,'img_url',$img_url);
