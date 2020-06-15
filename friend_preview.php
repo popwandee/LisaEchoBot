@@ -201,7 +201,10 @@ function showdata($_id)
                  <tr>
                      <td>ยศ ชื่อ สกุล</td>
                      <td><?php echo $rank;?><?php echo $name;?><?php echo $lastname;?></td>
-                 </tr>
+                 </tr><tr>
+                     <td>ชื่อเล่น</td>
+                     <td><?php echo $nickname;?></td>
+                     </tr>
                  <tr>
                      <td>ตำแหน่ง</td>
                      <td><?php echo $position;?></td>
@@ -278,7 +281,10 @@ if($isData >0){
             </select>
                   <input type='text' name='name' value="<?php echo $name;?>" />
                   <input type='text' name='lastname' value="<?php echo $lastname;?>"  /></td>
-            </tr>
+            </tr><tr>
+                <td>ชื่อเล้น (ฉายา)</td>
+                <td><input type='text' name='nickname' value="<?php echo $nickname;?>" class='form-control' /></td>
+                </tr>
             <tr>
                 <td>ตำแหน่ง</td>
                 <td><input type='text' name='position' value="<?php echo $position;?>" class='form-control' /></td>
