@@ -363,7 +363,7 @@ $textReplyMessage="รายการความเคลื่อนไหว�
          }// end if km isData > 0
 
          // check in friend databases
-         $find_word=substr($explodeText[0],1);
+         $find_word=$explodeText[0];
  				 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"$or":[{"name":{"$regex":"'.$find_word.'"}},{"nickname":{"$regex":"'.$find_word.'"}},{"lastname":{"$regex":"'.$find_word.'"}},{"province":{"$regex":"'.$find_word.'"}},{"detail":{"$regex":"'.$find_word.'"}},{"position":{"$regex":"'.$find_word.'"}}]}');
                    $data = json_decode($json);
                    $isData=sizeof($data);
