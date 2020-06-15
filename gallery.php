@@ -117,8 +117,9 @@ switch ($action) {
              $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
              if(!empty($imageFileType)){
                $public_id =$today."-".$index;
-               $option=array("public_id" => $public_id);
-               $file_name =$public_id.".".$imageFileType;
+               $folder=$title;
+               $option=array("folder" => $folder,"public_id" => $public_id);
+               $file_name =$folder."/".$public_id.".".$imageFileType;
                $img_index = 'img_url-'.$index;
                $newData->$img_index=$file_name;
                $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
@@ -149,8 +150,12 @@ switch ($action) {
 
      if (!empty($_FILES['record_image'])) { //record_image
        $files = $_FILES["record_image"]['tmp_name'];
-       $cloudUpload = \Cloudinary\Uploader::upload($files);
-       $img_url = htmlspecialchars($cloudUpload['secure_url']);
+       $public_id =$today."-".$index;
+       $folder=$title;
+       $option=array("folder" => $folder,"public_id" => $public_id);
+       $file_name =$folder."/".$public_id.".".$imageFileType;
+       $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
+       $img_url=$file_name;
        if(!empty($img_url)){
          update_field($_id,'img_url',$img_url);
          //$_SESSION['message']=$_SESSION['message']." บันทึกรูปภาพ ".$img_url." แล้ว/";
@@ -209,17 +214,17 @@ function show_all_post(){
              $img_index='img_url-3';$img_url3=$rec->$img_index;
              $img_index='img_url-4';$img_url4=$rec->$img_index;
              $i++;?>
-      <tr><td class="text-nowrap"><a href="post.php?action=review&img_url=<?php echo $img_url0;?>" target="_blank">
+      <tr><td class="text-nowrap"><a href="gallery.php?action=review&img_url=<?php echo $img_url0;?>" target="_blank">
         <?php echo cl_image_tag("$img_url0", array("width"=>100, "height"=>100,"radius"=>50, "gravity"=>"face", "crop"=>"thumb"));?></a></td>
-        <td><a href="post.php?action=review&img_url=<?php echo $img_url0;?>" target="_blank">
+        <td><a href="gallery.php?action=review&img_url=<?php echo $img_url0;?>" target="_blank">
         <?php echo cl_image_tag("$img_url0", array("width"=>100));?></a>
-        <a href="post.php?action=review&img_url=<?php echo $img_url0;?>" target="_blank">
+        <a href="gallery.php?action=review&img_url=<?php echo $img_url0;?>" target="_blank">
         <?php echo cl_image_tag("$img_url1", array("width"=>100));?></a>
-        <a href="post.php?action=review&img_url=<?php echo $img_url0;?>" target="_blank">
+        <a href="gallery.php?action=review&img_url=<?php echo $img_url0;?>" target="_blank">
         <?php echo cl_image_tag("$img_url2", array("width"=>100));?></a>
-        <a href="post.php?action=review&img_url=<?php echo $img_url0;?>" target="_blank">
+        <a href="gallery.php?action=review&img_url=<?php echo $img_url0;?>" target="_blank">
         <?php echo cl_image_tag("$img_url3", array("width"=>100));?></a>
-        <a href="post.php?action=review&img_url=<?php echo $img_url0;?>" target="_blank">
+        <a href="gallery.php?action=review&img_url=<?php echo $img_url0;?>" target="_blank">
         <?php echo cl_image_tag("$img_url4", array("width"=>100));?></a>
       </td>
       </tr>

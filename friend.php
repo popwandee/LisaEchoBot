@@ -83,12 +83,22 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         $Tel1 = isset($_POST['Tel1']) ? $_POST['Tel1'] : "";
         $LineID = isset($_POST['LineID']) ? $_POST['LineID'] : "";
         $comment = isset($_POST['comment']) ? $_POST['comment'] : "";
-
+        $today = date("Ymd-His");
         if (!empty($_FILES['record_image'])) { //record_image
-          $files = $_FILES["record_image"]['tmp_name'];
-          $option= array("public_id" => "$Tel1");
-          $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
-          $img_url = $cloudUpload['secure_url'];
+          //$files = $_FILES["record_image"]['tmp_name'];
+          //$option=array("folder" => "km","public_id" => $public_id);
+          //$cloudUpload = \Cloudinary\Uploader::upload($files,$option);
+          //$img_url = $cloudUpload['secure_url'];
+
+          $files = basename($_FILES["record_image"]["name"]);
+          $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+          if(!empty($imageFileType)){
+            $public_id =$Tel1."-".$today;
+            $option=array("folder" => "friend","public_id" => $public_id);
+            $file_name ="friend/".$public_id.".".$imageFileType;
+            $newData->$img_index=$file_name;
+            $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
+            $img_url = $file_name;
 
         }
       $result=insert_friend($rank,$name,$nickname,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url);

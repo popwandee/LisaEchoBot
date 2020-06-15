@@ -123,10 +123,19 @@ $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : "";
                      $type = $data->type;$update_type = isset($_POST['type']) ? $_POST['type'] : "";
                      if($type!=$update_type){update_field($_id,'type',$update_type);}
 
+                     $today = date("Ymd-His");
                      if (!empty($_FILES["record_image"]['tmp_name'])) { //record_image
-                       $files = $_FILES["record_image"]['tmp_name'];
-                       $cloudUpload = \Cloudinary\Uploader::upload($files);
-                       $img_url = $cloudUpload['secure_url'];
+                       $files = basename($_FILES["record_image"]["name"]);
+                       $imageFileType = strtolower(pathinfo($files,PATHINFO_EXTENSION));
+                       if(!empty($imageFileType)){
+                         $public_id =$Tel1."-".$today;
+                         $option=array("folder" => "friend","public_id" => $public_id);
+                         $file_name ="friend/".$public_id.".".$imageFileType;
+                         $newData->$img_index=$file_name;
+                         $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
+                         $img_url = $file_name;
+
+                     }
                         if(!empty($img_url)){
                          update_field($_id,'img_url',$img_url);
                        }
@@ -219,7 +228,7 @@ function showdata($_id)
                      <td><?php echo $comment;?></td>
                  </tr>
      </table></td>
-     <td align="center"><img src="<?php echo $img_url;?>" width='300'></td>
+     <td align="center"><?php echo cl_image_tag("$img_url", array("width"=>300));?></td>
    </tr>
  </table>
 
@@ -297,7 +306,7 @@ if($isData >0){
             </tr>
             <tr><td colspan="2">เปลี่ยนรูปภาพ<input type="file" name="record_image" class="form-control" accept="image/*"></td></tr>
 </table></td>
-<td><img src="<?php echo $img_url;?>" width="300"></td></tr>
+<td><?php echo cl_image_tag("$img_url", array("width"=>300));?></td></tr>
 <tr><td colspan="2">
 <input type="hidden"name="_id" value="<?php echo $_id;?>">
   <input type="hidden"name="formSubmit" value="true">
