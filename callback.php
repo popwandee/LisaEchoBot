@@ -370,7 +370,7 @@ $textReplyMessage="รายการความเคลื่อนไหว�
  			            $count = 1;
                    if($isData >0){
                       foreach($data as $rec){
-                     $textReplyMessage= $textReplyMessage.$count.' '.$rec->rank.$rec->name.' '.$rec->lastname.' ('.$rec->position.') โทร '.$rec->Tel1." ค่ะ\n\n";
+                     $textReplyMessage=$count.' '.$rec->rank.$rec->name.' '.$rec->lastname.' ('.$rec->position.') โทร '.$rec->Tel1." ค่ะ\n\n";
  				            $count++;
                      $img_url=$rec->img_url;
                      if(!empty($img_url)){
