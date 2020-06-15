@@ -124,19 +124,19 @@ $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : "";
                      if($type!=$update_type){update_field($_id,'type',$update_type);}
 
 
-                     $today = date("Ymd-His");
                      if (!empty($_FILES["record_image"]['tmp_name'])) { //record_image
                        $files = basename($_FILES["record_image"]["name"]);
                        $imageFileType = strtolower(pathinfo($files,PATHINFO_EXTENSION));
                        if(!empty($imageFileType)){
-                         $public_id =$Tel1."-".$today;
+                         $public_id =$Tel1;
                          $option=array("folder" => "friend","public_id" => $public_id);
                          $file_name ="friend/".$public_id.".".$imageFileType;
                          $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
                          $img_url = $file_name;
-
+$_SESSION['message']=$_SESSION['message']."<br>img_url ".$img_url;
                      }
                         if(!empty($img_url)){
+$_SESSION['message']=$_SESSION['message']."<br>update img_url  ".$img_url;
                          update_field($_id,'img_url',$img_url);
                        }
                      }
@@ -160,19 +160,7 @@ $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : "";
           }// end if not empty $_id
 
      ?>
-     <div>
-     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-     <!-- lisa_echo_bot_website -->
-     <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-0730772505870150"
-         data-ad-slot="7819708405"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-     <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-     </script>
-     </div>
+
      <?php
 function showdata($_id)
   {
@@ -248,7 +236,7 @@ $data = json_decode($json);
 $isData=sizeof($data);
 if($isData >0){
   //echo "\nGet data from DB are ";
-  print_r($data);
+  //print_r($data);
      $rank=$data->rank;
      $name=$data->name;
      $nickname=$data->nickname;
@@ -331,6 +319,7 @@ if($isData >0){
 <?php
 function update_field($_id,$field_name,$new_info){
 
+  $_SESSION['message']=$_SESSION['message']."<br>update ".$field_name.$new_info;
         $newData = '{ "$set" : { "'.$field_name.'" : "'.$new_info.'"} }';
         $opts = array('http' => array( 'method' => "PUT",
                                        'header' => "Content-type: application/json",
