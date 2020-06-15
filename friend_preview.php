@@ -215,7 +215,7 @@ function showdata($_id)
                      <td><?php echo $comment;?></td>
                  </tr>
      </table></td>
-     <td align="center"><?php echo cl_image_tag("$img_url", array("width"=>300));?></td>
+     <td align="center"><img src="https://res.cloudinary.com/dly6ftryr/image/upload/v1592220370/<?php echo $img_url;?>" width="300"><?php echo cl_image_tag("$img_url");?></td>
    </tr>
  </table>
 
@@ -297,7 +297,7 @@ if($isData >0){
             </tr>
             <tr><td colspan="2">เปลี่ยนรูปภาพ<input type="file" name="record_image" class="form-control" accept="image/*"></td></tr>
 </table></td>
-<td><?php echo cl_image_tag("$img_url", array("width"=>300));?></td></tr>
+<td><img src="https://res.cloudinary.com/dly6ftryr/image/upload/v1592220370/<?php echo $img_url;?>" width="300"><?php echo cl_image_tag("$img_url");?></td></tr>
 <tr><td colspan="2">
 <input type="hidden"name="_id" value="<?php echo $_id;?>">
 <input type="hidden"name="type_of_user" value="<?php echo $type;?>">
