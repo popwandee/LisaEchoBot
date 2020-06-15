@@ -123,23 +123,19 @@ $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : "";
                      $type = $data->type;$update_type = isset($_POST['type_of_user']) ? $_POST['type_of_user'] : "";
                      if($type!=$update_type){update_field($_id,'type',$update_type);}
 
-
-                     if (!empty($_FILES["record_image"]['tmp_name'])) { //record_image
-                       $files = basename($_FILES["record_image"]["name"]);
-                       $imageFileType = strtolower(pathinfo($files,PATHINFO_EXTENSION));
+                     if (!empty($_FILES['record_image'])) { //record_image
+                       $files = $_FILES["record_image"]['tmp_name'];
+                       $target_file = basename($_FILES["record_image"]["name"]);
+                       $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
                        if(!empty($imageFileType)){
                          $public_id =$Tel1;
                          $option=array("folder" => "friend","public_id" => $public_id);
-                         $file_name ="friend/".$public_id.".".$imageFileType;
+                         $img_url ="friend/$public_id.".$imageFileType;
                          $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
-                         $img_url = $file_name;
-$_SESSION['message']=$_SESSION['message']."<br>img_url ".$img_url;
-                     }
-                        if(!empty($img_url)){
-$_SESSION['message']=$_SESSION['message']."<br>update img_url  ".$img_url;
                          update_field($_id,'img_url',$img_url);
                        }
                      }
+
                      // retrieve database
                          showdata($_id);
                    }else{

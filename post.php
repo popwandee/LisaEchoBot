@@ -104,8 +104,8 @@ switch ($action) {
              $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
              if(!empty($imageFileType)){
                $public_id =$today."-".$index;
-               $option=array("public_id" => $public_id);
-               $file_name =$public_id.".".$imageFileType;
+                 $option=array("folder" => "post","public_id" => $public_id);
+               $file_name = $img_url ="post/$public_id.".$imageFileType;
                $img_index = 'img_url-'.$index;
                $newData->$img_index=$file_name;
                $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
