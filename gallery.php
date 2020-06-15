@@ -117,7 +117,7 @@ switch ($action) {
              $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
              if(!empty($imageFileType)){
                $public_id =$today."-".$index;
-               $folder=$title;
+               $folder="girls/".$title;
                $option=array("folder" => $folder,"public_id" => $public_id);
                $file_name =$folder."/".$public_id.".".$imageFileType;
                $img_index = 'img_url-'.$index;
@@ -151,7 +151,7 @@ switch ($action) {
      if (!empty($_FILES['record_image'])) { //record_image
        $files = $_FILES["record_image"]['tmp_name'];
        $public_id =$today."-".$index;
-       $folder=$title;
+       $folder="girls/".$title;
        $option=array("folder" => $folder,"public_id" => $public_id);
        $file_name =$folder."/".$public_id.".".$imageFileType;
        $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
