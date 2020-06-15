@@ -75,6 +75,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
       if(isset($_POST['formSubmit'])){
         $rank = isset($_POST['rank']) ? $_POST['rank'] : "";
         $name = isset($_POST['name']) ? $_POST['name'] : "";
+        $nickname = isset($_POST['nickname']) ? $_POST['nickname'] : "";
         $lastname = isset($_POST['lastname']) ? $_POST['lastname'] : "";
         $position = isset($_POST['position']) ? $_POST['position'] : "";
         $province = isset($_POST['province']) ? $_POST['province'] : "";
@@ -90,7 +91,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
           $img_url = $cloudUpload['secure_url'];
 
         }
-      $result=insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url);
+      $result=insert_friend($rank,$name,$nickname,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url);
       echo $message; $_SESSION['message']='';
       echo $result;
       }else{
@@ -146,6 +147,10 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
               <input type='text' name='lastname' /></td>
         </tr>
         <tr>
+              <td>ชื่อเล่น (ฉายา)</td>
+              <td><input type='text' name='nickname'  class='form-control' /></td>
+              </tr>
+        <tr>
             <td>ตำแหน่ง (ตัวอักษรย่อ)</td>
             <td><input type='text' name='position'  class='form-control' /></td>
             </tr>
@@ -191,11 +196,12 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
 <?php
 
-function insert_friend($rank,$name,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url){
+function insert_friend($rank,$name,$nickname,$lastname,$position,$province,$Email,$Tel1,$LineID,$comment,$img_url){
 
   $newData = json_encode(array(
   	'rank' => $rank,
     'name'=>$name,
+    'nickname'=>$nickname,
     'lastname' =>$lastname,
     'position' => $position,
     'province' =>$province,

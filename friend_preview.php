@@ -96,6 +96,9 @@ $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : "";
                      $name=$data->name;$update_name = isset($_POST['name']) ? $_POST['name'] : "";
                      if($name!=$update_name){update_field($_id,'name',$update_name);}
 
+                    $nickname=$data->nickname;$update_nickname = isset($_POST['nickname']) ? $_POST['nickname'] : "";
+                    if($nickname!=$update_nickname){update_field($_id,'nickname',$update_nickname);}
+
                      $lastname=$data->lastname;$update_lastname = isset($_POST['lastname']) ? $_POST['lastname'] : "";
                      if($lastname!=$update_lastname){update_field($_id,'lastname',$update_lastname);}
 
@@ -172,6 +175,7 @@ function showdata($_id)
        //echo "\nGet data from DB are "; //print_r($data);
           $rank=$data->rank;
           $name=$data->name;
+          $nickname=$data->nickname;
           $lastname=$data->lastname;
           $position=$data->position;
           $province=$data->province;
@@ -234,6 +238,7 @@ if($isData >0){
   //echo "\nGet data from DB are "; //print_r($data);
      $rank=$data->rank;
      $name=$data->name;
+     $nickname=$data->nickname;
      $lastname=$data->lastname;
      $position=$data->position;
      $province=$data->province;

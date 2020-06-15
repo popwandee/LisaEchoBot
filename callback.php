@@ -119,7 +119,7 @@ foreach ($events as $event) {
         if($explodeText[0]!='#'){
 
         $find_word=substr($explodeText[0],1);
-				 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"$or":[{"name":{"$regex":"'.$find_word.'"}},{"lastname":{"$regex":"'.$find_word.'"}},{"province":{"$regex":"'.$find_word.'"}},{"position":{"$regex":"'.$find_word.'"}}]}');
+				 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"$or":[{"name":{"$regex":"'.$find_word.'"}},{"nickname":{"$regex":"'.$find_word.'"}},{"lastname":{"$regex":"'.$find_word.'"}},{"province":{"$regex":"'.$find_word.'"}},{"detail":{"$regex":"'.$find_word.'"}},{"position":{"$regex":"'.$find_word.'"}}]}');
                   $data = json_decode($json);
                   $isData=sizeof($data);
 			            $count = 1;
@@ -127,6 +127,12 @@ foreach ($events as $event) {
                      foreach($data as $rec){
                     $textReplyMessage= $textReplyMessage.$count.' '.$rec->rank.$rec->name.' '.$rec->lastname.' ('.$rec->position.') โทร '.$rec->Tel1." ค่ะ\n\n";
 				            $count++;
+                    $img_url=$rec->img_url;
+                    if(!empty($img_url)){
+                    $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->img_url;
+                    $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+                    $multiMessage->add($imageMessage);
+                  }// end if ! empty img_url
                     }//end for each
 		                $textMessage = new TextMessageBuilder($textReplyMessage);
 		                $multiMessage->add($textMessage);
