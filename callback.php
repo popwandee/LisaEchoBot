@@ -276,7 +276,7 @@ if(in_array($rawText, $gallery_keyword)) {
     $textMessage = new TextMessageBuilder($textReplyMessage);
     $multiMessage->add($textMessage);
     $replyData = $multiMessage;
-}elseif($percent_lotto>"50"){ // $text != หวยออกอะไร
+}elseif($percent_lotto>"80"){ // $text != หวยออกอะไร
   $digits = 3;
   $lotto= rand(pow(10, $digits-1), pow(10, $digits)-1);
         $textReplyMessage= "หวยน่าจะออก ".$lotto." นะคะ ลิซ่าไม่ได้ฝัน แค่เดาเอา \n ถ้าถูกมาเลี้ยงเบียร์ลิซ่าบ้างนะคะ";
