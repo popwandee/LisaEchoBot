@@ -321,7 +321,7 @@ $textReplyMessage="รายการความเคลื่อนไหว�
           if($isData >0){
              foreach($data as $rec){
 
-            $textReplyMessage= $textReplyMessage.$rec->answer."\n\n";
+            $textReplyMessage= $rec->answer."\n\n";
 
             $img_index='img_url-0';$img_url=$rec->$img_index;
             if(!empty($img_url)){
@@ -336,14 +336,14 @@ $textReplyMessage="รายการความเคลื่อนไหว�
                          $imageMessage = new ImageMessageBuilder($img_url,$img_url);
                          $multiMessage->add($imageMessage);
                        }
-
+/*
                          $img_index='img_url-2';$img_url=$rec->$img_index;
                          if(!empty($img_url)){
                          $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
                          $imageMessage = new ImageMessageBuilder($img_url,$img_url);
                          $multiMessage->add($imageMessage);
                        }
-/*
+
                          $img_index='img_url-3';$img_url=$rec->$img_index;
                          if(!empty($img_url)){
                          $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
@@ -359,8 +359,6 @@ $textReplyMessage="รายการความเคลื่อนไหว�
                        }// if !empty
                        */
             }//end for each
-            $textMessage = new TextMessageBuilder($textReplyMessage);
-            $multiMessage->add($textMessage);
 
          }// end if km isData > 0
 
@@ -372,7 +370,7 @@ $textReplyMessage="รายการความเคลื่อนไหว�
  			            $count = 1;
                    if($isData >0){
                       foreach($data as $rec){
-                     $textReplyMessage=$count.' '.$rec->rank.$rec->name.' '.$rec->lastname.' ('.$rec->position.') โทร '.$rec->Tel1." ค่ะ\n\n";
+                     $textReplyMessage=$textReplyMessage.'\n'.$count.' '.$rec->rank.$rec->name.' '.$rec->lastname.' ('.$rec->position.') โทร '.$rec->Tel1." ค่ะ\n\n";
  				            $count++;
                      $img_url=$rec->img_url;
                      if(!empty($img_url)){
@@ -381,10 +379,12 @@ $textReplyMessage="รายการความเคลื่อนไหว�
                      $multiMessage->add($imageMessage);
                    }// end if ! empty img_url
                      }//end for each
- 		                $textMessage = new TextMessageBuilder($textReplyMessage);
- 		                $multiMessage->add($textMessage);
 
  	               }// end friend isData > 0
+
+                $textMessage = new TextMessageBuilder($textReplyMessage);
+                $multiMessage->add($textMessage);
+
                 $replyData = $multiMessage;
        }// end if นม สาวๆ
 
