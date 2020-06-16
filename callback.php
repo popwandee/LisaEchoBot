@@ -320,6 +320,7 @@ $textReplyMessage="รายการความเคลื่อนไหว�
           //$textReplyMessage= $textReplyMessage." isData ".$isData." ค่ะ\n\n";
           if($isData >0){
              foreach($data as $rec){
+
             $textReplyMessage= $textReplyMessage.$rec->answer."\n\n";
 
             $img_index='img_url-0';$img_url=$rec->$img_index;
@@ -342,7 +343,7 @@ $textReplyMessage="รายการความเคลื่อนไหว�
                          $imageMessage = new ImageMessageBuilder($img_url,$img_url);
                          $multiMessage->add($imageMessage);
                        }
-
+/*
                          $img_index='img_url-3';$img_url=$rec->$img_index;
                          if(!empty($img_url)){
                          $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
@@ -356,6 +357,7 @@ $textReplyMessage="รายการความเคลื่อนไหว�
                          $imageMessage = new ImageMessageBuilder($img_url,$img_url);
                          $multiMessage->add($imageMessage);
                        }// if !empty
+                       */
             }//end for each
             $textMessage = new TextMessageBuilder($textReplyMessage);
             $multiMessage->add($textMessage);
