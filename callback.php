@@ -313,6 +313,27 @@ $textReplyMessage="รายการความเคลื่อนไหว�
   $replyData = $multiMessage;
 
 }else{
+  $count=0;
+  // check in friend databases
+  $find_word=$explodeText[0];
+  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"$or":[{"name":{"$regex":"'.$find_word.'"}},{"nickname":{"$regex":"'.$find_word.'"}},{"lastname":{"$regex":"'.$find_word.'"}},{"province":{"$regex":"'.$find_word.'"}},{"detail":{"$regex":"'.$find_word.'"}},{"position":{"$regex":"'.$find_word.'"}}]}');
+            $data = json_decode($json);
+            $isData=sizeof($data);
+           $count = 1;
+            if($isData >0){
+               foreach($data as $rec){
+              $textReplyMessage=$textReplyMessage.$count.' '.$rec->rank.$rec->name.' '.$rec->lastname.' ('.$rec->position.') โทร '.$rec->Tel1." ค่ะ\n\n";
+             $count++;
+              $img_url=$rec->img_url;
+              if(!empty($img_url)&&($count < 5)){
+              $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->img_url;
+              $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+              $multiMessage->add($imageMessage);
+              $count++;
+            }// end if ! empty img_url
+              }//end for each
+
+          }// end friend isData > 0
  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[0].'"}');
 
           $data = json_decode($json);
@@ -324,63 +345,45 @@ $textReplyMessage="รายการความเคลื่อนไหว�
             $textReplyMessage= $rec->answer."\n\n";
 
             $img_index='img_url-0';$img_url=$rec->$img_index;
-            if(!empty($img_url)){
+            if(!empty($img_url)&&($count < 5)){
             $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
             $imageMessage = new ImageMessageBuilder($img_url,$img_url);
             $multiMessage->add($imageMessage);
+            $count++;
            }
 
                          $img_index='img_url-1';$img_url=$rec->$img_index;
-                         if(!empty($img_url)){
+                         if(!empty($img_url)&&($count < 5)){
+                         $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+                         $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+                         $multiMessage->add($imageMessage);
+                         $count++;
+                       }
+
+                         $img_index='img_url-2';$img_url=$rec->$img_index;
+                         if(!empty($img_url)&&($count < 5)){
                          $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
                          $imageMessage = new ImageMessageBuilder($img_url,$img_url);
                          $multiMessage->add($imageMessage);
                        }
 
-                         $img_index='img_url-2';$img_url=$rec->$img_index;
-                         if(!empty($img_url)){
-                         $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-                         $imageMessage = new ImageMessageBuilder($img_url,$img_url);
-                         $multiMessage->add($imageMessage);
-                       }
-/*
                          $img_index='img_url-3';$img_url=$rec->$img_index;
-                         if(!empty($img_url)){
+                         if(!empty($img_url)&&($count < 5)){
                          $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
                          $imageMessage = new ImageMessageBuilder($img_url,$img_url);
                          $multiMessage->add($imageMessage);
                        }
 
                          $img_index='img_url-4';$img_url=$rec->$img_index;
-                         if(!empty($img_url)){
+                         if(!empty($img_url)&&($count < 5)){
                          $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
                          $imageMessage = new ImageMessageBuilder($img_url,$img_url);
                          $multiMessage->add($imageMessage);
                        }// if !empty
-*/
+
             }//end for each
 
          }// end if km isData > 0
-
-         // check in friend databases
-         $find_word=$explodeText[0];
- 				 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"$or":[{"name":{"$regex":"'.$find_word.'"}},{"nickname":{"$regex":"'.$find_word.'"}},{"lastname":{"$regex":"'.$find_word.'"}},{"province":{"$regex":"'.$find_word.'"}},{"detail":{"$regex":"'.$find_word.'"}},{"position":{"$regex":"'.$find_word.'"}}]}');
-                   $data = json_decode($json);
-                   $isData=sizeof($data);
- 			            $count = 1;
-                   if($isData >0){
-                      foreach($data as $rec){
-                     $textReplyMessage=$textReplyMessage.'\n'.$count.' '.$rec->rank.$rec->name.' '.$rec->lastname.' ('.$rec->position.') โทร '.$rec->Tel1." ค่ะ\n\n";
- 				            $count++;
-                     $img_url=$rec->img_url;
-                     if(!empty($img_url)){
-                     $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->img_url;
-                     $imageMessage = new ImageMessageBuilder($img_url,$img_url);
-                     $multiMessage->add($imageMessage);
-                   }// end if ! empty img_url
-                     }//end for each
-
- 	               }// end friend isData > 0
 
                 $textMessage = new TextMessageBuilder($textReplyMessage);
                 $multiMessage->add($textMessage);
