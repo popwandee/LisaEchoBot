@@ -342,7 +342,7 @@ $textReplyMessage="รายการความเคลื่อนไหว�
           if($isData >0){
              foreach($data as $rec){
 
-            $textReplyMessage= $rec->answer."\n\n";
+            $textReplyMessage= $textReplyMessage.$rec->answer."\n\n";
 
             $img_index='img_url-0';$img_url=$rec->$img_index;
             if(!empty($img_url)&&($count < 5)){
