@@ -83,13 +83,13 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         $Tel1 = isset($_POST['Tel1']) ? $_POST['Tel1'] : "";
         $LineID = isset($_POST['LineID']) ? $_POST['LineID'] : "";
         $comment = isset($_POST['comment']) ? $_POST['comment'] : "";
-
+        $dateTimeNow = $datetime->format('YmdHms');
         if (!empty($_FILES['record_image'])) { //record_image
           $files = $_FILES["record_image"]['tmp_name'];
           $target_file = basename($_FILES["record_image"]["name"]);
           $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
           if(!empty($imageFileType)){
-            $public_id =$Tel1;
+            $public_id =$Tel1."".$dateTimeNow;
             $option=array("folder" => "friend","public_id" => $public_id);
             $img_url ="friend/$public_id.".$imageFileType;
             $cloudUpload = \Cloudinary\Uploader::upload($files,$option);

@@ -122,13 +122,13 @@ $user_id = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : "";
 
                      $type = $data->type;$update_type = isset($_POST['type_of_user']) ? $_POST['type_of_user'] : "";
                      if($type!=$update_type){update_field($_id,'type',$update_type);}
-
+                    $dateTimeNow = $datetime->format('YmdHms');
                      if (!empty($_FILES['record_image'])) { //record_image
                        $files = $_FILES["record_image"]['tmp_name'];
                        $target_file = basename($_FILES["record_image"]["name"]);
                        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
                        if(!empty($imageFileType)){
-                         $public_id =$Tel1;
+                         $public_id =$Tel1."".$dateTimeNow;
                          $option=array("folder" => "friend","public_id" => $public_id);
                          $img_url ="friend/$public_id.".$imageFileType;
                          $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
