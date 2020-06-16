@@ -249,6 +249,7 @@ if( $explodeText[0]=='วันนี้วันเกิด' && (!empty($explo
   }
    $replyData = $multiMessage;
 }
+similar_text($explodeText[0],"รายการสรุปยอดเงินรุ่น",$percent_finance);
 $gallery_keyword = array("หิวนม", "นม", "สาวๆ", "สาวสวย", "สาวน่ารัก");
 $fc_keyword = array("fc", "เน็ตไอดอล");
 $greeting_keyword = array("hi", "Good morning", "hello", "สวัสดี", "หวัดดี", "หวัดดีลิซ่า", "อรุณสวัสดิ์");
@@ -274,7 +275,8 @@ if(in_array($rawText, $gallery_keyword)) {
     $textMessage = new TextMessageBuilder($textReplyMessage);
     $multiMessage->add($textMessage);
     $replyData = $multiMessage;
-}elseif($explodeText[0]=="สรุปยอดเงินรุ่น"){ // $text != $gallery_keyword
+
+}elseif($percent_finance>"50"){ // $text != finance
 
   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY.'&s={"date":-1}&sk=0&l=5');
   $data = json_decode($json);
