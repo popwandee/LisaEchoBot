@@ -353,8 +353,9 @@ $textReplyMessage="รายการความเคลื่อนไหว�
           $isData=sizeof($data);
           //$textReplyMessage= $textReplyMessage." isData ".$isData." ค่ะ\n\n";
           if($isData >0){
+             $count=1;
              foreach($data as $rec){
-
+             
             $textReplyMessage= $textReplyMessage.$rec->answer."\n\n";
 
             $img_index='img_url-0';$img_url=$rec->$img_index;
