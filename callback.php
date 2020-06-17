@@ -250,7 +250,7 @@ if( $explodeText[0]=='วันนี้วันเกิด' && (!empty($explo
    $replyData = $multiMessage;
 }
 similar_text($explodeText[0],"หวยออกอะไร",$percent_lotto);
-similar_text($explodeText[0],"รายการสรุปยอดเงินรุ่น",$percent_finance);
+similar_text($explodeText[0],"สรุปยอดเงินรุ่น",$percent_finance);
 $gallery_keyword = array("หิวนม", "นม", "สาวๆ", "สาวสวย", "สาวน่ารัก");
 $fc_keyword = array("fc", "เน็ตไอดอล");
 $greeting_keyword = array("hi", "Good morning", "hello", "สวัสดี", "หวัดดี", "หวัดดีลิซ่า", "อรุณสวัสดิ์");
