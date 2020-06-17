@@ -353,7 +353,6 @@ $textReplyMessage="รายการความเคลื่อนไหว�
           $isData=sizeof($data);
           //$textReplyMessage= $textReplyMessage." isData ".$isData." ค่ะ\n\n";
           if($isData >0){
-$count=1;
              foreach($data as $rec){
 
             $textReplyMessage= $textReplyMessage.$rec->answer."\n\n";
@@ -379,13 +378,15 @@ $count=1;
                          $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
                          $imageMessage = new ImageMessageBuilder($img_url,$img_url);
                          $multiMessage->add($imageMessage);
-                       }
+                         $count++;
+ }
 
                          $img_index='img_url-3';$img_url=$rec->$img_index;
                          if(!empty($img_url)&&($count < 5)){
                          $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
                          $imageMessage = new ImageMessageBuilder($img_url,$img_url);
                          $multiMessage->add($imageMessage);
+                         $count++;
                        }
 
                          $img_index='img_url-4';$img_url=$rec->$img_index;
@@ -393,6 +394,7 @@ $count=1;
                          $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
                          $imageMessage = new ImageMessageBuilder($img_url,$img_url);
                          $multiMessage->add($imageMessage);
+                         $count++;
                        }// if !empty
 
             }//end for each
