@@ -323,7 +323,9 @@ $textReplyMessage="รายการความเคลื่อนไหว�
   $replyData = $multiMessage;
 
 }else{
+
   $count=0;
+/*
   // check in friend databases
   $find_word=$explodeText[0];
   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"$or":[{"name":{"$regex":"'.$find_word.'"}},{"nickname":{"$regex":"'.$find_word.'"}},{"lastname":{"$regex":"'.$find_word.'"}},{"province":{"$regex":"'.$find_word.'"}},{"detail":{"$regex":"'.$find_word.'"}},{"position":{"$regex":"'.$find_word.'"}}]}');
@@ -344,6 +346,7 @@ $textReplyMessage="รายการความเคลื่อนไหว�
               }//end for each
 
           }// end friend isData > 0
+*/
  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[0].'"}');
 
           $data = json_decode($json);
@@ -399,7 +402,7 @@ $textReplyMessage="รายการความเคลื่อนไหว�
                 $multiMessage->add($textMessage);
 
                 $replyData = $multiMessage;
-       }// end if นม สาวๆ
+       }// end if 
 
 break;
   }//end switch $explodeText[0]
