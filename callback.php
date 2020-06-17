@@ -284,7 +284,7 @@ if(in_array($rawText, $gallery_keyword)) {
         $multiMessage->add($textMessage);
         $replyData = $multiMessage;
 
-}elseif($percent_finance>"50"){ // $text != finance
+}elseif($percent_finance>"80"){ // $text != finance
 
   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY.'&s={"date":-1}&sk=0&l=5');
   $data = json_decode($json);
