@@ -250,7 +250,7 @@ if( $explodeText[0]=='วันนี้วันเกิด' && (!empty($explo
    $replyData = $multiMessage;
 }
 similar_text($explodeText[0],"หวยออกอะไร",$percent_lotto);
-similar_text($explodeText[0],"รายการสรุปยอดเงินรุ่น",$percent_finance);
+similar_text($explodeText[0],"สรุปยอดเงินรุ่น",$percent_finance);
 $gallery_keyword = array("หิวนม", "นม", "สาวๆ", "สาวสวย", "สาวน่ารัก");
 $fc_keyword = array("fc", "เน็ตไอดอล");
 $greeting_keyword = array("hi", "Good morning", "hello", "สวัสดี", "หวัดดี", "หวัดดีลิซ่า", "อรุณสวัสดิ์");
@@ -284,7 +284,7 @@ if(in_array($rawText, $gallery_keyword)) {
         $multiMessage->add($textMessage);
         $replyData = $multiMessage;
 
-}elseif($percent_finance>"50"){ // $text != finance
+}elseif($percent_finance>"80"){ // $text != finance
 
   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY.'&s={"date":-1}&sk=0&l=5');
   $data = json_decode($json);
@@ -323,7 +323,9 @@ $textReplyMessage="รายการความเคลื่อนไหว�
   $replyData = $multiMessage;
 
 }else{
+
   $count=0;
+/*
   // check in friend databases
   $find_word=$explodeText[0];
   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"$or":[{"name":{"$regex":"'.$find_word.'"}},{"nickname":{"$regex":"'.$find_word.'"}},{"lastname":{"$regex":"'.$find_word.'"}},{"province":{"$regex":"'.$find_word.'"}},{"detail":{"$regex":"'.$find_word.'"}},{"position":{"$regex":"'.$find_word.'"}}]}');
@@ -344,14 +346,16 @@ $textReplyMessage="รายการความเคลื่อนไหว�
               }//end for each
 
           }// end friend isData > 0
+*/
  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[0].'"}');
 
           $data = json_decode($json);
           $isData=sizeof($data);
           //$textReplyMessage= $textReplyMessage." isData ".$isData." ค่ะ\n\n";
           if($isData >0){
+             $count=1;
              foreach($data as $rec){
-
+             
             $textReplyMessage= $textReplyMessage.$rec->answer."\n\n";
 
             $img_index='img_url-0';$img_url=$rec->$img_index;
@@ -375,13 +379,15 @@ $textReplyMessage="รายการความเคลื่อนไหว�
                          $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
                          $imageMessage = new ImageMessageBuilder($img_url,$img_url);
                          $multiMessage->add($imageMessage);
-                       }
+                         $count++;
+ }
 
                          $img_index='img_url-3';$img_url=$rec->$img_index;
                          if(!empty($img_url)&&($count < 5)){
                          $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
                          $imageMessage = new ImageMessageBuilder($img_url,$img_url);
                          $multiMessage->add($imageMessage);
+                         $count++;
                        }
 
                          $img_index='img_url-4';$img_url=$rec->$img_index;
@@ -389,6 +395,7 @@ $textReplyMessage="รายการความเคลื่อนไหว�
                          $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
                          $imageMessage = new ImageMessageBuilder($img_url,$img_url);
                          $multiMessage->add($imageMessage);
+                         $count++;
                        }// if !empty
 
             }//end for each
@@ -399,7 +406,7 @@ $textReplyMessage="รายการความเคลื่อนไหว�
                 $multiMessage->add($textMessage);
 
                 $replyData = $multiMessage;
-       }// end if นม สาวๆ
+       }// end if 
 
 break;
   }//end switch $explodeText[0]
