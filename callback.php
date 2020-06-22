@@ -229,6 +229,12 @@ case '$':
 break;
 
 default:
+similar_text($explodeText[0],"หวยออกอะไร",$percent_lotto);
+similar_text($explodeText[0],"สรุปยอดเงินรุ่น",$percent_finance);
+$gallery_keyword = array("หิวนม", "นม", "สาวๆ", "สาวสวย", "สาวน่ารัก");
+$fc_keyword = array("fc", "เน็ตไอดอล");
+$greeting_keyword = array("hi", "Good morning", "hello", "สวัสดี", "หวัดดี", "หวัดดีลิซ่า", "อรุณสวัสดิ์");
+
 if( $explodeText[0]=='วันนี้วันเกิด' && (!empty($explodeText[1])) ){
    $textReplyMessage= "สุขสันต์วันเกิดคุณพี่".$explodeText[1]."\nวันเกิดปีนี้ลิซ่า ขอให้พี่".$explodeText[1]."มีความสุข สุขภาพแข็งแรง สมหวังในทุกสิ่งปราถนา เจริญก้าวหน้าในหน้าที่การงานค่ะ";
    $textMessage = new TextMessageBuilder($textReplyMessage);
@@ -248,13 +254,7 @@ if( $explodeText[0]=='วันนี้วันเกิด' && (!empty($explo
       }
   }
    $replyData = $multiMessage;
-}
-similar_text($explodeText[0],"หวยออกอะไร",$percent_lotto);
-similar_text($explodeText[0],"สรุปยอดเงินรุ่น",$percent_finance);
-$gallery_keyword = array("หิวนม", "นม", "สาวๆ", "สาวสวย", "สาวน่ารัก");
-$fc_keyword = array("fc", "เน็ตไอดอล");
-$greeting_keyword = array("hi", "Good morning", "hello", "สวัสดี", "หวัดดี", "หวัดดีลิซ่า", "อรุณสวัสดิ์");
-if(in_array($rawText, $gallery_keyword)) {
+}elseif(in_array($rawText, $gallery_keyword)) {
   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY);
   $img_url=array();
   $img_url=getRandomGallery($json);
@@ -355,7 +355,7 @@ $textReplyMessage="รายการความเคลื่อนไหว�
           if($isData >0){
              $count=1;
              foreach($data as $rec){
-             
+
             $textReplyMessage= $textReplyMessage.$rec->answer."\n\n";
 
             $img_index='img_url-0';$img_url=$rec->$img_index;
@@ -406,7 +406,7 @@ $textReplyMessage="รายการความเคลื่อนไหว�
                 $multiMessage->add($textMessage);
 
                 $replyData = $multiMessage;
-       }// end if 
+       }// end if
 
 break;
   }//end switch $explodeText[0]
