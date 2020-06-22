@@ -235,7 +235,52 @@ $gallery_keyword = array("หิวนม", "นม", "สาวๆ", "สาว
 $fc_keyword = array("fc", "เน็ตไอดอล");
 $greeting_keyword = array("hi", "Good morning", "hello", "สวัสดี", "หวัดดี", "หวัดดีลิซ่า", "อรุณสวัสดิ์");
 
-if( $explodeText[0]=='วันนี้วันเกิด' && (!empty($explodeText[1])) ){
+if( $explodeText[0]=='นม' ){
+  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY);
+  $data = json_decode($json);
+    $isData=sizeof($data);
+    if($isData >1){
+      $img_url=array();
+         $count=count($data);
+         $index = mt_rand(0,$count-1);
+         $imgurl0="img_url-0";
+         $imgurl=$data[$index]->$imgurl0;
+         if(!empty($imgurl)){
+         $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
+         $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+         $multiMessage->add($imageMessage);
+       }
+         $imgurl1="img_url-1";
+         $imgurl=$data[$index]->$imgurl1;
+         if(!empty($imgurl)){
+         $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
+         $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+         $multiMessage->add($imageMessage);
+       }
+         $imgurl2="img_url-2";
+         $imgurl=$data[$index]->$imgurl2;
+         if(!empty($imgurl)){
+         $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
+         $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+         $multiMessage->add($imageMessage);
+       }
+         $imgurl3="img_url-3";
+         $imgurl=$data[$index]->$imgurl3;
+         if(!empty($imgurl)){
+         $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
+         $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+         $multiMessage->add($imageMessage);
+       }
+         $imgurl4="img_url-4";
+         $imgurl=$data[$index]->$imgurl4;
+         if(!empty($imgurl)){
+         $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
+         $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+         $multiMessage->add($imageMessage);
+       }
+    }// end if isData>1
+   $replyData = $multiMessage;
+}elseif( $explodeText[0]=='วันนี้วันเกิด' && (!empty($explodeText[1])) ){
    $textReplyMessage= "สุขสันต์วันเกิดคุณพี่".$explodeText[1]."\nวันเกิดปีนี้ลิซ่า ขอให้พี่".$explodeText[1]."มีความสุข สุขภาพแข็งแรง สมหวังในทุกสิ่งปราถนา เจริญก้าวหน้าในหน้าที่การงานค่ะ";
    $textMessage = new TextMessageBuilder($textReplyMessage);
    $multiMessage->add($textMessage);
@@ -265,7 +310,7 @@ if( $explodeText[0]=='วันนี้วันเกิด' && (!empty($explo
   $replyData = $multiMessage;
 }elseif(in_array($explodeText[0], $fc_keyword)){ // $text != $gallery_keyword
 
-  $answer_keyword = array("ลิซ่าเป็น FC ป๋าเอี่ยวค่ะ", "FC #NP พี่คองคะนองตึกค่ะ", "FC เป้หล่อ", "FC เป้ผี", "FC พี่แดงแมลงวัน");
+  $answer_keyword = array("ลิซ่าเป็น FC ป๋าเอี่ยวค่ะ", "ลิซ่าเป็น FC #NP พี่คองคะนองตึกค่ะ", "ลิซ่าเป็น FC เป้หล่อ", "ลิซ่าเป็น FC เป้ผี", "ลิซ่าเป็น FC พี่แดงแมลงวัน", "ลิซ่าเป็น FC พี่หมึกมือยาว", "ลิซ่าเป็น FC พี่เอ้นุ้ย");
   $textReplyMessage= $answer_keyword[array_rand($answer_keyword,1)];
   $textMessage = new TextMessageBuilder($textReplyMessage);
   $multiMessage->add($textMessage);
