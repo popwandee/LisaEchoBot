@@ -243,6 +243,9 @@ if( $explodeText[0]=='นม' ){
       $img_url=array();
          $count=count($data);
          $index = mt_rand(0,$count-1);
+         $textReplyMessage= "มีนมทั้งหมด ".$count." Set นะคะ /n สุ่มได้เซ็ตที่ ".$index.$data[$index]->title;
+         $textMessage = new TextMessageBuilder($textReplyMessage);
+         $multiMessage->add($textMessage);
          $imgurl0="img_url-0";
          $imgurl=$data[$index]->$imgurl0;
          if(!empty($imgurl)){
@@ -278,6 +281,7 @@ if( $explodeText[0]=='นม' ){
          $imageMessage = new ImageMessageBuilder($img_url,$img_url);
          $multiMessage->add($imageMessage);
        }
+
     }// end if isData>1
    $replyData = $multiMessage;
 }elseif( $explodeText[0]=='วันนี้วันเกิด' && (!empty($explodeText[1])) ){
