@@ -243,7 +243,7 @@ if( $explodeText[0]=='นม' ){
       $img_url=array();
          $count=count($data);
          $index = mt_rand(0,$count-1);
-         $textReplyMessage= "มีนมทั้งหมด ".$count." Set นะคะ /n สุ่มได้เซ็ตที่ ".$index.$data[$index]->title;
+         $textReplyMessage= "มีนมทั้งหมด ".$count." อัลบั้มนะคะ เลือกแสดงเซ็ต ".$index.$data[$index]->title;
          $textMessage = new TextMessageBuilder($textReplyMessage);
          $multiMessage->add($textMessage);
          $imgurl0="img_url-0";
