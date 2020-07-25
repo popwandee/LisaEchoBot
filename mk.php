@@ -44,7 +44,7 @@ require_once "vendor/function.php";
 <script data-ad-client="ca-pub-0730772505870150" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 <body>
-    <?php include 'navigation.html';?>
+
     <?php
     // ตรวจสอบ $_id จาก _GET และ _POST
           if(isset($_GET['_id'])){         $_id = $_GET['_id'];
@@ -71,10 +71,6 @@ require_once "vendor/function.php";
 <?php // core logic
 
 switch ($action) {
-  case 'review':
-    //echo "action is review and not empty _id is $_id, call function review_request";
-    review_post($img_url);
-    break;
   case 'newpost' :
          if (!empty($_FILES['record_image'])) { //record_image
            $index=0;
@@ -82,12 +78,9 @@ switch ($action) {
              $target_file = basename($_FILES["record_image"]["name"][$index]);
              $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
              if(!empty($imageFileType)){
-               $public_id =$today."-".$index;
-               $folder="mk/".$title;
+               $public_id =$dateTimeToday."-".$index;
+               $folder="mk";
                $option=array("folder" => $folder,"public_id" => $public_id);
-               $file_name =$folder."/".$public_id.".".$imageFileType;
-               $img_index = 'img_url-'.$index;
-               $newData->$img_index=$file_name;
                $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
                $index++;
              }
@@ -102,66 +95,13 @@ switch ($action) {
     new_post_form();
     break;
 }//end switch action
-    show_all_post();
+
 ?>
 
 </div><!-- jumbotron-->
 </div><!-- container theme-showcase-->
 
-<?php
-function show_all_post(){
-      $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY);
-      $data = json_decode($json);
-      $isData=sizeof($data);
-      if($isData >0){
-        $i=0;
-        ?>
-          <div class="panel panel-success">
-            <div class="panel-heading">
-              <h3 class="panel-title">Gallery</h3>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-sm table-hover table-striped">
-                  <tbody>
-        <?php
-         $i=0;
-           foreach($data as $rec){
-           //echo "<br> record is ".$rec->date.$rec->name.$rec->title.$rec->detail;
-           //print_r($rec);
-             $img_index='img_url-0';$img_url0=$rec->$img_index;
-             $img_index='img_url-1';$img_url1=$rec->$img_index;
-             $img_index='img_url-2';$img_url2=$rec->$img_index;
-             $img_index='img_url-3';$img_url3=$rec->$img_index;
-             $img_index='img_url-4';$img_url4=$rec->$img_index;
-             $i++;?>
-      <tr><td class="text-nowrap"><a href="gallery.php?action=review&img_url=<?php echo $img_url0;?>" target="_blank">
-        <?php echo cl_image_tag("$img_url0", array("width"=>100, "height"=>100,"radius"=>50, "gravity"=>"face", "crop"=>"thumb"));?></a></td>
-        <td><a href="gallery.php?action=review&img_url=<?php echo $img_url0;?>" target="_blank">
-        <?php echo cl_image_tag("$img_url0", array("width"=>100));?></a>
-        <a href="gallery.php?action=review&img_url=<?php echo $img_url0;?>" target="_blank">
-        <?php echo cl_image_tag("$img_url1", array("width"=>100));?></a>
-        <a href="gallery.php?action=review&img_url=<?php echo $img_url0;?>" target="_blank">
-        <?php echo cl_image_tag("$img_url2", array("width"=>100));?></a>
-        <a href="gallery.php?action=review&img_url=<?php echo $img_url0;?>" target="_blank">
-        <?php echo cl_image_tag("$img_url3", array("width"=>100));?></a>
-        <a href="gallery.php?action=review&img_url=<?php echo $img_url0;?>" target="_blank">
-        <?php echo cl_image_tag("$img_url4", array("width"=>100));?></a>
-      </td>
-      </tr>
-           <?php    } //end foreach ?>
-           </tbody>
-         </table>
-     </div><!-- class="table-responsive"> -->
-     </div><!-- class="panel panel-success"> -->
-           <?php
-           }else{
-           echo "ยังไม่มีข้อมูลค่ะ";
-               }
-             }// end function show_friend
-               ?>
-
-<?php
-function new_post_form(){ ?>
+<?php function new_post_form(){ ?>
 
   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
   <table class='table table-hover table-responsive' width="100">
