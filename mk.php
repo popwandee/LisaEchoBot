@@ -52,11 +52,6 @@ require_once "vendor/function.php";
           }else{                           $_id = "";
           }
 
-      // ตรวจสอบ $_id จาก _GET และ _POST
-                if(isset($_GET['img_url'])){         $img_url = $_GET['img_url'];
-                }elseif(isset($_POST['img_url'])){   $img_url = $_POST['img_url'];
-                }else{                               $img_url = "";
-                }
   //      ตรวจสอบ Action จาก _GET หรือ _POST
           if(isset($_GET['action'])){         $action = $_GET['action'];
           }elseif(isset($_POST['action'])){   $action = $_POST['action'];
@@ -111,11 +106,6 @@ switch ($action) {
     <tr><td colspan="2"><input type='file' name='record_image[]' class='form-control' /></td></tr>
     <tr><td colspan="2"><input type='file' name='record_image[]' class='form-control' /></td></tr>
     <tr><td colspan="2"><input type='file' name='record_image[]' class='form-control' /></td></tr>
-    <tr>
-      <td>ชื่อภาพ</td><td><input type='text' name='title' class='form-control' /></td></tr>
-      <td colspan="2">โพสต์<br>
-          <textarea name="detail" rows="5" cols="10"class='form-control' /></textarea>
-</td></tr>
       <tr><td colspan="2" align="center"><input type="hidden"name="action" value="newpost">
               <input type='submit' value='POST' class='btn btn-primary' /></td></tr>
       </table>
