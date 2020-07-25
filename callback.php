@@ -274,6 +274,7 @@ if( $explodeText[0]=='นม' ){
          $imageMessage = new ImageMessageBuilder($img_url,$img_url);
          $multiMessage->add($imageMessage);
        }
+       /*
          $imgurl4="img_url-4";
          $imgurl=$data[$index]->$imgurl4;
          if(!empty($imgurl)){
@@ -281,7 +282,7 @@ if( $explodeText[0]=='นม' ){
          $imageMessage = new ImageMessageBuilder($img_url,$img_url);
          $multiMessage->add($imageMessage);
        }
-
+*/
     }// end if isData>1
    $replyData = $multiMessage;
 }elseif( $explodeText[0]=='วันนี้วันเกิด' && (!empty($explodeText[1])) ){
