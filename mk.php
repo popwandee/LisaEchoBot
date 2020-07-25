@@ -60,15 +60,13 @@ require_once "vendor/function.php";
           ?>
           <div class="container theme-showcase" role="main">
           <div class="jumbotron">
-            <h1>Gallery</h1>
-            <p>ห้องภาพ บันเทิง</p>
-
 <?php // core logic
 
 switch ($action) {
   case 'newpost' :
          if (!empty($_FILES['record_image'])) { //record_image
            $index=0;
+               $dateTimeToday = date("Ymd-His");
            foreach ($_FILES["record_image"]['tmp_name'] as $files){
              $target_file = basename($_FILES["record_image"]["name"][$index]);
              $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
