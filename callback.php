@@ -216,11 +216,8 @@ foreach ($events as $event) {
         $replyData = $multiMessage;
     break;
     default:
-        similar_text($explodeText[0],"หวยออกอะไร",$percent_lotto);
         similar_text($explodeText[0],"สรุปยอดเงินรุ่น",$percent_finance);
         $gallery_keyword = array("หิวนม", "นม", "สาวๆ", "สาวสวย", "สาวน่ารัก");
-        $fc_keyword = array("fc", "เน็ตไอดอล");
-        $greeting_keyword = array("hi", "Good morning", "hello", "สวัสดี", "หวัดดี", "หวัดดีลิซ่า", "อรุณสวัสดิ์");
         if( in_array($rawText, $gallery_keyword)){
             $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY);
             $data = json_decode($json);
@@ -261,52 +258,6 @@ foreach ($events as $event) {
                     $multiMessage->add($imageMessage);
                 }
             }// end if isData>1
-            $replyData = $multiMessage;
-        }elseif( $explodeText[0]=='วันนี้วันเกิด' && (!empty($explodeText[1])) ){
-            $textReplyMessage= "สุขสันต์วันเกิดคุณพี่".$explodeText[1]."\nวันเกิดปีนี้ลิซ่า ขอให้พี่".$explodeText[1]."มีความสุข สุขภาพแข็งแรง สมหวังในทุกสิ่งปราถนา เจริญก้าวหน้าในหน้าที่การงานค่ะ";
-            $textMessage = new TextMessageBuilder($textReplyMessage);
-            $multiMessage->add($textMessage);
-            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY);
-            $data = json_decode($json);
-            $isData=sizeof($data);
-            if($isData >1){
-                $count=count($data);
-                $index = mt_rand(0,$count-1);
-                $imgurl0="img_url-0";
-                $imgurl=$data[$index]->$imgurl0;
-                if(!empty($imgurl)){
-                    $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
-                    $imageMessage = new ImageMessageBuilder($img_url,$img_url);
-                    $multiMessage->add($imageMessage);
-                }
-            }
-            $replyData = $multiMessage;
-        }elseif(in_array($rawText, $fc_keyword)) {
-            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY);
-            $img_url=array();
-            $img_url=getRandomGallery($json);
-            for ($x = 0; $x <= 4; $x++){
-                $imageMessage = new ImageMessageBuilder($img_url[$x],$img_url[$x]);
-                $multiMessage->add($imageMessage);
-            }
-            $replyData = $multiMessage;
-        }elseif(in_array($explodeText[0], $fc_keyword)){ // $text != $gallery_keyword
-            $answer_keyword = array("ลิซ่าเป็น FC ป๋าเอี่ยวค่ะ", "ลิซ่าเป็น FC #NP พี่คองคะนองตึกค่ะ", "ลิซ่าเป็น FC เป้หล่อ", "ลิซ่าเป็น FC เป้ผี", "ลิซ่าเป็น FC พี่แดงแมลงวัน", "ลิซ่าเป็น FC พี่หมึกมือยาว", "ลิซ่าเป็น FC พี่เอ้นุ้ย");
-            $textReplyMessage= $answer_keyword[array_rand($answer_keyword,1)];
-            $textMessage = new TextMessageBuilder($textReplyMessage);
-            $multiMessage->add($textMessage);
-            $replyData = $multiMessage;
-        }elseif(in_array($explodeText[0], $greeting_keyword)){ // $text != $gallery_keyword
-            $textReplyMessage= welcome($time_of_day);
-            $textMessage = new TextMessageBuilder($textReplyMessage);
-            $multiMessage->add($textMessage);
-            $replyData = $multiMessage;
-        }elseif($percent_lotto>"80"){ // $text != หวยออกอะไร
-            $digits = 3;
-            $lotto= rand(pow(10, $digits-1), pow(10, $digits)-1);
-            $textReplyMessage= "หวยน่าจะออก ".$lotto." นะคะ ลิซ่าไม่ได้ฝัน แค่เดาเอา \n ถ้าถูกมาเลี้ยงเบียร์ลิซ่าบ้างนะคะ";
-            $textMessage = new TextMessageBuilder($textReplyMessage);
-            $multiMessage->add($textMessage);
             $replyData = $multiMessage;
         }elseif($percent_finance>"80"){ // $text != finance
             $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY.'&s={"date":-1}&sk=0&l=5');
