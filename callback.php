@@ -221,7 +221,7 @@ foreach ($events as $event) {
         $gallery_keyword = array("หิวนม", "นม", "สาวๆ", "สาวสวย", "สาวน่ารัก");
         $fc_keyword = array("fc", "เน็ตไอดอล");
         $greeting_keyword = array("hi", "Good morning", "hello", "สวัสดี", "หวัดดี", "หวัดดีลิซ่า", "อรุณสวัสดิ์");
-        if( in_array($rawText, $gallery_keyword){
+        if( in_array($rawText, $gallery_keyword)){
             $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY);
             $data = json_decode($json);
             $isData=sizeof($data);
