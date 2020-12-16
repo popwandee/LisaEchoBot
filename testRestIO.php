@@ -17,8 +17,23 @@
    
 
 <?php // core logic
-$result=https://area51-dfba.restdb.io/rest/people?q={"name": "ไพศาล"};
-print_r($result);
+
+  setUrl('https://area51-dfba.restdb.io/rest/people?q={"name": "ไพศาล"}');
+$request->setMethod(HTTP_METH_GET);
+
+$request->setHeaders(array(
+'cache-control' => 'no-cache',
+'x-apikey' => '5fd9fb83ff9d670638140649',
+'content-type' => 'application/json'
+));
+
+try {
+    $response = $request->send();
+    echo $response->getBody();
+} catch (HttpException $ex) {
+    echo $ex;
+}
+           
 ?>
 </body>
 </html>
