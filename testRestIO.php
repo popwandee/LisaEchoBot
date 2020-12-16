@@ -14,6 +14,7 @@ try {
     echo $response->getBody();
 } catch (HttpException $ex) {
     echo $ex;
+    print_r($ex);
 }
            
 ?>
