@@ -114,7 +114,7 @@ foreach ($events as $event) {
   //switch ($text[0]) {
     //case '#':
     if($text[0]=='#'){
-        $find_word=substr($text[0],1); // ตัด # ตัวแรกออก
+        $find_word=substr($text,1); // ตัด # ตัวแรกออก
         //$find_word=$explodeText[1];
         $collectionName = "friend";
         $obj = '{"$or": [{"name":{"$regex":"'.$find_word.'"}},{"nickname":{"$regex":"'.$find_word.'"}},{"lastname":{"$regex":"'.$find_word.'"}},{"province":{"$regex":"'.$find_word.'"}},{"detail":{"$regex":"'.$find_word.'"}},{"telephone":{"$regex":"'.$find_word.'"}}
@@ -152,10 +152,39 @@ foreach ($events as $event) {
                     $multiMessage->add($textMessage);
                     $replyData = $multiMessage;
 	                }
-      }// end if($explodeText[0]!='#')
-else{ // first text is not #
+      }// end if($text[0]!='#')
+      elseif($text[0]=='$'){
+          $sentence=substr($text,1); // ตัด $ ตัวแรกออก
+          $words=explode(" ",$sentence);
+          $question = $words[0];
+          $answer = $words[1];
+          $collectionName = "km";
+          $obj =   '{"question":"'.$question.'","answer":"'.$answer.'"}';
 
-    $textReplyMessage="Text is ".$text.' and the first letter is '.$text[0].' not #';
+          $coupon = new RestDB();
+          $returnValue = $coupon->insertDocument($collectionName,$obj);
+          if($returnValue){
+              $textReplyMessage='ขอบคุณที่สอนลิซ่าค่ะ \n ลิซ่าจำได้แล้ว ถ้าถามว่า '.$question." ให้ตอบ ".$answer;
+          }else{
+               $textReplyMessage="Lisa งงค่ะ";
+          }
+
+          $textMessage = new TextMessageBuilder($textReplyMessage);
+          $multiMessage->add($textMessage);
+          $replyData = $multiMessage;
+      }// end elseif
+else{ // first text is not #
+    if(!empty($text){
+        $collectionName = "km";
+        $obj = '{"question":{"$regex":"'.$text.'"}}';
+        $sort= '';
+        $coupon = new RestDB();
+        $res = $coupon->selectDocument($collectionName,$obj,$sort);
+        if($res){
+            foreach($res as $rec){
+                $textReplyMessage=$textReplyMessage.$rec['answer']."\n";
+                }//end for each
+    }
     $textMessage = new TextMessageBuilder($textReplyMessage);
     $multiMessage->add($textMessage);
     $replyData = $multiMessage;
@@ -163,11 +192,7 @@ else{ // first text is not #
   if(!empty($replyData)){
       // ส่วนส่งกลับข้อมูลให้ LINE
       $response = $bot->replyMessage($replyToken,$replyData);
-      /*
-      if ($response->isSucceeded()) { echo 'Succeeded!'; return;} // Failed ส่งข้อความไม่สำเร็จ
-        $statusMessage = $response->getHTTPStatus() . ' ' . $response->getRawBody(); echo $statusMessage;
-        $bot->replyText($replyToken, $statusMessage);
-      */
+
   }
 
  }//end if event is textMessage
