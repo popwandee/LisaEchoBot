@@ -113,7 +113,7 @@ foreach ($events as $event) {
   $replyData='No Data';
   //switch ($text[0]) {
     //case '#':
-        if($explodeText[0]=='#'){
+        if($text[0]=='#'){
         //$find_word=substr($explodeText[0],1);
         $find_word=$explodeText[1];
         $collectionName = "friend";
