@@ -119,12 +119,19 @@ foreach ($events as $event) {
         if($explodeText[0]!='#'){
 
         $find_word=substr($explodeText[0],1);
+        $collectionName = "friend";
+        $obj = '{"name":{"$regex":"'.$find_word.'"}},{"nickname":{"$regex":"'.$find_word.'"}},{"lastname":{"$regex":"'.$find_word.'"}},{"province":{"$regex":"'.$find_word.'"}},{"detail":{"$regex":"'.$find_word.'"}},{"Tel1":{"$regex":"'.$find_word.'"}},{"position":{"$regex":"'.$find_word.'"}}';
+        $sort= 'name';
+        $coupon = new RestDB();
+        $res = $coupon->selectDocument($collectionName,$obj,$sort);
+        /*
 				 $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"$or":[{"name":{"$regex":"'.$find_word.'"}},{"nickname":{"$regex":"'.$find_word.'"}},{"lastname":{"$regex":"'.$find_word.'"}},{"province":{"$regex":"'.$find_word.'"}},{"detail":{"$regex":"'.$find_word.'"}},{"Tel1":{"$regex":"'.$find_word.'"}},{"position":{"$regex":"'.$find_word.'"}}]}');
                   $data = json_decode($json);
                   $isData=sizeof($data);
-			            $count = 1;
-                  if($isData >0){
-                     foreach($data as $rec){
+                  */
+			        $count = 1;
+                  if($res){
+                     foreach($res as $rec){
                     $textReplyMessage= $textReplyMessage.$count.' '.$rec->rank.$rec->name.' '.$rec->lastname.' ('.$rec->position.') โทร '.$rec->Tel1." ค่ะ\n\n";
 				            $count++;
                     $img_url=$rec->img_url;
@@ -159,14 +166,13 @@ foreach ($events as $event) {
       }//end foreach $explodeText นับจำนวนคำ เพื่อตรวจสอบว่ามีคำถามและคำตอบมาด้วย
       if(($indexCount>1) && (!empty($explodeText[2]))){
         //Post New Data
-        $newData = json_encode(array('question' => $explodeText[1],'answer'=> $answer) );
-        $opts = array('http' => array( 'method' => "POST",
-                      'header' => "Content-type: application/json",
-                      'content' => $newData
-                      ) );
-         $url = 'https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'';
-         $context = stream_context_create($opts);
-         $returnValue = file_get_contents($url,false,$context);
+
+        $collectionName = "km";
+        $obj =   '{"question":"'.$explodeText[1].'","answer":"'.$answer.'"}';
+
+        $coupon = new RestDB();
+        $returnValue = $coupon->insertDocument($collectionName,$obj);
+
         if($returnValue){
           $textReplyMessage= $textReplyMessage."\nขอบคุณที่สอนน้อง Lisa ค่ะ";
           $textReplyMessage= $textReplyMessage."\nน้อง Lisa จำได้แล้ว ถ้าถาม ".$explodeText[1]." ให้ตอบว่า ".$answer;
@@ -183,11 +189,14 @@ foreach ($events as $event) {
           break;
 case '$':
   $text=substr($rawText,1);
- $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY.'&q={"title":{"$regex":"'.$text.'"}}');
-          $data = json_decode($json);
-          $isData=sizeof($data);
-          if($isData >0){
-             foreach($data as $rec){
+  $collectionName = "gallery";
+  $obj = '{"title":{"$regex":"'.$text.'"}}';
+  $sort= 'title';
+  $coupon = new RestDB();
+  $res = $coupon->selectDocument($collectionName,$obj,$sort);
+
+          if($res){
+             foreach($res as $rec){
                $img_index='img_url-0';$img_url=$rec->$img_index;
                if(!empty($img_url)){
                $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
@@ -236,12 +245,15 @@ $fc_keyword = array("fc", "เน็ตไอดอล");
 $greeting_keyword = array("hi", "Good morning", "hello", "สวัสดี", "หวัดดี", "หวัดดีลิซ่า", "อรุณสวัสดิ์");
 
 if( $explodeText[0]=='นม' ){
-  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY);
-  $data = json_decode($json);
-    $isData=sizeof($data);
-    if($isData >1){
+    $collectionName = "gallery";
+    $obj = '';
+    $sort= 'title';
+    $coupon = new RestDB();
+    $res = $coupon->selectDocument($collectionName,$obj,$sort);
+
+    if($res){
       $img_url=array();
-         $count=count($data);
+         $count=count($res);
          $index = mt_rand(0,$count-1);
          $textReplyMessage= "มีนมทั้งหมด ".$count." อัลบั้มนะคะ เลือกแสดงเซ็ต ".$index.$data[$index]->title;
          $textMessage = new TextMessageBuilder($textReplyMessage);
@@ -305,9 +317,13 @@ if( $explodeText[0]=='นม' ){
   }
    $replyData = $multiMessage;
 }elseif(in_array($rawText, $gallery_keyword)) {
-  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/gallery?apiKey='.MLAB_API_KEY);
-  $img_url=array();
-  $img_url=getRandomGallery($json);
+    $collectionName = "gallery";
+    $obj = '';
+    $sort= 'title';
+    $coupon = new RestDB();
+    $res = $coupon->selectDocument($collectionName,$obj,$sort);
+   $img_url=array();
+  $img_url=getRandomGallery($res);
   for ($x = 0; $x <= 4; $x++){
     $imageMessage = new ImageMessageBuilder($img_url[$x],$img_url[$x]);
     $multiMessage->add($imageMessage);
@@ -356,12 +372,14 @@ $textReplyMessage="รายการความเคลื่อนไหว�
     $textMessage = new TextMessageBuilder($textReplyMessage);
     $multiMessage->add($textMessage);
   }
-  $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY.'&q={"type":"summary"}');
-  $data = json_decode($json);
-  $isData=sizeof($data);
-           //$textReplyMessage= $textReplyMessage." isData ".$isData." ค่ะ\n\n";
-  if($isData >0){
-    foreach($data as $rec){
+  $collectionName = "finance";
+  $obj = '{"type":"summary"}';
+  $sort= '';
+  $coupon = new RestDB();
+  $res = $coupon->selectDocument($collectionName,$obj,$sort);
+
+  if($res){
+    foreach($res as $rec){
       $summary=$rec->sum;
       $summary= number_format($summary, 2, '.', ',');
       $textReplyMessage="ยอดเงินรุ่นล่าสุดคงเหลือ ".$summary." บาท\nตรวจสอบข้อมูล ณ วันที่ ".$dateTimeToday." \n\n ข้อมูลของลิซ่าเป็นข้อมูลเบื้องต้น อาจจะไม่อัพเดต \nหากต้องการยืนยันยอด กรุณาติดต่อฝ่ายเหรัญญิกโดยตรงนะค่ะ";
@@ -397,12 +415,13 @@ $textReplyMessage="รายการความเคลื่อนไหว�
 
           }// end friend isData > 0
 */
- $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[0].'"}');
+$collectionName = "km";
+$obj = '{"question":"'.$explodeText[0].'"}';
+$sort= '';
+$coupon = new RestDB();
+$res = $coupon->selectDocument($collectionName,$obj,$sort);
 
-          $data = json_decode($json);
-          $isData=sizeof($data);
-          //$textReplyMessage= $textReplyMessage." isData ".$isData." ค่ะ\n\n";
-          if($isData >0){
+          if($res){
              $count=1;
              foreach($data as $rec){
 
