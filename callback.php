@@ -126,7 +126,12 @@ foreach ($events as $event) {
             $count = 1;
             if($res){
                 foreach($res as $rec){
-                    $textReplyMessage= $textReplyMessage.$count.' '.$rec->rank.$rec->name.' '.$rec->lastname.' ('.$rec->position.') โทร '.$rec->Tel1." ค่ะ\n\n";
+                    $rank = $rec['rank'];
+                    $name = $rec['name'];
+                    $lastname = $rec['lastname'];
+                    $position = $rec['position'];
+                    $telephone = $rec['telephone'];
+                    $textReplyMessage= $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' ('.$position.') โทร '.$telephone." ค่ะ\n\n";
 				    $count++;
                     $img_url=$rec->img_url;
                     if(!empty($img_url)){
