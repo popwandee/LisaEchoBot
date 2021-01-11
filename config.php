@@ -1,9 +1,11 @@
 <?php
 
 $tz_object = new DateTimeZone('Asia/Bangkok');
-$datetime = new DateTime(); $datetime->setTimezone($tz_object);
+$datetime = new DateTime();
+$datetime->setTimezone($tz_object);
 $dateTimeToday = $datetime->format('Y-m-d');
 
+$dateTimeNow = $datetime->format('Y\-m\-d\ H:i:s');
 \Cloudinary::config(array(
     'cloud_name' => 'dly6ftryr',
     'api_key' => '979642835457647',

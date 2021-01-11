@@ -97,106 +97,117 @@ try {
 }
 foreach ($events as $event) {
 	// Message Event
- if ($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage) {
-  $rawText = $event->getText();
-  //$text = strtolower($rawText);
-  $text = $rawText;
-  //$explodeText=explode(" ",$text);
-  $textReplyMessage="";
-  $log_note=$text;
-  $tz_object = new DateTimeZone('Asia/Bangkok');
-  $datetime = new DateTime();
-  $datetime->setTimezone($tz_object);
-  $dateTimeNow = $datetime->format('Y\-m\-d\ H:i:s');
-  $replyToken = $event->getReplyToken();
-  $multiMessage =     new MultiMessageBuilder;
-  $replyData='No Data';
-  //switch ($text[0]) {
-    //case '#':
-    if($text[0]=='#'){
-        $find_word=substr($text,1); // ตัด # ตัวแรกออก
-        //$find_word=$explodeText[1];
-        $collectionName = "friend";
-        $obj = '{"$or": [{"name":{"$regex":"'.$find_word.'"}},{"nickname":{"$regex":"'.$find_word.'"}},{"lastname":{"$regex":"'.$find_word.'"}},{"province":{"$regex":"'.$find_word.'"}},{"detail":{"$regex":"'.$find_word.'"}},{"telephone":{"$regex":"'.$find_word.'"}}
-        ,{"position":{"$regex":"'.$find_word.'"}}]}';
-        $sort= 'name';
-        $coupon = new RestDB();
-        $res = $coupon->selectDocument($collectionName,$obj,$sort);
-        $textReplyMessage= "Text is ".$text."\nFind word is ".$find_word." and Query".$obj;
+    if ($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage) {
+        $rawText = $event->getText();
+        //$text = strtolower($rawText);
+        $text = $rawText;
+        //$explodeText=explode(" ",$text);
+        $textReplyMessage="";
+        $log_note=$text;
+
+
+        $replyToken = $event->getReplyToken();
+
+        $multiMessage =     new MultiMessageBuilder;
+
+        $replyData='No Data';
+
+        if($text[0]=='#'){
+            $find_word=substr($text,1); // ตัด # ตัวแรกออก
+            //$find_word=$explodeText[1];
+
+            $collectionName = "friend";
+            $obj = '{"$or": [{"name":{"$regex":"'.$find_word.'"}},{"nickname":{"$regex":"'.$find_word.'"}},{"lastname":{"$regex":"'.$find_word.'"}},{"province":{"$regex":"'.$find_word.'"}},{"detail":{"$regex":"'.$find_word.'"}},{"telephone":{"$regex":"'.$find_word.'"}}
+            ,{"position":{"$regex":"'.$find_word.'"}}]}';
+            $sort= 'name';
+
+            $friend = new RestDB();
+            $res = $friend->selectDocument($collectionName,$obj,$sort);
+
+            $textReplyMessage= "Text is ".$text."\nFind word is ".$find_word." and Query".$obj;
             $count = 1;
+
             if($res){
+
                 foreach($res as $rec){
                     $rank = $rec['rank'];
                     $name = $rec['name'];
                     $lastname = $rec['lastname'];
                     $position = $rec['position'];
                     $telephone = $rec['telephone'];
-                    $textReplyMessage= $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' ('.$position.') โทร '.$telephone." ค่ะ\n\n";
-				    $count++;
+                    
+                    $textReplyMessage = $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' ('.$position.') โทร '.$telephone." ค่ะ\n\n";
+
+                    $count++;
+                    /*
                     $img_url=$rec['img_url'];
                     if(!empty($img_url)){
                         $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->img_url;
                         $imageMessage = new ImageMessageBuilder($img_url,$img_url);
                         $multiMessage->add($imageMessage);
                     }// end if ! empty img_url
-                }//end for each
+                    */
+                    }//end for each
+
 		        $textMessage = new TextMessageBuilder($textReplyMessage);
 		        $multiMessage->add($textMessage);
                 $replyData = $multiMessage;
-	            }else{
-                    $noAnser = array("..พักบ้างนะค่ะ.. ","..พี่คิดว่าหนูจะรู้ไหมอ่ะค่ะ.. ","..พี่ธนูว่ายังไงดีค่ะ.. ","..ถามพี่จอห์นเกย์ดีไหมค่ะ.. ","..พี่ถามลิซ่ารึเปล่าค่ะ.. ","..ลิซ่าไม่รู้ค่ะ.. ","ไม่มีใครสอนลิซ่าเรื่องนี้ค่ะ","..ลิซ่าจำไม่ได้ค่ะ..","..วันนี้อากาศดีนะค่ะ..","เอ่อ...ไม่มีข้อมูลค่ะ ลองถามใหม่ดีไหมค่ะ");
-                    $count=count($noAnser);
-                    $index = mt_rand(0,$count-1);
-                    $textReplyMessage=$textReplyMessage.$noAnser[$index];
-          			$textMessage = new TextMessageBuilder($textReplyMessage);
-                    $multiMessage->add($textMessage);
-                    $replyData = $multiMessage;
-	                }
-      }// end if($text[0]!='#')
-      elseif($text[0]=='$'){
+
+	        }else{
+                $noAnser = array("..พักบ้างนะค่ะ.. ","..พี่คิดว่าหนูจะรู้ไหมอ่ะค่ะ.. ","..พี่ธนูว่ายังไงดีค่ะ.. ","..ถามพี่จอห์นเกย์ดีไหมค่ะ.. ","..พี่ถามลิซ่ารึเปล่าค่ะ.. ","..ลิซ่าไม่รู้ค่ะ.. ","ไม่มีใครสอนลิซ่าเรื่องนี้ค่ะ","..ลิซ่าจำไม่ได้ค่ะ..","..วันนี้อากาศดีนะค่ะ..","เอ่อ...ไม่มีข้อมูลค่ะ ลองถามใหม่ดีไหมค่ะ");
+                $count=count($noAnser);
+                $index = mt_rand(0,$count-1);
+                $textReplyMessage=$textReplyMessage.$noAnser[$index];
+          		$textMessage = new TextMessageBuilder($textReplyMessage);
+                $multiMessage->add($textMessage);
+                $replyData = $multiMessage;
+	            }
+        }// end if($text[0]!='#')
+        elseif($text[0]=='$'){
           $sentence=substr($text,1); // ตัด $ ตัวแรกออก
           $words=explode(" ",$sentence);
           $question = $words[0];
           $answer = $words[1];
-          $collectionName = "km";
-          $obj =   '{"question":"'.$question.'","answer":"'.$answer.'"}';
 
-          $coupon = new RestDB();
-          $returnValue = $coupon->insertDocument($collectionName,$obj);
+          $collectionName = "km";
+          $obj = '{"question":"'.$question.'","answer":"'.$answer.'"}';
+
+          $km = new RestDB();
+          $returnValue = $km->insertDocument($collectionName,$obj);
           if($returnValue){
-              $textReplyMessage='ขอบคุณที่สอนลิซ่าค่ะ \n ลิซ่าจำได้แล้ว ถ้าถามว่า '.$question." ให้ตอบ ".$answer;
+              $textReplyMessage ="ขอบคุณที่สอนลิซ่าค่ะ \n ลิซ่าจำได้แล้ว ถ้าถามว่า ".$question." ให้ตอบ ".$answer;
           }else{
-               $textReplyMessage="Lisa งงค่ะ";
+              $textReplyMessage = "Lisa งงค่ะ";
           }
 
           $textMessage = new TextMessageBuilder($textReplyMessage);
           $multiMessage->add($textMessage);
           $replyData = $multiMessage;
       }// end elseif
-else{ // first text is not #
-    if(!empty($text){
-        $collectionName = "km";
-        $obj = '{"question":{"$regex":"'.$text.'"}}';
-        $sort= '';
-        $coupon = new RestDB();
-        $res = $coupon->selectDocument($collectionName,$obj,$sort);
-        if($res){
-            foreach($res as $rec){
-                $textReplyMessage=$textReplyMessage.$rec['answer']."\n";
-                }//end for each
-    }
-    $textMessage = new TextMessageBuilder($textReplyMessage);
-    $multiMessage->add($textMessage);
-    $replyData = $multiMessage;
-}
-}//end if else
-  if(!empty($replyData)){
-      // ส่วนส่งกลับข้อมูลให้ LINE
-      $response = $bot->replyMessage($replyToken,$replyData);
+      else{ // first text is not #
+          if(!empty($text){
+              $collectionName = "km";
+              $obj = '{"question":{"$regex":"'.$text.'"}}';
+              $sort= '';
+              $coupon = new RestDB();
+              $res = $coupon->selectDocument($collectionName,$obj,$sort);
+              if($res){
+                  foreach($res as $rec){
+                      $textReplyMessage=$textReplyMessage.$rec['answer']."\n";
+                  }//end for each
+              }
+              $textMessage = new TextMessageBuilder($textReplyMessage);
+              $multiMessage->add($textMessage);
+              $replyData = $multiMessage;
+            }
+        }//end if else
 
-  }
+        if(!empty($replyData)){
+            // ส่วนส่งกลับข้อมูลให้ LINE
+            $response = $bot->replyMessage($replyToken,$replyData);
+            }
 
- }//end if event is textMessage
+    }//end if event is textMessage
 }// end foreach event
 
 function welcome($H){
