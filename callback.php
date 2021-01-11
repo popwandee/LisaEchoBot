@@ -122,7 +122,7 @@ foreach ($events as $event) {
         $sort= 'name';
         $coupon = new RestDB();
         $res = $coupon->selectDocument($collectionName,$obj,$sort);
-        $textReplyMessage= "text is ".$find_word."\nfind word is ".$find_word." and Query".$textReplyMessage;
+        $textReplyMessage= "Text is ".$text."\nFind word is ".$find_word." and Query".$obj;
             $count = 1;
             if($res){
                 foreach($res as $rec){
