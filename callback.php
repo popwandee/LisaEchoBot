@@ -101,7 +101,7 @@ foreach ($events as $event) {
   $rawText = $event->getText();
   //$text = strtolower($rawText);
   $text = $rawText;
-  $explodeText=explode(" ",$text);
+  //$explodeText=explode(" ",$text);
   $textReplyMessage="";
   $log_note=$text;
   $tz_object = new DateTimeZone('Asia/Bangkok');
@@ -113,7 +113,7 @@ foreach ($events as $event) {
   $replyData='No Data';
   //switch ($text[0]) {
     //case '#':
-        if($text[0]=='#'){
+    if($text[0]=='#'){
         $find_word=substr($text[0],1); // ตัด # ตัวแรกออก
         //$find_word=$explodeText[1];
         $collectionName = "friend";
@@ -122,7 +122,7 @@ foreach ($events as $event) {
         $sort= 'name';
         $coupon = new RestDB();
         $res = $coupon->selectDocument($collectionName,$obj,$sort);
-        $textReplyMessage= "text is ".$find_word."\nfind word is ".$find_word." and Query".$textReplyMessage.$obj;
+        $textReplyMessage= "text is ".$find_word."\nfind word is ".$find_word." and Query".$textReplyMessage;
             $count = 1;
             if($res){
                 foreach($res as $rec){
@@ -133,7 +133,7 @@ foreach ($events as $event) {
                     $telephone = $rec['telephone'];
                     $textReplyMessage= $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' ('.$position.') โทร '.$telephone." ค่ะ\n\n";
 				    $count++;
-                    $img_url=$rec->img_url;
+                    $img_url=$rec['img_url'];
                     if(!empty($img_url)){
                         $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->img_url;
                         $imageMessage = new ImageMessageBuilder($img_url,$img_url);
@@ -153,7 +153,13 @@ foreach ($events as $event) {
                     $replyData = $multiMessage;
 	                }
       }// end if($explodeText[0]!='#')
+else{ // first text is not #
 
+    $textReplyMessage="Text is ".$text.' and the first letter is '.$text[0].' not #';
+    $textMessage = new TextMessageBuilder($textReplyMessage);
+    $multiMessage->add($textMessage);
+    $replyData = $multiMessage;
+}
   if(!empty($replyData)){
       // ส่วนส่งกลับข้อมูลให้ LINE
       $response = $bot->replyMessage($replyToken,$replyData);
