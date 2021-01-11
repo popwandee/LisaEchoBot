@@ -186,7 +186,7 @@ foreach ($events as $event) {
       }// end elseif
       else{ // first text is not #
           if(!empty($text)){
-              $text = substr($text,1);
+              //$text = substr($text,1);
               $collectionName = "kmdata";
               $obj = '{"question":{"$regex":"'.$text.'"}}';
               $sort= '';
