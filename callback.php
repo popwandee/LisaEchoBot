@@ -189,6 +189,7 @@ else{ // first text is not #
     $multiMessage->add($textMessage);
     $replyData = $multiMessage;
 }
+}//end if else
   if(!empty($replyData)){
       // ส่วนส่งกลับข้อมูลให้ LINE
       $response = $bot->replyMessage($replyToken,$replyData);
