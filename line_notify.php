@@ -117,7 +117,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 <?php
 function sendlinemesg(){
    define('LINE_API',"https://notify-api.line.me/api/notify");
-   define('LINE_TOKEN',"geuFLG6JGdoHxTilr4ZPGZwy5xLIASHCeDc7BZT0nUW");
+   define('LINE_TOKEN',"");
    echo "<br>API is ";echo LINE_API;echo "<br>TOKEN is";echo LINE_TOKEN;
    function notify_message($message){
      $queryData = array("message"=>$message);
