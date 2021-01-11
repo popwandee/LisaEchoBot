@@ -115,7 +115,7 @@ foreach ($events as $event) {
     //case '#':
         if($explodeText[0]=='#'){
         //$find_word=substr($explodeText[0],1);
-        $find_word=substr($explodeText[1]);
+        $find_word=$explodeText[1];
         $collectionName = "friend";
         $obj = '{"$or": [{"name":{"$regex":"'.$find_word.'"}},{"nickname":{"$regex":"'.$find_word.'"}},{"lastname":{"$regex":"'.$find_word.'"}},{"province":{"$regex":"'.$find_word.'"}},{"detail":{"$regex":"'.$find_word.'"}},{"telephone":{"$regex":"'.$find_word.'"}}
         ,{"position":{"$regex":"'.$find_word.'"}}]}';
