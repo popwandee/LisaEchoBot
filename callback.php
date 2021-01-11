@@ -169,7 +169,7 @@ foreach ($events as $event) {
           $question = $words[0];
           $answer = $words[1];
 
-          $collectionName = "km";
+          $collectionName = "kmdata";
           $obj = '{"question":"'.$question.'","answer":"'.$answer.'"}';
 
           $km = new RestDB();
@@ -186,14 +186,15 @@ foreach ($events as $event) {
       }// end elseif
       else{ // first text is not #
           if(!empty($text)){
-              $collectionName = "km";
+              $text = substr($text,1);
+              $collectionName = "kmdata";
               $obj = '{"question":{"$regex":"'.$text.'"}}';
               $sort= '';
               $coupon = new RestDB();
               $res = $coupon->selectDocument($collectionName,$obj,$sort);
               if($res){
                   foreach($res as $rec){
-                      $textReplyMessage=$textReplyMessage.$rec['answer']."\n";
+                      $textReplyMessage=$textReplyMessage.$text.$rec['answer']."\n";
                   }//end for each
               }
               $textMessage = new TextMessageBuilder($textReplyMessage);
