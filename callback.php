@@ -14,11 +14,7 @@ require 'vendor/cloudinary/cloudinary_php/src/Api.php';
 require_once "config.php";// mlab
 require_once "vendor/autoload.php";
 require_once "vendor/function.php";
-/*
-define("MLAB_API_KEY", '');
-define("LINE_MESSAGING_API_CHANNEL_SECRET", '');
-define("LINE_MESSAGING_API_CHANNEL_TOKEN", '');
-*/
+
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\FirePHPHandler;
@@ -89,13 +85,13 @@ $bot = new \LINE\LINEBot(
 $signature = $_SERVER["HTTP_".\LINE\LINEBot\Constant\HTTPHeader::LINE_SIGNATURE];
 try {
 	$events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
-} catch(\LINE\LINEBot\Exception\InvalidSignatureException $e) {
+    } catch(\LINE\LINEBot\Exception\InvalidSignatureException $e) {
 	error_log('parseEventRequest failed. InvalidSignatureException => '.var_export($e, true));
-} catch(\LINE\LINEBot\Exception\UnknownEventTypeException $e) {
+    } catch(\LINE\LINEBot\Exception\UnknownEventTypeException $e) {
 	error_log('parseEventRequest failed. UnknownEventTypeException => '.var_export($e, true));
-} catch(\LINE\LINEBot\Exception\UnknownMessageTypeException $e) {
+    } catch(\LINE\LINEBot\Exception\UnknownMessageTypeException $e) {
 	error_log('parseEventRequest failed. UnknownMessageTypeException => '.var_export($e, true));
-} catch(\LINE\LINEBot\Exception\InvalidEventRequestException $e) {
+    } catch(\LINE\LINEBot\Exception\InvalidEventRequestException $e) {
 	error_log('parseEventRequest failed. InvalidEventRequestException => '.var_export($e, true));
 }
 foreach ($events as $event) {
@@ -106,14 +102,14 @@ foreach ($events as $event) {
   $text = $rawText;
   $explodeText=explode(" ",$text);
   $textReplyMessage="";
-	$log_note=$text;
-	 $tz_object = new DateTimeZone('Asia/Bangkok');
-         $datetime = new DateTime();
-         $datetime->setTimezone($tz_object);
-         $dateTimeNow = $datetime->format('Y\-m\-d\ H:i:s');
-	$replyToken = $event->getReplyToken();
-        $multiMessage =     new MultiMessageBuilder;
-	$replyData='No Data';
+  $log_note=$text;
+  $tz_object = new DateTimeZone('Asia/Bangkok');
+  $datetime = new DateTime();
+  $datetime->setTimezone($tz_object);
+  $dateTimeNow = $datetime->format('Y\-m\-d\ H:i:s');
+  $replyToken = $event->getReplyToken();
+  $multiMessage =     new MultiMessageBuilder;
+  $replyData='No Data';
   switch ($text[0]) {
     case '#':
         if($explodeText[0]!='#'){
@@ -133,35 +129,26 @@ foreach ($events as $event) {
                   if($res){
                      foreach($res as $rec){
                     $textReplyMessage= $textReplyMessage.$count.' '.$rec->rank.$rec->name.' '.$rec->lastname.' ('.$rec->position.') โทร '.$rec->Tel1." ค่ะ\n\n";
-				            $count++;
+				    $count++;
                     $img_url=$rec->img_url;
                     if(!empty($img_url)){
-                    $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->img_url;
-                    $imageMessage = new ImageMessageBuilder($img_url,$img_url);
-                    $multiMessage->add($imageMessage);
-                  }// end if ! empty img_url
-                    }//end for each
-		                $textMessage = new TextMessageBuilder($textReplyMessage);
-		                $multiMessage->add($textMessage);
+                        $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->img_url;
+                        $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+                        $multiMessage->add($imageMessage);
+                    }// end if ! empty img_url
+                }//end for each
+		        $textMessage = new TextMessageBuilder($textReplyMessage);
+		        $multiMessage->add($textMessage);
+                $replyData = $multiMessage;
+	            }else{
+                    $noAnser = array("..พักบ้างนะค่ะ.. ","..พี่คิดว่าหนูจะรู้ไหมอ่ะค่ะ.. ","..พี่ธนูว่ายังไงดีค่ะ.. ","..ถามพี่จอห์นเกย์ดีไหมค่ะ.. ","..พี่ถามลิซ่ารึเปล่าค่ะ.. ","..ลิซ่าไม่รู้ค่ะ.. ","ไม่มีใครสอนลิซ่าเรื่องนี้ค่ะ","..ลิซ่าจำไม่ได้ค่ะ..","..วันนี้อากาศดีนะค่ะ..","เอ่อ...ไม่มีข้อมูลค่ะ ลองถามใหม่ดีไหมค่ะ");
+                    $count=count($noAnser);
+                    $index = mt_rand(0,$count-1);
+                    $textReplyMessage=$textReplyMessage.$noAnser[$index];
+          			$textMessage = new TextMessageBuilder($textReplyMessage);
+                    $multiMessage->add($textMessage);
                     $replyData = $multiMessage;
-	               }else{
-                      $noAnser = array("..พักบ้างนะค่ะ.. ","..พี่คิดว่าหนูจะรู้ไหมอ่ะค่ะ.. ","..พี่ธนูว่ายังไงดีค่ะ.. ","..พี่ถามลิซ่ารึเปล่าค่ะ.. ","..ลิซ่าไม่รู้ค่ะ.. ","ไม่มีใครสอนลิซ่าเรื่องนี้ค่ะ","..ลิซ่าจำไม่ได้ค่ะ..","..วันนี้อากาศดีนะค่ะ..","เอ่อ...ไม่มีข้อมูลค่ะ ลองถามใหม่ดีไหมค่ะ");
-                      $count=count($noAnser);
-                      $index = mt_rand(0,$count-1);
-                      $textReplyMessage=$textReplyMessage.$noAnser[$index];
-          				   $textMessage = new TextMessageBuilder($textReplyMessage);
-                     $multiMessage->add($textMessage);
-                     $replyData = $multiMessage;
-	                  }
-            }
-            break;
-
-  case '!':
-      $indexCount=0;$answer='';
-      foreach($explodeText as $rec){
-      $indexCount++;
-      if($indexCount>1){//น่าจะมีคำถามและคำตอบมาด้วย
-        $answer= $answer." ".$explodeText[$indexCount];
+	                }
         }
       }//end foreach $explodeText นับจำนวนคำ เพื่อตรวจสอบว่ามีคำถามและคำตอบมาด้วย
       if(($indexCount>1) && (!empty($explodeText[2]))){
@@ -399,8 +386,27 @@ $textReplyMessage="รายการความเคลื่อนไหว�
   $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/friend?apiKey='.MLAB_API_KEY.'&q={"$or":[{"name":{"$regex":"'.$find_word.'"}},{"nickname":{"$regex":"'.$find_word.'"}},{"lastname":{"$regex":"'.$find_word.'"}},{"province":{"$regex":"'.$find_word.'"}},{"detail":{"$regex":"'.$find_word.'"}},{"position":{"$regex":"'.$find_word.'"}}]}');
             $data = json_decode($json);
             $isData=sizeof($data);
-           $count = 1;
             if($isData >0){
+                $textReplyMessage="รายการความเคลื่อนไหวเงินรุ่น 5 รายการล่าสุดมีดังนี้ค่ะ \n(ณ ขณะนี้ยังไม่ได้เรียงลำดับก่อนหลังนะคะ แค่สุ่มมาแสดงเฉยๆ)\n\n";
+                $i=5;
+                foreach($data as $rec){
+                    $add=$rec->add; $add=number_format($add, 2, '.', ',');
+                    $sub=$rec->sub; $sub=number_format($sub, 2, '.', ',');
+                    $textReplyMessage=$textReplyMessage.$i." ".$rec->record;
+                    if(!empty($add)){$textReplyMessage=$textReplyMessage." ".$add." ";}
+                    if(!empty($sub)){$textReplyMessage=$textReplyMessage." -".$sub."";}
+                    if(!empty($sum)){$textReplyMessage=$textReplyMessage." ".$sum;}
+                    $textReplyMessage=$textReplyMessage." บาท\n\n";
+                    $i--;
+                }
+                $textMessage = new TextMessageBuilder($textReplyMessage);
+                $multiMessage->add($textMessage);
+            }
+            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/finance?apiKey='.MLAB_API_KEY.'&q={"type":"summary"}');
+            $data = json_decode($json);
+            $isData=sizeof($data);
+           //$textReplyMessage= $textReplyMessage." isData ".$isData." ค่ะ\n\n";
+           if($isData >0){
                foreach($data as $rec){
               $textReplyMessage=$textReplyMessage.$count.' '.$rec->rank.$rec->name.' '.$rec->lastname.' ('.$rec->position.') โทร '.$rec->Tel1." ค่ะ\n\n";
              $count++;
@@ -434,90 +440,77 @@ $res = $coupon->selectDocument($collectionName,$obj,$sort);
             $multiMessage->add($imageMessage);
             $count++;
            }
-
-                         $img_index='img_url-1';$img_url=$rec->$img_index;
-                         if(!empty($img_url)&&($count < 5)){
-                         $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-                         $imageMessage = new ImageMessageBuilder($img_url,$img_url);
-                         $multiMessage->add($imageMessage);
-                         $count++;
-                       }
-
-                         $img_index='img_url-2';$img_url=$rec->$img_index;
-                         if(!empty($img_url)&&($count < 5)){
-                         $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-                         $imageMessage = new ImageMessageBuilder($img_url,$img_url);
-                         $multiMessage->add($imageMessage);
-                         $count++;
- }
-
-                         $img_index='img_url-3';$img_url=$rec->$img_index;
-                         if(!empty($img_url)&&($count < 5)){
-                         $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-                         $imageMessage = new ImageMessageBuilder($img_url,$img_url);
-                         $multiMessage->add($imageMessage);
-                         $count++;
-                       }
-
-                         $img_index='img_url-4';$img_url=$rec->$img_index;
-                         if(!empty($img_url)&&($count < 5)){
-                         $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
-                         $imageMessage = new ImageMessageBuilder($img_url,$img_url);
-                         $multiMessage->add($imageMessage);
-                         $count++;
-                       }// if !empty
-
-            }//end for each
-
-         }// end if km isData > 0
-
+           $replyData = $multiMessage;
+        }else{
+            $count=0;
+            $json = file_get_contents('https://api.mlab.com/api/1/databases/crma51/collections/km?apiKey='.MLAB_API_KEY.'&q={"question":"'.$explodeText[0].'"}');
+            $data = json_decode($json);
+            $isData=sizeof($data);
+            //$textReplyMessage= $textReplyMessage." isData ".$isData." ค่ะ\n\n";
+            if($isData >0){
+                $count=1;
+                foreach($data as $rec){
+                    $textReplyMessage= $textReplyMessage.$rec->answer."\n\n";
+                    $img_index='img_url-0';$img_url=$rec->$img_index;
+                    if(!empty($img_url)&&($count < 5)){
+                        $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+                        $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+                        $multiMessage->add($imageMessage);
+                        $count++;
+                    }
+                    $img_index='img_url-1';$img_url=$rec->$img_index;
+                    if(!empty($img_url)&&($count < 5)){
+                        $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+                        $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+                        $multiMessage->add($imageMessage);
+                        $count++;
+                    }
+                    $img_index='img_url-2';$img_url=$rec->$img_index;
+                    if(!empty($img_url)&&($count < 5)){
+                        $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+                        $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+                        $multiMessage->add($imageMessage);
+                        $count++;
+                    }
+                    $img_index='img_url-3';$img_url=$rec->$img_index;
+                    if(!empty($img_url)&&($count < 5)){
+                        $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->$img_index;
+                        $imageMessage = new ImageMessageBuilder($img_url,$img_url);
+                        $multiMessage->add($imageMessage);
+                        $count++;
+                    }
+                }//end for each
+            }// end if km isData > 0
                 $textMessage = new TextMessageBuilder($textReplyMessage);
                 $multiMessage->add($textMessage);
-
                 $replyData = $multiMessage;
        }// end if
-
-break;
+    break;
   }//end switch $explodeText[0]
 
-if(!empty($replyData)){
-  // ส่วนส่งกลับข้อมูลให้ LINE
-  $response = $bot->replyMessage($replyToken,$replyData);
-  /*
-  if ($response->isSucceeded()) { echo 'Succeeded!'; return;}
-      // Failed ส่งข้อความไม่สำเร็จ
-      $statusMessage = $response->getHTTPStatus() . ' ' . $response->getRawBody(); echo $statusMessage;
-      $bot->replyText($replyToken, $statusMessage);
+  if(!empty($replyData)){
+      // ส่วนส่งกลับข้อมูลให้ LINE
+      $response = $bot->replyMessage($replyToken,$replyData);
+      /*
+      if ($response->isSucceeded()) { echo 'Succeeded!'; return;} // Failed ส่งข้อความไม่สำเร็จ
+        $statusMessage = $response->getHTTPStatus() . ' ' . $response->getRawBody(); echo $statusMessage;
+        $bot->replyText($replyToken, $statusMessage);
       */
-}
+  }
 
-	}//end if event is textMessage
+ }//end if event is textMessage
 }// end foreach event
+
 function welcome($H){
-
-   if($H < 12){
-
-     return "อรุณสวัสดิ์ค่ะ";
-
-   }elseif($H > 11 && $H < 13){
-
-     return "สวัสดีตอนเที่ยงค่ะ \nพักรับประทานอาหารกลางวันหรือยังค่ะ";
-
-   }elseif($H > 12 && $H < 18){
-
-     return "สวัสดีตอนบ่ายค่ะ";
-
-   }elseif($H > 17){
-
-     return "สวัสดีตอนเย็นค่ะ";
-
+   if($H < 12){                   return "อรุณสวัสดิ์ค่ะ";
+   }elseif($H > 11 && $H < 13){   return "สวัสดีตอนเที่ยงค่ะ \nพักรับประทานอาหารกลางวันหรือยังค่ะ";
+   }elseif($H > 12 && $H < 18){   return "สวัสดีตอนบ่ายค่ะ";
+   }elseif($H > 17){              return "สวัสดีตอนเย็นค่ะ";
    }
-
 }
 
 function getRandomGallery($json){
-
-$data = json_decode($json);
+  $data = json_decode($json);
   $isData=sizeof($data);
   if($isData >1){
     $img_url=array();
@@ -549,75 +542,5 @@ $data = json_decode($json);
        $img_url[4]="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
      }
   }// end if isData>1
-
-return $img_url;
-}
-class ReplyFlexMessage
-{
-    /**
-     * Create  flex message
-     *
-     * @return \LINE\LINEBot\MessageBuilder\FlexMessageBuilder
-     */
-    public static function get($question,$answer)
-    {
-        return FlexMessageBuilder::builder()
-            ->setAltText('Lisa')
-            ->setContents(
-                BubbleContainerBuilder::builder()
-                    ->setHero(self::createHeroBlock())
-                    ->setBody(self::createBodyBlock($question,$answer))
-                    ->setFooter(self::createFooterBlock())
-            );
-    }
-    private static function createHeroBlock()
-    {
-
-        return ImageComponentBuilder::builder()
-            ->setUrl('')
-            ->setSize(ComponentImageSize::FULL)
-            ->setAspectRatio(ComponentImageAspectRatio::R20TO13)
-            ->setAspectMode(ComponentImageAspectMode::FIT)
-            ->setAction(new UriTemplateActionBuilder(null, 'https://www.thaitimes.online'));
-    }
-    private static function createBodyBlock($question,$answer)
-    {
-        $title = TextComponentBuilder::builder()
-            ->setText($question)
-            ->setWeight(ComponentFontWeight::BOLD)
-	          ->setwrap(true)
-            ->setSize(ComponentFontSize::SM);
-
-        $textDetail = TextComponentBuilder::builder()
-            ->setText($answer)
-            ->setSize(ComponentFontSize::LG)
-            ->setColor('#000000')
-            ->setMargin(ComponentMargin::MD)
-	          ->setwrap(true)
-            ->setFlex(2);
-        $review = BoxComponentBuilder::builder()
-            ->setLayout(ComponentLayout::VERTICAL)
-            ->setMargin(ComponentMargin::LG)
-            ->setSpacing(ComponentSpacing::SM)
-            ->setContents([$title,$textDetail]);
-        return BoxComponentBuilder::builder()
-            ->setLayout(ComponentLayout::VERTICAL)
-            ->setContents([$review]);
-    }
-
-    private static function createFooterBlock()
-    {
-
-        $websiteButton = ButtonComponentBuilder::builder()
-            ->setStyle(ComponentButtonStyle::LINK)
-            ->setHeight(ComponentButtonHeight::SM)
-            ->setFlex(0)
-            ->setAction(new UriTemplateActionBuilder('เพิ่มเติม','https://www.thaitimes.online'));
-        $spacer = new SpacerComponentBuilder(ComponentSpaceSize::SM);
-        return BoxComponentBuilder::builder()
-            ->setLayout(ComponentLayout::VERTICAL)
-            ->setSpacing(ComponentSpacing::SM)
-            ->setFlex(0)
-            ->setContents([$websiteButton, $spacer]);
-    }
+  return $img_url;
 }
