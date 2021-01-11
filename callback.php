@@ -135,7 +135,7 @@ foreach ($events as $event) {
                     $lastname = $rec['lastname'];
                     $position = $rec['position'];
                     $telephone = $rec['telephone'];
-                    
+
                     $textReplyMessage = $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' ('.$position.') โทร '.$telephone." ค่ะ\n\n";
 
                     $count++;
@@ -185,7 +185,7 @@ foreach ($events as $event) {
           $replyData = $multiMessage;
       }// end elseif
       else{ // first text is not #
-          if(!empty($text){
+          if(!empty($text)){
               $collectionName = "km";
               $obj = '{"question":{"$regex":"'.$text.'"}}';
               $sort= '';
