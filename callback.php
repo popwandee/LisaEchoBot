@@ -167,7 +167,9 @@ foreach ($events as $event) {
           $sentence=substr($text,1); // ตัด $ ตัวแรกออก
           $words=explode(" ",$sentence);
           $question = $words[0];
-          $answer = $words[1];
+
+          $length = strlen($question);
+          $answer = substr_replace($sentence, '', 0,$length);
 
           $collectionName = "kmdata";
           $obj = '{"question":"'.$question.'","answer":"'.$answer.'"}';
@@ -194,7 +196,7 @@ foreach ($events as $event) {
               $res = $coupon->selectDocument($collectionName,$obj,$sort);
               if($res){
                   foreach($res as $rec){
-                      $textReplyMessage=$textReplyMessage.$text.$rec['answer']."\n";
+                      $textReplyMessage=$textReplyMessage.$rec['answer'];
                   }//end for each
               }
               $textMessage = new TextMessageBuilder($textReplyMessage);
