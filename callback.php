@@ -146,8 +146,7 @@ foreach ($events as $event) {
                     $province = isset($rec['province'])?$rec['province']:"";
                     $detail = isset($rec['detail'])?$rec['detail']:"";
 
-                    $textReplyMessage = $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' '.
-                    $nickname.' '.$position.' '.$telephone.' '.$organization.' '.$province.' '.$detail."\n\n";
+                    $textReplyMessage = $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' '.$nickname.' '.$position.' '.$telephone.' '.$organization.' '.$province.' '.$detail."\n\n";
 
                     $count++;
 
@@ -156,8 +155,8 @@ foreach ($events as $event) {
                 $replyData = $multiMessage;
 
 	        }else{
-                $noAnser = array("..หนูหาข้อมูลไม่พบค่ะ.. ","..ไม่พบข้อมูลค่ะ.. ","..ลิซ่าไม่รู้ค่ะ.. ","ไม่มีใครสอนลิซ่าเรื่องนี้ค่ะ","..ลิซ่าจำไม่ได้ค่ะ..","เอ่อ...ไม่มีข้อมูลค่ะ ลองถามใหม่ดีไหมค่ะ");
-                $count=count($noAnser);
+                $noAnswer = array("..หนูหาข้อมูลไม่พบค่ะ.. ","..ไม่พบข้อมูลค่ะ.. ","..ลิซ่าไม่รู้ค่ะ.. ","ไม่มีใครสอนลิซ่าเรื่องนี้ค่ะ","..ลิซ่าจำไม่ได้ค่ะ..","เอ่อ...ไม่มีข้อมูลค่ะ ลองถามใหม่ดีไหมค่ะ");
+                $count=count($noAnswer);
                 $index = mt_rand(0,$count-1);
                 $textReplyMessage=$textReplyMessage.$noAnser[$index];
           		$textMessage = new TextMessageBuilder($textReplyMessage);
@@ -232,8 +231,11 @@ foreach ($events as $event) {
                       $img_url = isset($rec['answer'])?$rec['answer']:"";
                   }//end for each
               }
-              $image = new ImageMessageBuilder($img_url);
-              $multiMessage->add($image);
+              if(isset($img_url){
+                  $image = new ImageMessageBuilder($img_url);
+                  $multiMessage->add($image);
+              }
+
               $textMessage = new TextMessageBuilder($textReplyMessage);
               $multiMessage->add($textMessage);
               $replyData = $multiMessage;
