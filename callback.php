@@ -149,7 +149,7 @@ foreach ($events as $event) {
                     $textReplyMessage = $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' '.$nickname.' '.$position.' '.$telephone.' '.$organization.' '.$province.' '.$detail."\n\n";
 
                     $count++;
-
+                    }
 		        $textMessage = new TextMessageBuilder($textReplyMessage);
 		        $multiMessage->add($textMessage);
                 $replyData = $multiMessage;
@@ -185,7 +185,7 @@ foreach ($events as $event) {
           $km = new RestDB();
           $returnValue = $km->insertDocument($collectionName,$obj);
           if($returnValue){
-              $textReplyMessage ="ลิซ่ารับทราบค่ะ \n ลขอบคุณที่แจ้งข้อมูลนะคะ \n ".$rank." ".$name." ".$lastname." ".$position." ".$telephone." ".$organization." ".$province.;
+              $textReplyMessage ="ลิซ่ารับทราบค่ะ \n ลขอบคุณที่แจ้งข้อมูลนะคะ \n ".$rank." ".$name." ".$lastname." ".$position." ".$telephone." ".$organization." ".$province;
           }else{
               $textReplyMessage = "Lisa งงค่ะ";
           }
@@ -231,7 +231,7 @@ foreach ($events as $event) {
                       $img_url = isset($rec['answer'])?$rec['answer']:"";
                   }//end for each
               }
-              if(isset($img_url){
+              if(isset($img_url)){
                   $image = new ImageMessageBuilder($img_url);
                   $multiMessage->add($image);
               }
