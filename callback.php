@@ -41,8 +41,8 @@ use LINE\LINEBot\MessageBuilder\RawMessageBuilder;
 use LINE\LINEBot\MessageBuilder\TextMessageBuilder;
 use LINE\LINEBot\MessageBuilder\StickerMessageBuilder;
 use LINE\LINEBot\MessageBuilder\ImageMessageBuilder;
-use LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder;
 use LINE\LINEBot\MessageBuilder\ImagemapMessageBuilder;
+use LINE\LINEBot\MessageBuilder\Imagemap\BaseSizeBuilder;
 use LINE\LINEBot\MessageBuilder\MultiMessageBuilder;
 use LINE\LINEBot\MessageBuilder\LocationMessageBuilder;
 use LINE\LINEBot\MessageBuilder\AudioMessageBuilder;
@@ -108,7 +108,7 @@ foreach ($events as $event) {
 
         $replyToken = $event->getReplyToken();
 
-        $multiMessage =     new MultiMessageBuilder;
+        $multiMessage = new MultiMessageBuilder;
 
         $replyData='No Data';
 
@@ -117,44 +117,46 @@ foreach ($events as $event) {
             //$find_word=$explodeText[1];
 
             $collectionName = "friend";
-            $obj = '{"$or": [{"name":{"$regex":"'.$find_word.'"}},{"nickname":{"$regex":"'.$find_word.'"}},{"lastname":{"$regex":"'.$find_word.'"}},{"province":{"$regex":"'.$find_word.'"}},{"detail":{"$regex":"'.$find_word.'"}},{"telephone":{"$regex":"'.$find_word.'"}}
-            ,{"position":{"$regex":"'.$find_word.'"}}]}';
+            $obj = '{"$or": [{"name":{"$regex":"'.$find_word.'"}},
+            {"lastname":{"$regex":"'.$find_word.'"}},
+            {"nickname":{"$regex":"'.$find_word.'"}},
+            {"position":{"$regex":"'.$find_word.'"}},
+            {"telephone":{"$regex":"'.$find_word.'"}},
+            {"organization":{"$regex":"'.$find_word.'"}},
+            {"province":{"$regex":"'.$find_word.'"}},
+            {"detail":{"$regex":"'.$find_word.'"}}]}';
+
             $sort= 'name';
 
             $friend = new RestDB();
             $res = $friend->selectDocument($collectionName,$obj,$sort);
 
-            $textReplyMessage= "Text is ".$text."\nFind word is ".$find_word." and Query".$obj;
             $count = 1;
 
             if($res){
 
                 foreach($res as $rec){
-                    $rank = $rec['rank'];
-                    $name = $rec['name'];
-                    $lastname = $rec['lastname'];
-                    $position = $rec['position'];
-                    $telephone = $rec['telephone'];
+                    $rank = isset($rec['rank'])?$rec['rank']:"";
+                    $name = isset($rec['name'])?$rec['name']:"";
+                    $lastname = isset($rec['lastname'])?$rec['lastname']:"";
+                    $nickname = isset($rec['nickname'])?$rec['nickname']:"";
+                    $position = isset($rec['position'])?$rec['position']:"";
+                    $telephone = isset($rec['telephone'])?$rec['telephone']:"";
+                    $organization = isset($rec['organization'])?$rec['organization']:"";
+                    $province = isset($rec['province'])?$rec['province']:"";
+                    $detail = isset($rec['detail'])?$rec['detail']:"";
 
-                    $textReplyMessage = $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' ('.$position.') โทร '.$telephone." ค่ะ\n\n";
+                    $textReplyMessage = $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' '.
+                    $nickname.' '.$position.' '.$telephone.' '.$organization.' '.$province.' '.$detail."\n\n";
 
                     $count++;
-                    /*
-                    $img_url=$rec['img_url'];
-                    if(!empty($img_url)){
-                        $img_url="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$rec->img_url;
-                        $imageMessage = new ImageMessageBuilder($img_url,$img_url);
-                        $multiMessage->add($imageMessage);
-                    }// end if ! empty img_url
-                    */
-                    }//end for each
 
 		        $textMessage = new TextMessageBuilder($textReplyMessage);
 		        $multiMessage->add($textMessage);
                 $replyData = $multiMessage;
 
 	        }else{
-                $noAnser = array("..พักบ้างนะค่ะ.. ","..พี่คิดว่าหนูจะรู้ไหมอ่ะค่ะ.. ","..พี่ธนูว่ายังไงดีค่ะ.. ","..ถามพี่จอห์นเกย์ดีไหมค่ะ.. ","..พี่ถามลิซ่ารึเปล่าค่ะ.. ","..ลิซ่าไม่รู้ค่ะ.. ","ไม่มีใครสอนลิซ่าเรื่องนี้ค่ะ","..ลิซ่าจำไม่ได้ค่ะ..","..วันนี้อากาศดีนะค่ะ..","เอ่อ...ไม่มีข้อมูลค่ะ ลองถามใหม่ดีไหมค่ะ");
+                $noAnser = array("..หนูหาข้อมูลไม่พบค่ะ.. ","..ไม่พบข้อมูลค่ะ.. ","..ลิซ่าไม่รู้ค่ะ.. ","ไม่มีใครสอนลิซ่าเรื่องนี้ค่ะ","..ลิซ่าจำไม่ได้ค่ะ..","เอ่อ...ไม่มีข้อมูลค่ะ ลองถามใหม่ดีไหมค่ะ");
                 $count=count($noAnser);
                 $index = mt_rand(0,$count-1);
                 $textReplyMessage=$textReplyMessage.$noAnser[$index];
@@ -165,7 +167,37 @@ foreach ($events as $event) {
         }// end if($text[0]!='#')
         elseif($text[0]=='$'){
           $sentence=substr($text,1); // ตัด $ ตัวแรกออก
-          $words=explode(" ",$sentence);
+          $words=explode(",",$sentence);
+          $rank = isset($words[0])?$words[0]:"";
+          $name = isset($words[1])?$words[1]:"";
+          $lastname = isset($words[2])?$words[2]:"";
+          $telephone = isset($words[3])?$words[3]:"";
+          $nickname = isset($words[4])?$words[4]:"";
+          $position = isset($words[5])?$words[5]:"";
+          $organization = isset($words[6])?$words[6]:"";
+          $province = isset($words[7])?$words[7]:"";
+          $detail = isset($words[8])?$words[8]:"";
+
+          $collectionName = "friend";
+          $obj = '{"rank":"'.$rank.'","name":"'.$name.'","lastname":"'.$lastname.'",
+              "telephone":"'.$telephone.'","nickname":"'.$nickname.'","position":"'.$position.'",
+              "organization":"'.$organization.'","province":"'.$province.'","detail":"'.$detail.'"}';
+
+          $km = new RestDB();
+          $returnValue = $km->insertDocument($collectionName,$obj);
+          if($returnValue){
+              $textReplyMessage ="ลิซ่ารับทราบค่ะ \n ลขอบคุณที่แจ้งข้อมูลนะคะ \n ".$rank." ".$name." ".$lastname." ".$position." ".$telephone." ".$organization." ".$province.;
+          }else{
+              $textReplyMessage = "Lisa งงค่ะ";
+          }
+
+          $textMessage = new TextMessageBuilder($textReplyMessage);
+          $multiMessage->add($textMessage);
+          $replyData = $multiMessage;
+      }// end elseif $
+        elseif($text[0]=='!'){
+          $sentence=substr($text,1); // ตัด $ ตัวแรกออก
+          $words=explode(",",$sentence);
           $question = $words[0];
 
           $length = strlen($question);
@@ -185,7 +217,7 @@ foreach ($events as $event) {
           $textMessage = new TextMessageBuilder($textReplyMessage);
           $multiMessage->add($textMessage);
           $replyData = $multiMessage;
-      }// end elseif
+      }// end elseif !
       else{ // first text is not #
           if(!empty($text)){
               //$text = substr($text,1);
@@ -197,8 +229,11 @@ foreach ($events as $event) {
               if($res){
                   foreach($res as $rec){
                       $textReplyMessage=$textReplyMessage.$rec['answer'];
+                      $img_url = isset($rec['answer'])?$rec['answer']:"";
                   }//end for each
               }
+              $image = new ImageMessageBuilder($img_url);
+              $multiMessage->add($image);
               $textMessage = new TextMessageBuilder($textReplyMessage);
               $multiMessage->add($textMessage);
               $replyData = $multiMessage;
