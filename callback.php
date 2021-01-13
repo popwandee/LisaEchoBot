@@ -112,7 +112,7 @@ foreach ($events as $event) {
 
         $replyData='No Data';
 
-        if($text[0]=='#'){
+        if($text[0]=='$'){
             $find_word=substr($text,1); // ตัด # ตัวแรกออก
             //$find_word=$explodeText[1];
 
@@ -165,7 +165,7 @@ foreach ($events as $event) {
                 $replyData = $multiMessage;
 	            }
         }// end if($text[0]!='#')
-        elseif($text[0]=='$'){
+        elseif($text[0]=='+'){
           $sentence=substr($text,1); // ตัด $ ตัวแรกออก
           $words=explode(",",$sentence);
           $rank = isset($words[0])?$words[0]:"";
