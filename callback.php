@@ -117,7 +117,8 @@ foreach ($events as $event) {
             //$find_word=$explodeText[1];
 
             $collectionName = "friend";
-            $obj = '{"$or": [{"name":{"$regex":"'.$find_word.'"}},
+            $obj = '{"$or": [{"rank":{"$regex":"'.$find_word.'"}},
+            {"name":{"$regex":"'.$find_word.'"}},
             {"lastname":{"$regex":"'.$find_word.'"}},
             {"nickname":{"$regex":"'.$find_word.'"}},
             {"position":{"$regex":"'.$find_word.'"}},
