@@ -228,14 +228,15 @@ foreach ($events as $event) {
               if($res){
                   foreach($res as $rec){
                       $textReplyMessage=$textReplyMessage.$rec['answer'];
-                      $img_url = isset($rec['answer'])?$rec['answer']:"";
+                     // $img_url = isset($rec['answer'])?$rec['answer']:"";
                   }//end for each
               }
+              /*
               if(isset($img_url)){
                   $image = new ImageMessageBuilder($img_url);
                   $multiMessage->add($image);
               }
-
+*/
               $textMessage = new TextMessageBuilder($textReplyMessage);
               $multiMessage->add($textMessage);
               $replyData = $multiMessage;
