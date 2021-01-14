@@ -164,7 +164,7 @@ foreach ($events as $event) {
                                 'action'=>'buy',
                                 'item'=>100
                             )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
-                            $telephone  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                            'เบอร์โทร'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                         ),
                         new UriTemplateActionBuilder(
                             'แจ้งแก้ไขข้อมูล', // ข้อความแสดงในปุ่ม
