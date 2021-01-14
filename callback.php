@@ -155,27 +155,23 @@ foreach ($events as $event) {
                             '$'.$province // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                         ),
                         new UriTemplateActionBuilder(
-                            'ดูรูปภาพ', // ข้อความแสดงในปุ่ม
-                            'https://res.cloudinary.com/crma51/image/upload/v1610639260/crma51/'.$telephone.'.jpg',
+                            'แจ้งแก้ไขข้อมูล', // ข้อความแสดงในปุ่ม
+                            'https://lisaechobot.kerokuapp.com/request.php?id='.$_id
                         ),
                         new PostbackTemplateActionBuilder(
-                            'แสดงเบอร์โทร', // ข้อความแสดงในปุ่ม
+                            'OK', // ข้อความแสดงในปุ่ม
                             http_build_query(array(
                                 'action'=>'buy',
                                 'item'=>100
                             )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
-                            'เบอร์โทร'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-                        ),
-                        new UriTemplateActionBuilder(
-                            'แจ้งแก้ไขข้อมูล', // ข้อความแสดงในปุ่ม
-                            'https://lisaechobot.kerokuapp.com/request.php?id='.$_id
+                            'ขอบคุณครับ'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                         ),
                     );
                     array_push($arr,
                                 new CarouselColumnTemplateBuilder(
                                     $rank.$name." ".$lastname,
                                     $position."\n ".$telephone,
-                                    "https://res.cloudinary.com/crma51/image/upload/v1610639260/crma51/0635499799.jpg",
+                                    'https://res.cloudinary.com/crma51/image/upload/v1610639260/crma51/0635499799.jpg',
                                     $actionBuilder
                                 ),
                             );
