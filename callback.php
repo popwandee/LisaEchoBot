@@ -249,7 +249,7 @@ foreach ($events as $event) {
               ),
               new UriTemplateActionBuilder(
                   'Uri Template', // ข้อความแสดงในปุ่ม
-                  'https://www.ninenik.com'
+                  'https://res.cloudinary.com/dly6ftryr/image/upload/v1593741262/girls/TangTang/20200703-015422-1.jpg'
               ),
               new PostbackTemplateActionBuilder(
                   'Postback', // ข้อความแสดงในปุ่ม
@@ -266,19 +266,19 @@ foreach ($events as $event) {
                       new CarouselColumnTemplateBuilder(
                           'Title Carousel',
                           'Description Carousel',
-                          'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                          'https://res.cloudinary.com/dly6ftryr/image/upload/v1593741262/girls/TangTang/20200703-015422-1.jpg',
                           $actionBuilder
                       ),
                       new CarouselColumnTemplateBuilder(
                           'Title Carousel',
                           'Description Carousel',
-                          'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                          'https://res.cloudinary.com/dly6ftryr/image/upload/v1591875281/girls/newnew/20200611-113439-4.jpg',
                           $actionBuilder
                       ),
                       new CarouselColumnTemplateBuilder(
                           'Title Carousel',
                           'Description Carousel',
-                          'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                          'https://res.cloudinary.com/dly6ftryr/image/upload/v1591874228/girls/mind/20200611-111707-1.jpg',
                           $actionBuilder
                       ),
                   )
