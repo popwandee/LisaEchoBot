@@ -173,7 +173,7 @@ foreach ($events as $event) {
                                 );
                                 $carousel= new CarouselColumnTemplateBuilder(
                                     $rank.$name.' '.$lastname.' '.$nickname,
-                                    $position.' \n'.$telephone.' \n'.$organization.' '.$province,
+                                    $position.' '.$telephone.' '.$organization.' '.$province,
                                     'https://res.cloudinary.com/dly6ftryr/image/upload/v1593741262/girls/TangTang/20200703-015422-1.jpg',
                                     $actionBuilder
                                 );
@@ -183,11 +183,7 @@ foreach ($events as $event) {
                         $replyData = new TemplateMessageBuilder('Carousel',
                                     new CarouselTemplateBuilder($arr) // end array
                         );
-                    /*
-		        $textMessage = new TextMessageBuilder($textReplyMessage);
-		        $multiMessage->add($textMessage);
-                $replyData = $multiMessage;
-                    */
+
 	        }else{
                 $noAnswer = array("..หนูหาข้อมูลไม่พบค่ะ.. ","..ไม่พบข้อมูลค่ะ.. ","..ลิซ่าไม่รู้ค่ะ.. ","ไม่มีใครสอนลิซ่าเรื่องนี้ค่ะ","..ลิซ่าจำไม่ได้ค่ะ..","เอ่อ...ไม่มีข้อมูลค่ะ ลองถามใหม่ดีไหมค่ะ");
                 $count=count($noAnswer);
