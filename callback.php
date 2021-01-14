@@ -156,15 +156,15 @@ foreach ($events as $event) {
                         ),
                         new UriTemplateActionBuilder(
                             'แจ้งแก้ไขข้อมูล', // ข้อความแสดงในปุ่ม
-                            'https://lisaechobot.kerokuapp.com/request.php?id='.$_id
+                            "https://lisaechobot.kerokuapp.com/request.php?id=$_id"
                         ),
                         new PostbackTemplateActionBuilder(
-                            'OK', // ข้อความแสดงในปุ่ม
+                            'แสดงเบอร์โทร', // ข้อความแสดงในปุ่ม
                             http_build_query(array(
                                 'action'=>'buy',
                                 'item'=>100
                             )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
-                            "Thank you"  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                            "$telephone"  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                         ),
                     );
                     array_push($arr,
