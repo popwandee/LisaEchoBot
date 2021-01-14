@@ -154,9 +154,8 @@ foreach ($events as $event) {
                         'ตอบรับครับ'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                     ),
                 );
-                $replyData = new TemplateMessageBuilder('Carousel',
-                    new CarouselTemplateBuilder(
-                        array(
+
+                        $arr = array();
                             foreach($res as $rec){
                                 $rank = isset($rec['rank'])?$rec['rank']:"";
                                 $name = isset($rec['name'])?$rec['name']:"";
@@ -170,18 +169,18 @@ foreach ($events as $event) {
 
                                 $textReplyMessage = $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' '.$nickname.' '.$position.' '.$telephone.' '.$organization.' '.$province.' '.$detail."\n\n";
 
-                                new CarouselColumnTemplateBuilder(
+                                $carousel= new CarouselColumnTemplateBuilder(
                                     $rank.$name.' '.$lastname.' '.$nickname,//'พ.อ.สุรศักดิ์ พบวันดี',
                                     $position.' '.$telephone.' '.$organization.' '.$province.' '.$detail//'ผบ.พัน.ขกท. โทร. 0867800091',
                                     'https://res.cloudinary.com/dly6ftryr/image/upload/v1593741262/girls/TangTang/20200703-015422-1.jpg',
                                     $actionBuilder
-                                ),
-
+                                );
+                                array_push($arr,$carousel);
                                 $count++;
                                 }
-                            ) // end array
-                        )
-                    );
+                        $replyData = new TemplateMessageBuilder('Carousel',
+                                    new CarouselTemplateBuilder($arr) // end array
+                        );
                     /*
 		        $textMessage = new TextMessageBuilder($textReplyMessage);
 		        $multiMessage->add($textMessage);
