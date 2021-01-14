@@ -169,7 +169,7 @@ foreach ($events as $event) {
                     );
                     array_push($arr,
                                 new CarouselColumnTemplateBuilder(
-                                    $count."$find_word".$rank.$name." ".$lastname,
+                                    $rank.$name." ".$lastname,
                                     $position."\n ".$telephone,
                                     'https://res.cloudinary.com/crma51/image/upload/v1610639260/crma51/'.$telephone.'.jpg',
                                     $actionBuilder
@@ -181,7 +181,7 @@ foreach ($events as $event) {
                         new CarouselTemplateBuilder($arr ) );
 
 	        }else{
-                $textReplyMessage="..หนูหาข้อมูลไม่พบค่ะ.. ";
+                $textReplyMessage=$find_word."..หนูหาข้อมูลไม่พบค่ะ.. ";
           		$textMessage = new TextMessageBuilder($textReplyMessage);
                 $multiMessage->add($textMessage);
                 $replyData = $multiMessage;
