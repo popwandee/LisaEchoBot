@@ -53,15 +53,28 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuilder;
 
+$logger = new Logger('LineBot');
+$logger->pushHandler(new StreamHandler('php://stderr', Logger::DEBUG));
+$bot = new \LINE\LINEBot(
+    new \LINE\LINEBot\HTTPClient\CurlHTTPClient(LINE_MESSAGING_API_CHANNEL_TOKEN),
+    ['channelSecret' => LINE_MESSAGING_API_CHANNEL_SECRET]
+);
 
-$httpClient = new CurlHTTPClient(LINE_MESSAGING_API_CHANNEL_TOKEN);
-$bot = new LINEBot($httpClient, array('channelSecret' => LINE_MESSAGING_API_CHANNEL_SECRET));
 
 // คำสั่งรอรับการส่งค่ามาของ LINE Messaging API
-$content = file_get_contents('php://input');
+$signature = $_SERVER["HTTP_".\LINE\LINEBot\Constant\HTTPHeader::LINE_SIGNATURE];
+try {
+	$events = $bot->parseEventRequest(file_get_contents('php://input'), $signature);
+    } catch(\LINE\LINEBot\Exception\InvalidSignatureException $e) {
+	error_log('parseEventRequest failed. InvalidSignatureException => '.var_export($e, true));
+    } catch(\LINE\LINEBot\Exception\UnknownEventTypeException $e) {
+	error_log('parseEventRequest failed. UnknownEventTypeException => '.var_export($e, true));
+    } catch(\LINE\LINEBot\Exception\UnknownMessageTypeException $e) {
+	error_log('parseEventRequest failed. UnknownMessageTypeException => '.var_export($e, true));
+    } catch(\LINE\LINEBot\Exception\InvalidEventRequestException $e) {
+	error_log('parseEventRequest failed. InvalidEventRequestException => '.var_export($e, true));
+}
 
-// แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
-$events = json_decode($content, true);
 if(!is_null($events)){
     // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
     $replyToken = $events['events'][0]['replyToken'];
