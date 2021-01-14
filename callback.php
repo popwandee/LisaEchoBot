@@ -147,6 +147,11 @@ foreach ($events as $event) {
                     $organization = isset($rec['organization'])?$rec['organization']:"";
                     $province = isset($rec['province'])?$rec['province']:"";
                     $detail = isset($rec['detail'])?$rec['detail']:"";
+                    if(isset($rec['img_url'])){
+                        $img_url = "https://res.cloudinary.com/crma51/image/upload/v1610639260/crma51/".$rec['img_url'];
+                    }else{
+                        $img_url = "https://res.cloudinary.com/crma51/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1610638753/samples/people/boy-snow-hoodie.jpg";
+                    }
                     //$textReplyMessage = $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' '.$nickname.' '.$position.' '.$telephone.' '.$organization.' '.$province.' '.$detail."\n\n";
                     // กำหนด action 4 ปุ่ม 4 ประเภท
                     $actionBuilder = array(
@@ -156,7 +161,7 @@ foreach ($events as $event) {
                         ),
                         new UriTemplateActionBuilder(
                             'แจ้งแก้ไขข้อมูล', // ข้อความแสดงในปุ่ม
-                            "https://lisaechobot.kerokuapp.com/request.php?id=$_id"
+                            "https://lisaechobot.herokuapp.com/request.php?id=$_id"
                         ),
                         new PostbackTemplateActionBuilder(
                             'แสดงเบอร์โทร', // ข้อความแสดงในปุ่ม
@@ -171,7 +176,7 @@ foreach ($events as $event) {
                                 new CarouselColumnTemplateBuilder(
                                     $rank.$name." ".$lastname,
                                     $position."\n ".$telephone,
-                                    'https://res.cloudinary.com/crma51/image/upload/v1610639260/crma51/'.$telephone.'.jpg',
+                                    $img_url,
                                     $actionBuilder
                                 ),
                             );
