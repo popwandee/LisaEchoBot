@@ -196,6 +196,51 @@ foreach ($events as $event) {
           $replyData = $multiMessage;
       }// end elseif $
       elseif($text[0]=='='){
+
+          if(!empty($text)){
+              //$text = substr($text,1);
+              $collectionName = "kmdata";
+              $obj = '{"question":{"$regex":"'.$text.'"}}';
+              $sort= '';
+              $coupon = new RestDB();
+              $res = $coupon->selectDocument($collectionName,$obj,$sort);
+              if($res){
+                  foreach($res as $rec){
+                      $textReplyMessage=$textReplyMessage.$rec['answer'];
+                     // $img_url = isset($rec['answer'])?$rec['answer']:"";
+                  }//end for each
+              }
+
+              $textMessage = new TextMessageBuilder($textReplyMessage);
+              $multiMessage->add($textMessage);
+              $replyData = $multiMessage;
+            }
+        //$replyData = $multiMessage;
+    }// end elseif =
+        elseif($text[0]=='!'){
+          $sentence=substr($text,1); // ตัด $ ตัวแรกออก
+          $words=explode(",",$sentence);
+          $question = $words[0];
+
+          $length = strlen($question);
+          $answer = substr_replace($sentence, '', 0,$length);
+
+          $collectionName = "kmdata";
+          $obj = '{"question":"'.$question.'","answer":"'.$answer.'"}';
+
+          $km = new RestDB();
+          $returnValue = $km->insertDocument($collectionName,$obj);
+          if($returnValue){
+              $textReplyMessage ="ขอบคุณที่สอนลิซ่าค่ะ \n ลิซ่าจำได้แล้ว ถ้าถามว่า ".$question." ให้ตอบ ".$answer;
+          }else{
+              $textReplyMessage = "Lisa งงค่ะ";
+          }
+
+          $textMessage = new TextMessageBuilder($textReplyMessage);
+          $multiMessage->add($textMessage);
+          $replyData = $multiMessage;
+      }// end elseif !
+      else{ // first text is not #
           $textReplyMessage = new CarouselContainerBuilder(
       array(
           new BubbleContainerBuilder(
@@ -240,50 +285,6 @@ foreach ($events as $event) {
       )
   );
   $replyData = new FlexMessageBuilder("Flex",$textReplyMessage);
-        //$replyData = $multiMessage;
-    }// end elseif =
-        elseif($text[0]=='!'){
-          $sentence=substr($text,1); // ตัด $ ตัวแรกออก
-          $words=explode(",",$sentence);
-          $question = $words[0];
-
-          $length = strlen($question);
-          $answer = substr_replace($sentence, '', 0,$length);
-
-          $collectionName = "kmdata";
-          $obj = '{"question":"'.$question.'","answer":"'.$answer.'"}';
-
-          $km = new RestDB();
-          $returnValue = $km->insertDocument($collectionName,$obj);
-          if($returnValue){
-              $textReplyMessage ="ขอบคุณที่สอนลิซ่าค่ะ \n ลิซ่าจำได้แล้ว ถ้าถามว่า ".$question." ให้ตอบ ".$answer;
-          }else{
-              $textReplyMessage = "Lisa งงค่ะ";
-          }
-
-          $textMessage = new TextMessageBuilder($textReplyMessage);
-          $multiMessage->add($textMessage);
-          $replyData = $multiMessage;
-      }// end elseif !
-      else{ // first text is not #
-          if(!empty($text)){
-              //$text = substr($text,1);
-              $collectionName = "kmdata";
-              $obj = '{"question":{"$regex":"'.$text.'"}}';
-              $sort= '';
-              $coupon = new RestDB();
-              $res = $coupon->selectDocument($collectionName,$obj,$sort);
-              if($res){
-                  foreach($res as $rec){
-                      $textReplyMessage=$textReplyMessage.$rec['answer'];
-                     // $img_url = isset($rec['answer'])?$rec['answer']:"";
-                  }//end for each
-              }
-
-              $textMessage = new TextMessageBuilder($textReplyMessage);
-              $multiMessage->add($textMessage);
-              $replyData = $multiMessage;
-            }
         }//end if else
 
         if(!empty($replyData)){
