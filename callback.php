@@ -137,6 +137,7 @@ foreach ($events as $event) {
                 $arr = array();
 
                 foreach($res as $rec){
+                    $_id = isset($rec['_id'])?$rec['_id']:"";
                     $rank = isset($rec['rank'])?$rec['rank']:"";
                     $name = isset($rec['name'])?$rec['name']:"";
                     $lastname = isset($rec['lastname'])?$rec['lastname']:"";
@@ -154,21 +155,21 @@ foreach ($events as $event) {
                             '$'.$province // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                         ),
                         new UriTemplateActionBuilder(
-                            'Uri Template', // ข้อความแสดงในปุ่ม
-                            'https://www.ninenik.com'
+                            'แจ้งแก้ไขข้อมูล', // ข้อความแสดงในปุ่ม
+                            'https://lisaechobot.kerokuapp.com/request.php?id='.$_id
                         ),
                         new PostbackTemplateActionBuilder(
-                            'Postback', // ข้อความแสดงในปุ่ม
+                            'OK', // ข้อความแสดงในปุ่ม
                             http_build_query(array(
                                 'action'=>'buy',
                                 'item'=>100
                             )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
-                            'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                            'ขอบคุณครับ'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                         ),
                     );
                     array_push($arr,
                                 new CarouselColumnTemplateBuilder(
-                                    'Title Carousel',
+                                    $rank.$name." ".$lastname,
                                     'Description Carousel',
                                     'https://res.cloudinary.com/crma51/image/upload/v1610639260/crma51/0635499799.jpg',
                                     $actionBuilder
