@@ -170,7 +170,7 @@ foreach ($events as $event) {
                     array_push($arr,
                                 new CarouselColumnTemplateBuilder(
                                     $rank.$name." ".$lastname,
-                                    'Description Carousel',
+                                    $position."\n ".$telephone,
                                     'https://res.cloudinary.com/crma51/image/upload/v1610639260/crma51/0635499799.jpg',
                                     $actionBuilder
                                 ),
