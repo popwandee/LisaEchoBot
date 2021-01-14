@@ -272,49 +272,7 @@ foreach ($events as $event) {
           $replyData = $multiMessage;
       }// end elseif !
       else{ // first text is not #
-          // กำหนด action 4 ปุ่ม 4 ประเภท
-          $actionBuilder = array(
-              new MessageTemplateActionBuilder(
-                  'ค้นหาชื่อ',// ข้อความแสดงในปุ่ม
-                  '$สุรศักดิ์' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-              ),
-              new UriTemplateActionBuilder(
-                  'ดูข้อมูลในเว็บไซต์', // ข้อความแสดงในปุ่ม
-                  'https://res.cloudinary.com/dly6ftryr/image/upload/v1593741262/girls/TangTang/20200703-015422-1.jpg'
-              ),
-              new PostbackTemplateActionBuilder(
-                  'ตอบรับ', // ข้อความแสดงในปุ่ม
-                  http_build_query(array(
-                      'action'=>'buy',
-                      'item'=>100
-                  )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
-                  'ตอบรับครับ'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-              ),
-          );
-          $replyData = new TemplateMessageBuilder('Carousel',
-              new CarouselTemplateBuilder(
-                  array(
-                      new CarouselColumnTemplateBuilder(
-                          'พ.อ.สุรศักดิ์ พบวันดี',
-                          'ผบ.พัน.ขกท. โทร. 0867800091',
-                          'https://res.cloudinary.com/dly6ftryr/image/upload/v1593741262/girls/TangTang/20200703-015422-1.jpg',
-                          $actionBuilder
-                      ),
-                      new CarouselColumnTemplateBuilder(
-                          'Title Carousel',
-                          'Description Carousel',
-                          'https://res.cloudinary.com/dly6ftryr/image/upload/v1591875281/girls/newnew/20200611-113439-4.jpg',
-                          $actionBuilder
-                      ),
-                      new CarouselColumnTemplateBuilder(
-                          'Title Carousel',
-                          'Description Carousel',
-                          'https://res.cloudinary.com/dly6ftryr/image/upload/v1591874228/girls/mind/20200611-111707-1.jpg',
-                          $actionBuilder
-                      ),
-                  )
-              )
-          );
+          echo "OK";
         }//end if else
 
         if(!empty($replyData)){
