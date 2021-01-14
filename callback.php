@@ -242,8 +242,8 @@ foreach ($events as $event) {
               $multiMessage->add($textMessage);
 
               $flexMessage=setFlexTemplate("ข้อความจาก Flex Message");
-              $textMessage = new FlexMessageBuilder($flexMessage);
-              $multiMessage->add($textMessage);
+              //$textMessage = new FlexMessageBuilder($flexMessage);
+              $multiMessage->add($flexMessage);
               $replyData = $multiMessage;
             }
         }//end if else
