@@ -133,8 +133,8 @@ foreach ($events as $event) {
 
             $count = 1;
 
+            $arr = array();
             if($res){
-                $arr = array();
 
                 foreach($res as $rec){
                     $_id = isset($rec['_id'])?$rec['_id']:"";
@@ -147,7 +147,7 @@ foreach ($events as $event) {
                     $organization = isset($rec['organization'])?$rec['organization']:"";
                     $province = isset($rec['province'])?$rec['province']:"";
                     $detail = isset($rec['detail'])?$rec['detail']:"";
-                    $textReplyMessage = $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' '.$nickname.' '.$position.' '.$telephone.' '.$organization.' '.$province.' '.$detail."\n\n";
+                    //$textReplyMessage = $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' '.$nickname.' '.$position.' '.$telephone.' '.$organization.' '.$province.' '.$detail."\n\n";
                     // กำหนด action 4 ปุ่ม 4 ประเภท
                     $actionBuilder = array(
                         new MessageTemplateActionBuilder(
@@ -184,10 +184,7 @@ foreach ($events as $event) {
                 // $replyData = $multiMessage;
 
 	        }else{
-                $noAnswer = array("..หนูหาข้อมูลไม่พบค่ะ.. ","..ไม่พบข้อมูลค่ะ.. ","..ลิซ่าไม่รู้ค่ะ.. ","ไม่มีใครสอนลิซ่าเรื่องนี้ค่ะ","..ลิซ่าจำไม่ได้ค่ะ..","เอ่อ...ไม่มีข้อมูลค่ะ ลองถามใหม่ดีไหมค่ะ");
-                $count=count($noAnswer);
-                $index = mt_rand(0,$count-1);
-                $textReplyMessage=$textReplyMessage.$noAnser[$index];
+                $textReplyMessage="..หนูหาข้อมูลไม่พบค่ะ.. ";
           		$textMessage = new TextMessageBuilder($textReplyMessage);
                 $multiMessage->add($textMessage);
                 $replyData = $multiMessage;
