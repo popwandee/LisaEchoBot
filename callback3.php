@@ -4,11 +4,16 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// include composer autoload
-require_once '../vendor/autoload.php';
+// Cloudinary
+require 'vendor/cloudinary/cloudinary_php/src/Cloudinary.php';
+require 'vendor/cloudinary/cloudinary_php/src/Uploader.php';
+require 'vendor/cloudinary/cloudinary_php/src/Api.php';
 
-// การตั้งเกี่ยวกับ bot
-require_once 'bot_settings.php';
+// Include config file
+require_once "config.php";// mlab
+require_once "vendor/autoload.php";
+require_once "vendor/function.php";
+require_once "vendor/restdbclass.php";
 
 // กรณีมีการเชื่อมต่อกับฐานข้อมูล
 //require_once("dbconnect.php");
