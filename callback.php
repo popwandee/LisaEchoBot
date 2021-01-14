@@ -114,7 +114,6 @@ foreach ($events as $event) {
 
         if($text[0]=='$'){
             $find_word=substr($text,1); // ตัด # ตัวแรกออก
-            //$find_word=$explodeText[1];
 
             $collectionName = "friend";
             $obj = '{"$or": [{"rank":{"$regex":"'.$find_word.'"}},
@@ -135,55 +134,50 @@ foreach ($events as $event) {
             $count = 1;
 
             if($res){
+                $arr = array();
                 // กำหนด action 4 ปุ่ม 4 ประเภท
                 $actionBuilder = array(
                     new MessageTemplateActionBuilder(
-                        'คำแนะนำ',// ข้อความแสดงในปุ่ม
-                         '?' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                        'Message Template',// ข้อความแสดงในปุ่ม
+                        'This is Text' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                     ),
                     new UriTemplateActionBuilder(
-                        'ดูข้อมูลในเว็บไซต์', // ข้อความแสดงในปุ่ม
-                        'https://lisaechobot.herokuapp.com/'
-                    ),
-                     new UriTemplateActionBuilder(
-                        'แจ้งแก้ไขข้อมูล', // ข้อความแสดงในปุ่ม
-                        'https://lisaechobot.herokuapp.com/'
+                        'Uri Template', // ข้อความแสดงในปุ่ม
+                        'https://www.ninenik.com'
                     ),
                     new PostbackTemplateActionBuilder(
-                        'OK', // ข้อความแสดงในปุ่ม
+                        'Postback', // ข้อความแสดงในปุ่ม
                         http_build_query(array(
                             'action'=>'buy',
                             'item'=>100
                         )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
-                        'ขอบคุณค่ะ'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                        'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                     ),
                 );
-                        $arr = array();
-                            foreach($res as $rec){
-                                $rank = isset($rec['rank'])?$rec['rank']:"";
-                                $name = isset($rec['name'])?$rec['name']:"";
-                                $lastname = isset($rec['lastname'])?$rec['lastname']:"";
-                                $nickname = isset($rec['nickname'])?$rec['nickname']:"";
-                                $position = isset($rec['position'])?$rec['position']:"";
-                                $telephone = isset($rec['telephone'])?$rec['telephone']:"";
-                                $organization = isset($rec['organization'])?$rec['organization']:"";
-                                $province = isset($rec['province'])?$rec['province']:"";
-                                $detail = isset($rec['detail'])?$rec['detail']:"";
-
-                                //$textReplyMessage = $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' '.$nickname.' '.$position.' '.$telephone.' '.$organization.' '.$province.' '.$detail."\n\n";
-
-                                $carousel= new CarouselColumnTemplateBuilder(
-                                    $rank.$name.' '.$lastname.' '.$nickname,
-                                    $position.' '.$telephone.' '.$organization.' '.$province,
-                                    'https://res.cloudinary.com/dly6ftryr/image/upload/v1593741262/girls/TangTang/20200703-015422-1.jpg',
-                                    $actionBuilder
-                                );
-                                array_push($arr,$carousel);
-                                $count++;
-                                }
-                        $replyData = new TemplateMessageBuilder('Carousel',
-                                    new CarouselTemplateBuilder($arr) // end array
-                        );
+                $replyData = new TemplateMessageBuilder('Carousel',
+                    new CarouselTemplateBuilder(
+                        array(
+                            new CarouselColumnTemplateBuilder(
+                                'Title Carousel',
+                                'Description Carousel',
+                                'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                                $actionBuilder
+                            ),
+                            new CarouselColumnTemplateBuilder(
+                                'Title Carousel',
+                                'Description Carousel',
+                                'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                                $actionBuilder
+                            ),
+                            new CarouselColumnTemplateBuilder(
+                                'Title Carousel',
+                                'Description Carousel',
+                                'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                                $actionBuilder
+                            ),
+                        )
+                    )
+                );    
 
 	        }else{
                 $noAnswer = array("..หนูหาข้อมูลไม่พบค่ะ.. ","..ไม่พบข้อมูลค่ะ.. ","..ลิซ่าไม่รู้ค่ะ.. ","ไม่มีใครสอนลิซ่าเรื่องนี้ค่ะ","..ลิซ่าจำไม่ได้ค่ะ..","เอ่อ...ไม่มีข้อมูลค่ะ ลองถามใหม่ดีไหมค่ะ");
