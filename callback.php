@@ -269,6 +269,12 @@ foreach ($events as $event) {
           $multiMessage->add($textMessage);
           $replyData = $multiMessage;
       }// end elseif !
+      elseif($text[0]=='?'){ // first text is not #
+          $textReplyMessage = "กำลังปรับปรุงระบบอยู่ค่ะ";
+          $textMessage = new TextMessageBuilder($textReplyMessage);
+          $multiMessage->add($textMessage);
+          $replyData = $multiMessage;
+        }//end if else
       else{ // first text is not #
           echo "OK";
         }//end if else
