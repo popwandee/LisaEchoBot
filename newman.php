@@ -1,6 +1,4 @@
 <?php
-// Initialize the session
-session_start();
 
 // Cloudinary
 require 'vendor/cloudinary/cloudinary_php/src/Cloudinary.php';
@@ -1814,9 +1812,6 @@ $returnValue = $coupon->insertDocument($collectionName,$obj);
 		         echo $message;
                  }
 			$_SESSION["message"]=$message;
-
-
-}  // end of if(isset($_POST['coupon_id'])&&isset($_POST['name']))
 
 ?>
 
