@@ -152,7 +152,7 @@ foreach ($events as $event) {
                                 $actionBuilder = array(
                                     new MessageTemplateActionBuilder(
                                         'คำแนะนำ',// ข้อความแสดงในปุ่ม
-                                        "?$name " // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                        "? ".$name // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                                     ),
                                     new UriTemplateActionBuilder(
                                         'ดูข้อมูลในเว็บไซต์', // ข้อความแสดงในปุ่ม
