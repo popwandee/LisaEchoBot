@@ -126,7 +126,7 @@ foreach ($events as $event) {
             {"province":{"$regex":"'.$find_word.'"}},
             {"detail":{"$regex":"'.$find_word.'"}}]}';
 
-            $sort= 'name';
+            $sort= '';
 
             $friend = new RestDB();
             $res = $friend->selectDocument($collectionName,$obj,$sort);
@@ -169,7 +169,7 @@ foreach ($events as $event) {
                     );
                     array_push($arr,
                                 new CarouselColumnTemplateBuilder(
-                                    "$find_word".$rank.$name." ".$lastname,
+                                    $count."$find_word".$rank.$name." ".$lastname,
                                     $position."\n ".$telephone,
                                     'https://res.cloudinary.com/crma51/image/upload/v1610639260/crma51/'.$telephone.'.jpg',
                                     $actionBuilder
@@ -179,9 +179,6 @@ foreach ($events as $event) {
                     }
                     $replyData = new TemplateMessageBuilder('Carousel',
                         new CarouselTemplateBuilder($arr ) );
-                //$textMessage = new TextMessageBuilder($textReplyMessage);
-                // $multiMessage->add($textMessage);
-                // $replyData = $multiMessage;
 
 	        }else{
                 $textReplyMessage="..หนูหาข้อมูลไม่พบค่ะ.. ";
