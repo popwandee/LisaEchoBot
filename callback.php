@@ -178,17 +178,19 @@ foreach ($events as $event) {
                         )
                     )
                 );
-                $rank = isset($rec['rank'])?$rec['rank']:"";
-                $name = isset($rec['name'])?$rec['name']:"";
-                $lastname = isset($rec['lastname'])?$rec['lastname']:"";
-                $nickname = isset($rec['nickname'])?$rec['nickname']:"";
-                $position = isset($rec['position'])?$rec['position']:"";
-                $telephone = isset($rec['telephone'])?$rec['telephone']:"";
-                $organization = isset($rec['organization'])?$rec['organization']:"";
-                $province = isset($rec['province'])?$rec['province']:"";
-                $detail = isset($rec['detail'])?$rec['detail']:"";
-
-                $textReplyMessage = $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' '.$nickname.' '.$position.' '.$telephone.' '.$organization.' '.$province.' '.$detail."\n\n";
+                foreach($res as $rec){
+                    $rank = isset($rec['rank'])?$rec['rank']:"";
+                    $name = isset($rec['name'])?$rec['name']:"";
+                    $lastname = isset($rec['lastname'])?$rec['lastname']:"";
+                    $nickname = isset($rec['nickname'])?$rec['nickname']:"";
+                    $position = isset($rec['position'])?$rec['position']:"";
+                    $telephone = isset($rec['telephone'])?$rec['telephone']:"";
+                    $organization = isset($rec['organization'])?$rec['organization']:"";
+                    $province = isset($rec['province'])?$rec['province']:"";
+                    $detail = isset($rec['detail'])?$rec['detail']:"";
+                    $count++;
+                    $textReplyMessage = $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' '.$nickname.' '.$position.' '.$telephone.' '.$organization.' '.$province.' '.$detail."\n\n";
+                    }
                 $textMessage = new TextMessageBuilder($textReplyMessage);
                  $multiMessage->add($textMessage);
                  $replyData = $multiMessage;
