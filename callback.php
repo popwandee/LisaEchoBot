@@ -241,50 +241,49 @@ foreach ($events as $event) {
           $replyData = $multiMessage;
       }// end elseif !
       else{ // first text is not #
-          $textReplyMessage = new CarouselContainerBuilder(
-      array(
-          new BubbleContainerBuilder(
-              "ltr",  // กำหนด NULL หรือ "ltr" หรือ "rtl"
-              NULL,NULL,
-              new BoxComponentBuilder(
-                  "horizontal",
-                  array(
-                      new TextComponentBuilder("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                      do eiusmod tempor incididunt ut labore et dolore magna aliqua.",NULL,NULL,NULL,NULL,NULL,true)
-                  )
+          // กำหนด action 4 ปุ่ม 4 ประเภท
+          $actionBuilder = array(
+              new MessageTemplateActionBuilder(
+                  'Message Template',// ข้อความแสดงในปุ่ม
+                  'This is Text' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
               ),
-              new BoxComponentBuilder(
-                  "horizontal",
+              new UriTemplateActionBuilder(
+                  'Uri Template', // ข้อความแสดงในปุ่ม
+                  'https://www.ninenik.com'
+              ),
+              new PostbackTemplateActionBuilder(
+                  'Postback', // ข้อความแสดงในปุ่ม
+                  http_build_query(array(
+                      'action'=>'buy',
+                      'item'=>100
+                  )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
+                  'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+              ),
+          );
+          $replyData = new TemplateMessageBuilder('Carousel',
+              new CarouselTemplateBuilder(
                   array(
-                      new ButtonComponentBuilder(
-                          new UriTemplateActionBuilder("GO","http://niik.in"),
-                          NULL,NULL,NULL,"primary"
-                      )
+                      new CarouselColumnTemplateBuilder(
+                          'Title Carousel',
+                          'Description Carousel',
+                          'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                          $actionBuilder
+                      ),
+                      new CarouselColumnTemplateBuilder(
+                          'Title Carousel',
+                          'Description Carousel',
+                          'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                          $actionBuilder
+                      ),
+                      new CarouselColumnTemplateBuilder(
+                          'Title Carousel',
+                          'Description Carousel',
+                          'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                          $actionBuilder
+                      ),
                   )
               )
-          ), // end bubble 1
-          new BubbleContainerBuilder(
-              "ltr",  // กำหนด NULL หรือ "ltr" หรือ "rtl"
-              NULL,NULL,
-              new BoxComponentBuilder(
-                  "horizontal",
-                  array(
-                      new TextComponentBuilder("Hello, World!",NULL,NULL,NULL,NULL,NULL,true)
-                  )
-              ),
-              new BoxComponentBuilder(
-                  "horizontal",
-                  array(
-                      new ButtonComponentBuilder(
-                          new UriTemplateActionBuilder("GO","http://niik.in"),
-                          NULL,NULL,NULL,"primary"
-                      )
-                  )
-              )
-          ) // end bubble 2
-      )
-  );
-  $replyData = new FlexMessageBuilder("Flex",$textReplyMessage);
+          );
         }//end if else
 
         if(!empty($replyData)){
