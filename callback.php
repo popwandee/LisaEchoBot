@@ -164,14 +164,14 @@ foreach ($events as $event) {
                                 'action'=>'buy',
                                 'item'=>100
                             )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
-                            'ขอบคุณครับ'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                            "Thank you"  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                         ),
                     );
                     array_push($arr,
                                 new CarouselColumnTemplateBuilder(
                                     $rank.$name." ".$lastname,
                                     $position."\n ".$telephone,
-                                    'https://res.cloudinary.com/crma51/image/upload/v1610639260/crma51/0635499799.jpg',
+                                    'https://res.cloudinary.com/crma51/image/upload/v1610639260/crma51/'.$telephone.'.jpg',
                                     $actionBuilder
                                 ),
                             );
