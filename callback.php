@@ -135,26 +135,6 @@ foreach ($events as $event) {
             $count = 1;
 
             if($res){
-                // กำหนด action 4 ปุ่ม 4 ประเภท
-                $actionBuilder = array(
-                    new MessageTemplateActionBuilder(
-                        'ค้นหาชื่อ',// ข้อความแสดงในปุ่ม
-                        '$สุรศักดิ์' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-                    ),
-                    new UriTemplateActionBuilder(
-                        'ดูข้อมูลในเว็บไซต์', // ข้อความแสดงในปุ่ม
-                        'https://res.cloudinary.com/dly6ftryr/image/upload/v1593741262/girls/TangTang/20200703-015422-1.jpg'
-                    ),
-                    new PostbackTemplateActionBuilder(
-                        'ตอบรับ', // ข้อความแสดงในปุ่ม
-                        http_build_query(array(
-                            'action'=>'buy',
-                            'item'=>100
-                        )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
-                        'ตอบรับครับ'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-                    ),
-                );
-
                         $arr = array();
                             foreach($res as $rec){
                                 $rank = isset($rec['rank'])?$rec['rank']:"";
@@ -167,11 +147,33 @@ foreach ($events as $event) {
                                 $province = isset($rec['province'])?$rec['province']:"";
                                 $detail = isset($rec['detail'])?$rec['detail']:"";
 
-                                $textReplyMessage = $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' '.$nickname.' '.$position.' '.$telephone.' '.$organization.' '.$province.' '.$detail."\n\n";
-
+                                //$textReplyMessage = $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' '.$nickname.' '.$position.' '.$telephone.' '.$organization.' '.$province.' '.$detail."\n\n";
+                                // กำหนด action 4 ปุ่ม 4 ประเภท
+                                $actionBuilder = array(
+                                    new MessageTemplateActionBuilder(
+                                        'คำแนะนำ',// ข้อความแสดงในปุ่ม
+                                        "?$name " // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                    ),
+                                    new UriTemplateActionBuilder(
+                                        'ดูข้อมูลในเว็บไซต์', // ข้อความแสดงในปุ่ม
+                                        'https://lisaechobot.herokuapp.com/'
+                                    ),
+                                     new UriTemplateActionBuilder(
+                                        'แจ้งแก้ไขข้อมูล', // ข้อความแสดงในปุ่ม
+                                        'https://lisaechobot.herokuapp.com/'
+                                    ),
+                                    new PostbackTemplateActionBuilder(
+                                        'OK', // ข้อความแสดงในปุ่ม
+                                        http_build_query(array(
+                                            'action'=>'buy',
+                                            'item'=>100
+                                        )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
+                                        'ขอบคุณค่ะ'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                    ),
+                                );
                                 $carousel= new CarouselColumnTemplateBuilder(
                                     $rank.$name.' '.$lastname.' '.$nickname,
-                                    $position.' '.$telephone.' '.$organization.' '.$province.' '.$detail,
+                                    $position.' \n'.$telephone.' \n'.$organization.' '.$province,
                                     'https://res.cloudinary.com/dly6ftryr/image/upload/v1593741262/girls/TangTang/20200703-015422-1.jpg',
                                     $actionBuilder
                                 );
