@@ -170,8 +170,8 @@ foreach ($events as $event) {
                                 $textReplyMessage = $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' '.$nickname.' '.$position.' '.$telephone.' '.$organization.' '.$province.' '.$detail."\n\n";
 
                                 $carousel= new CarouselColumnTemplateBuilder(
-                                    $rank.$name.' '.$lastname.' '.$nickname,//'พ.อ.สุรศักดิ์ พบวันดี',
-                                    $position.' '.$telephone.' '.$organization.' '.$province.' '.$detail//'ผบ.พัน.ขกท. โทร. 0867800091',
+                                    $rank.$name.' '.$lastname.' '.$nickname,
+                                    $position.' '.$telephone.' '.$organization.' '.$province.' '.$detail,
                                     'https://res.cloudinary.com/dly6ftryr/image/upload/v1593741262/girls/TangTang/20200703-015422-1.jpg',
                                     $actionBuilder
                                 );
