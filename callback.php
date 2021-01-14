@@ -133,10 +133,9 @@ foreach ($events as $event) {
 
             $count = 1;
 
-            $arr = array();
             if($res){
-
                 foreach($res as $rec){
+                    $arr = isset($arr) ? $arr : array();
                     $_id = isset($rec['_id'])?$rec['_id']:"";
                     $rank = isset($rec['rank'])?$rec['rank']:"";
                     $name = isset($rec['name'])?$rec['name']:"";
@@ -148,7 +147,7 @@ foreach ($events as $event) {
                     $province = isset($rec['province'])?$rec['province']:"";
                     $detail = isset($rec['detail'])?$rec['detail']:"";
                     if(isset($rec['img_url'])){
-                        $img_url = "https://res.cloudinary.com/crma51/image/upload/v1610639260/crma51/".$rec['img_url'];
+                        $img_url = "https://res.cloudinary.com/crma51/image/upload/v1610639260/crma51/".$rec['img_url'].".jpg";
                     }else{
                         $img_url = "https://res.cloudinary.com/crma51/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1610638753/samples/people/boy-snow-hoodie.jpg";
                     }
@@ -186,7 +185,7 @@ foreach ($events as $event) {
                         new CarouselTemplateBuilder($arr ) );
 
 	        }else{
-                $textReplyMessage=$find_word."..หนูหาข้อมูลไม่พบค่ะ.. ";
+                $textReplyMessage="..หนูหาข้อมูล $find_word ไม่พบค่ะ.. ";
           		$textMessage = new TextMessageBuilder($textReplyMessage);
                 $multiMessage->add($textMessage);
                 $replyData = $multiMessage;
