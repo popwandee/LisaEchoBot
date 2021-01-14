@@ -135,6 +135,29 @@ foreach ($events as $event) {
             $count = 1;
 
             if($res){
+                // กำหนด action 4 ปุ่ม 4 ประเภท
+                $actionBuilder = array(
+                    new MessageTemplateActionBuilder(
+                        'คำแนะนำ',// ข้อความแสดงในปุ่ม
+                         '?' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                    ),
+                    new UriTemplateActionBuilder(
+                        'ดูข้อมูลในเว็บไซต์', // ข้อความแสดงในปุ่ม
+                        'https://lisaechobot.herokuapp.com/'
+                    ),
+                     new UriTemplateActionBuilder(
+                        'แจ้งแก้ไขข้อมูล', // ข้อความแสดงในปุ่ม
+                        'https://lisaechobot.herokuapp.com/'
+                    ),
+                    new PostbackTemplateActionBuilder(
+                        'OK', // ข้อความแสดงในปุ่ม
+                        http_build_query(array(
+                            'action'=>'buy',
+                            'item'=>100
+                        )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
+                        'ขอบคุณค่ะ'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                    ),
+                );
                         $arr = array();
                             foreach($res as $rec){
                                 $rank = isset($rec['rank'])?$rec['rank']:"";
@@ -148,29 +171,7 @@ foreach ($events as $event) {
                                 $detail = isset($rec['detail'])?$rec['detail']:"";
 
                                 //$textReplyMessage = $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' '.$nickname.' '.$position.' '.$telephone.' '.$organization.' '.$province.' '.$detail."\n\n";
-                                // กำหนด action 4 ปุ่ม 4 ประเภท
-                                $actionBuilder = array(
-                                    new MessageTemplateActionBuilder(
-                                        'คำแนะนำ',// ข้อความแสดงในปุ่ม
-                                        "?" // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-                                    ),
-                                    new UriTemplateActionBuilder(
-                                        'ดูข้อมูลในเว็บไซต์', // ข้อความแสดงในปุ่ม
-                                        'https://lisaechobot.herokuapp.com/'
-                                    ),
-                                     new UriTemplateActionBuilder(
-                                        'แจ้งแก้ไขข้อมูล', // ข้อความแสดงในปุ่ม
-                                        'https://lisaechobot.herokuapp.com/'
-                                    ),
-                                    new PostbackTemplateActionBuilder(
-                                        'OK', // ข้อความแสดงในปุ่ม
-                                        http_build_query(array(
-                                            'action'=>'buy',
-                                            'item'=>100
-                                        )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
-                                        'ขอบคุณค่ะ'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-                                    ),
-                                );
+
                                 $carousel= new CarouselColumnTemplateBuilder(
                                     $rank.$name.' '.$lastname.' '.$nickname,
                                     $position.' '.$telephone.' '.$organization.' '.$province,
