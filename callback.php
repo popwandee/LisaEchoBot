@@ -170,7 +170,7 @@ foreach ($events as $event) {
                                 new CarouselColumnTemplateBuilder(
                                     'Title Carousel',
                                     'Description Carousel',
-                                    'https://res.cloudinary.com/dly6ftryr/image/upload/v1591874229/girls/mind/20200611-111707-3.jpg',
+                                    'https://res.cloudinary.com/crma51/image/upload/v1610639260/crma51/0635499799.jpg',
                                     $actionBuilder
                                 ),
                             );
