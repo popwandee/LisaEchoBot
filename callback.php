@@ -135,26 +135,58 @@ foreach ($events as $event) {
             $count = 1;
 
             if($res){
+                // กำหนด action 4 ปุ่ม 4 ประเภท
+                $actionBuilder = array(
+                    new MessageTemplateActionBuilder(
+                        'ค้นหาชื่อ',// ข้อความแสดงในปุ่ม
+                        '$สุรศักดิ์' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                    ),
+                    new UriTemplateActionBuilder(
+                        'ดูข้อมูลในเว็บไซต์', // ข้อความแสดงในปุ่ม
+                        'https://res.cloudinary.com/dly6ftryr/image/upload/v1593741262/girls/TangTang/20200703-015422-1.jpg'
+                    ),
+                    new PostbackTemplateActionBuilder(
+                        'ตอบรับ', // ข้อความแสดงในปุ่ม
+                        http_build_query(array(
+                            'action'=>'buy',
+                            'item'=>100
+                        )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
+                        'ตอบรับครับ'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                    ),
+                );
+                $replyData = new TemplateMessageBuilder('Carousel',
+                    new CarouselTemplateBuilder(
+                        array(
+                            foreach($res as $rec){
+                                $rank = isset($rec['rank'])?$rec['rank']:"";
+                                $name = isset($rec['name'])?$rec['name']:"";
+                                $lastname = isset($rec['lastname'])?$rec['lastname']:"";
+                                $nickname = isset($rec['nickname'])?$rec['nickname']:"";
+                                $position = isset($rec['position'])?$rec['position']:"";
+                                $telephone = isset($rec['telephone'])?$rec['telephone']:"";
+                                $organization = isset($rec['organization'])?$rec['organization']:"";
+                                $province = isset($rec['province'])?$rec['province']:"";
+                                $detail = isset($rec['detail'])?$rec['detail']:"";
 
-                foreach($res as $rec){
-                    $rank = isset($rec['rank'])?$rec['rank']:"";
-                    $name = isset($rec['name'])?$rec['name']:"";
-                    $lastname = isset($rec['lastname'])?$rec['lastname']:"";
-                    $nickname = isset($rec['nickname'])?$rec['nickname']:"";
-                    $position = isset($rec['position'])?$rec['position']:"";
-                    $telephone = isset($rec['telephone'])?$rec['telephone']:"";
-                    $organization = isset($rec['organization'])?$rec['organization']:"";
-                    $province = isset($rec['province'])?$rec['province']:"";
-                    $detail = isset($rec['detail'])?$rec['detail']:"";
+                                $textReplyMessage = $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' '.$nickname.' '.$position.' '.$telephone.' '.$organization.' '.$province.' '.$detail."\n\n";
 
-                    $textReplyMessage = $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' '.$nickname.' '.$position.' '.$telephone.' '.$organization.' '.$province.' '.$detail."\n\n";
+                                new CarouselColumnTemplateBuilder(
+                                    $rank.$name.' '.$lastname.' '.$nickname,//'พ.อ.สุรศักดิ์ พบวันดี',
+                                    $position.' '.$telephone.' '.$organization.' '.$province.' '.$detail//'ผบ.พัน.ขกท. โทร. 0867800091',
+                                    'https://res.cloudinary.com/dly6ftryr/image/upload/v1593741262/girls/TangTang/20200703-015422-1.jpg',
+                                    $actionBuilder
+                                ),
 
-                    $count++;
-                    }
+                                $count++;
+                                }
+                            ) // end array
+                        )
+                    );
+                    /*
 		        $textMessage = new TextMessageBuilder($textReplyMessage);
 		        $multiMessage->add($textMessage);
                 $replyData = $multiMessage;
-
+                    */
 	        }else{
                 $noAnswer = array("..หนูหาข้อมูลไม่พบค่ะ.. ","..ไม่พบข้อมูลค่ะ.. ","..ลิซ่าไม่รู้ค่ะ.. ","ไม่มีใครสอนลิซ่าเรื่องนี้ค่ะ","..ลิซ่าจำไม่ได้ค่ะ..","เอ่อ...ไม่มีข้อมูลค่ะ ลองถามใหม่ดีไหมค่ะ");
                 $count=count($noAnswer);
@@ -241,7 +273,49 @@ foreach ($events as $event) {
           $replyData = $multiMessage;
       }// end elseif !
       else{ // first text is not #
-          $replyData = setFlexTemplate();
+          // กำหนด action 4 ปุ่ม 4 ประเภท
+          $actionBuilder = array(
+              new MessageTemplateActionBuilder(
+                  'ค้นหาชื่อ',// ข้อความแสดงในปุ่ม
+                  '$สุรศักดิ์' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+              ),
+              new UriTemplateActionBuilder(
+                  'ดูข้อมูลในเว็บไซต์', // ข้อความแสดงในปุ่ม
+                  'https://res.cloudinary.com/dly6ftryr/image/upload/v1593741262/girls/TangTang/20200703-015422-1.jpg'
+              ),
+              new PostbackTemplateActionBuilder(
+                  'ตอบรับ', // ข้อความแสดงในปุ่ม
+                  http_build_query(array(
+                      'action'=>'buy',
+                      'item'=>100
+                  )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
+                  'ตอบรับครับ'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+              ),
+          );
+          $replyData = new TemplateMessageBuilder('Carousel',
+              new CarouselTemplateBuilder(
+                  array(
+                      new CarouselColumnTemplateBuilder(
+                          'พ.อ.สุรศักดิ์ พบวันดี',
+                          'ผบ.พัน.ขกท. โทร. 0867800091',
+                          'https://res.cloudinary.com/dly6ftryr/image/upload/v1593741262/girls/TangTang/20200703-015422-1.jpg',
+                          $actionBuilder
+                      ),
+                      new CarouselColumnTemplateBuilder(
+                          'Title Carousel',
+                          'Description Carousel',
+                          'https://res.cloudinary.com/dly6ftryr/image/upload/v1591875281/girls/newnew/20200611-113439-4.jpg',
+                          $actionBuilder
+                      ),
+                      new CarouselColumnTemplateBuilder(
+                          'Title Carousel',
+                          'Description Carousel',
+                          'https://res.cloudinary.com/dly6ftryr/image/upload/v1591874228/girls/mind/20200611-111707-1.jpg',
+                          $actionBuilder
+                      ),
+                  )
+              )
+          );
         }//end if else
 
         if(!empty($replyData)){
@@ -260,50 +334,8 @@ function welcome($H){
    }
 }
 function setFlexTemplate(){
-    // กำหนด action 4 ปุ่ม 4 ประเภท
-    $actionBuilder = array(
-        new MessageTemplateActionBuilder(
-            'Message Template',// ข้อความแสดงในปุ่ม
-            'This is Text' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-        ),
-        new UriTemplateActionBuilder(
-            'Uri Template', // ข้อความแสดงในปุ่ม
-            'https://res.cloudinary.com/dly6ftryr/image/upload/v1593741262/girls/TangTang/20200703-015422-1.jpg'
-        ),
-        new PostbackTemplateActionBuilder(
-            'Postback', // ข้อความแสดงในปุ่ม
-            http_build_query(array(
-                'action'=>'buy',
-                'item'=>100
-            )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
-            'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-        ),
-    );
-    $replyData = new TemplateMessageBuilder('Carousel',
-        new CarouselTemplateBuilder(
-            array(
-                new CarouselColumnTemplateBuilder(
-                    'Title Carousel',
-                    'Description Carousel',
-                    'https://res.cloudinary.com/dly6ftryr/image/upload/v1593741262/girls/TangTang/20200703-015422-1.jpg',
-                    $actionBuilder
-                ),
-                new CarouselColumnTemplateBuilder(
-                    'Title Carousel',
-                    'Description Carousel',
-                    'https://res.cloudinary.com/dly6ftryr/image/upload/v1591875281/girls/newnew/20200611-113439-4.jpg',
-                    $actionBuilder
-                ),
-                new CarouselColumnTemplateBuilder(
-                    'Title Carousel',
-                    'Description Carousel',
-                    'https://res.cloudinary.com/dly6ftryr/image/upload/v1591874228/girls/mind/20200611-111707-1.jpg',
-                    $actionBuilder
-                ),
-            )
-        )
-    );
-return $replyData;
+$flexMessage='' ;
+return $flexMessage;
 }
 function getRandomGallery($json){
   $data = json_decode($json);
