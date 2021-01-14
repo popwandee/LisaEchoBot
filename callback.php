@@ -150,8 +150,8 @@ foreach ($events as $event) {
                     // กำหนด action 4 ปุ่ม 4 ประเภท
                     $actionBuilder = array(
                         new MessageTemplateActionBuilder(
-                            $province,//'Message Template',// ข้อความแสดงในปุ่ม
-                            'This is Text' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                            'เพื่อนๆในจังหวัด '.$province,//'Message Template',// ข้อความแสดงในปุ่ม
+                            '$'.$province // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                         ),
                         new UriTemplateActionBuilder(
                             'Uri Template', // ข้อความแสดงในปุ่ม
