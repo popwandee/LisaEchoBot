@@ -241,10 +241,10 @@ foreach ($events as $event) {
               $textMessage = new TextMessageBuilder($textReplyMessage);
               $multiMessage->add($textMessage);
 
-              $flexMessage=setFlexTemplate("ข้อความจาก Flex Message");
+              $flexMessage=setFlexTemplate();
               //$textMessage = new FlexMessageBuilder($flexMessage);
-              $textMessage = new FlexMessageBuilder($flexMessage);
-              $multiMessage->add($textMessage);
+
+              $multiMessage->add($flexMessage);
               $replyData = $multiMessage;
             }
         }//end if else
@@ -264,42 +264,190 @@ function welcome($H){
    }elseif($H > 17){              return "สวัสดีตอนเย็นค่ะ";
    }
 }
-function setFlexTemplate($message){
+function setFlexTemplate(){
 $flexMessage='{
-  "type": "template",
-  "altText": "this is a carousel template",
-  "template": {
-    "type": "carousel",
-    "imageSize": "cover",
-    "imageAspectRatio": "rectangle",
-    "columns": [
-      {
-        "thumbnailImageUrl": "https://res.cloudinary.com/dly6ftryr/image/upload/v1593741262/girls/TangTang/20200703-015422-1.jpg",
-        "title": "พ.อ.สุรศักดิ์ พบวันดี",
-        "text": "ผบ.พัน.ขกท.",
-        "actions": [
+  "type": "carousel",
+  "contents": [
+    {
+      "type": "bubble",
+      "hero": {
+        "type": "image",
+        "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_5_carousel.png",
+        "size": "full",
+        "aspectRatio": "20:13",
+        "aspectMode": "cover"
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
           {
-            "type": "message",
-            "label": "Action 1 '.$message.' ",
-            "text": "Action 1"
+            "type": "text",
+            "text": "Arm Chair, White",
+            "weight": "bold",
+            "size": "xl",
+            "wrap": true,
+            "contents": []
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "contents": [
+              {
+                "type": "text",
+                "text": "$49",
+                "weight": "bold",
+                "size": "xl",
+                "flex": 0,
+                "wrap": true,
+                "contents": []
+              },
+              {
+                "type": "text",
+                "text": ".99",
+                "weight": "bold",
+                "size": "sm",
+                "flex": 0,
+                "wrap": true,
+                "contents": []
+              }
+            ]
           }
         ]
       },
-      {
-        "thumbnailImageUrl": "https://res.cloudinary.com/dly6ftryr/image/upload/v1593741262/girls/TangTang/20200703-015422-1.jpg",
-        "title": "ข้อมูลหน่วยงาน",
-        "text": "Text",
-        "actions": [
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
           {
-            "type": "postback",
-            "label": "Action 1",
-            "text": "Action 1",
-            "data": "Data 1"
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "Add to Cart",
+              "uri": "https://linecorp.com"
+            },
+            "style": "primary"
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "Add to wishlist",
+              "uri": "https://linecorp.com"
+            }
           }
         ]
       }
-    ]
-  }
+    },
+    {
+      "type": "bubble",
+      "hero": {
+        "type": "image",
+        "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_6_carousel.png",
+        "size": "full",
+        "aspectRatio": "20:13",
+        "aspectMode": "cover"
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "text",
+            "text": "Metal Desk Lamp",
+            "weight": "bold",
+            "size": "xl",
+            "wrap": true,
+            "contents": []
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "flex": 1,
+            "contents": [
+              {
+                "type": "text",
+                "text": "$11",
+                "weight": "bold",
+                "size": "xl",
+                "flex": 0,
+                "wrap": true,
+                "contents": []
+              },
+              {
+                "type": "text",
+                "text": ".99",
+                "weight": "bold",
+                "size": "sm",
+                "flex": 0,
+                "wrap": true,
+                "contents": []
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "Temporarily out of stock",
+            "size": "xxs",
+            "color": "#FF5551",
+            "flex": 0,
+            "margin": "md",
+            "wrap": true,
+            "contents": []
+          }
+        ]
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "Add to Cart",
+              "uri": "https://linecorp.com"
+            },
+            "flex": 2,
+            "color": "#AAAAAA",
+            "style": "primary"
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "Add to wish list",
+              "uri": "https://linecorp.com"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "bubble",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "See more",
+              "uri": "https://linecorp.com"
+            },
+            "flex": 1,
+            "gravity": "center"
+          }
+        ]
+      }
+    }
+  ]
 }' ;
 return $flexMessage;
 }
