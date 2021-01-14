@@ -146,8 +146,9 @@ foreach ($events as $event) {
                     $organization = isset($rec['organization'])?$rec['organization']:"";
                     $province = isset($rec['province'])?$rec['province']:"";
                     $detail = isset($rec['detail'])?$rec['detail']:"";
-                    if(isset($rec['img_url'])){
-                        $img_url = "https://res.cloudinary.com/crma51/image/upload/v1610639260/crma51/".$rec['img_url'].".jpg";
+                    $img_url = isset($rec['img_url'])?$rec['img_url']:"";
+                    if($img_url!=""){
+                        $img_url = "https://res.cloudinary.com/crma51/image/upload/v1610664757/crma51/$img_url";
                     }else{
                         $img_url = "https://res.cloudinary.com/crma51/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1610638753/samples/people/boy-snow-hoodie.jpg";
                     }
@@ -159,7 +160,7 @@ foreach ($events as $event) {
                             '$'.$province // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                         ),
                         new UriTemplateActionBuilder(
-                            'แจ้งแก้ไขข้อมูล', // ข้อความแสดงในปุ่ม
+                            'แจ้งแก้ไขข้อมูล'.$img_url, // ข้อความแสดงในปุ่ม
                             "https://lisaechobot.herokuapp.com/request.php?id=$_id"
                         ),
                         new PostbackTemplateActionBuilder(
@@ -182,7 +183,7 @@ foreach ($events as $event) {
                     $count++;
                     }
                     $replyData = new TemplateMessageBuilder('Carousel',
-                        new CarouselTemplateBuilder($arr ) );
+                        new CarouselTemplateBuilder($arr));
 
 	        }else{
                 $textReplyMessage="..หนูหาข้อมูล $find_word ไม่พบค่ะ.. ";
