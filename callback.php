@@ -154,30 +154,7 @@ foreach ($events as $event) {
                         'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                     ),
                 );
-                $replyData = new TemplateMessageBuilder('Carousel',
-                    new CarouselTemplateBuilder(
-                        array(
-                            new CarouselColumnTemplateBuilder(
-                                'Title Carousel',
-                                'Description Carousel',
-                                'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
-                                $actionBuilder
-                            ),
-                            new CarouselColumnTemplateBuilder(
-                                'Title Carousel',
-                                'Description Carousel',
-                                'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
-                                $actionBuilder
-                            ),
-                            new CarouselColumnTemplateBuilder(
-                                'Title Carousel',
-                                'Description Carousel',
-                                'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
-                                $actionBuilder
-                            ),
-                        )
-                    )
-                );
+                $arr = array();
                 foreach($res as $rec){
                     $rank = isset($rec['rank'])?$rec['rank']:"";
                     $name = isset($rec['name'])?$rec['name']:"";
@@ -188,12 +165,22 @@ foreach ($events as $event) {
                     $organization = isset($rec['organization'])?$rec['organization']:"";
                     $province = isset($rec['province'])?$rec['province']:"";
                     $detail = isset($rec['detail'])?$rec['detail']:"";
-                    $count++;
                     $textReplyMessage = $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' '.$nickname.' '.$position.' '.$telephone.' '.$organization.' '.$province.' '.$detail."\n\n";
+                    array_push($arr,
+                                new CarouselColumnTemplateBuilder(
+                                    'Title Carousel',
+                                    'Description Carousel',
+                                    'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                                    $actionBuilder
+                                ),
+                            );
+                    $count++;
                     }
-                $textMessage = new TextMessageBuilder($textReplyMessage);
-                 $multiMessage->add($textMessage);
-                 $replyData = $multiMessage;
+                    $replyData = new TemplateMessageBuilder('Carousel',
+                        new CarouselTemplateBuilder($arr ) );
+                //$textMessage = new TextMessageBuilder($textReplyMessage);
+                // $multiMessage->add($textMessage);
+                // $replyData = $multiMessage;
 
 	        }else{
                 $noAnswer = array("..หนูหาข้อมูลไม่พบค่ะ.. ","..ไม่พบข้อมูลค่ะ.. ","..ลิซ่าไม่รู้ค่ะ.. ","ไม่มีใครสอนลิซ่าเรื่องนี้ค่ะ","..ลิซ่าจำไม่ได้ค่ะ..","เอ่อ...ไม่มีข้อมูลค่ะ ลองถามใหม่ดีไหมค่ะ");
