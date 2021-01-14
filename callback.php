@@ -168,10 +168,10 @@ foreach ($events as $event) {
         elseif($text[0]=='+'){
           $sentence=substr($text,1); // ตัด $ ตัวแรกออก
           $words=explode(",",$sentence);
-          $rank = isset($words[0])?$words[0]:"";
-          $name = isset($words[1])?$words[1]:"";
-          $lastname = isset($words[2])?$words[2]:"";
-          $telephone = isset($words[3])?$words[3]:"";
+          $telephone = isset($words[0])?$words[0]:"";
+          $rank = isset($words[1])?$words[1]:"";
+          $name = isset($words[2])?$words[2]:"";
+          $lastname = isset($words[3])?$words[3]:"";
           $nickname = isset($words[4])?$words[4]:"";
           $position = isset($words[5])?$words[5]:"";
           $organization = isset($words[6])?$words[6]:"";
@@ -179,8 +179,8 @@ foreach ($events as $event) {
           $detail = isset($words[8])?$words[8]:"";
 
           $collectionName = "friend";
-          $obj = '{"rank":"'.$rank.'","name":"'.$name.'","lastname":"'.$lastname.'",
-              "telephone":"'.$telephone.'","nickname":"'.$nickname.'","position":"'.$position.'",
+          $obj = '{"telephone":"'.$telephone.'","rank":"'.$rank.'","name":"'.$name.'","lastname":"'.$lastname.'",
+              "nickname":"'.$nickname.'","position":"'.$position.'",
               "organization":"'.$organization.'","province":"'.$province.'","detail":"'.$detail.'"}';
 
           $km = new RestDB();
@@ -240,6 +240,10 @@ foreach ($events as $event) {
 */
               $textMessage = new TextMessageBuilder($textReplyMessage);
               $multiMessage->add($textMessage);
+
+              $flexMessage=setFlexTemplate("ข้อความจาก Flex Message");
+              $textMessage = new FlexMessageBuilder($flexMessage);
+              $multiMessage->add($textMessage);
               $replyData = $multiMessage;
             }
         }//end if else
@@ -259,7 +263,44 @@ function welcome($H){
    }elseif($H > 17){              return "สวัสดีตอนเย็นค่ะ";
    }
 }
-
+function setFlexTemplate($message){
+$flexMessage='{
+  "type": "template",
+  "altText": "this is a carousel template",
+  "template": {
+    "type": "carousel",
+    "imageSize": "cover",
+    "imageAspectRatio": "rectangle",
+    "columns": [
+      {
+        "thumbnailImageUrl": "https://res.cloudinary.com/dly6ftryr/image/upload/v1593741262/girls/TangTang/20200703-015422-1.jpg",
+        "title": "พ.อ.สุรศักดิ์ พบวันดี",
+        "text": "ผบ.พัน.ขกท.",
+        "actions": [
+          {
+            "type": "message",
+            "label": "Action 1 '.$message.' ",
+            "text": "Action 1"
+          }
+        ]
+      },
+      {
+        "thumbnailImageUrl": "https://res.cloudinary.com/dly6ftryr/image/upload/v1593741262/girls/TangTang/20200703-015422-1.jpg",
+        "title": "ข้อมูลหน่วยงาน",
+        "text": "Text",
+        "actions": [
+          {
+            "type": "postback",
+            "label": "Action 1",
+            "text": "Action 1",
+            "data": "Data 1"
+          }
+        ]
+      }
+    ]
+  }
+}' ;
+}
 function getRandomGallery($json){
   $data = json_decode($json);
   $isData=sizeof($data);
