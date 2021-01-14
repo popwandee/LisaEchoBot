@@ -300,6 +300,7 @@ $flexMessage='{
     ]
   }
 }' ;
+return $flexMessage;
 }
 function getRandomGallery($json){
   $data = json_decode($json);
