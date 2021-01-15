@@ -175,14 +175,13 @@ foreach ($events as $event) {
                                    'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                                ),
                            );
-$arr = array_push(
-    new CarouselColumnTemplateBuilder(
-        'Title Carousel',
-        'Description Carousel',
-        'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
-        $actionBuilder
-    )
-);
+                           $newCarousel = new CarouselColumnTemplateBuilder(
+                               'Title Carousel',
+                               'Description Carousel',
+                               'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                               $actionBuilder
+                           );
+                           array_push($arr,$newCarousel);
 
                 }//end foreach
 
