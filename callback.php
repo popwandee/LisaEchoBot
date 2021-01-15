@@ -137,6 +137,7 @@ foreach ($events as $event) {
                 foreach($res as $rec){
                     $_id = isset($rec['_id'])?$rec['_id']:"";
                     $rank = isset($rec['rank'])?$rec['rank']:"";
+                    /*
                     $name = isset($rec['name'])?$rec['name']:"";
                     $lastname = isset($rec['lastname'])?$rec['lastname']:"";
                     $nickname = isset($rec['nickname'])?$rec['nickname']:"";
@@ -151,8 +152,8 @@ foreach ($events as $event) {
                     }else{
                         $img_url = "https://res.cloudinary.com/crma51/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1610638753/samples/people/boy-snow-hoodie.jpg";
                     }
-
-                    }
+*/
+                }
                     $textReplyMessage = new BubbleContainerBuilder(
                         "ltr",  // กำหนด NULL หรือ "ltr" หรือ "rtl"
                         new BoxComponentBuilder(
