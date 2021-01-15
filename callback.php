@@ -134,7 +134,6 @@ foreach ($events as $event) {
             $count = 0;
 
             if($res){
-                $arr = isset($arr) ? $arr : array();
                 foreach($res as $rec){
                     $_id = isset($rec['_id'])?$rec['_id']:"";
                     $rank = isset($rec['rank'])?$rec['rank']:"";
@@ -152,39 +151,19 @@ foreach ($events as $event) {
                     }else{
                         $img_url = "https://res.cloudinary.com/crma51/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1610638753/samples/people/boy-snow-hoodie.jpg";
                     }
-                    //$textReplyMessage = $textReplyMessage.$count.' '.$rank.$name.' '.$lastname.' '.$nickname.' '.$position.' '.$telephone.' '.$organization.' '.$province.' '.$detail."\n\n";
-                    // กำหนด action 4 ปุ่ม 4 ประเภท
-                    $actionBuilder = array(
-                        new MessageTemplateActionBuilder(
-                            'เพื่อนๆในจังหวัด '.$province,//'Message Template',// ข้อความแสดงในปุ่ม
-                            '$'.$province // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-                        ),
-                        new UriTemplateActionBuilder(
-                            'แจ้งแก้ไขข้อมูล'.$img_url, // ข้อความแสดงในปุ่ม
-                            "https://lisaechobot.herokuapp.com/request.php?id=$_id"
-                        ),
-                        new PostbackTemplateActionBuilder(
-                            'แสดงเบอร์โทร', // ข้อความแสดงในปุ่ม
-                            http_build_query(array(
-                                'action'=>'buy',
-                                'item'=>100
-                            )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
-                            "$telephone"  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-                        ),
-                    );
-                    array_push($arr,
-                                new CarouselColumnTemplateBuilder(
-                                    $rank.$name." ".$lastname,
-                                    $position."\n ".$telephone,
-                                    $img_url,
-                                    $actionBuilder
-                                ),
-                            );
-                    $count++;
+
                     }
-                    
-                    $replyData = new TemplateMessageBuilder('Carousel',
-                        new CarouselTemplateBuilder($arr));
+                $textReplyMessage = new BubbleContainerBuilder(
+    "ltr",NULL,NULL,
+    new BoxComponentBuilder(
+        "vertical",
+        array(
+            new TextComponentBuilder("$find_word"),
+            new TextComponentBuilder("$img_url")
+        )
+    )
+);
+$replyData = new FlexMessageBuilder("This is a Flex Message",$textReplyMessage);
 
 	        }else{
                 $textReplyMessage="..หนูหาข้อมูล $find_word ไม่พบค่ะ.. ";
