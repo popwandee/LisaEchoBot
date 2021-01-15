@@ -151,19 +151,18 @@ foreach ($events as $event) {
                     }else{
                         $img_url = "https://res.cloudinary.com/crma51/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1610638753/samples/people/boy-snow-hoodie.jpg";
                     }
-                    $textReplyMessage = $textReplyMessage.$_id.$rank.$name.$lastname.$telephone.$img_url."\n";
-                    $textMessage = new TextMessageBuilder($textReplyMessage);
-                    $multiMessage->add($textMessage);
-                    $replyData = $multiMessage;
+                    $profile = $rank.$name.' '.$lastname;
+                    $contactinfo = $position."\n".$organization."\n".$province."\n";
+
 
                     // กำหนด action 4 ปุ่ม 4 ประเภท
                            $actionBuilder = array(
                                new MessageTemplateActionBuilder(
-                                   "แสดงผล $name",// ข้อความแสดงในปุ่ม
-                                   'This is Text' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                   "โทร $telephone",// ข้อความแสดงในปุ่ม
+                                   "$telephone" // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                                ),
                                new UriTemplateActionBuilder(
-                                   'Uri Template', // ข้อความแสดงในปุ่ม
+                                   'แจ้งแก้ไขข้อมูล', // ข้อความแสดงในปุ่ม
                                    $img_url
                                ),
                                new PostbackTemplateActionBuilder(
@@ -176,8 +175,8 @@ foreach ($events as $event) {
                                ),
                            );
                            $newCarousel = new CarouselColumnTemplateBuilder(
-                               'Title Carousel',
-                               'Description Carousel',
+                               "$profile",
+                               "$contactinfo",
                                $img_url,
                                $actionBuilder
                            );
