@@ -131,34 +131,10 @@ foreach ($events as $event) {
             $friend = new RestDB();
             $res = $friend->selectDocument($collectionName,$obj,$sort);
 
-            $count = 1;
+            $count = 0;
 
             if($res){
-                $actionBuilder = array(
-                    new MessageTemplateActionBuilder(
-                        'ข้อมูลเพื่อนๆ',//'Message Template',// ข้อความแสดงในปุ่ม
-                        '$' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-                    ),
-                    new UriTemplateActionBuilder(
-                        'แจ้งแก้ไขข้อมูล', // ข้อความแสดงในปุ่ม
-                        "https://lisaechobot.herokuapp.com/request.php"
-                    ),
-                    new PostbackTemplateActionBuilder(
-                        'แสดงเบอร์โทร', // ข้อความแสดงในปุ่ม
-                        http_build_query(array(
-                            'action'=>'buy',
-                            'item'=>100
-                        )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
-                        ""  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-                    ),
-                );
-                $arr = array( new CarouselColumnTemplateBuilder(
-                                "ผลการค้นหาข้อมูล",
-                                "ขอบคุณที่เรียกใช้",
-                                "https://res.cloudinary.com/crma51/image/upload/v1610664665/crma51/0898142513.jpg",
-                                $actionBuilder
-                            )
-                        );
+                $arr = isset($arr) ? $arr : array();
                 foreach($res as $rec){
                     $_id = isset($rec['_id'])?$rec['_id']:"";
                     $rank = isset($rec['rank'])?$rec['rank']:"";
@@ -206,6 +182,7 @@ foreach ($events as $event) {
                             );
                     $count++;
                     }
+                    
                     $replyData = new TemplateMessageBuilder('Carousel',
                         new CarouselTemplateBuilder($arr));
 
