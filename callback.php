@@ -134,8 +134,32 @@ foreach ($events as $event) {
             $count = 1;
 
             if($res){
+                $actionBuilder = array(
+                    new MessageTemplateActionBuilder(
+                        'ข้อมูลเพื่อนๆ',//'Message Template',// ข้อความแสดงในปุ่ม
+                        '$' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                    ),
+                    new UriTemplateActionBuilder(
+                        'แจ้งแก้ไขข้อมูล', // ข้อความแสดงในปุ่ม
+                        "https://lisaechobot.herokuapp.com/request.php"
+                    ),
+                    new PostbackTemplateActionBuilder(
+                        'แสดงเบอร์โทร', // ข้อความแสดงในปุ่ม
+                        http_build_query(array(
+                            'action'=>'buy',
+                            'item'=>100
+                        )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
+                        ""  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                    ),
+                );
+                $arr = array( new CarouselColumnTemplateBuilder(
+                                "ผลการค้นหาข้อมูล",
+                                "ขอบคุณที่เรียกใช้",
+                                "https://res.cloudinary.com/crma51/image/upload/v1610664665/crma51/0898142513.jpg",
+                                $actionBuilder
+                            )
+                        );
                 foreach($res as $rec){
-                    //$arr = isset($arr) ? $arr : array();
                     $_id = isset($rec['_id'])?$rec['_id']:"";
                     $rank = isset($rec['rank'])?$rec['rank']:"";
                     $name = isset($rec['name'])?$rec['name']:"";
@@ -172,24 +196,14 @@ foreach ($events as $event) {
                             "$telephone"  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                         ),
                     );
-                    if(isset($arr)){
-                        array_push($arr,
-                                    new CarouselColumnTemplateBuilder(
-                                        $rank.$name." ".$lastname,
-                                        $position."\n ".$telephone,
-                                        $img_url,
-                                        $actionBuilder
-                                    ),
-                                );
-                    }else{
-                        $arr = array( new CarouselColumnTemplateBuilder(
-                                        $rank.$name." ".$lastname,
-                                        $position."\n ".$telephone,
-                                        $img_url,
-                                        $actionBuilder
-                                    )
-                                );
-                    }
+                    array_push($arr,
+                                new CarouselColumnTemplateBuilder(
+                                    $rank.$name." ".$lastname,
+                                    $position."\n ".$telephone,
+                                    $img_url,
+                                    $actionBuilder
+                                ),
+                            );
                     $count++;
                     }
                     $replyData = new TemplateMessageBuilder('Carousel',
