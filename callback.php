@@ -132,12 +132,10 @@ foreach ($events as $event) {
             $res = $friend->selectDocument($collectionName,$obj,$sort);
 
             $count = 0;
-
             if(is_array($res)){
                 foreach($res as $rec){
                     $_id = isset($rec['_id'])?$rec['_id']:"";
                     $rank = isset($rec['rank'])?$rec['rank']:"";
-                    /*
                     $name = isset($rec['name'])?$rec['name']:"";
                     $lastname = isset($rec['lastname'])?$rec['lastname']:"";
                     $nickname = isset($rec['nickname'])?$rec['nickname']:"";
@@ -152,38 +150,11 @@ foreach ($events as $event) {
                     }else{
                         $img_url = "https://res.cloudinary.com/crma51/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1610638753/samples/people/boy-snow-hoodie.jpg";
                     }
-*/
+$textReplyMessage = $textReplyMessage.$_id.$rank.$name.$lastname.$telephone.$img_url"\n";
                 }
-                    $textReplyMessage = new BubbleContainerBuilder(
-                        "ltr",  // กำหนด NULL หรือ "ltr" หรือ "rtl"
-                        new BoxComponentBuilder(
-                            "vertical",
-                            array(
-                                new TextComponentBuilder("This is Header")
-                            )
-                        ),
-                        new ImageComponentBuilder(
-                            "https://www.ninenik.com/images/ninenik_page_logo.png",NULL,NULL,NULL,NULL,"full","20:13","cover"),
-                        new BoxComponentBuilder(
-                            "vertical",
-                            array(
-                                new TextComponentBuilder("This is Body")
-                            )
-                        ),
-                        new BoxComponentBuilder(
-                            "vertical",
-                            array(
-                                new TextComponentBuilder("This is Footer")
-                            )
-                        ),
-                        new BubbleStylesBuilder( // style ทั้งหมดของ bubble
-                            new BlockStyleBuilder("#FFC90E"),  // style สำหรับ header block
-                            new BlockStyleBuilder("#EFE4B0"), // style สำหรับ hero block
-                            new BlockStyleBuilder("#B5E61D"), // style สำหรับ body block
-                            new BlockStyleBuilder("#FFF200") // style สำหรับ footer block
-                        )
-                    );
-                    $replyData = new FlexMessageBuilder("Flex",$textReplyMessage);
+                $textMessage = new TextMessageBuilder($textReplyMessage);
+                $multiMessage->add($textMessage);
+                $replyData = $multiMessage;
 	        }else{
                 $textReplyMessage="..หนูหาข้อมูล $find_word ไม่พบค่ะ.. ";
           		$textMessage = new TextMessageBuilder($textReplyMessage);
