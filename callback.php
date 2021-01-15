@@ -156,38 +156,50 @@ foreach ($events as $event) {
                     $replyData = $multiMessage;
                 }
 
-                     $picFullSize = 'https://res.cloudinary.com/crma51/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1610638753/samples/people/boy-snow-hoodie.jpg';
-                       $picThumbnail = 'https://res.cloudinary.com/crma51/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1610638753/samples/people/boy-snow-hoodie.jpg';
-                       $imageMessage = new ImageMessageBuilder($picFullSize,$picThumbnail);
-                       $multiMessage->add($imageMessage);
-                       $replyData = $multiMessage;
-                       $placeName = "$name";
-                        $placeAddress = "แขวง พลับพลา เขต วังทองหลาง กรุงเทพมหานคร ประเทศไทย";
-                        $latitude = 13.780401863217657;
-                        $longitude = 100.61141967773438;
-                        $locationMessage = new LocationMessageBuilder($placeName, $placeAddress, $latitude ,$longitude);
-                        $multiMessage->add($locationMessage);
-                        $replyData = $multiMessage;
-                        $stickerID = 22;
-                        $packageID = 2;
-                        $stickerMessage = new StickerMessageBuilder($packageID,$stickerID);
-                        $multiMessage->add($stickerMessage);
-                        $replyData = $multiMessage;
-                        $replyData = new TemplateMessageBuilder('Confirm Template',
-                            new ConfirmTemplateBuilder(
-                                    'Confirm template builder',
-                                    array(
-                                        new MessageTemplateActionBuilder(
-                                            'Yes',
-                                            'Text Yes'
-                                        ),
-                                        new MessageTemplateActionBuilder(
-                                            'No',
-                                            'Text NO'
-                                        )
-                                    )
-                            )
-                        );
+                // กำหนด action 4 ปุ่ม 4 ประเภท
+                       $actionBuilder = array(
+                           new MessageTemplateActionBuilder(
+                               'Message Template',// ข้อความแสดงในปุ่ม
+                               'This is Text' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                           ),
+                           new UriTemplateActionBuilder(
+                               'Uri Template', // ข้อความแสดงในปุ่ม
+                               'https://www.ninenik.com'
+                           ),
+                           new PostbackTemplateActionBuilder(
+                               'Postback', // ข้อความแสดงในปุ่ม
+                               http_build_query(array(
+                                   'action'=>'buy',
+                                   'item'=>100
+                               )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
+                               'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                           ),
+                       );
+                       $replyData = new TemplateMessageBuilder('Carousel',
+                           new CarouselTemplateBuilder(
+                               array(
+                                   new CarouselColumnTemplateBuilder(
+                                       'Title Carousel',
+                                       'Description Carousel',
+                                       'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                                       $actionBuilder
+                                   ),
+                                   new CarouselColumnTemplateBuilder(
+                                       'Title Carousel',
+                                       'Description Carousel',
+                                       'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                                       $actionBuilder
+                                   ),
+                                   new CarouselColumnTemplateBuilder(
+                                       'Title Carousel',
+                                       'Description Carousel',
+                                       'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                                       $actionBuilder
+                                   ),
+                               )
+                           )
+                       );
+                       
                 //$textMessage = new TextMessageBuilder($textReplyMessage);
                 //$multiMessage->add($textMessage);
                 //$replyData = $multiMessage;
