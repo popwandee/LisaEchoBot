@@ -173,10 +173,6 @@ foreach ($events as $event) {
                                    'สอนลิซ่า', // ข้อความแสดงในปุ่ม
                                    'https://lisaechobot.herokuapp.com/postnewdata.php?action=shownewpostform'
                                ),
-                               new MessageTemplateActionBuilder(
-                                   "คู่มือการใช้งานลิซ่า",// ข้อความแสดงในปุ่ม
-                                   "?" // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-                               ),
                            );
                            $newCarousel = new CarouselColumnTemplateBuilder(
                                "$profile",
