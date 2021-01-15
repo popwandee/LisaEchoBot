@@ -163,11 +163,7 @@ foreach ($events as $event) {
                                ),
                                new UriTemplateActionBuilder(
                                    'แจ้งแก้ไขข้อมูล', // ข้อความแสดงในปุ่ม
-                                   'https://lisaechobot.herokuapp.com/postnewdata.php?action=shownewpostform'
-                               ),
-                               new UriTemplateActionBuilder(
-                                   'เพิ่มรูปภาพ', // ข้อความแสดงในปุ่ม
-                                   'https://lisaechobot.herokuapp.com/postnewdata.php?action=shownewpostform'
+                                   $img_url
                                ),
                                new UriTemplateActionBuilder(
                                    'เพิ่มรูปภาพ', // ข้อความแสดงในปุ่ม
