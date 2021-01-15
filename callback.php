@@ -135,7 +135,7 @@ foreach ($events as $event) {
 
             if($res){
                 foreach($res as $rec){
-                    $arr = isset($arr) ? $arr : array();
+                    //$arr = isset($arr) ? $arr : array();
                     $_id = isset($rec['_id'])?$rec['_id']:"";
                     $rank = isset($rec['rank'])?$rec['rank']:"";
                     $name = isset($rec['name'])?$rec['name']:"";
@@ -172,14 +172,24 @@ foreach ($events as $event) {
                             "$telephone"  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                         ),
                     );
-                    array_push($arr,
-                                new CarouselColumnTemplateBuilder(
-                                    $rank.$name." ".$lastname,
-                                    $position."\n ".$telephone,
-                                    $img_url,
-                                    $actionBuilder
-                                ),
-                            );
+                    if(isset($arr)){
+                        array_push($arr,
+                                    new CarouselColumnTemplateBuilder(
+                                        $rank.$name." ".$lastname,
+                                        $position."\n ".$telephone,
+                                        $img_url,
+                                        $actionBuilder
+                                    ),
+                                );
+                    }else{
+                        $arr = array( new CarouselColumnTemplateBuilder(
+                                        $rank.$name." ".$lastname,
+                                        $position."\n ".$telephone,
+                                        $img_url,
+                                        $actionBuilder
+                                    )
+                                );
+                    }
                     $count++;
                     }
                     $replyData = new TemplateMessageBuilder('Carousel',
