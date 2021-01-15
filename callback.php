@@ -164,7 +164,7 @@ foreach ($events as $event) {
                                ),
                                new UriTemplateActionBuilder(
                                    'Uri Template', // ข้อความแสดงในปุ่ม
-                                   'https://www.ninenik.com'
+                                   $img_url
                                ),
                                new PostbackTemplateActionBuilder(
                                    'Postback', // ข้อความแสดงในปุ่ม
@@ -178,7 +178,7 @@ foreach ($events as $event) {
                            $newCarousel = new CarouselColumnTemplateBuilder(
                                'Title Carousel',
                                'Description Carousel',
-                               'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                               $img_url,
                                $actionBuilder
                            );
                            array_push($arr,$newCarousel);
