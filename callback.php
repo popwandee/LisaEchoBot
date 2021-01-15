@@ -133,6 +133,7 @@ foreach ($events as $event) {
 
             $count = 0;
             if(is_array($res)){
+                $arr = array();
                 foreach($res as $rec){
                     $_id = isset($rec['_id'])?$rec['_id']:"";
                     $rank = isset($rec['rank'])?$rec['rank']:"";
@@ -174,7 +175,7 @@ foreach ($events as $event) {
                                    'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                                ),
                            );
-$arr = array(
+$arr = array_push(
     new CarouselColumnTemplateBuilder(
         'Title Carousel',
         'Description Carousel',
