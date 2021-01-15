@@ -133,7 +133,7 @@ foreach ($events as $event) {
 
             $count = 0;
 
-            if($res){
+            if(is_array($res)){
                 foreach($res as $rec){
                     $_id = isset($rec['_id'])?$rec['_id']:"";
                     $rank = isset($rec['rank'])?$rec['rank']:"";
@@ -153,18 +153,36 @@ foreach ($events as $event) {
                     }
 
                     }
-                $textReplyMessage = new BubbleContainerBuilder(
-    "ltr",NULL,NULL,
-    new BoxComponentBuilder(
-        "vertical",
-        array(
-            new TextComponentBuilder("$find_word"),
-            new TextComponentBuilder("$img_url")
-        )
-    )
-);
-$replyData = new FlexMessageBuilder("This is a Flex Message",$textReplyMessage);
-
+                    $textReplyMessage = new BubbleContainerBuilder(
+                        "ltr",  // กำหนด NULL หรือ "ltr" หรือ "rtl"
+                        new BoxComponentBuilder(
+                            "vertical",
+                            array(
+                                new TextComponentBuilder("This is Header")
+                            )
+                        ),
+                        new ImageComponentBuilder(
+                            "https://www.ninenik.com/images/ninenik_page_logo.png",NULL,NULL,NULL,NULL,"full","20:13","cover"),
+                        new BoxComponentBuilder(
+                            "vertical",
+                            array(
+                                new TextComponentBuilder("This is Body")
+                            )
+                        ),
+                        new BoxComponentBuilder(
+                            "vertical",
+                            array(
+                                new TextComponentBuilder("This is Footer")
+                            )
+                        ),
+                        new BubbleStylesBuilder( // style ทั้งหมดของ bubble
+                            new BlockStyleBuilder("#FFC90E"),  // style สำหรับ header block
+                            new BlockStyleBuilder("#EFE4B0"), // style สำหรับ hero block
+                            new BlockStyleBuilder("#B5E61D"), // style สำหรับ body block
+                            new BlockStyleBuilder("#FFF200") // style สำหรับ footer block
+                        )
+                    );
+                    $replyData = new FlexMessageBuilder("Flex",$textReplyMessage);
 	        }else{
                 $textReplyMessage="..หนูหาข้อมูล $find_word ไม่พบค่ะ.. ";
           		$textMessage = new TextMessageBuilder($textReplyMessage);
