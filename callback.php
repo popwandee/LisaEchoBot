@@ -161,13 +161,33 @@ foreach ($events as $event) {
                        $imageMessage = new ImageMessageBuilder($picFullSize,$picThumbnail);
                        $multiMessage->add($imageMessage);
                        $replyData = $multiMessage;
-                       $placeName = "ที่ตั้งร้าน";
+                       $placeName = "$name";
                         $placeAddress = "แขวง พลับพลา เขต วังทองหลาง กรุงเทพมหานคร ประเทศไทย";
                         $latitude = 13.780401863217657;
                         $longitude = 100.61141967773438;
                         $locationMessage = new LocationMessageBuilder($placeName, $placeAddress, $latitude ,$longitude);
                         $multiMessage->add($locationMessage);
                         $replyData = $multiMessage;
+                        $stickerID = 22;
+                        $packageID = 2;
+                        $stickerMessage = new StickerMessageBuilder($packageID,$stickerID);
+                        $multiMessage->add($stickerMessage);
+                        $replyData = $multiMessage;
+                        $replyData = new TemplateMessageBuilder('Confirm Template',
+                            new ConfirmTemplateBuilder(
+                                    'Confirm template builder',
+                                    array(
+                                        new MessageTemplateActionBuilder(
+                                            'Yes',
+                                            'Text Yes'
+                                        ),
+                                        new MessageTemplateActionBuilder(
+                                            'No',
+                                            'Text NO'
+                                        )
+                                    )
+                            )
+                        );
                 //$textMessage = new TextMessageBuilder($textReplyMessage);
                 //$multiMessage->add($textMessage);
                 //$replyData = $multiMessage;
