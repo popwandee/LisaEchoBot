@@ -181,7 +181,7 @@ $arr = array_push(
         'Description Carousel',
         'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
         $actionBuilder
-    ),
+    )
 );
 
                 }//end foreach
