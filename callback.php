@@ -161,7 +161,13 @@ foreach ($events as $event) {
                        $imageMessage = new ImageMessageBuilder($picFullSize,$picThumbnail);
                        $multiMessage->add($imageMessage);
                        $replyData = $multiMessage;
-
+                       $placeName = "ที่ตั้งร้าน";
+                        $placeAddress = "แขวง พลับพลา เขต วังทองหลาง กรุงเทพมหานคร ประเทศไทย";
+                        $latitude = 13.780401863217657;
+                        $longitude = 100.61141967773438;
+                        $locationMessage = new LocationMessageBuilder($placeName, $placeAddress, $latitude ,$longitude);
+                        $multiMessage->add($locationMessage);
+                        $replyData = $multiMessage;
                 //$textMessage = new TextMessageBuilder($textReplyMessage);
                 //$multiMessage->add($textMessage);
                 //$replyData = $multiMessage;
