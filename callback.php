@@ -151,51 +151,17 @@ foreach ($events as $event) {
                         $img_url = "https://res.cloudinary.com/crma51/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1610638753/samples/people/boy-snow-hoodie.jpg";
                     }
                     $textReplyMessage = $textReplyMessage.$_id.$rank.$name.$lastname.$telephone.$img_url."\n";
+                    $textMessage = new TextMessageBuilder($textReplyMessage);
+                    $multiMessage->add($textMessage);
+                    $replyData = $multiMessage;
                 }
-                $textReplyMessage = new CarouselContainerBuilder(
-    array(
-        new BubbleContainerBuilder(
-            "ltr",  // กำหนด NULL หรือ "ltr" หรือ "rtl"
-            NULL,NULL,
-            new BoxComponentBuilder(
-                "horizontal",
-                array(
-                    new TextComponentBuilder("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna aliqua.",NULL,NULL,NULL,NULL,NULL,true)
-                )
-            ),
-            new BoxComponentBuilder(
-                "horizontal",
-                array(
-                    new ButtonComponentBuilder(
-                        new UriTemplateActionBuilder("GO","http://niik.in"),
-                        NULL,NULL,NULL,"primary"
-                    )
-                )
-            )
-        ), // end bubble 1
-        new BubbleContainerBuilder(
-            "ltr",  // กำหนด NULL หรือ "ltr" หรือ "rtl"
-            NULL,NULL,
-            new BoxComponentBuilder(
-                "horizontal",
-                array(
-                    new TextComponentBuilder("Hello, World!",NULL,NULL,NULL,NULL,NULL,true)
-                )
-            ),
-            new BoxComponentBuilder(
-                "horizontal",
-                array(
-                    new ButtonComponentBuilder(
-                        new UriTemplateActionBuilder("GO","http://niik.in"),
-                        NULL,NULL,NULL,"primary"
-                    )
-                )
-            )
-        ) // end bubble 2
-    )
-);
-$replyData = new FlexMessageBuilder("Flex",$textReplyMessage);
+
+                     $picFullSize = 'https://res.cloudinary.com/crma51/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1610638753/samples/people/boy-snow-hoodie.jpg';
+                       $picThumbnail = 'https://res.cloudinary.com/crma51/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1610638753/samples/people/boy-snow-hoodie.jpg';
+                       $imageMessage = new ImageMessageBuilder($picFullSize,$picThumbnail);
+                       $multiMessage->add($imageMessage);
+                       $replyData = $multiMessage;
+
                 //$textMessage = new TextMessageBuilder($textReplyMessage);
                 //$multiMessage->add($textMessage);
                 //$replyData = $multiMessage;
