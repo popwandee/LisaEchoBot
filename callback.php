@@ -162,12 +162,20 @@ foreach ($events as $event) {
                                    "$telephone" // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                                ),
                                new UriTemplateActionBuilder(
-                                   'แจ้งแก้ไขข้อมูล', // ข้อความแสดงในปุ่ม
-                                   $img_url
+                                   'แจ้งแก้ไขข้อมูลบุคคล', // ข้อความแสดงในปุ่ม
+                                   "https://lisaechobot.herokuapp.com/postnewdata.php?action=showupdateform&_id=$_id"
                                ),
                                new UriTemplateActionBuilder(
-                                   'เพิ่มรูปภาพ', // ข้อความแสดงในปุ่ม
-                                   'https://lisaechobot.herokuapp.com'
+                                   'เพิ่มข้อมูลใหม่', // ข้อความแสดงในปุ่ม
+                                   'https://lisaechobot.herokuapp.com/postnewdata.php?action=shownewpostform'
+                               ),
+                               new UriTemplateActionBuilder(
+                                   'สอนลิซ่า', // ข้อความแสดงในปุ่ม
+                                   'https://lisaechobot.herokuapp.com/postnewdata.php?action=shownewpostform'
+                               ),
+                               new MessageTemplateActionBuilder(
+                                   "คู่มือการใช้งานลิซ่า",// ข้อความแสดงในปุ่ม
+                                   "?" // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                                ),
                            );
                            $newCarousel = new CarouselColumnTemplateBuilder(
