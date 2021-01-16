@@ -304,6 +304,10 @@ foreach ($events as $event) {
                           $arr
                       )
                   );
+                  $textReplyMessage=$title.$tag.$imageUrl;
+                  $textMessage = new TextMessageBuilder($textReplyMessage);
+                  $multiMessage->add($textMessage);
+                  $replyData = $multiMessage;
               }// end if result from database
 
 
