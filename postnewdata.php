@@ -109,6 +109,7 @@ if($action=='newpost') {
                    $option=array("folder" => "crma51","public_id" => $public_id);
                    $newData['img_url'] ="$public_id.".$imageFileType;
                    $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
+                   echo "<br> Upload result ->";print_r($cloudUpload);
                  }
 
                }
@@ -117,18 +118,44 @@ if($action=='newpost') {
                 else{
                     $newData['img_url'] ="";
                 }
-          insert_post($newData);
+          $result = insert_post($newData);
+          echo $result;
     }// end if post people
-  /*
 
-      */
-      //show_all_post();
   }elseif($action=='showupdateform'){
-      //update_form();
       echo "Show Update Form";
+      if(isset($_GET['_id'])){
+          $_id = $_GET['_id'];
+              update_form($_id);
+      }
+  }elseif($action=='updatepeople'){
+      echo "Update DATA in DB";
+      $objectId = isset($_POST['_id']) ? $_POST['_id'] : "";
+      $collectionName = "friend";
+      $rank = isset($_POST['rank']) ? $_POST['rank'] : "";
+      $name = isset($_POST['name']) ? $_POST['name'] : "";
+      $lastname = isset($_POST['lastname']) ? $_POST['lastname'] : "";
+      $telephone = isset($_POST['telephone']) ? $_POST['telephone'] : "";
+      $position = isset($_POST['position']) ? $_POST['position'] : "";
+      $organization = isset($_POST['organization']) ? $_POST['organization'] : "";
+      $province = isset($_POST['province']) ? $_POST['province'] : "";
+      $obj =  array(  "rank" => $rank,
+      "name" => $name,
+      "lastname" => $lastname,
+      "telephone" => $telephone,
+                      "position" => $position,
+                      "organization" => $organization,
+                      "province" => $province
+                      );
+      echo "\obj is"; print_r($obj);
+      $updateman = new RestDB;
+      $res = $updateman->updateDocument($collectionName, $objectId, $obj);
+      if($res){
+          echo "Update complete";
+      }else{echo "Can not update data.";}
   }elseif($action=='shownewpostform'){
-      new_post_form();
       echo "Show new post form";
+          new_post_form();
   }
 
 
@@ -139,6 +166,59 @@ if($action=='newpost') {
 
 <?php
 function new_post_form(){ ?>
+        <!-- form new people -->
+    <div class="card bg-info px-md-5 border" align="center" style="max-width: 120rem;">
+        <div class="card border-success md-12" style="max-width: 100rem;">
+        <div class="card-header"align="left">ข้อมูลบุคคล</div>
+        <div class="card-body" align="left">
+        <p class="card-text">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                <input type="hidden"name="action" value="newpost">
+                <input type="hidden"name="postform" value="people">
+                <label class="col-sm-6 col-form-label">ข้อมูลบุคคล</label>
+                <div class="form-group row">
+                <label class="col-sm-6 col-form-label">ยศ ชื่อ สกุล</label>
+                    <div class="form-group col-md-2">
+                        <input class="form-control" id="rank" name="rank" type="text" placeholder="ยศ">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input class="form-control" id="name" name="name" type="text" placeholder="ชื่อ">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input class="form-control" id="lastname" name="lastname" type="text" placeholder="นามสกุล">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input class="form-control" id="nickname" name="nickname" type="text" placeholder="ชื่อเล่น">
+                    </div>
+                </div>
+                <div class="form-group row">
+                <label class="col-sm-6 col-form-label" for="position">การทำงาน</label>
+                    <div class="form-group col-md-4">
+                        <input class="form-control" id="position" name="position" type="text" placeholder="ตำแหน่ง">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input class="form-control" id="organization" name="organization" type="text" placeholder="หน่วย กองพล กองทัพ">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input class="form-control" id="province" name="province" type="text" placeholder="จังหวัด">
+                    </div>
+                </div>
+                <div class="form-group row">
+                <label class="col-sm-6 col-form-label" for="position">รูปโปรไฟล์</label>
+                    <div class="form-group col-md-6">
+                        <input class="form-control" name="upload_image" type="file">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="submit" name="submit" class="btn btn-info">Submit</button>
+                    </div>
+                </div>
+            </form>
+    </div>
+    </div>
+    </div>
+    <!-- form upload image -->
     <div class="card bg-info px-md-5 border" align="center" style="max-width: 120rem;">
         <div class="card border-success md-12" style="max-width: 100rem;">
             <div class="card-header"align="left">ภาพประชาสัมพันธ์</div>
@@ -190,58 +270,11 @@ function new_post_form(){ ?>
                             </div>
                         </div>
                     </form>
+                        </p>
                 </div>
               </div>    <!-- end of card div -->
-    </p>
-    <div class="card border-success md-12" style="max-width: 100rem;">
-    <div class="card-header"align="left">ข้อมูลบุคคล</div>
-    <div class="card-body" align="left">
-    <p class="card-text">
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-            <input type="hidden"name="action" value="newpost">
-            <input type="hidden"name="postform" value="people">
-            <label class="col-sm-6 col-form-label">ข้อมูลบุคคล</label>
-            <div class="form-group row">
-            <label class="col-sm-6 col-form-label">ยศ ชื่อ สกุล</label>
-                <div class="form-group col-md-2">
-                    <input class="form-control" id="rank" name="rank" type="text" placeholder="ยศ">
-                </div>
-                <div class="form-group col-md-4">
-                    <input class="form-control" id="name" name="name" type="text" placeholder="ชื่อ">
-                </div>
-                <div class="form-group col-md-4">
-                    <input class="form-control" id="lastname" name="lastname" type="text" placeholder="นามสกุล">
-                </div>
-                <div class="form-group col-md-4">
-                    <input class="form-control" id="nickname" name="nickname" type="text" placeholder="ชื่อเล่น">
-                </div>
-            </div>
-            <div class="form-group row">
-            <label class="col-sm-6 col-form-label" for="position">การทำงาน</label>
-                <div class="form-group col-md-4">
-                    <input class="form-control" id="position" name="position" type="text" placeholder="ตำแหน่ง">
-                </div>
-                <div class="form-group col-md-4">
-                    <input class="form-control" id="organization" name="organization" type="text" placeholder="หน่วย กองพล กองทัพ">
-                </div>
-                <div class="form-group col-md-4">
-                    <input class="form-control" id="province" name="province" type="text" placeholder="จังหวัด">
-                </div>
-            </div>
-            <div class="form-group row">
-            <label class="col-sm-6 col-form-label" for="position">รูปโปรไฟล์</label>
-                <div class="form-group col-md-6">
-                    <input class="form-control" name="upload_image" type="file">
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-10">
-                    <button type="submit" name="submit" class="btn btn-info">Submit</button>
-                </div>
-            </div>
-        </form>
 </div>
-</div>
+
 <?php } // end request_form ?>
 
 
@@ -267,30 +300,77 @@ function new_post_form(){ ?>
      $message= "<div align='center' class='alert alert-danger'>ไม่สามารถเพิ่มข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
                }
     $_SESSION["message"]=$message;
-      return;
+      return $message;
 }//end function insert_request
  ?>
  <?php
  function update_form($_id){ ?>
+     <?php
+     $collectionName = "friend";
+     $obj = '{"_id":"'.$_id.'"}';
+     $sort= '';
+     $coupon = new RestDB();
+     $res = $coupon->selectDocument($collectionName,$obj,$sort);
+     if($res){
+         foreach($res as $rec){
+             print_r($rec);
 
-   <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
-   <table class='table table-hover table-responsive' width="100">
-     <tr><td colspan="2" align="center">ภาพประชาสัมพันธ์</td></tr>
-     <tr><td colspan="2">รูปภาพ<input type='file' name='record_image[]' class='form-control' /></td></tr>
-     <tr><td colspan="2"><input type='file' name='record_image[]' class='form-control' /></td></tr>
-     <tr><td colspan="2"><input type='file' name='record_image[]' class='form-control' /></td></tr>
-     <tr><td colspan="2"><input type='file' name='record_image[]' class='form-control' /></td></tr>
-     <tr><td colspan="2"><input type='file' name='record_image[]' class='form-control' /></td></tr>
-     <tr>
-       <td>ชื่อภาพ</td><td><input type='text' name='title' class='form-control' /></td></tr>
-       <td colspan="2">โพสต์<br>
-           <textarea name="detail" rows="5" cols="10"class='form-control' /></textarea>
- </td></tr>
-       <tr><td colspan="2" align="center"><input type="hidden"name="action" value="newpost">
-               <input type='submit' value='POST' class='btn btn-primary' /></td></tr>
-       </table>
-     </form>
- <?php } // end request_form ?>
+     ?>
+         <div class="card bg-info px-md-5 border" align="center" style="max-width: 120rem;">
+         <div class="card border-success md-12" style="max-width: 100rem;">
+         <div class="card-header"align="left">ข้อมูลบุคคล</div>
+         <div class="card-body" align="left">
+         <p class="card-text">
+             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                 <input type="hidden"name="action" value="updatepeople">
+                 <input type="hidden"name="postform" value="people">
+                 <label class="col-sm-6 col-form-label">ข้อมูลบุคคล</label>
+                 <div class="form-group row">
+                 <label class="col-sm-6 col-form-label">ยศ ชื่อ สกุล</label>
+                     <div class="form-group col-md-2">
+                         <input class="form-control" id="rank" name="rank" type="text" value="<?php echo $rank;?>" placeholder="ยศ">
+                     </div>
+                     <div class="form-group col-md-4">
+                         <input class="form-control" id="name" name="name" type="text" value="<?php echo $name;?>" placeholder="ชื่อ">
+                     </div>
+                     <div class="form-group col-md-4">
+                         <input class="form-control" id="lastname" name="lastname" type="text" value="<?php echo $lastname;?>" placeholder="นามสกุล">
+                     </div>
+                     <div class="form-group col-md-4">
+                         <input class="form-control" id="nickname" name="nickname" type="text" value="<?php echo $nickname;?>" placeholder="ชื่อเล่น">
+                     </div>
+                 </div>
+                 <div class="form-group row">
+                 <label class="col-sm-6 col-form-label" for="position">การทำงาน</label>
+                     <div class="form-group col-md-4">
+                         <input class="form-control" id="position" name="position" type="text" value="<?php echo $position;?>" placeholder="ตำแหน่ง">
+                     </div>
+                     <div class="form-group col-md-4">
+                         <input class="form-control" id="organization" name="organization" type="text" value="<?php echo $organization;?>" placeholder="หน่วย กองพล กองทัพ">
+                     </div>
+                     <div class="form-group col-md-4">
+                         <input class="form-control" id="province" name="province" type="text" value="<?php echo $province;?>" placeholder="จังหวัด">
+                     </div>
+                 </div>
+                 <div class="form-group row">
+                 <label class="col-sm-6 col-form-label" for="position">รูปโปรไฟล์</label>
+                     <div class="form-group col-md-6">
+                         <input class="form-control" name="upload_image" type="file">
+                     </div>
+                 </div>
+                 <div class="form-group row">
+                     <div class="col-sm-10">
+                         <button type="submit" name="submit" class="btn btn-info">Submit</button>
+                     </div>
+                 </div>
+             </form>
+     </div>
+     </div>
+ </div>
+ <?php
+} // end foreach
+} // end if select result
+ } // end update_form ?>
 
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
