@@ -47,35 +47,41 @@ require_once "vendor/autoload.php";
 </head>
 <body>
 
-    <?php
-      // ตรวจสอบ $_id จาก _GET และ _POST
-                if(isset($_GET['img_url'])){         $img_url = $_GET['img_url'];
-                }elseif(isset($_POST['img_url'])){   $img_url = $_POST['img_url'];
-                }else{                               $img_url = "";
-                }
-  //      ตรวจสอบ Action จาก _GET หรือ _POST
-          if(isset($_GET['action'])){         $action = $_GET['action'];
-          }elseif(isset($_POST['action'])){   $action = $_POST['action'];
-          }else{                              $action = "";
-          }
+<?php
 
-          $postform = isset($_POST['postform'])?$_POST['postform']: "";
-          ?>
-          <div class="container theme-showcase" role="main">
-          <div class="jumbotron">
-            <h1>POST</h1>
-            <p>แจ้งแก้ไข/เพิ่มข้อมูล</p>
+  // ตรวจสอบ Action จาก _GET หรือ _POST
+if(isset($_GET['action'])){         $action = $_GET['action'];
+    }elseif(isset($_POST['action'])){   $action = $_POST['action'];
+    }else{                              $action = "";
+     }
+
+$postform = isset($_POST['postform']) ? $_POST['postform'] : "";
+
+?>
+<div class="container theme-showcase" role="main">
+    <div class="jumbotron">
+            <h1>CRMA51</h1><p>แจ้งแก้ไข/เพิ่มข้อมูล</p>
 <?php // core logic
-echo $message;
+
+echo $message;$_SESSION['message']="";
+
 if($action=='newpost') {
-    echo "insert new post to db";
+
+    echo "insert new post to db<br>";
+
     if($postform=="image"){
-        echo "post from image form";
+
+        echo "get post from image form<br>";
+
         if (!empty($_FILES['upload_image'])) { //record_image
+
           $index=0;
+
           foreach ($_FILES["upload_image"]['tmp_name'] as $files){
+
             $target_file = basename($_FILES["upload_image"]["name"][$index]);
             $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
             if(!empty($imageFileType)){
               $public_id =$today."-".$index;
                 $option=array("folder" => "post","public_id" => $public_id);
@@ -90,7 +96,10 @@ if($action=='newpost') {
 
         }// end if !empty _FILES
     }elseif($postform=="people"){
-        echo "post from people";
+
+        echo "post from people<br>";
+
+        $newData = array();
         $newData['rank']= isset($_POST['rank']) ? htmlspecialchars($_POST['rank']) : '';
         $newData['name']= isset($_POST['name']) ? htmlspecialchars($_POST['name']) : '';
         $newData['lastname']= isset($_POST['lastname']) ? htmlspecialchars($_POST['lastname']) : '';
@@ -118,20 +127,24 @@ if($action=='newpost') {
                 else{
                     $newData['img_url'] ="";
                 }
+                print_r($newData);
           $result = insert_post($newData);
           echo $result;
     }// end if post people
 
   }elseif($action=='showupdateform'){
-      echo "Show Update Form";
+
+      echo "Show Update Form<br>";
+
       $updateid = isset($_GET['updateid'])?$_GET['updateid']:"NO id";
-      echo $updateid;
-      if(isset($_GET['updateid'])){
-          $updateid = $_GET['updateid'];
-              update_form($updateid);
-      }
+      echo "ID is ".$updateid."<br>";
+
+       update_form($updateid);
+
   }elseif($action=='updatepeople'){
-      echo "Update DATA in DB";
+
+      echo "Update DATA in DB<br>";
+
       $objectId = isset($_POST['_id']) ? $_POST['_id'] : "";
       $collectionName = "friend";
       $rank = isset($_POST['rank']) ? $_POST['rank'] : "";
@@ -149,17 +162,23 @@ if($action=='newpost') {
                       "organization" => $organization,
                       "province" => $province
                       );
-      echo "\obj is"; print_r($obj);
+      echo "\n obj is "; print_r($obj);
       $updateman = new RestDB;
       $res = $updateman->updateDocument($collectionName, $objectId, $obj);
+
       if($res){
-          echo "Update complete";
-      }else{echo "Can not update data.";}
+          echo "Update complete<br>";
+
+      }else{
+          echo "Can not update data.<br>";
+      }
+
   }elseif($action=='shownewpostform'){
-      echo "Show new post form";
+
+      echo "Show new post form<br>";
+
           new_post_form();
   }
-
 
 ?>
 
@@ -169,7 +188,7 @@ if($action=='newpost') {
 <?php
 function new_post_form(){ ?>
         <!-- form new people -->
-    <div class="card bg-info px-md-5 border" align="center" style="max-width: 120rem;">
+    <div class="card bg-success px-md-5 border" align="center" style="max-width: 120rem;">
         <div class="card border-success md-12" style="max-width: 100rem;">
         <div class="card-header"align="left">ข้อมูลบุคคล</div>
         <div class="card-body" align="left">
@@ -194,7 +213,10 @@ function new_post_form(){ ?>
                     </div>
                 </div>
                 <div class="form-group row">
-                <label class="col-sm-6 col-form-label" for="position">การทำงาน</label>
+                <label class="col-sm-6 col-form-label" for="position">การติดต่อ</label>
+                    <div class="form-group col-md-2">
+                        <input class="form-control" id="telephone" name="telephone" type="text" placeholder="0999999999">
+                    </div>
                     <div class="form-group col-md-4">
                         <input class="form-control" id="position" name="position" type="text" placeholder="ตำแหน่ง">
                     </div>
@@ -206,7 +228,7 @@ function new_post_form(){ ?>
                     </div>
                 </div>
                 <div class="form-group row">
-                <label class="col-sm-6 col-form-label" for="position">รูปโปรไฟล์</label>
+                <label class="col-sm-6 col-form-label" for="upload_image">รูปโปรไฟล์</label>
                     <div class="form-group col-md-6">
                         <input class="form-control" name="upload_image" type="file">
                     </div>
@@ -220,6 +242,8 @@ function new_post_form(){ ?>
     </div>
     </div>
     </div>
+    <br>
+    <hr>
     <!-- form upload image -->
     <div class="card bg-info px-md-5 border" align="center" style="max-width: 120rem;">
         <div class="card border-success md-12" style="max-width: 100rem;">
@@ -231,7 +255,7 @@ function new_post_form(){ ?>
                         <input type="hidden"name="postform" value="image">
                         <label class="col-sm-6 col-form-label">รูปภาพ</label>
                         <div class="form-group row">
-                        <label class="col-sm-6 col-form-label">Title</label>
+                        <label class="col-sm-6 col-form-label">ชื่อรูปภาพ</label>
                             <div class="form-group col-md-4">
                                 <input class="form-control" id="title" name="title" type="text">
                             </div>
@@ -281,6 +305,8 @@ function new_post_form(){ ?>
 
 
 <?php function insert_post($newData){
+    echo "Inside insert post function <br>";
+    print_r($newData);
     $rank = $newData['rank'];
     $name = $newData['name'];
     $lastname= $newData['lastname'];
@@ -293,7 +319,7 @@ function new_post_form(){ ?>
     $collectionName = "friend";
     $obj =   '{"rank":"'.$rank.'","name":"'.$name.'","lastname":"'.$lastname.'", "telephone":"'.$telephone.'","position":"'.$position.'",
         "organization":"'.$organization.'", "province":"'.$province.'", "img_url":"'.$img_url.'"}';
-
+print_r($obj);
     $coupon = new RestDB();
     $returnValue = $coupon->insertDocument($collectionName,$obj);
       if($returnValue){
@@ -302,21 +328,21 @@ function new_post_form(){ ?>
      $message= "<div align='center' class='alert alert-danger'>ไม่สามารถเพิ่มข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
                }
     $_SESSION["message"]=$message;
+    echo $message;
       return $message;
 }//end function insert_request
  ?>
- <?php
- function update_form($_id){ ?>
-     <?php
+<?php function update_form($id){ ?>
+<?php
+echo "Inside update Form<br>";
      $collectionName = "friend";
-     $obj = '{"_id":"'.$_id.'"}';
+     $obj = '{"_id":"'.$id.'"}';
      $sort= '';
      $coupon = new RestDB();
      $res = $coupon->selectDocument($collectionName,$obj,$sort);
      if($res){
          foreach($res as $rec){
              print_r($rec);
-
      ?>
          <div class="card bg-info px-md-5 border" align="center" style="max-width: 120rem;">
          <div class="card border-success md-12" style="max-width: 100rem;">
@@ -372,6 +398,9 @@ function new_post_form(){ ?>
  <?php
 } // end foreach
 } // end if select result
+else{
+    echo "No Data from DB to edit<br>";
+}
  } // end update_form ?>
 
 
