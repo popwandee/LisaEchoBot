@@ -12,6 +12,7 @@ require 'vendor/cloudinary/cloudinary_php/src/Api.php';
 // Include config file
 require_once "config.php";// mlab
 require_once "vendor/autoload.php";
+require_once "vendor/restdbclass.php";
 
 ?>
 
@@ -190,7 +191,6 @@ function new_post_form(){ ?>
         <!-- form new people -->
     <div class="card bg-success px-md-5 border" align="center" style="max-width: 120rem;">
         <div class="card border-success md-12" style="max-width: 100rem;">
-        <div class="card-header"align="left">ข้อมูลบุคคล</div>
         <div class="card-body" align="left">
         <p class="card-text">
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
@@ -215,7 +215,7 @@ function new_post_form(){ ?>
                 <div class="form-group row">
                 <label class="col-sm-6 col-form-label" for="position">การติดต่อ</label>
                     <div class="form-group col-md-2">
-                        <input class="form-control" id="telephone" name="telephone" type="text" placeholder="0999999999">
+                        <input class="form-control" id="telephone" name="telephone" type="text" placeholder="099 999 9999">
                     </div>
                     <div class="form-group col-md-4">
                         <input class="form-control" id="position" name="position" type="text" placeholder="ตำแหน่ง">
@@ -247,7 +247,6 @@ function new_post_form(){ ?>
     <!-- form upload image -->
     <div class="card bg-info px-md-5 border" align="center" style="max-width: 120rem;">
         <div class="card border-success md-12" style="max-width: 100rem;">
-            <div class="card-header"align="left">ภาพประชาสัมพันธ์</div>
             <div class="card-body" align="left">
                 <p class="card-text">
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
@@ -320,8 +319,8 @@ function new_post_form(){ ?>
     $obj =   '{"rank":"'.$rank.'","name":"'.$name.'","lastname":"'.$lastname.'", "telephone":"'.$telephone.'","position":"'.$position.'",
         "organization":"'.$organization.'", "province":"'.$province.'", "img_url":"'.$img_url.'"}';
 print_r($obj);
-    $coupon = new RestDB();
-    $returnValue = $coupon->insertDocument($collectionName,$obj);
+    $newman = new RestDB();
+    $returnValue = $newman->insertDocument($collectionName,$obj);
       if($returnValue){
      $message= "<div align='center' class='alert alert-success'>เพิ่มข้อมูล ".$rank.$name." ".$lastname." เรียบร้อย</div>";
         }else{
