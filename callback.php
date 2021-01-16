@@ -13,7 +13,6 @@ require 'vendor/cloudinary/cloudinary_php/src/Api.php';
 // Include config file
 require_once "config.php";// mlab
 require_once "vendor/autoload.php";
-require_once "vendor/function.php";
 require_once "vendor/restdbclass.php";
 
 use Monolog\Logger;
