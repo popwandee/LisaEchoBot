@@ -290,28 +290,43 @@ foreach ($events as $event) {
                       $tag=isset($rec['tag'])?$rec['tag']:'tag';
                       $image_url=isset($rec['image_url'])?$rec['image_url']:'post/1.jpg';
                       $url =$imageUrl = "https://res.cloudinary.com/crma51/image/upload/v1610664757/$image_url";
-                      $newCarousel = new ImageCarouselColumnTemplateBuilder(
-                          $imageUrl,
-                          new UriTemplateActionBuilder(
-                              'Uri Template', // ข้อความแสดงในปุ่ม
-                              'https://www.ninenik.com'
-                          )
-                      );
-                      array_push($arr,$newCarousel);
-                  }//end for each
+                      // กำหนด action 4 ปุ่ม 4 ประเภท
+                             $actionBuilder = array(
+                                 new MessageTemplateActionBuilder(
+                                     "$title",// ข้อความแสดงในปุ่ม
+                                     "$title" // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                 ),
+                                 new UriTemplateActionBuilder(
+                                     'แจ้งแก้ไขข้อมูล', // ข้อความแสดงในปุ่ม
+                                      'https://lisaechobot.herokuapp.com/postnewdata.php?action=showupdateform&updateid='.$_id
+                                 ),
+                                 new UriTemplateActionBuilder(
+                                     'เพิ่มข้อมูล', // ข้อความแสดงในปุ่ม
+                                     'https://lisaechobot.herokuapp.com/postnewdata.php?action=shownewpostform'
+                                 ),
+                             );
+                             $newCarousel = new CarouselColumnTemplateBuilder(
+                                 "$title",
+                                 "$tag",
+                                 $imageUrl,
+                                 $actionBuilder
+                             );
+                             array_push($arr,$newCarousel);
+
+                  }//end foreach
 
                   $replyData = new TemplateMessageBuilder('Carousel',
                       new ImageCarouselTemplateBuilder(
                           $arr
                       )
                   );
-                  $textReplyMessage=$title.$tag.$imageUrl;
-                  $textMessage = new TextMessageBuilder($textReplyMessage);
-                  $multiMessage->add($textMessage);
-                  $replyData = $multiMessage;
+                 // $textReplyMessage=$textReplyMessage.$title.$tag.$imageUrl;
+                 // $textMessage = new TextMessageBuilder($textReplyMessage);
+                 // $multiMessage->add($textMessage);
+                 // $replyData = $multiMessage;
               }// end if result from database
               else{
-                  $textReplyMessage="Not foud data in Database";
+                  $textReplyMessage=$textReplyMessage."Not foud data in Database";
                   $textMessage = new TextMessageBuilder($textReplyMessage);
                   $multiMessage->add($textMessage);
                   $replyData = $multiMessage;
@@ -319,7 +334,7 @@ foreach ($events as $event) {
 
           }// end id not empty text
           else{
-              $textReplyMessage="empty Text";
+              $textReplyMessage=$textReplyMessage."empty Text";
               $textMessage = new TextMessageBuilder($textReplyMessage);
               $multiMessage->add($textMessage);
               $replyData = $multiMessage;
