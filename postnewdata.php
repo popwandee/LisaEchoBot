@@ -68,64 +68,89 @@ echo $message;$_SESSION['message']="";
 
 if($action=='newpost') {
 
-    echo "insert new post to db<br>";
-
     if($postform=="image"){
 
-        echo "get post from image form<br>";
+        $title = isset($_POST['title']) ? $_POST['title'] : $dateNow ;
+        $tag = isset($_POST['tag']) ? $_POST['tag'] : "" ;
+        $obj['title']= $title;
+        $obj['tag']= $tag;
 
-        if (!empty($_FILES['upload_image'])) { //record_image
+        if (!empty($_FILES['single_upload_image'])) { //record_image
 
-          $index=0;
+            $files = $_FILES["single_upload_image"]["tmp_name"];
 
-          foreach ($_FILES["upload_image"]['tmp_name'] as $files){
+            $target_file = basename($_FILES["single_upload_image"]["name"]);
 
-            $target_file = basename($_FILES["upload_image"]["name"][$index]);
             $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
             if(!empty($imageFileType)){
-              $public_id =$today."-".$index;
-                $option=array("folder" => "post","public_id" => $public_id);
-              $file_name = $img_url ="post/$public_id.".$imageFileType;
-              $img_index = 'img_url-'.$index;
-              $newData->$img_index=$file_name;
-              $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
-              $index++;
-            }
 
+              $public_id =$telephone;
+
+              $option=array("folder" => "post","tags"=>$tag,"public_id" => $public_id);
+
+              $img_url ="post/$public_id.".$imageFileType;
+
+              $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
+
+          }else{
+              echo "empty imageFileType";
           }
 
+          // นำข้อมูลเข้าเก็บในฐานข้อมูล
+          $collectionName = "post";
+          $obj =   '{"title":"'.$title.'","tag":"'.$tag.'","image_url":"'.$img_url.'"}';
+          $newpost = new RestDB();
+          $returnValue = $newpost->insertDocument($collectionName,$obj);
+            if($returnValue){
+           $message= "<div align='center' class='alert alert-success'>เพิ่มข้อมูล เรียบร้อย</div>";
+              }else{
+           $message= "<div align='center' class='alert alert-danger'>ไม่สามารถเพิ่มข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
+                     }
+          $_SESSION["message"]=$message;
+
         }// end if !empty _FILES
+
     }elseif($postform=="people"){
 
         $newData = array();
         $newData['rank']= isset($_POST['rank']) ? htmlspecialchars($_POST['rank']) : '';
         $newData['name']= isset($_POST['name']) ? htmlspecialchars($_POST['name']) : '';
         $newData['lastname']= isset($_POST['lastname']) ? htmlspecialchars($_POST['lastname']) : '';
+        $newData['nickname']= isset($_POST['nickname']) ? htmlspecialchars($_POST['nickname']) : '';
         $newData['today'] = date("Ymd-His");
         $newData['telephone']= isset($_POST['telephone']) ? htmlspecialchars($_POST['telephone']) :"$name-$today";
         $newData['position']= isset($_POST['position']) ? htmlspecialchars($_POST['position']) : '';
         $newData['organization']= isset($_POST['organization']) ? htmlspecialchars($_POST['organization']) : '';
         $newData['province']= isset($_POST['province']) ? htmlspecialchars($_POST['province']) : '';
 
-             if (!empty($_FILES['upload_image'])) { //record_image
-               foreach ($_FILES["upload_image"]['tmp_name'] as $files){
-                 $target_file = basename($_FILES["upload_image"]["name"]);
-                 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-                 if(!empty($imageFileType)){
-                   $public_id =$telephone;
-                   $option=array("folder" => "crma51","public_id" => $public_id);
-                   $newData['img_url'] ="$public_id.".$imageFileType;
-                   $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
-                   echo "<br> Upload result ->";print_r($cloudUpload);
-                 }
+        if (!empty($_FILES['single_upload_image'])) { //record_image
 
-               }
+            $files = $_FILES["single_upload_image"]["tmp_name"];
 
-             }// end if !empty _FILES
-                else{
-                    $newData['img_url'] ="";
-                }
+            $target_file = basename($_FILES["single_upload_image"]["name"]);
+
+            $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+            if(!empty($imageFileType)){
+
+              $public_id =$telephone;
+
+              $option=array("folder" => "crma51","public_id" => $public_id);
+
+              $newData['img_url'] ="$public_id.".$imageFileType;
+
+              $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
+
+          }else{
+              echo "empty imageFileType";
+          }
+
+
+        }// end if !empty _FILES
+        else{
+            $newData['img_url'] ="";
+            }
 
           $result = insert_post($newData);
 
@@ -149,14 +174,16 @@ if($action=='newpost') {
       $rank = isset($_POST['rank']) ? $_POST['rank'] : "";
       $name = isset($_POST['name']) ? $_POST['name'] : "";
       $lastname = isset($_POST['lastname']) ? $_POST['lastname'] : "";
+      $nickname = isset($_POST['nickname']) ? $_POST['nickname'] : "";
       $telephone = isset($_POST['telephone']) ? $_POST['telephone'] : "";
       $position = isset($_POST['position']) ? $_POST['position'] : "";
       $organization = isset($_POST['organization']) ? $_POST['organization'] : "";
       $province = isset($_POST['province']) ? $_POST['province'] : "";
       $obj =  array(  "rank" => $rank,
-      "name" => $name,
-      "lastname" => $lastname,
-      "telephone" => $telephone,
+                      "name" => $name,
+                      "lastname" => $lastname,
+                      "nickname" => $nickname,
+                      "telephone" => $telephone,
                       "position" => $position,
                       "organization" => $organization,
                       "province" => $province
@@ -173,8 +200,6 @@ if($action=='newpost') {
       }
 
   }elseif($action=='shownewpostform'){
-
-      echo "Show new post form<br>";
 
           new_post_form();
   }
@@ -247,10 +272,10 @@ function new_post_form(){ ?>
         <div class="card border-success md-12" style="max-width: 100rem;">
             <div class="card-body" align="left">
                 <p class="card-text">
-                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
                         <input type="hidden"name="action" value="newpost">
                         <input type="hidden"name="postform" value="image">
-                        <label class="col-sm-6 col-form-label">รูปภาพ</label>
+                        <label class="col-sm-6 col-form-label">อัพโหลดรูปภาพ</label>
                         <div class="form-group row">
                         <label class="col-sm-6 col-form-label">ชื่อรูปภาพ</label>
                             <div class="form-group col-md-4">
@@ -258,27 +283,7 @@ function new_post_form(){ ?>
                             </div>
                         </div><div class="form-group row">
                             <div class="form-group col-md-4">
-                                <input class="form-control" name="record_image[]" type="file">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group col-md-4">
-                                <input class="form-control" name="record_image[]" type="file">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group col-md-4">
-                                <input class="form-control" name="record_image[]" type="file">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group col-md-4">
-                                <input class="form-control" name="record_image[]" type="file">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="form-group col-md-4">
-                                <input class="form-control" name="record_image[]" type="file">
+                                <input class="form-control" name="single_upload_image" type="file">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -345,10 +350,10 @@ echo "Inside update Form<br>";
          <div class="card-header"align="left">ข้อมูลบุคคล</div>
          <div class="card-body" align="left">
          <p class="card-text">
-             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
                  <input type="hidden"name="action" value="updatepeople">
                  <input type="hidden"name="postform" value="people">
-                 <input type="hidden"name="updateid" value="<?php echo $rec['_id'];?>">
+                 <input type="hidden"name="_id" value="<?php echo $rec['_id'];?>">
                  <label class="col-sm-6 col-form-label">ข้อมูลบุคคล</label>
                  <div class="form-group row">
                  <label class="col-sm-6 col-form-label">ยศ ชื่อ สกุล</label>
