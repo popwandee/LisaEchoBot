@@ -174,7 +174,7 @@ if($action=='newpost') {
       $position = isset($_POST['position']) ? $_POST['position'] : "";
       $organization = isset($_POST['organization']) ? $_POST['organization'] : "";
       $province = isset($_POST['province']) ? $_POST['province'] : "";
-      $image_url ="crma51/1.jpg"; // default
+      $img_url ="crma51/1.jpg"; // default
 
       if (!empty($_FILES['single_upload_image'])) { //record_image
 
@@ -190,7 +190,7 @@ if($action=='newpost') {
 
             $option=array("folder" => "crma51","public_id" => $public_id);
 
-            $image_url ="crma51/$public_id.".$imageFileType;
+            $img_url ="crma51/$public_id.".$imageFileType;
 
             $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
 
@@ -207,7 +207,7 @@ if($action=='newpost') {
                       "position" => $position,
                       "organization" => $organization,
                       "province" => $province,
-                      "image_url" => $image_url
+                      "img_url" => $img_url
                       );
 
       $updateman = new RestDB;
