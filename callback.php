@@ -344,6 +344,9 @@ foreach ($events as $event) {
                           )
                       )
                   );
+                  $picFullSize = $imageUrl;
+                  $picThumbnail = $imageUrl;
+                  $replyData = new ImageMessageBuilder($picFullSize,$picThumbnail);
                  // $textReplyMessage=$textReplyMessage.$title.$tag.$imageUrl;
                  // $textMessage = new TextMessageBuilder($textReplyMessage);
                  // $multiMessage->add($textMessage);
