@@ -363,7 +363,7 @@ foreach ($events as $event) {
           }
       }//end if else #
       elseif($explodeText[0]=='news'){ // first text is not #
-          $words=explode(",",$sentence);
+          $words=explode(",",$text);
           $title = $words[1];
           $detail = $words[2];
 
