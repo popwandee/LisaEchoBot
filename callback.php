@@ -292,7 +292,6 @@ foreach ($events as $event) {
       }// end elseif !
       elseif($text[0]=='#'){ // first text is not #
               $text = substr($text,1);
-              $textReplyMessage="Case #";
         if(!empty($text)){
               $collectionName = "post";
               $obj = '{"$or": [{"title":{"$regex":"'.$text.'"}},
@@ -347,20 +346,10 @@ foreach ($events as $event) {
                  // $multiMessage->add($textMessage);
                  // $replyData = $multiMessage;
               }// end if result from database
-              else{
-                  $textReplyMessage=$textReplyMessage."Not foud data in Database";
-                  $textMessage = new TextMessageBuilder($textReplyMessage);
-                  $multiMessage->add($textMessage);
-                  $replyData = $multiMessage;
-              }
+
 
           }// end id not empty text
-          else{
-              $textReplyMessage=$textReplyMessage."empty Text";
-              $textMessage = new TextMessageBuilder($textReplyMessage);
-              $multiMessage->add($textMessage);
-              $replyData = $multiMessage;
-          }
+
       }//end if else #
       elseif($explodeText[0]=='news'){ // first text is not #
           $words=explode(",",$text);
