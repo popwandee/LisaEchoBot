@@ -237,7 +237,7 @@ function new_post_form(){ ?>
         <div class="card border-success md-12" style="max-width: 100rem;">
         <div class="card-body" align="left">
         <p class="card-text">
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
                 <input type="hidden"name="action" value="newpost">
                 <input type="hidden"name="postform" value="people">
                 <label class="col-sm-6 col-form-label">ข้อมูลบุคคล</label>
@@ -272,9 +272,9 @@ function new_post_form(){ ?>
                     </div>
                 </div>
                 <div class="form-group row">
-                <label class="col-sm-6 col-form-label" for="upload_image">รูปโปรไฟล์</label>
+                <label class="col-sm-6 col-form-label" for="single_upload_image">รูปโปรไฟล์</label>
                     <div class="form-group col-md-6">
-                        <input class="form-control" name="upload_image" type="file">
+                        <input class="form-control" name="single_upload_image" type="file">
                     </div>
                 </div>
                 <div class="form-group row">
