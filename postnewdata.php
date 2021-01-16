@@ -124,9 +124,11 @@ if($action=='newpost') {
 
   }elseif($action=='showupdateform'){
       echo "Show Update Form";
-      if(isset($_GET['_id'])){
-          $_id = $_GET['_id'];
-              update_form($_id);
+      $updateid = isset($_GET['updateid'])?$_GET['updateid']:"NO id";
+      echo $updateid
+      if(isset($_GET['updateid'])){
+          $updateid = $_GET['updateid'];
+              update_form($updateid);
       }
   }elseif($action=='updatepeople'){
       echo "Update DATA in DB";

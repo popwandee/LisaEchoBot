@@ -162,7 +162,7 @@ foreach ($events as $event) {
                                ),
                                new UriTemplateActionBuilder(
                                    'แจ้งแก้ไขข้อมูล', // ข้อความแสดงในปุ่ม
-                                    'https://lisaechobot.herokuapp.com/postnewdata.php?action=showupdateform&_id='.$_id
+                                    'https://lisaechobot.herokuapp.com/postnewdata.php?action=showupdateform&updateid='.$_id
                                ),
                                new UriTemplateActionBuilder(
                                    'เพิ่มข้อมูล', // ข้อความแสดงในปุ่ม
