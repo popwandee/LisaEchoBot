@@ -328,14 +328,14 @@ foreach ($events as $event) {
                       new ImageCarouselTemplateBuilder(
                           array(
                               new ImageCarouselColumnTemplateBuilder(
-                                  'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                                  $imageUrl,
                                   new UriTemplateActionBuilder(
                                       'Uri Template', // ข้อความแสดงในปุ่ม
                                       'https://www.ninenik.com'
                                   )
                               ),
                               new ImageCarouselColumnTemplateBuilder(
-                                  'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                                  $imageUrl,
                                   new UriTemplateActionBuilder(
                                       'Uri Template', // ข้อความแสดงในปุ่ม
                                       'https://www.ninenik.com'
