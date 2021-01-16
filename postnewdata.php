@@ -175,9 +175,9 @@ if($action=='newpost') {
       $organization = isset($_POST['organization']) ? $_POST['organization'] : "";
       $province = isset($_POST['province']) ? $_POST['province'] : "";
       $img_url ="crma51/1.jpg"; // default
-
+echo "objectId is ".$objectId;
       if (!empty($_FILES['single_upload_image'])) { //record_image
-
+echo "Upload file<br>";
           $files = $_FILES["single_upload_image"]["tmp_name"];
 
           $target_file = basename($_FILES["single_upload_image"]["name"]);
@@ -193,7 +193,7 @@ if($action=='newpost') {
             $img_url ="crma51/$public_id.".$imageFileType;
 
             $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
-
+echo "<br>img url ".$img_url;
         }else{
             echo "empty imageFileType";
 
@@ -209,7 +209,7 @@ if($action=='newpost') {
                       "province" => $province,
                       "img_url" => $img_url
                       );
-
+echo "<br>obj is ";print_r($obj);
       $updateman = new RestDB;
       $res = $updateman->updateDocument($collectionName, $objectId, $obj);
 
