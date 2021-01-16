@@ -175,25 +175,25 @@ if($action=='newpost') {
       $organization = isset($_POST['organization']) ? $_POST['organization'] : "";
       $province = isset($_POST['province']) ? $_POST['province'] : "";
       $img_url ="crma51/1.jpg"; // default
-echo "objectId is ".$objectId."<br>";
+
       if (!empty($_FILES['single_upload_image'])) { //record_image
-echo "Upload file<br>";
+
           $files = $_FILES["single_upload_image"]["tmp_name"];
-echo "file is ".$files."<br>";
+
           $target_file = basename($_FILES["single_upload_image"]["name"]);
-echo "target_file is ".$target_file."<br>";
+
           $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-echo "imageFileType is ".$imageFileType."<br>";
+
           if(!empty($imageFileType)){
 
             $public_id =$telephone.$dateNow;
-echo "public_id is ".$public_id."<br>";
+
             $option=array("folder" => "crma51","public_id" => $public_id);
-echo "option is ";print_r($option); echo "<br>";
+
             $img_url ="crma51/$public_id.".$imageFileType;
-echo "img_url is ".$img_url."<br>";
+
             $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
-echo "<br>cloudUpload is "; print_r($cloudUpload);
+
         }else{
             echo "empty imageFileType";
         }
@@ -208,7 +208,7 @@ echo "<br>cloudUpload is "; print_r($cloudUpload);
                       "province" => $province,
                       "img_url" => $img_url
                       );
-echo "<br>obj is ";print_r($obj);
+
       $updateman = new RestDB;
       $res = $updateman->updateDocument($collectionName, $objectId, $obj);
 
