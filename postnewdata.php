@@ -59,6 +59,8 @@ require_once "vendor/function.php";
           }elseif(isset($_POST['action'])){   $action = $_POST['action'];
           }else{                              $action = "";
           }
+
+          $postform = isset($_POST['postform'])?$_POST['postform']: "";
           ?>
           <div class="container theme-showcase" role="main">
           <div class="jumbotron">
@@ -68,6 +70,11 @@ require_once "vendor/function.php";
 echo $message;
 if($action=='newpost') {
     echo "insert new post to db";
+    if($postform="image"){
+        echo "post from image form";
+    }elseif($postform="people"){
+        echo "post from people";
+    }
   /*
     $name= isset($_POST['name']) ? htmlspecialchars($_POST['name']) : '';
     $title= isset($_POST['title']) ? htmlspecialchars($_POST['title']) : '';
@@ -104,7 +111,7 @@ if($action=='newpost') {
       //update_form();
       echo "Show Update Form";
   }elseif($action=='shownewpostform'){
-      //new_post_form();
+      new_post_form();
       echo "Show new post form";
   }
 
@@ -116,24 +123,109 @@ if($action=='newpost') {
 
 <?php
 function new_post_form(){ ?>
-
-  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
-  <table class='table table-hover table-responsive' width="100">
-    <tr><td colspan="2" align="center">ภาพประชาสัมพันธ์</td></tr>
-    <tr><td colspan="2">รูปภาพ<input type='file' name='record_image[]' class='form-control' /></td></tr>
-    <tr><td colspan="2"><input type='file' name='record_image[]' class='form-control' /></td></tr>
-    <tr><td colspan="2"><input type='file' name='record_image[]' class='form-control' /></td></tr>
-    <tr><td colspan="2"><input type='file' name='record_image[]' class='form-control' /></td></tr>
-    <tr><td colspan="2"><input type='file' name='record_image[]' class='form-control' /></td></tr>
-    <tr>
-      <td>ชื่อภาพ</td><td><input type='text' name='title' class='form-control' /></td></tr>
-      <td colspan="2">โพสต์<br>
-          <textarea name="detail" rows="5" cols="10"class='form-control' /></textarea>
-</td></tr>
-      <tr><td colspan="2" align="center"><input type="hidden"name="action" value="newpost">
-              <input type='submit' value='POST' class='btn btn-primary' /></td></tr>
-      </table>
-    </form>
+    <div class="card bg-info px-md-5 border" align="center" style="max-width: 120rem;">
+        <div class="card border-success md-12" style="max-width: 100rem;">
+            <div class="card-header"align="left">ภาพประชาสัมพันธ์</div>
+            <div class="card-body" align="left">
+                <p class="card-text">
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                        <input type="hidden"name="action" value="newpost">
+                        <input type="hidden"name="postform" value="image">
+                        <label class="col-sm-6 col-form-label">รูปภาพ</label>
+                        <div class="form-group row">
+                        <label class="col-sm-6 col-form-label">Title</label>
+                            <div class="form-group col-md-4">
+                                <input class="form-control" id="title" name="title" type="text">
+                            </div>
+                        </div><div class="form-group row">
+                            <div class="form-group col-md-4">
+                                <input class="form-control" name="record_image[]" type="file">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-4">
+                                <input class="form-control" name="record_image[]" type="file">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-4">
+                                <input class="form-control" name="record_image[]" type="file">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-4">
+                                <input class="form-control" name="record_image[]" type="file">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group col-md-4">
+                                <input class="form-control" name="record_image[]" type="file">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                        <label for="tag" class="col-sm-6 col-form-label">Tag</label>
+                            <div class="form-group col-md-4">
+                                <input class="form-control" id="tag" name="tag" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button type="submit" name="submit" class="btn btn-info">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+              </div>    <!-- end of card div -->
+    </p>
+    <div class="card border-success md-12" style="max-width: 100rem;">
+    <div class="card-header"align="left">ข้อมูลบุคคล</div>
+    <div class="card-body" align="left">
+    <p class="card-text">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+            <input type="hidden"name="action" value="newpost">
+            <input type="hidden"name="postform" value="people">
+            <label class="col-sm-6 col-form-label">ข้อมูลบุคคล</label>
+            <div class="form-group row">
+            <label class="col-sm-6 col-form-label">ยศ ชื่อ สกุล</label>
+                <div class="form-group col-md-2">
+                    <input class="form-control" id="rank" name="rank" type="text">
+                </div>
+                <div class="form-group col-md-4">
+                    <input class="form-control" id="name" name="name" type="text">
+                </div>
+                <div class="form-group col-md-4">
+                    <input class="form-control" id="lastname" name="lastname" type="text">
+                </div>
+                <div class="form-group col-md-4">
+                    <input class="form-control" id="nickname" name="nickname" type="text" placeholder="ชื่อเล่น">>
+                </div>
+            </div>
+            <div class="form-group row">
+            <label class="col-sm-6 col-form-label" for="position">การทำงาน</label>
+                <div class="form-group col-md-4">
+                    <input class="form-control" id="position" name="position" type="text">
+                </div>
+                <div class="form-group col-md-4">
+                    <input class="form-control" id="organization" name="organization" type="text" placeholder="ชื่อระดับ กองพล กองทัพ">
+                </div>
+                <div class="form-group col-md-4">
+                    <input class="form-control" id="province" name="province" type="text" placeholder="จังหวัด">
+                </div>
+            </div>
+            <div class="form-group row">
+            <label class="col-sm-6 col-form-label" for="position">รูปโปรไฟล์</label>
+                <div class="form-group col-md-6">
+                    <input class="form-control" name="upload_image" type="file">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <button type="submit" name="submit" class="btn btn-info">Submit</button>
+                </div>
+            </div>
+        </form>
+</div>
+</div>
 <?php } // end request_form ?>
 
 

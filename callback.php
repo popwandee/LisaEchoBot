@@ -166,7 +166,7 @@ foreach ($events as $event) {
                                     'https://lisaechobot.herokuapp.com/postnewdata.php?action=showupdateform&_id='.$_id
                                ),
                                new UriTemplateActionBuilder(
-                                   'เพิ่มรูปภาพ', // ข้อความแสดงในปุ่ม
+                                   'เพิ่มข้อมูล', // ข้อความแสดงในปุ่ม
                                    'https://lisaechobot.herokuapp.com/postnewdata.php?action=shownewpostform'
                                ),
                            );
