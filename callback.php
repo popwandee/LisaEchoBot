@@ -305,19 +305,43 @@ foreach ($events as $event) {
                                      'https://lisaechobot.herokuapp.com/postnewdata.php?action=shownewpostform'
                                  )
                              );
+                             /*
                              $newCarousel = new CarouselColumnTemplateBuilder(
                                  "$title",
                                  "$tag",
                                  $imageUrl,
                                  $actionBuilder
                              );
+                             */
+
                              array_push($arr,$newCarousel);
 
                   }//end foreach
-
+/*
                   $replyData = new TemplateMessageBuilder('Carousel',
                       new CarouselTemplateBuilder(
                           $arr
+                      )
+                  );
+                  */
+                  $replyData = new TemplateMessageBuilder('Image Carousel',
+                      new ImageCarouselTemplateBuilder(
+                          array(
+                              new ImageCarouselColumnTemplateBuilder(
+                                  'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                                  new UriTemplateActionBuilder(
+                                      'Uri Template', // ข้อความแสดงในปุ่ม
+                                      'https://www.ninenik.com'
+                                  )
+                              ),
+                              new ImageCarouselColumnTemplateBuilder(
+                                  'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                                  new UriTemplateActionBuilder(
+                                      'Uri Template', // ข้อความแสดงในปุ่ม
+                                      'https://www.ninenik.com'
+                                  )
+                              )
+                          )
                       )
                   );
                  // $textReplyMessage=$textReplyMessage.$title.$tag.$imageUrl;
