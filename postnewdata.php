@@ -69,7 +69,7 @@ require_once "vendor/autoload.php";
 echo $message;
 if($action=='newpost') {
     echo "insert new post to db";
-    if($postform="image"){
+    if($postform=="image"){
         echo "post from image form";
         if (!empty($_FILES['upload_image'])) { //record_image
           $index=0;
@@ -89,7 +89,7 @@ if($action=='newpost') {
           }
 
         }// end if !empty _FILES
-    }elseif($postform="people"){
+    }elseif($postform=="people"){
         echo "post from people";
         $newData['rank']= isset($_POST['rank']) ? htmlspecialchars($_POST['rank']) : '';
         $newData['name']= isset($_POST['name']) ? htmlspecialchars($_POST['name']) : '';
