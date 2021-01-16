@@ -100,7 +100,7 @@ foreach ($events as $event) {
         $rawText = $event->getText();
         //$text = strtolower($rawText);
         $text = $rawText;
-        //$explodeText=explode(" ",$text);
+        $explodeText=explode(",",$text);
         $textReplyMessage="";
         $log_note=$text;
 
@@ -362,7 +362,7 @@ foreach ($events as $event) {
               $replyData = $multiMessage;
           }
       }//end if else #
-      elseif($text=='news'){ // first text is not #
+      elseif($explodeText[0]=='news'){ // first text is not #
           $words=explode(",",$sentence);
           $title = $words[1];
           $detail = $words[2];
