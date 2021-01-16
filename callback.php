@@ -289,16 +289,19 @@ foreach ($events as $event) {
                       $tag=isset($rec['tag'])?$rec['tag']:'tag';
                       $image_url=isset($rec['image_url'])?$rec['image_url']:'post/1.jpg';
                       $url =$imageUrl = "https://res.cloudinary.com/crma51/image/upload/v1610664757/$image_url";
+                      $newCarousel = new ImageCarouselColumnTemplateBuilder(
+                          $imageUrl,
+                          new UriTemplateActionBuilder(
+                              'Uri Template', // ข้อความแสดงในปุ่ม
+                              'https://www.ninenik.com'
+                          )
+                      );
+                      array_push($arr,$newCarousel);
                   }//end for each
-                  $replyData = new TemplateMessageBuilder('Image Carousel',
+
+                  $replyData = new TemplateMessageBuilder('Carousel',
                       new ImageCarouselTemplateBuilder(
-                          new ImageCarouselColumnTemplateBuilder(
-                                $imageUrl,
-                                    new UriTemplateActionBuilder(
-                                        $title, // ข้อความแสดงในปุ่ม
-                                        $url
-                                    )
-                            )
+                          $arr
                       )
                   );
               }// end if result from database
