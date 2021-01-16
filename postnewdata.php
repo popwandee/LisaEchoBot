@@ -98,8 +98,6 @@ if($action=='newpost') {
         }// end if !empty _FILES
     }elseif($postform=="people"){
 
-        echo "post from people<br>";
-
         $newData = array();
         $newData['rank']= isset($_POST['rank']) ? htmlspecialchars($_POST['rank']) : '';
         $newData['name']= isset($_POST['name']) ? htmlspecialchars($_POST['name']) : '';
@@ -128,9 +126,9 @@ if($action=='newpost') {
                 else{
                     $newData['img_url'] ="";
                 }
-                print_r($newData);
+
           $result = insert_post($newData);
-          echo $result;
+
     }// end if post people
 
   }elseif($action=='showupdateform'){
@@ -304,8 +302,7 @@ function new_post_form(){ ?>
 
 
 <?php function insert_post($newData){
-    echo "Inside insert post function <br>";
-    print_r($newData);
+
     $rank = $newData['rank'];
     $name = $newData['name'];
     $lastname= $newData['lastname'];
@@ -318,7 +315,7 @@ function new_post_form(){ ?>
     $collectionName = "friend";
     $obj =   '{"rank":"'.$rank.'","name":"'.$name.'","lastname":"'.$lastname.'", "telephone":"'.$telephone.'","position":"'.$position.'",
         "organization":"'.$organization.'", "province":"'.$province.'", "img_url":"'.$img_url.'"}';
-print_r($obj);
+
     $newman = new RestDB();
     $returnValue = $newman->insertDocument($collectionName,$obj);
       if($returnValue){
@@ -327,7 +324,7 @@ print_r($obj);
      $message= "<div align='center' class='alert alert-danger'>ไม่สามารถเพิ่มข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
                }
     $_SESSION["message"]=$message;
-    echo $message;
+
       return $message;
 }//end function insert_request
  ?>
@@ -351,32 +348,36 @@ echo "Inside update Form<br>";
              <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
                  <input type="hidden"name="action" value="updatepeople">
                  <input type="hidden"name="postform" value="people">
+                 <input type="hidden"name="updateid" value="<?php echo $rec['_id'];?>">
                  <label class="col-sm-6 col-form-label">ข้อมูลบุคคล</label>
                  <div class="form-group row">
                  <label class="col-sm-6 col-form-label">ยศ ชื่อ สกุล</label>
                      <div class="form-group col-md-2">
-                         <input class="form-control" id="rank" name="rank" type="text" value="<?php echo $rank;?>" placeholder="ยศ">
+                         <input class="form-control" id="rank" name="rank" type="text" value="<?php echo $rec['rank'];?>" placeholder="ยศ">
                      </div>
                      <div class="form-group col-md-4">
-                         <input class="form-control" id="name" name="name" type="text" value="<?php echo $name;?>" placeholder="ชื่อ">
+                         <input class="form-control" id="name" name="name" type="text" value="<?php echo $rec['name'];?>" placeholder="ชื่อ">
                      </div>
                      <div class="form-group col-md-4">
-                         <input class="form-control" id="lastname" name="lastname" type="text" value="<?php echo $lastname;?>" placeholder="นามสกุล">
+                         <input class="form-control" id="lastname" name="lastname" type="text" value="<?php echo $rec['lastname'];?>" placeholder="นามสกุล">
                      </div>
                      <div class="form-group col-md-4">
-                         <input class="form-control" id="nickname" name="nickname" type="text" value="<?php echo $nickname;?>" placeholder="ชื่อเล่น">
+                         <input class="form-control" id="nickname" name="nickname" type="text" value="<?php echo $rec['nickname'];?>" placeholder="ชื่อเล่น">
                      </div>
                  </div>
                  <div class="form-group row">
                  <label class="col-sm-6 col-form-label" for="position">การทำงาน</label>
                      <div class="form-group col-md-4">
-                         <input class="form-control" id="position" name="position" type="text" value="<?php echo $position;?>" placeholder="ตำแหน่ง">
+                         <input class="form-control" id="telephone" name="telephone" type="text" value="<?php echo $rec['telephone'];?>">
                      </div>
                      <div class="form-group col-md-4">
-                         <input class="form-control" id="organization" name="organization" type="text" value="<?php echo $organization;?>" placeholder="หน่วย กองพล กองทัพ">
+                         <input class="form-control" id="position" name="position" type="text" value="<?php echo $rec['position'];?>" placeholder="ตำแหน่ง">
                      </div>
                      <div class="form-group col-md-4">
-                         <input class="form-control" id="province" name="province" type="text" value="<?php echo $province;?>" placeholder="จังหวัด">
+                         <input class="form-control" id="organization" name="organization" type="text" value="<?php echo $rec['organization'];?>" placeholder="หน่วย กองพล กองทัพ">
+                     </div>
+                     <div class="form-group col-md-4">
+                         <input class="form-control" id="province" name="province" type="text" value="<?php echo $rec['province'];?>" placeholder="จังหวัด">
                      </div>
                  </div>
                  <div class="form-group row">
