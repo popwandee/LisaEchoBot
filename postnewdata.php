@@ -72,39 +72,56 @@ if($action=='newpost') {
     echo "insert new post to db";
     if($postform="image"){
         echo "post from image form";
+        if (!empty($_FILES['upload_image'])) { //record_image
+          $index=0;
+          foreach ($_FILES["upload_image"]['tmp_name'] as $files){
+            $target_file = basename($_FILES["upload_image"]["name"][$index]);
+            $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+            if(!empty($imageFileType)){
+              $public_id =$today."-".$index;
+                $option=array("folder" => "post","public_id" => $public_id);
+              $file_name = $img_url ="post/$public_id.".$imageFileType;
+              $img_index = 'img_url-'.$index;
+              $newData->$img_index=$file_name;
+              $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
+              $index++;
+            }
+
+          }
+
+        }// end if !empty _FILES
     }elseif($postform="people"){
         echo "post from people";
-    }
+        $newData['rank']= isset($_POST['rank']) ? htmlspecialchars($_POST['rank']) : '';
+        $newData['name']= isset($_POST['name']) ? htmlspecialchars($_POST['name']) : '';
+        $newData['lastname']= isset($_POST['lastname']) ? htmlspecialchars($_POST['lastname']) : '';
+        $newData['today'] = date("Ymd-His");
+        $newData['telephone']= isset($_POST['telephone']) ? htmlspecialchars($_POST['telephone']) :"$name-$today";
+        $newData['position']= isset($_POST['position']) ? htmlspecialchars($_POST['position']) : '';
+        $newData['organization']= isset($_POST['organization']) ? htmlspecialchars($_POST['organization']) : '';
+        $newData['province']= isset($_POST['province']) ? htmlspecialchars($_POST['province']) : '';
+
+             if (!empty($_FILES['upload_image'])) { //record_image
+               foreach ($_FILES["upload_image"]['tmp_name'] as $files){
+                 $target_file = basename($_FILES["upload_image"]["name"]);
+                 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+                 if(!empty($imageFileType)){
+                   $public_id =$telephone;
+                   $option=array("folder" => "crma51","public_id" => $public_id);
+                   $newData['img_url'] ="$public_id.".$imageFileType;
+                   $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
+                 }
+
+               }
+
+             }// end if !empty _FILES
+                else{
+                    $newData['img_url'] ="";
+                }
+          insert_post($newData);
+    }// end if post people
   /*
-    $name= isset($_POST['name']) ? htmlspecialchars($_POST['name']) : '';
-    $title= isset($_POST['title']) ? htmlspecialchars($_POST['title']) : '';
-    $detail= isset($_POST['detail']) ? htmlspecialchars($_POST['detail']) : '';
-    $today = date("Ymd-His");
-  $newData->name = $name;
-  $newData->date = $today;
-  $newData->title = $title;
-  $newData->detail = $detail;
 
-         if (!empty($_FILES['record_image'])) { //record_image
-           $index=0;
-           foreach ($_FILES["record_image"]['tmp_name'] as $files){
-             $target_file = basename($_FILES["record_image"]["name"][$index]);
-             $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-             if(!empty($imageFileType)){
-               $public_id =$today."-".$index;
-                 $option=array("folder" => "post","public_id" => $public_id);
-               $file_name = $img_url ="post/$public_id.".$imageFileType;
-               $img_index = 'img_url-'.$index;
-               $newData->$img_index=$file_name;
-               $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
-               $index++;
-             }
-
-           }
-
-         }// end if !empty _FILES
-
-      insert_post($newData);
       */
       //show_all_post();
   }elseif($action=='showupdateform'){
@@ -188,25 +205,25 @@ function new_post_form(){ ?>
             <div class="form-group row">
             <label class="col-sm-6 col-form-label">ยศ ชื่อ สกุล</label>
                 <div class="form-group col-md-2">
-                    <input class="form-control" id="rank" name="rank" type="text">
+                    <input class="form-control" id="rank" name="rank" type="text" placeholder="ยศ">
                 </div>
                 <div class="form-group col-md-4">
-                    <input class="form-control" id="name" name="name" type="text">
+                    <input class="form-control" id="name" name="name" type="text" placeholder="ชื่อ">
                 </div>
                 <div class="form-group col-md-4">
-                    <input class="form-control" id="lastname" name="lastname" type="text">
+                    <input class="form-control" id="lastname" name="lastname" type="text" placeholder="นามสกุล">
                 </div>
                 <div class="form-group col-md-4">
-                    <input class="form-control" id="nickname" name="nickname" type="text" placeholder="ชื่อเล่น">>
+                    <input class="form-control" id="nickname" name="nickname" type="text" placeholder="ชื่อเล่น">
                 </div>
             </div>
             <div class="form-group row">
             <label class="col-sm-6 col-form-label" for="position">การทำงาน</label>
                 <div class="form-group col-md-4">
-                    <input class="form-control" id="position" name="position" type="text">
+                    <input class="form-control" id="position" name="position" type="text" placeholder="ตำแหน่ง">
                 </div>
                 <div class="form-group col-md-4">
-                    <input class="form-control" id="organization" name="organization" type="text" placeholder="ชื่อระดับ กองพล กองทัพ">
+                    <input class="form-control" id="organization" name="organization" type="text" placeholder="หน่วย กองพล กองทัพ">
                 </div>
                 <div class="form-group col-md-4">
                     <input class="form-control" id="province" name="province" type="text" placeholder="จังหวัด">
@@ -230,22 +247,25 @@ function new_post_form(){ ?>
 
 
 <?php function insert_post($newData){
+    $rank = $newData['rank'];
+    $name = $newData['name'];
+    $lastname= $newData['lastname'];
+    $telephone = $newData['telephone'];
+    $position = $newData['position'];
+    $organization = $newData['organization'];
+    $province = $newData['province'];
+    $img_url = $newData['img_url'];
+    // นำข้อมูลเข้าเก็บในฐานข้อมูล
+    $collectionName = "friend";
+    $obj =   '{"rank":"'.$rank.'","name":"'.$name.'","lastname":"'.$lastname.'", "telephone":"'.$telephone.'","position":"'.$position.'",
+        "organization":"'.$organization.'", "province":"'.$province.'", "img_url":"'.$img_url.'"}';
 
-$newData=json_encode($newData);
-$opts = array('http' => array( 'method' => "POST",
-                             'header' => "Content-type: application/json",
-                             'content' => $newData
-                                         )
-                                      );
-
-$url = 'https://api.mlab.com/api/1/databases/crma51/collections/post?apiKey='.MLAB_API_KEY.'';
-      $context = stream_context_create($opts);
-      $returnValue = file_get_contents($url,false,$context);
-
+    $coupon = new RestDB();
+    $returnValue = $coupon->insertDocument($collectionName,$obj);
       if($returnValue){
-     $message= "<div align='center' class='alert alert-success'>โพสต์ ".$title." เรียบร้อย</div>";
+     $message= "<div align='center' class='alert alert-success'>เพิ่มข้อมูล ".$rank.$name." ".$lastname." เรียบร้อย</div>";
         }else{
-     $message= "<div align='center' class='alert alert-danger'>ไม่สามารถโพสต์ได้</div>";
+     $message= "<div align='center' class='alert alert-danger'>ไม่สามารถเพิ่มข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
                }
     $_SESSION["message"]=$message;
       return;
