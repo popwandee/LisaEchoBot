@@ -226,7 +226,7 @@ foreach ($events as $event) {
           $multiMessage->add($textMessage);
           $replyData = $multiMessage;
       }// end elseif $
-      elseif($text[0]=='='){
+      elseif($text[0]=='?'){
 
           if(!empty($text)){
               //$text = substr($text,1);
@@ -271,12 +271,45 @@ foreach ($events as $event) {
           $multiMessage->add($textMessage);
           $replyData = $multiMessage;
       }// end elseif !
-      elseif($text[0]=='?'){ // first text is not #
-          $textReplyMessage = "กำลังปรับปรุงระบบอยู่ค่ะ";
-          $textMessage = new TextMessageBuilder($textReplyMessage);
-          $multiMessage->add($textMessage);
-          $replyData = $multiMessage;
-        }//end if else
+      elseif($text[0]=='#'){ // first text is not #
+          if(!empty($text)){
+              //$text = substr($text,1);
+              $collectionName = "post";
+              $obj = '{"$or": [{"title":{"$regex":"'.$text.'"}},
+              {"tag":{"$regex":"'.$text.'"}},
+              {"image_url":{"$regex":"'.$text.'"}}]}';
+
+              $sort= '';
+              $coupon = new RestDB();
+              $res = $coupon->selectDocument($collectionName,$obj,$sort);
+              if($res){
+                  $arr = array();
+                  foreach($res as $rec){
+                      $title=isset($rec['title'])?$rec['title']:'Title';
+                      $tag=isset($rec['tag'])?$rec['tag']:'tag';
+                      $image_url=isset($rec['image_url'])?$rec['image_url']:'post/1.jpg';
+                      $url =$imageUrl = "https://res.cloudinary.com/crma51/image/upload/v1610664757/$image_url";
+
+                    $imageMessage = new ImageCarouselColumnTemplateBuilder(
+                                      $imageUrl,
+                                      new UriTemplateActionBuilder(
+                                          $title, // ข้อความแสดงในปุ่ม
+                                          $url
+                                      )
+                                  )
+                              array_push($arr,$imageMessage);
+
+                  }//end for each
+                  $replyData = new TemplateMessageBuilder('Image Carousel',
+                      new ImageCarouselTemplateBuilder(
+                          $arr
+                      )
+                  );
+              }// end if result from database
+
+
+          }// end id empty text
+      }//end if else #
       else{ // first text is not #
           echo "OK";
         }//end if else

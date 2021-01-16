@@ -85,7 +85,7 @@ if($action=='newpost') {
 
             if(!empty($imageFileType)){
 
-              $public_id =$telephone;
+              $public_id =$dateNow;
 
               $option=array("folder" => "post","tags"=>$tag,"public_id" => $public_id);
 
@@ -108,7 +108,7 @@ if($action=='newpost') {
            $message= "<div align='center' class='alert alert-danger'>ไม่สามารถเพิ่มข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
                      }
           $_SESSION["message"]=$message;
-
+          echo $message;
         }// end if !empty _FILES
 
     }elseif($postform=="people"){
