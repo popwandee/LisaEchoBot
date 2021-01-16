@@ -198,7 +198,7 @@ if($action=='newpost') {
             echo "empty imageFileType";
 
         }
-
+        }
       $obj =  array(  "rank" => $rank,
                       "name" => $name,
                       "lastname" => $lastname,
@@ -424,9 +424,8 @@ function new_post_form(){ ?>
  <?php
 } // end foreach
 } // end if select result
-
- } // end update_form ?>
-
+} // end update_form
+?>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
