@@ -273,7 +273,7 @@ foreach ($events as $event) {
       }// end elseif !
       elseif($text[0]=='#'){ // first text is not #
           if(!empty($text)){
-              //$text = substr($text,1);
+              $text = substr($text,1);
               $collectionName = "post";
               $obj = '{"$or": [{"title":{"$regex":"'.$text.'"}},
               {"tag":{"$regex":"'.$text.'"}},
