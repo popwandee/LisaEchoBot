@@ -229,23 +229,42 @@ foreach ($events as $event) {
       elseif($text[0]=='?'){
 
           if(!empty($text)){
-              //$text = substr($text,1);
+              $text = substr($text,1);
               $collectionName = "kmdata";
               $obj = '{"question":{"$regex":"'.$text.'"}}';
               $sort= '';
-              $coupon = new RestDB();
-              $res = $coupon->selectDocument($collectionName,$obj,$sort);
+              $news = new RestDB();
+              $res = $news->selectDocument($collectionName,$obj,$sort);
               if($res){
+                  $arr = array();
                   foreach($res as $rec){
-                      $textReplyMessage=$textReplyMessage.$rec['answer'];
-                     // $img_url = isset($rec['answer'])?$rec['answer']:"";
-                  }//end for each
-              }
+                      $question = isset($rec['question']) ? $rec['question'] : 'question';
+                      $answer = isset($rec['answer']) ? $rec['answer'] : 'answer';
+                      $image_url = isset($rec['image_url']) ? $rec['image_url'] : 'news/jazz.jpg';
+                      $imageUrl = "https://res.cloudinary.com/crma51/image/upload/v1610664757/$image_url";
+                      // กำหนด action 4 ปุ่ม 4 ประเภท
+                      $actionBuilder = array( );
 
-              $textMessage = new TextMessageBuilder($textReplyMessage);
-              $multiMessage->add($textMessage);
-              $replyData = $multiMessage;
-            }
+                             $newCarousel = new CarouselColumnTemplateBuilder(
+                                 "$question",
+                                 "$answer",
+                                 $imageUrl,
+                                 $actionBuilder
+                             );
+
+                             array_push($arr,$newCarousel);
+
+                  }//end foreach
+
+                  $replyData = new TemplateMessageBuilder('Carousel',
+                      new CarouselTemplateBuilder(
+                          $arr
+                      )
+                  );
+
+              }// end no result
+
+          }// if empty text
         //$replyData = $multiMessage;
     }// end elseif =
         elseif($text[0]=='!'){
@@ -305,48 +324,24 @@ foreach ($events as $event) {
                                      'https://lisaechobot.herokuapp.com/postnewdata.php?action=shownewpostform'
                                  )
                              );
-                             /*
+
                              $newCarousel = new CarouselColumnTemplateBuilder(
                                  "$title",
                                  "$tag",
                                  $imageUrl,
                                  $actionBuilder
                              );
-                             */
 
                              array_push($arr,$newCarousel);
 
                   }//end foreach
-/*
+
                   $replyData = new TemplateMessageBuilder('Carousel',
                       new CarouselTemplateBuilder(
                           $arr
                       )
                   );
-                  */
-                  $replyData = new TemplateMessageBuilder('Image Carousel',
-                      new ImageCarouselTemplateBuilder(
-                          array(
-                              new ImageCarouselColumnTemplateBuilder(
-                                  $imageUrl,
-                                  new UriTemplateActionBuilder(
-                                      'Uri Template', // ข้อความแสดงในปุ่ม
-                                      'https://www.ninenik.com'
-                                  )
-                              ),
-                              new ImageCarouselColumnTemplateBuilder(
-                                  $imageUrl,
-                                  new UriTemplateActionBuilder(
-                                      'Uri Template', // ข้อความแสดงในปุ่ม
-                                      'https://www.ninenik.com'
-                                  )
-                              )
-                          )
-                      )
-                  );
-                  $picFullSize = $imageUrl;
-                  $picThumbnail = $imageUrl;
-                  $replyData = new ImageMessageBuilder($picFullSize,$picThumbnail);
+
                  // $textReplyMessage=$textReplyMessage.$title.$tag.$imageUrl;
                  // $textMessage = new TextMessageBuilder($textReplyMessage);
                  // $multiMessage->add($textMessage);
@@ -367,8 +362,28 @@ foreach ($events as $event) {
               $replyData = $multiMessage;
           }
       }//end if else #
+      elseif($text=='news'){ // first text is not #
+          $words=explode(",",$sentence);
+          $title = $words[1];
+          $detail = $words[2];
+
+          $collectionName = "news";
+          $obj = '{"title":"'.$title.'","detail":"'.$detail.'","date":"'.$dateTimeToday.'"}';
+
+          $km = new RestDB();
+          $returnValue = $km->insertDocument($collectionName,$obj);
+          if($returnValue){
+              $textReplyMessage ="ส่งข่าวเรียบร้อย ";
+          }else{
+              $textReplyMessage = "ไม่สามารถส่งข่าวได้";
+          }
+
+          $textMessage = new TextMessageBuilder($textReplyMessage);
+          $multiMessage->add($textMessage);
+          $replyData = $multiMessage;
+      }//end if text = news
       else{ // first text is not #
-          echo "OK";
+          echo "ไม่ได้เลือกหัวข้อใดๆ";
         }//end if else
 
         if(!empty($replyData)){
