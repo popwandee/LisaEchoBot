@@ -286,15 +286,15 @@ foreach ($events as $event) {
               if($res){
                   $arr = array();
                   foreach($res as $rec){
-                      $title=isset($rec['title'])?$rec['title']:'Title';
-                      $tag=isset($rec['tag'])?$rec['tag']:'tag';
-                      $image_url=isset($rec['image_url'])?$rec['image_url']:'post/1.jpg';
-                      $url =$imageUrl = "https://res.cloudinary.com/crma51/image/upload/v1610664757/$image_url";
+                      $title = isset($rec['title']) ? $rec['title'] : 'Title';
+                      $tag = isset($rec['tag']) ? $rec['tag'] : 'tag';
+                      $image_url = isset($rec['image_url']) ? $rec['image_url'] : 'post/1.jpg';
+                      $imageUrl = "https://res.cloudinary.com/crma51/image/upload/v1610664757/$image_url";
                       // กำหนด action 4 ปุ่ม 4 ประเภท
-                             $actionBuilder = array(
+                      $actionBuilder = array(
                                  new MessageTemplateActionBuilder(
                                      "$title",// ข้อความแสดงในปุ่ม
-                                     "$title" // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                     "$tag" // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                                  ),
                                  new UriTemplateActionBuilder(
                                      'แจ้งแก้ไขข้อมูล', // ข้อความแสดงในปุ่ม
@@ -303,7 +303,7 @@ foreach ($events as $event) {
                                  new UriTemplateActionBuilder(
                                      'เพิ่มข้อมูล', // ข้อความแสดงในปุ่ม
                                      'https://lisaechobot.herokuapp.com/postnewdata.php?action=shownewpostform'
-                                 ),
+                                 )
                              );
                              $newCarousel = new CarouselColumnTemplateBuilder(
                                  "$title",
@@ -316,7 +316,7 @@ foreach ($events as $event) {
                   }//end foreach
 
                   $replyData = new TemplateMessageBuilder('Carousel',
-                      new ImageCarouselTemplateBuilder(
+                      new CarouselTemplateBuilder(
                           $arr
                       )
                   );
