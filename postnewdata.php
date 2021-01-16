@@ -138,13 +138,13 @@ if($action=='newpost') {
 
               $option=array("folder" => "crma51","public_id" => $public_id);
 
-              $newData['img_url'] ="$public_id.".$imageFileType;
+              $newData['img_url'] ="crma51/$public_id.".$imageFileType;
 
               $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
 
-          }else{
-              echo "empty imageFileType";
-          }
+              }else{
+                  echo "empty imageFileType";
+              }
 
 
         }// end if !empty _FILES
@@ -158,16 +158,11 @@ if($action=='newpost') {
 
   }elseif($action=='showupdateform'){
 
-      echo "Show Update Form<br>";
-
       $updateid = isset($_GET['updateid'])?$_GET['updateid']:"NO id";
-      echo "ID is ".$updateid."<br>";
 
        update_form($updateid);
 
   }elseif($action=='updatepeople'){
-
-      echo "Update DATA in DB<br>";
 
       $objectId = isset($_POST['_id']) ? $_POST['_id'] : "";
       $collectionName = "friend";
@@ -179,6 +174,31 @@ if($action=='newpost') {
       $position = isset($_POST['position']) ? $_POST['position'] : "";
       $organization = isset($_POST['organization']) ? $_POST['organization'] : "";
       $province = isset($_POST['province']) ? $_POST['province'] : "";
+      $image_url ="crma51/1.jpg"; // default
+
+      if (!empty($_FILES['single_upload_image'])) { //record_image
+
+          $files = $_FILES["single_upload_image"]["tmp_name"];
+
+          $target_file = basename($_FILES["single_upload_image"]["name"]);
+
+          $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+          if(!empty($imageFileType)){
+
+            $public_id =$telephone;
+
+            $option=array("folder" => "crma51","public_id" => $public_id);
+
+            $image_url ="crma51/$public_id.".$imageFileType;
+
+            $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
+
+        }else{
+            echo "empty imageFileType";
+
+        }
+
       $obj =  array(  "rank" => $rank,
                       "name" => $name,
                       "lastname" => $lastname,
@@ -186,18 +206,20 @@ if($action=='newpost') {
                       "telephone" => $telephone,
                       "position" => $position,
                       "organization" => $organization,
-                      "province" => $province
+                      "province" => $province,
+                      "image_url" => $image_url
                       );
-      echo "\n obj is "; print_r($obj);
+
       $updateman = new RestDB;
       $res = $updateman->updateDocument($collectionName, $objectId, $obj);
 
       if($res){
-          echo "Update complete<br>";
-
-      }else{
-          echo "Can not update data.<br>";
-      }
+         $message= "<div align='center' class='alert alert-success'>อัพเดตข้อมูล เรียบร้อย</div>";
+        }else{
+         $message= "<div align='center' class='alert alert-danger'>ไม่สามารถอัพเดตข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
+        }
+         $_SESSION["message"]=$message;
+        echo $message;
 
   }elseif($action=='shownewpostform'){
 
@@ -335,7 +357,7 @@ function new_post_form(){ ?>
  ?>
 <?php function update_form($id){ ?>
 <?php
-echo "Inside update Form<br>";
+
      $collectionName = "friend";
      $obj = '{"_id":"'.$id.'"}';
      $sort= '';
@@ -343,7 +365,6 @@ echo "Inside update Form<br>";
      $res = $coupon->selectDocument($collectionName,$obj,$sort);
      if($res){
          foreach($res as $rec){
-             print_r($rec);
      ?>
          <div class="card bg-info px-md-5 border" align="center" style="max-width: 120rem;">
          <div class="card border-success md-12" style="max-width: 100rem;">
@@ -388,7 +409,7 @@ echo "Inside update Form<br>";
                  <div class="form-group row">
                  <label class="col-sm-6 col-form-label" for="position">รูปโปรไฟล์</label>
                      <div class="form-group col-md-6">
-                         <input class="form-control" name="upload_image" type="file">
+                         <input class="form-control" name="single_upload_image" type="file">
                      </div>
                  </div>
                  <div class="form-group row">
@@ -403,9 +424,7 @@ echo "Inside update Form<br>";
  <?php
 } // end foreach
 } // end if select result
-else{
-    echo "No Data from DB to edit<br>";
-}
+
  } // end update_form ?>
 
 

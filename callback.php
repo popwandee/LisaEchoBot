@@ -146,7 +146,7 @@ foreach ($events as $event) {
                     $detail = isset($rec['detail'])?$rec['detail']:"";
                     $img_url = isset($rec['img_url'])?$rec['img_url']:"";
                     if($img_url!=""){
-                        $img_url = "https://res.cloudinary.com/crma51/image/upload/v1610664757/crma51/$img_url";
+                        $img_url = "https://res.cloudinary.com/crma51/image/upload/v1610664757/$img_url";
                     }else{
                         $img_url = "https://res.cloudinary.com/crma51/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1610638753/samples/people/boy-snow-hoodie.jpg";
                     }
