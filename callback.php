@@ -272,8 +272,9 @@ foreach ($events as $event) {
           $replyData = $multiMessage;
       }// end elseif !
       elseif($text[0]=='#'){ // first text is not #
-          if(!empty($text)){
               $text = substr($text,1);
+              $textReplyMessage="Case #";
+        if(!empty($text)){
               $collectionName = "post";
               $obj = '{"$or": [{"title":{"$regex":"'.$text.'"}},
               {"tag":{"$regex":"'.$text.'"}},
@@ -309,9 +310,20 @@ foreach ($events as $event) {
                   $multiMessage->add($textMessage);
                   $replyData = $multiMessage;
               }// end if result from database
+              else{
+                  $textReplyMessage="Not foud data in Database";
+                  $textMessage = new TextMessageBuilder($textReplyMessage);
+                  $multiMessage->add($textMessage);
+                  $replyData = $multiMessage;
+              }
 
-
-          }// end id empty text
+          }// end id not empty text
+          else{
+              $textReplyMessage="empty Text";
+              $textMessage = new TextMessageBuilder($textReplyMessage);
+              $multiMessage->add($textMessage);
+              $replyData = $multiMessage;
+          }
       }//end if else #
       else{ // first text is not #
           echo "OK";
