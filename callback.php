@@ -289,20 +289,16 @@ foreach ($events as $event) {
                       $tag=isset($rec['tag'])?$rec['tag']:'tag';
                       $image_url=isset($rec['image_url'])?$rec['image_url']:'post/1.jpg';
                       $url =$imageUrl = "https://res.cloudinary.com/crma51/image/upload/v1610664757/$image_url";
-
-                    $imageMessage = new ImageCarouselColumnTemplateBuilder(
-                                      $imageUrl,
-                                      new UriTemplateActionBuilder(
-                                          $title, // ข้อความแสดงในปุ่ม
-                                          $url
-                                      )
-                                  );
-                              array_push($arr,$imageMessage);
-
                   }//end for each
                   $replyData = new TemplateMessageBuilder('Image Carousel',
                       new ImageCarouselTemplateBuilder(
-                          $arr
+                          new ImageCarouselColumnTemplateBuilder(
+                                $imageUrl,
+                                    new UriTemplateActionBuilder(
+                                        $title, // ข้อความแสดงในปุ่ม
+                                        $url
+                                    )
+                            )
                       )
                   );
               }// end if result from database
