@@ -374,7 +374,7 @@ function new_post_form(){ ?>
              <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
                  <input type="hidden"name="action" value="updatepeople">
                  <input type="hidden"name="postform" value="people">
-                 <input type="hidden"name="_id" value="<?php echo $rec['_id'];?>">
+                 <input type="hidden"name="_id" value="<?php echo $id;?>">
                  <label class="col-sm-6 col-form-label">ข้อมูลบุคคล</label>
                  <div class="form-group row">
                  <label class="col-sm-6 col-form-label">ยศ ชื่อ สกุล</label>
