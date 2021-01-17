@@ -183,7 +183,7 @@ foreach ($events as $event) {
                 shuffle($arr);
                 $num_array = count($arr);
                 if($num_array>6){
-                    for($x=$num_array;$x>=6;$x--){
+                    for($x=$num_array;$x>6;$x--){
                         array_pop($arr);
                     }
 
