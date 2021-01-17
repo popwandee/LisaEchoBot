@@ -176,11 +176,18 @@ foreach ($events as $event) {
                                $actionBuilder
                            );
                            $count++;
-                           if($count<6){
+
                               array_push($arr,$newCarousel);
-                          }
+
                 }//end foreach
                 shuffle($arr);
+                $num_array = count($arr);
+                if($num_array>6){
+                    for($x=$num_array;$x>6;$x--){
+                        array_pop($arr);
+                    }
+
+               }
                 $replyData = new TemplateMessageBuilder('Carousel',
                     new CarouselTemplateBuilder(
                         $arr
