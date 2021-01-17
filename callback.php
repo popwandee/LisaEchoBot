@@ -264,7 +264,14 @@ foreach ($events as $event) {
 
               }// end no result
 
-          }// if empty text
+          }// if not empty text
+          else{ // if just ?
+             $textReplyMessage = "กด $ ตามด้วยชื่อบุคคล ตำแหน่ง สังกัด จังหวัด เพื่อค้นหาข้อมูลบุคคล<br>";
+             $textReplyMessage = $textReplyMessage."กด # ตามด้วยคำที่ต้องการค้นหา<br>";
+             $textMessage = new TextMessageBuilder($textReplyMessage);
+             $multiMessage->add($textMessage);
+             $replyData = $multiMessage;
+          }
         //$replyData = $multiMessage;
     }// end elseif =
         elseif($text[0]=='!'){
