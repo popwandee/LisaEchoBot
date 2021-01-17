@@ -337,7 +337,7 @@ foreach ($events as $event) {
                                  $actionBuilder
                              );
                              $count ++;
-                             if($count<6){
+                             if($count<7){
                                 array_push($arr,$newCarousel);
                              }
 
