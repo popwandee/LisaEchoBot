@@ -312,7 +312,6 @@ foreach ($events as $event) {
               $res = $coupon->selectDocument($collectionName,$obj,$sort);
               if($res){
                   $arr = array();
-                  $count = 0;
                   foreach($res as $rec){
                       $title = isset($rec['title']) ? $rec['title'] : 'Title';
                       $tag = isset($rec['tag']) ? $rec['tag'] : 'tag';
@@ -338,14 +337,13 @@ foreach ($events as $event) {
                                  $imageUrl,
                                  $actionBuilder
                              );
-                            $count ++;
                             array_push($arr,$newCarousel);
-                            shuffle($arr);
 
                   }//end foreach
+                  shuffle($arr);
                   $count = count($arr);
-                  if($count>6){
-                      for($x=$count;$x>6;$x--){
+                  if($count>5){
+                      for($x=$count;$x>5;$x--){
                           array_pop($arr);
                       }
                    }
