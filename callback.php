@@ -144,11 +144,11 @@ foreach ($events as $event) {
                     $organization = isset($rec['organization'])?$rec['organization']:"";
                     $province = isset($rec['province'])?$rec['province']:"";
                     $detail = isset($rec['detail'])?$rec['detail']:"";
-                    $img_url = isset($rec['img_url'])?$rec['img_url']:"";
-                    if($img_url!=""){
-                        $img_url = "https://res.cloudinary.com/crma51/image/upload/v1610664757/$img_url";
+                    $image_url = isset($rec['image_url'])?$rec['image_url']:"";
+                    if($image_url!=""){
+                        $image_url = "https://res.cloudinary.com/crma51/image/upload/v1610664757/$image_url";
                     }else{
-                        $img_url = "https://res.cloudinary.com/crma51/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1610638753/samples/people/boy-snow-hoodie.jpg";
+                        $image_url = "https://res.cloudinary.com/crma51/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1610638753/samples/people/boy-snow-hoodie.jpg";
                     }
                     $profile = $rank.$name.' '.$lastname;
                     $contactinfo = $position."\n".$organization."\n".$province."\n";
@@ -172,7 +172,7 @@ foreach ($events as $event) {
                            $newCarousel = new CarouselColumnTemplateBuilder(
                                "$profile",
                                "$contactinfo",
-                               $img_url,
+                               $image_url,
                                $actionBuilder
                            );
                            array_push($arr,$newCarousel);
@@ -403,34 +403,34 @@ function getRandomGallery($json){
   $data = json_decode($json);
   $isData=sizeof($data);
   if($isData >1){
-    $img_url=array();
+    $image_url=array();
        $count=count($data);
        $index = mt_rand(0,$count-1);
-       $imgurl0="img_url-0";
+       $imgurl0="image_url-0";
        $imgurl=$data[$index]->$imgurl0;
        if(!empty($imgurl)){
-       $img_url[0]="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
+       $image_url[0]="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
      }
-       $imgurl1="img_url-1";
+       $imgurl1="image_url-1";
        $imgurl=$data[$index]->$imgurl1;
        if(!empty($imgurl)){
-       $img_url[1]="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
+       $image_url[1]="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
      }
-       $imgurl2="img_url-2";
+       $imgurl2="image_url-2";
        $imgurl=$data[$index]->$imgurl2;
        if(!empty($imgurl)){
-       $img_url[2]="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
+       $image_url[2]="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
      }
-       $imgurl3="img_url-3";
+       $imgurl3="image_url-3";
        $imgurl=$data[$index]->$imgurl3;
        if(!empty($imgurl)){
-       $img_url[3]="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
+       $image_url[3]="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
      }
-       $imgurl4="img_url-4";
+       $imgurl4="image_url-4";
        $imgurl=$data[$index]->$imgurl4;
        if(!empty($imgurl)){
-       $img_url[4]="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
+       $image_url[4]="https://res.cloudinary.com/dly6ftryr/image/upload/v1590735946/".$imgurl;
      }
   }// end if isData>1
-  return $img_url;
+  return $image_url;
 }

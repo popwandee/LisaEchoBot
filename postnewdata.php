@@ -74,32 +74,13 @@ if($action=='newpost') {
         $tag = isset($_POST['tag']) ? $_POST['tag'] : "" ;
         $obj['title']= $title;
         $obj['tag']= $tag;
-
+        $file_publicid = $title.$dateNow;
         if (!empty($_FILES['single_upload_image'])) { //record_image
-
-            $files = $_FILES["single_upload_image"]["tmp_name"];
-
-            $target_file = basename($_FILES["single_upload_image"]["name"]);
-
-            $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-
-            if(!empty($imageFileType)){
-
-              $public_id =$dateNow;
-
-              $option=array("folder" => "post","tags"=>$tag,"public_id" => $public_id);
-
-              $img_url ="post/$public_id.".$imageFileType;
-
-              $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
-
-          }else{
-              echo "empty imageFileType";
-          }
-
+            $image_url = upload_image($_FILES,"post",$file_publicid,$tag); // files, folder
+        }
           // นำข้อมูลเข้าเก็บในฐานข้อมูล
           $collectionName = "post";
-          $obj =   '{"title":"'.$title.'","tag":"'.$tag.'","image_url":"'.$img_url.'"}';
+          $obj =   '{"title":"'.$title.'","tag":"'.$tag.'","image_url":"'.$image_url.'"}';
           $newpost = new RestDB();
           $returnValue = $newpost->insertDocument($collectionName,$obj);
             if($returnValue){
@@ -123,35 +104,26 @@ if($action=='newpost') {
         $newData['position']= isset($_POST['position']) ? htmlspecialchars($_POST['position']) : '';
         $newData['organization']= isset($_POST['organization']) ? htmlspecialchars($_POST['organization']) : '';
         $newData['province']= isset($_POST['province']) ? htmlspecialchars($_POST['province']) : '';
-        $newData['img_url'] ="";
-        $telephone=$newData['telephone'].$dateNow;
+        $newData['image_url'] ="";
+        $file_publicid = $newData['telephone'].$dateNow;
+        $tag = $newData['name'] ;
         //$result = insert_post($newData);
         if (!empty($_FILES['single_upload_image'])) { //record_image
 
-            $files = $_FILES["single_upload_image"]["tmp_name"];
-
-            $target_file = basename($_FILES["single_upload_image"]["name"]);
-
-            $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-
-            if(!empty($imageFileType)){
-
-              $public_id =$telephone;
-
-              $option=array("folder" => "crma51","public_id" => $public_id);
-
-              $newData['img_url'] ="crma51/$public_id.".$imageFileType;
-
-              $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
-
-              }else{
-                  echo "empty imageFileType";
-              }
-
+            if (!empty($_FILES['single_upload_image'])) { //record_image
+                $newData['image_url'] = upload_image($_FILES,"crma51",$file_publicid,$tag); // files, folder
+            }
 
         }// end if !empty _FILES
 
           $result = insert_post($newData);
+          
+          if($result){
+             $message= "<div align='center' class='alert alert-success'>เพิ่มข้อมูล เรียบร้อย</div>";
+                }else{
+             $message= "<div align='center' class='alert alert-danger'>ไม่สามารถเพิ่มข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
+                       }
+             $_SESSION["message"]=$message;
 
     }// end if post people
 
@@ -173,7 +145,7 @@ if($action=='newpost') {
       $position = isset($_POST['position']) ? $_POST['position'] : "";
       $organization = isset($_POST['organization']) ? $_POST['organization'] : "";
       $province = isset($_POST['province']) ? $_POST['province'] : "";
-      $img_url ="crma51/1.jpg"; // default
+      $image_url ="crma51/1.jpg"; // default
       $obj =  array(  "rank" => $rank,
                       "name" => $name,
                       "lastname" => $lastname,
@@ -182,7 +154,7 @@ if($action=='newpost') {
                       "position" => $position,
                       "organization" => $organization,
                       "province" => $province,
-                      "img_url" => $img_url
+                      "image_url" => $image_url
                       );
 
       $updateman = new RestDB;
@@ -196,40 +168,30 @@ if($action=='newpost') {
          $_SESSION["message"]=$message;
         echo $message;
 
-      if (!empty($_FILES['single_upload_image'])) { //record_image
+        $file_publicid =$telephone.$dateNow;
 
-          $files = $_FILES["single_upload_image"]["tmp_name"];
+          if (!empty($_FILES['single_upload_image'])) { //record_image
+              $image_url = upload_image($_FILES,"crma51",$file_publicid,$name); // files, folder , public_id, tag
 
-          $target_file = basename($_FILES["single_upload_image"]["name"]);
+              $objectId = isset($_POST['_id']) ? $_POST['_id'] : "";
+              $collectionName = "friend";
 
-          $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+              $obj =  array(
+                            "image_url" => $image_url
+                             );
 
-          if(!empty($imageFileType)){
+              $updateman = new RestDB;
+              $res = $updateman->updateDocument($collectionName, $objectId, $obj);
 
-            $public_id =$telephone.$dateNow;
+              if($res){
+                 $message= "<div align='center' class='alert alert-success'>อัพเดตรูปภาพ เรียบร้อย</div>";
+                }else{
+                 $message= "<div align='center' class='alert alert-danger'>ไม่สามารถอัพเดตรูปภาพได้ โปรดติดต่อผู้ดูแลระบบ</div>";
+                }
+                 $_SESSION["message"]=$message;
+                echo $message;
+          }
 
-            $option=array("folder" => "crma51","public_id" => $public_id);
-
-            $img_url ="crma51/$public_id.".$imageFileType;
-
-            $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
-
-            $obj =  array( "img_url" => $img_url );
-
-            $updateman = new RestDB;
-            $res = $updateman->updateDocument($collectionName, $objectId, $obj);
-
-            if($res){
-               $message= "<div align='center' class='alert alert-success'>อัพเดตข้อมูลรูปภาพ เรียบร้อย</div>";
-              }else{
-               $message= "<div align='center' class='alert alert-danger'>ไม่สามารถอัพเดตข้อมูลรูปภาพได้ โปรดติดต่อผู้ดูแลระบบ</div>";
-              }
-               $_SESSION["message"]=$message;
-              echo $message;
-        }else{
-            echo "empty imageFileType";
-        }
-        }
 
 
   }elseif($action=='shownewpostform'){
@@ -349,22 +311,15 @@ function new_post_form(){ ?>
     $position = $newData['position'];
     $organization = $newData['organization'];
     $province = $newData['province'];
-    $img_url = $newData['img_url'];
+    $image_url = $newData['image_url'];
     // นำข้อมูลเข้าเก็บในฐานข้อมูล
     $collectionName = "friend";
     $obj =   '{"rank":"'.$rank.'","name":"'.$name.'","lastname":"'.$lastname.'","nickname":"'.$nickname.'", "telephone":"'.$telephone.'","position":"'.$position.'",
-        "organization":"'.$organization.'", "province":"'.$province.'", "img_url":"'.$img_url.'"}';
+        "organization":"'.$organization.'", "province":"'.$province.'", "image_url":"'.$image_url.'"}';
 
     $newman = new RestDB();
     $returnValue = $newman->insertDocument($collectionName,$obj);
-      if($returnValue){
-     $message= "<div align='center' class='alert alert-success'>เพิ่มข้อมูล ".$rank.$name." ".$lastname." เรียบร้อย</div>";
-        }else{
-     $message= "<div align='center' class='alert alert-danger'>ไม่สามารถเพิ่มข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
-               }
-    $_SESSION["message"]=$message;
-
-      return $message;
+    return $returnValue;
 }//end function insert_request
  ?>
 <?php function update_form($id){ ?>
@@ -438,7 +393,27 @@ function new_post_form(){ ?>
 } // end if select result
 } // end update_form
 ?>
+<?php
+function upload_image($_FILES,$folder,$file_publicid,$tag=""){
 
+        $files = $_FILES["single_upload_image"]["tmp_name"];
+
+        $target_file = basename($_FILES["single_upload_image"]["name"]);
+
+        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+        if(!empty($imageFileType)){
+
+          $option=array("folder" => $folder,"tags"=>$tag,"public_id" => $file_publicid);
+          $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
+
+          $image_url ="$folder/$file_publicid.".$imageFileType;
+        }else{
+          $image_url ="sample.jpg";
+        }
+        return $image_url;
+}
+?>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
