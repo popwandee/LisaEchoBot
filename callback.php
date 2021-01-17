@@ -310,6 +310,7 @@ foreach ($events as $event) {
               $res = $coupon->selectDocument($collectionName,$obj,$sort);
               if($res){
                   $arr = array();
+                  $count = 0;
                   foreach($res as $rec){
                       $title = isset($rec['title']) ? $rec['title'] : 'Title';
                       $tag = isset($rec['tag']) ? $rec['tag'] : 'tag';
@@ -335,8 +336,11 @@ foreach ($events as $event) {
                                  $imageUrl,
                                  $actionBuilder
                              );
+                             $count ++;
+                             if($count<6){
+                                array_push($arr,$newCarousel);
+                             }
 
-                             array_push($arr,$newCarousel);
 
                   }//end foreach
 
