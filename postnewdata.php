@@ -86,7 +86,6 @@ if($action=='newpost') {
               }else{
                   $message= "<div align='center' class='alert alert-danger'>ไม่สามารถเพิ่มข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
                      }
-          $_SESSION["message"]=$message;
           echo $message;
 
 
@@ -144,7 +143,6 @@ if($action=='newpost') {
         }else{
          $message= "<div align='center' class='alert alert-danger'>ไม่สามารถอัพเดตข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
         }
-        $_SESSION["message"]=$message;
         echo $message;
 
         $file_publicid =$telephone.$dateNow;
@@ -160,7 +158,6 @@ if($action=='newpost') {
             }else{
             $message= "<div align='center' class='alert alert-danger'>ไม่สามารถอัพเดตข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
             }
-            $_SESSION["message"]=$message;
             echo $message;
         }
   }elseif($action=='shownewpostform'){
