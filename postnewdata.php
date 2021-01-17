@@ -69,7 +69,6 @@ echo $message;$_SESSION['message']="";
 if($action=='newpost') {
 
     if($postform=="image"){
-
         $title = isset($_POST['title']) ? $_POST['title'] : $dateNow ;
         $tag = isset($_POST['tag']) ? $_POST['tag'] : "" ;
         $obj['title']= $title;
@@ -84,50 +83,39 @@ if($action=='newpost') {
           $newpost = new RestDB();
           $returnValue = $newpost->insertDocument($collectionName,$obj);
             if($returnValue){
-           $message= "<div align='center' class='alert alert-success'>เพิ่มข้อมูล เรียบร้อย</div>";
+                $message= "<div align='center' class='alert alert-success'>เพิ่มข้อมูล เรียบร้อย</div>";
               }else{
-           $message= "<div align='center' class='alert alert-danger'>ไม่สามารถเพิ่มข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
+                  $message= "<div align='center' class='alert alert-danger'>ไม่สามารถเพิ่มข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
                      }
           $_SESSION["message"]=$message;
           echo $message;
         }// end if !empty _FILES
 
     }elseif($postform=="people"){
-
         $newData = array();
         $newData['rank']= isset($_POST['rank']) ? htmlspecialchars($_POST['rank']) : '';
         $newData['name']= isset($_POST['name']) ? htmlspecialchars($_POST['name']) : '';
         $newData['lastname']= isset($_POST['lastname']) ? htmlspecialchars($_POST['lastname']) : '';
         $newData['nickname']= isset($_POST['nickname']) ? htmlspecialchars($_POST['nickname']) : '';
         $newData['today'] = date("Ymd-His");
-        $newData['telephone']= isset($_POST['telephone']) ? htmlspecialchars($_POST['telephone']) :"$name-$today";
+        $newData['telephone']= isset($_POST['telephone']) ? htmlspecialchars($_POST['telephone']) :"$name-$dateNow";
         $newData['position']= isset($_POST['position']) ? htmlspecialchars($_POST['position']) : '';
         $newData['organization']= isset($_POST['organization']) ? htmlspecialchars($_POST['organization']) : '';
         $newData['province']= isset($_POST['province']) ? htmlspecialchars($_POST['province']) : '';
-        $newData['image_url'] ="";
-        $file_publicid = $newData['telephone'].$dateNow;
+
+        $file_publicid = $dateNow;
         $tag = $newData['name'] ;
-        //$result = insert_post($newData);
         if (!empty($_FILES['single_upload_image'])) { //record_image
-
-            if (!empty($_FILES['single_upload_image'])) { //record_image
-                $image_url = upload_image($_FILES,"post",$file_publicid,$tag); // files, folder
-            }
-
-        }// end if !empty _FILES
-
-          $result = insert_post($newData);
-
-    }// end if post people
+            $image_url = upload_image($_FILES,"post",$file_publicid,$tag); // files, folder
+            }// end if !empty _FILES
+        $newData['image_url'] ="";
+        $result = insert_post($newData);
+    }// end if postform == people
 
   }elseif($action=='showupdateform'){
-
       $updateid = isset($_GET['updateid'])?$_GET['updateid']:"NO id";
-
-       update_form($updateid);
-
+      update_form($updateid);
   }elseif($action=='updatepeople'){
-
       $objectId = isset($_POST['_id']) ? $_POST['_id'] : "";
       $collectionName = "friend";
       $rank = isset($_POST['rank']) ? $_POST['rank'] : "";
@@ -138,7 +126,7 @@ if($action=='newpost') {
       $position = isset($_POST['position']) ? $_POST['position'] : "";
       $organization = isset($_POST['organization']) ? $_POST['organization'] : "";
       $province = isset($_POST['province']) ? $_POST['province'] : "";
-      $image_url ="crma51/1.jpg"; // default
+      $image_url ="sample.jpg"; // default
       $obj =  array(  "rank" => $rank,
                       "name" => $name,
                       "lastname" => $lastname,
@@ -152,43 +140,31 @@ if($action=='newpost') {
 
       $updateman = new RestDB;
       $res = $updateman->updateDocument($collectionName, $objectId, $obj);
-
       if($res){
          $message= "<div align='center' class='alert alert-success'>อัพเดตข้อมูล เรียบร้อย</div>";
         }else{
          $message= "<div align='center' class='alert alert-danger'>ไม่สามารถอัพเดตข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
         }
-         $_SESSION["message"]=$message;
+        $_SESSION["message"]=$message;
         echo $message;
 
         $file_publicid =$telephone.$dateNow;
-
-          if (!empty($_FILES['single_upload_image'])) { //record_image
-              $image_url = upload_image($_FILES,"crma51",$file_publicid,$name); // files, folder , public_id, tag
-
-              $objectId = isset($_POST['_id']) ? $_POST['_id'] : "";
-              $collectionName = "friend";
-
-              $obj =  array( 
-                            "image_url" => $image_url
-                             );
-
-              $updateman = new RestDB;
-              $res = $updateman->updateDocument($collectionName, $objectId, $obj);
-
-              if($res){
-                 $message= "<div align='center' class='alert alert-success'>อัพเดตข้อมูล เรียบร้อย</div>";
-                }else{
-                 $message= "<div align='center' class='alert alert-danger'>ไม่สามารถอัพเดตข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
-                }
-                 $_SESSION["message"]=$message;
-                echo $message;
-          }
-
-
-
+    if (!empty($_FILES['single_upload_image'])) { //record_image
+        $image_url = upload_image($_FILES,"crma51",$file_publicid,$name); // files, folder , public_id, tag
+        $objectId = isset($_POST['_id']) ? $_POST['_id'] : "";
+        $collectionName = "friend";
+        $obj =  array("image_url" => $image_url);
+        $updateman = new RestDB;
+        $res = $updateman->updateDocument($collectionName, $objectId, $obj);
+        if($res){
+            $message= "<div align='center' class='alert alert-success'>อัพเดตข้อมูล เรียบร้อย</div>";
+            }else{
+            $message= "<div align='center' class='alert alert-danger'>ไม่สามารถอัพเดตข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
+            }
+            $_SESSION["message"]=$message;
+            echo $message;
+        }
   }elseif($action=='shownewpostform'){
-
           new_post_form();
   }
 
@@ -291,7 +267,7 @@ function new_post_form(){ ?>
               </div>    <!-- end of card div -->
 </div>
 
-<?php } // end request_form ?>
+<?php } // end new_post_form ?>
 
 
 <?php function insert_post($newData){
@@ -312,19 +288,17 @@ function new_post_form(){ ?>
 
     $newman = new RestDB();
     $returnValue = $newman->insertDocument($collectionName,$obj);
-      if($returnValue){
-     $message= "<div align='center' class='alert alert-success'>เพิ่มข้อมูล ".$rank.$name." ".$lastname." เรียบร้อย</div>";
+    if($returnValue){
+        $message= "<div align='center' class='alert alert-success'>เพิ่มข้อมูล ".$rank.$name." ".$lastname." เรียบร้อย</div>";
         }else{
-     $message= "<div align='center' class='alert alert-danger'>ไม่สามารถเพิ่มข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
+        $message= "<div align='center' class='alert alert-danger'>ไม่สามารถเพิ่มข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
                }
-    $_SESSION["message"]=$message;
-
-      return $message;
+        $_SESSION["message"]=$message;
+        return $message;
 }//end function insert_request
  ?>
-<?php function update_form($id){ ?>
-<?php
-
+ <?php
+ function update_form($id){
      $collectionName = "friend";
      $obj = '{"_id":"'.$id.'"}';
      $sort= '';
@@ -395,18 +369,12 @@ function new_post_form(){ ?>
 ?>
 <?php
 function upload_image($_FILES,$folder,$file_publicid,$tag=""){
-
         $files = $_FILES["single_upload_image"]["tmp_name"];
-
         $target_file = basename($_FILES["single_upload_image"]["name"]);
-
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-
         if(!empty($imageFileType)){
-
           $option=array("folder" => $folder,"tags"=>$tag,"public_id" => $file_publicid);
           $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
-
           $image_url ="$folder/$file_publicid.".$imageFileType;
         }else{
           $image_url ="sample.jpg";
