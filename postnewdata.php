@@ -123,7 +123,7 @@ if($action=='newpost') {
         $newData['position']= isset($_POST['position']) ? htmlspecialchars($_POST['position']) : '';
         $newData['organization']= isset($_POST['organization']) ? htmlspecialchars($_POST['organization']) : '';
         $newData['province']= isset($_POST['province']) ? htmlspecialchars($_POST['province']) : '';
-
+        $newData['img_url'] ="";
         if (!empty($_FILES['single_upload_image'])) { //record_image
 
             $files = $_FILES["single_upload_image"]["tmp_name"];
@@ -148,9 +148,6 @@ if($action=='newpost') {
 
 
         }// end if !empty _FILES
-        else{
-            $newData['img_url'] ="";
-            }
 
           $result = insert_post($newData);
 
@@ -175,29 +172,6 @@ if($action=='newpost') {
       $organization = isset($_POST['organization']) ? $_POST['organization'] : "";
       $province = isset($_POST['province']) ? $_POST['province'] : "";
       $img_url ="crma51/1.jpg"; // default
-
-      if (!empty($_FILES['single_upload_image'])) { //record_image
-
-          $files = $_FILES["single_upload_image"]["tmp_name"];
-
-          $target_file = basename($_FILES["single_upload_image"]["name"]);
-
-          $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-
-          if(!empty($imageFileType)){
-
-            $public_id =$telephone.$dateNow;
-
-            $option=array("folder" => "crma51","public_id" => $public_id);
-
-            $img_url ="crma51/$public_id.".$imageFileType;
-
-            $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
-
-        }else{
-            echo "empty imageFileType";
-        }
-        }
       $obj =  array(  "rank" => $rank,
                       "name" => $name,
                       "lastname" => $lastname,
@@ -219,6 +193,42 @@ if($action=='newpost') {
         }
          $_SESSION["message"]=$message;
         echo $message;
+
+      if (!empty($_FILES['single_upload_image'])) { //record_image
+
+          $files = $_FILES["single_upload_image"]["tmp_name"];
+
+          $target_file = basename($_FILES["single_upload_image"]["name"]);
+
+          $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+          if(!empty($imageFileType)){
+
+            $public_id =$telephone.$dateNow;
+
+            $option=array("folder" => "crma51","public_id" => $public_id);
+
+            $img_url ="crma51/$public_id.".$imageFileType;
+
+            $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
+
+            $obj =  array( "img_url" => $img_url );
+
+            $updateman = new RestDB;
+            $res = $updateman->updateDocument($collectionName, $objectId, $obj);
+
+            if($res){
+               $message= "<div align='center' class='alert alert-success'>อัพเดตข้อมูลรูปภาพ เรียบร้อย</div>";
+              }else{
+               $message= "<div align='center' class='alert alert-danger'>ไม่สามารถอัพเดตข้อมูลรูปภาพได้ โปรดติดต่อผู้ดูแลระบบ</div>";
+              }
+               $_SESSION["message"]=$message;
+              echo $message;
+        }else{
+            echo "empty imageFileType";
+        }
+        }
+
 
   }elseif($action=='shownewpostform'){
 
