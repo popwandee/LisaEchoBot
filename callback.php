@@ -153,7 +153,6 @@ foreach ($events as $event) {
                     $profile = $rank.$name.' '.$lastname;
                     $contactinfo = $position."\n".$organization."\n".$province."\n";
 
-
                     // กำหนด action 4 ปุ่ม 4 ประเภท
                            $actionBuilder = array(
                                new MessageTemplateActionBuilder(
@@ -175,8 +174,6 @@ foreach ($events as $event) {
                                $image_url,
                                $actionBuilder
                            );
-                           $count++;
-
                               array_push($arr,$newCarousel);
 
                 }//end foreach
@@ -186,8 +183,7 @@ foreach ($events as $event) {
                     for($x=$num_array;$x>6;$x--){
                         array_pop($arr);
                     }
-
-               }
+                }
                 $replyData = new TemplateMessageBuilder('Carousel',
                     new CarouselTemplateBuilder(
                         $arr
