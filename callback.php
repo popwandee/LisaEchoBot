@@ -315,6 +315,7 @@ foreach ($events as $event) {
                       $tag = isset($rec['tag']) ? $rec['tag'] : 'tag';
                       $image_url = isset($rec['image_url']) ? $rec['image_url'] : 'post/1.jpg';
                       $imageUrl = "https://res.cloudinary.com/crma51/image/upload/v1610664757/$image_url";
+                      $description = "$ สอบถามข้อมูลบุคคล # ค้นหารูปภาพ ? สอบถามวิธีใช้งานและเรื่องอื่น ๆ";
                       // กำหนด action 4 ปุ่ม 4 ประเภท
                       $actionBuilder = array(
 
@@ -323,10 +324,6 @@ foreach ($events as $event) {
                                        $imageUrl
                                   ),
                                  new UriTemplateActionBuilder(
-                                     'แจ้งแก้ไขข้อมูล', // ข้อความแสดงในปุ่ม
-                                      'https://lisaechobot.herokuapp.com/postnewdata.php?action=showupdateform&updateid='.$_id
-                                 ),
-                                 new UriTemplateActionBuilder(
                                      'เพิ่มข้อมูล', // ข้อความแสดงในปุ่ม
                                      'https://lisaechobot.herokuapp.com/postnewdata.php?action=shownewpostform'
                                  )
@@ -334,7 +331,7 @@ foreach ($events as $event) {
 
                              $newCarousel = new CarouselColumnTemplateBuilder(
                                  "$title",
-                                 $title,
+                                 $description,
                                  $imageUrl,
                                  $actionBuilder
                              );
