@@ -111,7 +111,7 @@ if($action=='newpost') {
         if (!empty($_FILES['single_upload_image'])) { //record_image
 
             if (!empty($_FILES['single_upload_image'])) { //record_image
-                $image_url = upload_image($_FILES,"crma51",$file_publicid,$tag); // files, folder
+                $image_url = upload_image($_FILES,"post",$file_publicid,$tag); // files, folder
             }
 
         }// end if !empty _FILES
@@ -169,7 +169,7 @@ if($action=='newpost') {
               $objectId = isset($_POST['_id']) ? $_POST['_id'] : "";
               $collectionName = "friend";
 
-              $obj =  array(
+              $obj =  array( 
                             "image_url" => $image_url
                              );
 
@@ -177,9 +177,9 @@ if($action=='newpost') {
               $res = $updateman->updateDocument($collectionName, $objectId, $obj);
 
               if($res){
-                 $message= "<div align='center' class='alert alert-success'>อัพเดตรูปภาพ เรียบร้อย</div>";
+                 $message= "<div align='center' class='alert alert-success'>อัพเดตข้อมูล เรียบร้อย</div>";
                 }else{
-                 $message= "<div align='center' class='alert alert-danger'>ไม่สามารถอัพเดตรูปภาพได้ โปรดติดต่อผู้ดูแลระบบ</div>";
+                 $message= "<div align='center' class='alert alert-danger'>ไม่สามารถอัพเดตข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
                 }
                  $_SESSION["message"]=$message;
                 echo $message;
