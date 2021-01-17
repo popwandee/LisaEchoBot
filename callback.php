@@ -175,8 +175,9 @@ foreach ($events as $event) {
                                $image_url,
                                $actionBuilder
                            );
-                           array_push($arr,$newCarousel);
-
+                           if($count<7){
+                              array_push($arr,$newCarousel);
+                           }
                 }//end foreach
 
                 $replyData = new TemplateMessageBuilder('Carousel',
@@ -252,8 +253,9 @@ foreach ($events as $event) {
                                  $actionBuilder
                              );
 
-                             array_push($arr,$newCarousel);
-
+                             if($count<7){
+                                array_push($arr,$newCarousel);
+                             }
                   }//end foreach
 
                   $replyData = new TemplateMessageBuilder('Carousel',
@@ -336,14 +338,17 @@ foreach ($events as $event) {
                                  $imageUrl,
                                  $actionBuilder
                              );
-                             $count ++;
-                             if($count<8){
-                                array_push($arr,$newCarousel);
-                             }
-
+                            $count ++;
+                            array_push($arr,$newCarousel);
+                            shuffle($arr);
 
                   }//end foreach
-
+                  $count = count($arr);
+                  if($count>6){
+                      for($x=$count;$x>6;$x--){
+                          array_pop($arr);
+                      }
+                   }
                   $replyData = new TemplateMessageBuilder('Carousel',
                       new CarouselTemplateBuilder(
                           $arr
