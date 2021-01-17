@@ -175,11 +175,12 @@ foreach ($events as $event) {
                                $image_url,
                                $actionBuilder
                            );
+                           $count++;
                            if($count<6){
                               array_push($arr,$newCarousel);
-                           }
+                          }
                 }//end foreach
-
+                shuffle($arr);
                 $replyData = new TemplateMessageBuilder('Carousel',
                     new CarouselTemplateBuilder(
                         $arr
