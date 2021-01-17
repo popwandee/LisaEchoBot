@@ -124,6 +124,8 @@ if($action=='newpost') {
         $newData['organization']= isset($_POST['organization']) ? htmlspecialchars($_POST['organization']) : '';
         $newData['province']= isset($_POST['province']) ? htmlspecialchars($_POST['province']) : '';
         $newData['img_url'] ="";
+        $telephone=$newData['telephone'].$dateNow;
+        //$result = insert_post($newData);
         if (!empty($_FILES['single_upload_image'])) { //record_image
 
             $files = $_FILES["single_upload_image"]["tmp_name"];
