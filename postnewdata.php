@@ -13,7 +13,6 @@ require 'vendor/cloudinary/cloudinary_php/src/Api.php';
 require_once "config.php";// mlab
 require_once "vendor/autoload.php";
 require_once "vendor/restdbclass.php";
-
 ?>
 
 <!DOCTYPE html>
@@ -89,7 +88,7 @@ if($action=='newpost') {
                      }
           $_SESSION["message"]=$message;
           echo $message;
-        }// end if !empty _FILES
+
 
     }elseif($postform=="people"){
         $newData = array();
@@ -173,101 +172,6 @@ if($action=='newpost') {
 </div><!-- jumbotron-->
 </div><!-- container theme-showcase-->
 
-<?php
-function new_post_form(){ ?>
-        <!-- form new people -->
-    <div class="card bg-success px-md-5 border" align="center" style="max-width: 120rem;">
-        <div class="card border-success md-12" style="max-width: 100rem;">
-        <div class="card-body" align="left">
-        <p class="card-text">
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
-                <input type="hidden"name="action" value="newpost">
-                <input type="hidden"name="postform" value="people">
-                <label class="col-sm-6 col-form-label">ข้อมูลบุคคล</label>
-                <div class="form-group row">
-                <label class="col-sm-6 col-form-label">ยศ ชื่อ สกุล</label>
-                    <div class="form-group col-md-2">
-                        <input class="form-control" id="rank" name="rank" type="text" placeholder="ยศ">
-                    </div>
-                    <div class="form-group col-md-4">
-                        <input class="form-control" id="name" name="name" type="text" placeholder="ชื่อ">
-                    </div>
-                    <div class="form-group col-md-4">
-                        <input class="form-control" id="lastname" name="lastname" type="text" placeholder="นามสกุล">
-                    </div>
-                    <div class="form-group col-md-4">
-                        <input class="form-control" id="nickname" name="nickname" type="text" placeholder="ชื่อเล่น">
-                    </div>
-                </div>
-                <div class="form-group row">
-                <label class="col-sm-6 col-form-label" for="position">การติดต่อ</label>
-                    <div class="form-group col-md-2">
-                        <input class="form-control" id="telephone" name="telephone" type="text" placeholder="099 999 9999">
-                    </div>
-                    <div class="form-group col-md-4">
-                        <input class="form-control" id="position" name="position" type="text" placeholder="ตำแหน่ง">
-                    </div>
-                    <div class="form-group col-md-4">
-                        <input class="form-control" id="organization" name="organization" type="text" placeholder="หน่วย กองพล กองทัพ">
-                    </div>
-                    <div class="form-group col-md-4">
-                        <input class="form-control" id="province" name="province" type="text" placeholder="จังหวัด">
-                    </div>
-                </div>
-                <div class="form-group row">
-                <label class="col-sm-6 col-form-label" for="single_upload_image">รูปโปรไฟล์</label>
-                    <div class="form-group col-md-6">
-                        <input class="form-control" name="single_upload_image" type="file">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-10">
-                        <button type="submit" name="submit" class="btn btn-info">Submit</button>
-                    </div>
-                </div>
-            </form>
-    </div>
-    </div>
-    </div>
-    <br>
-    <hr>
-    <!-- form upload image -->
-    <div class="card bg-info px-md-5 border" align="center" style="max-width: 120rem;">
-        <div class="card border-success md-12" style="max-width: 100rem;">
-            <div class="card-body" align="left">
-                <p class="card-text">
-                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
-                        <input type="hidden"name="action" value="newpost">
-                        <input type="hidden"name="postform" value="image">
-                        <label class="col-sm-6 col-form-label">อัพโหลดรูปภาพ</label>
-                        <div class="form-group row">
-                        <label class="col-sm-6 col-form-label">ชื่อรูปภาพ</label>
-                            <div class="form-group col-md-4">
-                                <input class="form-control" id="title" name="title" type="text">
-                            </div>
-                        </div><div class="form-group row">
-                            <div class="form-group col-md-4">
-                                <input class="form-control" name="single_upload_image" type="file">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                        <label for="tag" class="col-sm-6 col-form-label">Tag</label>
-                            <div class="form-group col-md-4">
-                                <input class="form-control" id="tag" name="tag" type="text">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-sm-10">
-                                <button type="submit" name="submit" class="btn btn-info">Submit</button>
-                            </div>
-                        </div>
-                    </form>
-                        </p>
-                </div>
-              </div>    <!-- end of card div -->
-</div>
-
-<?php } // end new_post_form ?>
 
 
 <?php function insert_post($newData){
@@ -368,8 +272,8 @@ function new_post_form(){ ?>
 } // end update_form
 ?>
 <?php
-function upload_image($_FILES,$folder,$file_publicid,$tag=""){
-        $files = $_FILES["single_upload_image"]["tmp_name"];
+function upload_image($files,$folder,$file_publicid,$tag=""){
+        $files = $files["single_upload_image"]["tmp_name"];
         $target_file = basename($_FILES["single_upload_image"]["name"]);
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
         if(!empty($imageFileType)){
@@ -382,6 +286,101 @@ function upload_image($_FILES,$folder,$file_publicid,$tag=""){
         return $image_url;
 }
 ?>
+<?php
+function new_post_form(){ ?>
+        <!-- form new people -->
+    <div class="card bg-success px-md-5 border" align="center" style="max-width: 120rem;">
+        <div class="card border-success md-12" style="max-width: 100rem;">
+        <div class="card-body" align="left">
+        <p class="card-text">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
+                <input type="hidden"name="action" value="newpost">
+                <input type="hidden"name="postform" value="people">
+                <label class="col-sm-6 col-form-label">ข้อมูลบุคคล</label>
+                <div class="form-group row">
+                <label class="col-sm-6 col-form-label">ยศ ชื่อ สกุล</label>
+                    <div class="form-group col-md-2">
+                        <input class="form-control" id="rank" name="rank" type="text" placeholder="ยศ">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input class="form-control" id="name" name="name" type="text" placeholder="ชื่อ">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input class="form-control" id="lastname" name="lastname" type="text" placeholder="นามสกุล">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input class="form-control" id="nickname" name="nickname" type="text" placeholder="ชื่อเล่น">
+                    </div>
+                </div>
+                <div class="form-group row">
+                <label class="col-sm-6 col-form-label" for="position">การติดต่อ</label>
+                    <div class="form-group col-md-2">
+                        <input class="form-control" id="telephone" name="telephone" type="text" placeholder="099 999 9999">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input class="form-control" id="position" name="position" type="text" placeholder="ตำแหน่ง">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input class="form-control" id="organization" name="organization" type="text" placeholder="หน่วย กองพล กองทัพ">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <input class="form-control" id="province" name="province" type="text" placeholder="จังหวัด">
+                    </div>
+                </div>
+                <div class="form-group row">
+                <label class="col-sm-6 col-form-label" for="single_upload_image">รูปโปรไฟล์</label>
+                    <div class="form-group col-md-6">
+                        <input class="form-control" name="single_upload_image" type="file">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="submit" name="submit" class="btn btn-info">Submit</button>
+                    </div>
+                </div>
+            </form>
+    </div>
+    </div>
+    </div>
+    <br>
+    <hr>
+    <!-- form upload image -->
+    <div class="card bg-info px-md-5 border" align="center" style="max-width: 120rem;">
+        <div class="card border-success md-12" style="max-width: 100rem;">
+            <div class="card-body" align="left">
+                <p class="card-text">
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
+                        <input type="hidden"name="action" value="newpost">
+                        <input type="hidden"name="postform" value="image">
+                        <label class="col-sm-6 col-form-label">อัพโหลดรูปภาพ</label>
+                        <div class="form-group row">
+                        <label class="col-sm-6 col-form-label">ชื่อรูปภาพ</label>
+                            <div class="form-group col-md-4">
+                                <input class="form-control" id="title" name="title" type="text">
+                            </div>
+                        </div><div class="form-group row">
+                            <div class="form-group col-md-4">
+                                <input class="form-control" name="single_upload_image" type="file">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                        <label for="tag" class="col-sm-6 col-form-label">Tag</label>
+                            <div class="form-group col-md-4">
+                                <input class="form-control" id="tag" name="tag" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button type="submit" name="submit" class="btn btn-info">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                        </p>
+                </div>
+              </div>    <!-- end of card div -->
+</div>
+
+<?php } // end new_post_form ?>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
