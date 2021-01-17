@@ -327,7 +327,7 @@ foreach ($events as $event) {
 
                              $newCarousel = new CarouselColumnTemplateBuilder(
                                  "$title",
-                                 "$tag",
+                                 '$ ค้นหาข้อมูลบุคคล จากชื่อ นามสกุล, ตำแหน่ง สังกัด จังหวัด\n #ค้นหารูปภาพ จากชื่อ และ tag\n ? สอบถามวิธีใช้งาน',
                                  $imageUrl,
                                  $actionBuilder
                              );
