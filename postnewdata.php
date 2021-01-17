@@ -111,19 +111,18 @@ if($action=='newpost') {
         if (!empty($_FILES['single_upload_image'])) { //record_image
 
             if (!empty($_FILES['single_upload_image'])) { //record_image
-                $newData['image_url'] = upload_image($_FILES,"crma51",$file_publicid,$tag); // files, folder
+                $image_url = upload_image($_FILES,"crma51",$file_publicid,$tag); // files, folder
             }
 
         }// end if !empty _FILES
 
           $result = insert_post($newData);
-          
           if($result){
-             $message= "<div align='center' class='alert alert-success'>เพิ่มข้อมูล เรียบร้อย</div>";
-                }else{
-             $message= "<div align='center' class='alert alert-danger'>ไม่สามารถเพิ่มข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
-                       }
-             $_SESSION["message"]=$message;
+         $message= "<div align='center' class='alert alert-success'>เพิ่มข้อมูล เรียบร้อย</div>";
+            }else{
+         $message= "<div align='center' class='alert alert-danger'>ไม่สามารถเพิ่มข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
+                   }
+        $_SESSION["message"]=$message;
 
     }// end if post people
 
