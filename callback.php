@@ -175,7 +175,7 @@ foreach ($events as $event) {
                                $image_url,
                                $actionBuilder
                            );
-                           if($count<7){
+                           if($count<6){
                               array_push($arr,$newCarousel);
                            }
                 }//end foreach
