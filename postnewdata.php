@@ -117,12 +117,6 @@ if($action=='newpost') {
         }// end if !empty _FILES
 
           $result = insert_post($newData);
-          if($result){
-         $message= "<div align='center' class='alert alert-success'>เพิ่มข้อมูล เรียบร้อย</div>";
-            }else{
-         $message= "<div align='center' class='alert alert-danger'>ไม่สามารถเพิ่มข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
-                   }
-        $_SESSION["message"]=$message;
 
     }// end if post people
 
@@ -318,7 +312,14 @@ function new_post_form(){ ?>
 
     $newman = new RestDB();
     $returnValue = $newman->insertDocument($collectionName,$obj);
-    return $returnValue;
+      if($returnValue){
+     $message= "<div align='center' class='alert alert-success'>เพิ่มข้อมูล ".$rank.$name." ".$lastname." เรียบร้อย</div>";
+        }else{
+     $message= "<div align='center' class='alert alert-danger'>ไม่สามารถเพิ่มข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
+               }
+    $_SESSION["message"]=$message;
+
+      return $message;
 }//end function insert_request
  ?>
 <?php function update_form($id){ ?>
