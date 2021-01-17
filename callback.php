@@ -310,10 +310,11 @@ foreach ($events as $event) {
                       $imageUrl = "https://res.cloudinary.com/crma51/image/upload/v1610664757/$image_url";
                       // กำหนด action 4 ปุ่ม 4 ประเภท
                       $actionBuilder = array(
-                                 new MessageTemplateActionBuilder(
-                                     "$title",// ข้อความแสดงในปุ่ม
-                                     "$tag" // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-                                 ),
+
+                                  new UriTemplateActionBuilder(
+                                      'ดูข้อมูล', // ข้อความแสดงในปุ่ม
+                                       $imageUrl
+                                  ),
                                  new UriTemplateActionBuilder(
                                      'แจ้งแก้ไขข้อมูล', // ข้อความแสดงในปุ่ม
                                       'https://lisaechobot.herokuapp.com/postnewdata.php?action=showupdateform&updateid='.$_id
