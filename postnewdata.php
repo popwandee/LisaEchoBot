@@ -344,6 +344,7 @@ function new_post_form(){ ?>
     $rank = $newData['rank'];
     $name = $newData['name'];
     $lastname= $newData['lastname'];
+    $nickname= $newData['nickname'];
     $telephone = $newData['telephone'];
     $position = $newData['position'];
     $organization = $newData['organization'];
@@ -351,7 +352,7 @@ function new_post_form(){ ?>
     $img_url = $newData['img_url'];
     // นำข้อมูลเข้าเก็บในฐานข้อมูล
     $collectionName = "friend";
-    $obj =   '{"rank":"'.$rank.'","name":"'.$name.'","lastname":"'.$lastname.'", "telephone":"'.$telephone.'","position":"'.$position.'",
+    $obj =   '{"rank":"'.$rank.'","name":"'.$name.'","lastname":"'.$lastname.'","nickname":"'.$nickname.'", "telephone":"'.$telephone.'","position":"'.$position.'",
         "organization":"'.$organization.'", "province":"'.$province.'", "img_url":"'.$img_url.'"}';
 
     $newman = new RestDB();
