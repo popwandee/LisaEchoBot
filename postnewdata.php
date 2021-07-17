@@ -216,6 +216,7 @@ if($action=='newpost') {
      $sort= '';
      $data = new RestDB();
      $res = $data->selectDocument($collectionName,$obj,$sort);
+     echo "<br>$ res is ";print_r($res);
      if($res){
          foreach($res as $rec){
      ?>
