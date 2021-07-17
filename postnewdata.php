@@ -55,9 +55,10 @@ if(isset($_GET['action'])){             $action = $_GET['action'];
     }elseif(isset($_POST['action'])){   $action = $_POST['action'];
     }else{                              $action = "";
     }
+echo "<br>$ action is ".$action ;
 //ตรวจสอบว่ามีการส่งข้อมูลมาจากฟอร์มใด people or image
 $postform = isset($_POST['postform']) ? $_POST['postform'] : "";
-
+echo "<br>$ postform is ".$postform ;
 ?>
 <div class="container theme-showcase" role="main">
     <div class="jumbotron">
@@ -116,7 +117,7 @@ if($action=='newpost') {
 //กรณีแก้ไขข้อมูล ต้องการแก้ไขข้อมูล
 }elseif($action=='showupdateform'){
     //ตรวจสอบหมายเลขข้อมูลที่ต้องการแก้ไข
-      $updateid = isset($_GET['updateid'])?$_GET['updateid']:"NO id";
+      $updateid = isset($_GET['updateid'])?$_GET['updateid']:"600011dee6f7c76000046ea";
       //แสดงแบบฟอร์มข้อมูลที่ต้องการแก้ไข
       show_update_form($updateid);
 
@@ -254,7 +255,7 @@ if($action=='newpost') {
                      </div>
                  </div>
                  <div class="form-group row">
-                 <label class="col-sm-6 col-form-label" for="position">รูปโปรไฟล์</label>
+                 <label class="col-sm-6 col-form-label" for="position">รูปโปรไฟล์<?php echo $rec['image_url'];?></label>
                      <div class="form-group col-md-6">
                          <input class="form-control" name="single_upload_image" type="file">
                          <input name="image_url" type="hidden" value="<?php echo $rec['image_url'];?>">
@@ -272,6 +273,8 @@ if($action=='newpost') {
  <?php
 } // end foreach
 } // end if select result
+else{
+    "ไม่เจอข้อมูลครับ";
 } // end update_form
 ?>
 <?php
