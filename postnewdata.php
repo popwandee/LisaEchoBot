@@ -146,7 +146,7 @@ if($action=='newpost') {
     echo "<br>$ _FILES is ";
     print_r($_FILES);
       //upload image to Cloudinary
-      if (!empty($_FILES['single_upload_image'])) { //record_image
+      if ($_FILES['single_upload_image']['size']>1) { //record_image
           $file_publicid =$telephone.$dateNow;
           echo "<br>$ file_publicid is ".$file_publicid;
           $image_url = upload_image($_FILES,"crma51",$file_publicid,$name); // files, folder , public_id, tag
