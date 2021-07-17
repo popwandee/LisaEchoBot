@@ -1,4 +1,5 @@
 <?php
+// ไฟล์นี้สำหรับการเพิ่ม แก้ไขข้อมูลบุคคล หรือรูปภาพ
 // Initialize the session
 session_start();
 
@@ -50,11 +51,11 @@ require_once "vendor/restdbclass.php";
 <?php
 
   // ตรวจสอบ Action จาก _GET หรือ _POST
-if(isset($_GET['action'])){         $action = $_GET['action'];
+if(isset($_GET['action'])){             $action = $_GET['action'];
     }elseif(isset($_POST['action'])){   $action = $_POST['action'];
     }else{                              $action = "";
      }
-
+//ตรวจสอบว่ามีการส่งข้อมูลมาจากฟอร์มใด people or image
 $postform = isset($_POST['postform']) ? $_POST['postform'] : "";
 
 ?>
@@ -64,15 +65,16 @@ $postform = isset($_POST['postform']) ? $_POST['postform'] : "";
 <?php // core logic
 
 echo $message;$_SESSION['message']="";
-
+// กรณีเพิ่มข้อมูลใหม่
 if($action=='newpost') {
-
+//เพิ่มข้อมูลใหม่ กรณีมาจากฟอร์มรูปภาพ image
     if($postform=="image"){
         $title = isset($_POST['title']) ? $_POST['title'] : $dateNow ;
         $tag = isset($_POST['tag']) ? $_POST['tag'] : "" ;
         $obj['title']= $title;
         $obj['tag']= $tag;
         $file_publicid = $title.$dateNow;
+        //upload to Cloudinary
         if (!empty($_FILES['single_upload_image'])) { //record_image
             $image_url = upload_image($_FILES,"post",$file_publicid,$tag); // files, folder
         }
@@ -88,7 +90,7 @@ if($action=='newpost') {
                      }
           echo $message;
 
-
+//เพิ่มข้อมูลใหม่ กรณีมาจากฟอร์มข้อมูลบุคคล people
     }elseif($postform=="people"){
         $newData = array();
         $newData['rank']= isset($_POST['rank']) ? htmlspecialchars($_POST['rank']) : '';
@@ -103,19 +105,28 @@ if($action=='newpost') {
 
         $file_publicid = $dateNow;
         $tag = $newData['name'] ;
+        //upload to Cloudinary
         if (!empty($_FILES['single_upload_image'])) { //record_image
-            $image_url = upload_image($_FILES,"post",$file_publicid,$tag); // files, folder
+            $image_url = upload_image($_FILES,"crma51",$file_publicid,$tag); // files, folder
+            $newData['image_url'] =$image_url;
             }// end if !empty _FILES
-        $newData['image_url'] ="";
         $result = insert_post($newData);
     }// end if postform == people
 
-  }elseif($action=='showupdateform'){
+//กรณีแก้ไขข้อมูล ต้องการแก้ไขข้อมูล
+}elseif($action=='showupdateform'){
+    //ตรวจสอบหมายเลขข้อมูลที่ต้องการแก้ไข
       $updateid = isset($_GET['updateid'])?$_GET['updateid']:"NO id";
-      update_form($updateid);
-  }elseif($action=='updatepeople'){
+      //แสดงแบบฟอร์มข้อมูลที่ต้องการแก้ไข
+      show_update_form($updateid);
+
+//กรณีแก้ไขข้อมูล แก้ไขข้อมูลบุคคลมาแล้ว
+}elseif($action=='updatepeople'){
+    //ตรวจสอบหมายเลขข้อมูลที่ต้องการแก้ไข
       $objectId = isset($_POST['_id']) ? $_POST['_id'] : "";
+    //ชุดข้อมูลที่ต้องการแก้ไข
       $collectionName = "friend";
+    //ข้อมูลจากแบบฟอร์ม
       $rank = isset($_POST['rank']) ? $_POST['rank'] : "";
       $name = isset($_POST['name']) ? $_POST['name'] : "";
       $lastname = isset($_POST['lastname']) ? $_POST['lastname'] : "";
@@ -124,7 +135,14 @@ if($action=='newpost') {
       $position = isset($_POST['position']) ? $_POST['position'] : "";
       $organization = isset($_POST['organization']) ? $_POST['organization'] : "";
       $province = isset($_POST['province']) ? $_POST['province'] : "";
-      $image_url ="sample.jpg"; // default
+      $image_url = "Sample.jpg" // default
+      //upload image to Cloudinary
+      $file_publicid =$telephone.$dateNow;
+      if (!empty($_FILES['single_upload_image'])) { //record_image
+          $image_url = upload_image($_FILES,"crma51",$file_publicid,$name); // files, folder , public_id, tag
+        }
+
+      //บันทึกข้อมูลในฐานข้อมูล
       $obj =  array(  "rank" => $rank,
                       "name" => $name,
                       "lastname" => $lastname,
@@ -145,22 +163,8 @@ if($action=='newpost') {
         }
         echo $message;
 
-        $file_publicid =$telephone.$dateNow;
-    if (!empty($_FILES['single_upload_image'])) { //record_image
-        $image_url = upload_image($_FILES,"crma51",$file_publicid,$name); // files, folder , public_id, tag
-        $objectId = isset($_POST['_id']) ? $_POST['_id'] : "";
-        $collectionName = "friend";
-        $obj =  array("image_url" => $image_url);
-        $updateman = new RestDB;
-        $res = $updateman->updateDocument($collectionName, $objectId, $obj);
-        if($res){
-            $message= "<div align='center' class='alert alert-success'>อัพเดตข้อมูล เรียบร้อย</div>";
-            }else{
-            $message= "<div align='center' class='alert alert-danger'>ไม่สามารถอัพเดตข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
-            }
-            echo $message;
-        }
-  }elseif($action=='shownewpostform'){
+//กรณีเพิ่มข้อมูลใหม่ แสดงแบบฟอร์มการเพิ่มข้อมูล
+}elseif($action=='shownewpostform'){
           new_post_form();
   }
 
@@ -199,7 +203,7 @@ if($action=='newpost') {
 }//end function insert_request
  ?>
  <?php
- function update_form($id){
+ function show_update_form($id){
      $collectionName = "friend";
      $obj = '{"_id":"'.$id.'"}';
      $sort= '';
@@ -208,6 +212,7 @@ if($action=='newpost') {
      if($res){
          foreach($res as $rec){
      ?>
+     // postform people
          <div class="card bg-info px-md-5 border" align="center" style="max-width: 120rem;">
          <div class="card border-success md-12" style="max-width: 100rem;">
          <div class="card-header"align="left">ข้อมูลบุคคล</div>
@@ -286,6 +291,7 @@ function upload_image($files,$folder,$file_publicid,$tag=""){
 <?php
 function new_post_form(){ ?>
         <!-- form new people -->
+        // postform people
     <div class="card bg-success px-md-5 border" align="center" style="max-width: 120rem;">
         <div class="card border-success md-12" style="max-width: 100rem;">
         <div class="card-body" align="left">
@@ -341,7 +347,9 @@ function new_post_form(){ ?>
     </div>
     <br>
     <hr>
-    <!-- form upload image -->
+    <!-- form upload image
+        postform image-->
+
     <div class="card bg-info px-md-5 border" align="center" style="max-width: 120rem;">
         <div class="card border-success md-12" style="max-width: 100rem;">
             <div class="card-body" align="left">
