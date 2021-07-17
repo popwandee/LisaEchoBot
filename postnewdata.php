@@ -207,11 +207,15 @@ if($action=='newpost') {
  ?>
  <?php
  function show_update_form($id){
+     echo "<br>$ Here is showupdateform Function";
+     //$updateid "600011dee6f7c76000046ea";
+     echo "<br>$ updateid is ".$id;
      $collectionName = "friend";
-     $obj = '{"_id":"'.$id.'"}';
+     echo "<br>$ collectionName is ".$collectionName;
+     $obj = '{"_id":"'.$id.'"}';print_r($obj);
      $sort= '';
-     $coupon = new RestDB();
-     $res = $coupon->selectDocument($collectionName,$obj,$sort);
+     $data = new RestDB();
+     $res = $data->selectDocument($collectionName,$obj,$sort);
      if($res){
          foreach($res as $rec){
      ?>
