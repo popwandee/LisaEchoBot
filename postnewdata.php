@@ -135,7 +135,7 @@ if($action=='newpost') {
       $position = isset($_POST['position']) ? $_POST['position'] : "";
       $organization = isset($_POST['organization']) ? $_POST['organization'] : "";
       $province = isset($_POST['province']) ? $_POST['province'] : "";
-      $image_url = "Sample.jpg"; // default
+      $image_url = isset($_POST['image_url']) ? $_POST['image_url'] : ""; // url เดิม
       //upload image to Cloudinary
       $file_publicid =$telephone.$dateNow;
       if (!empty($_FILES['single_upload_image'])) { //record_image
@@ -257,6 +257,7 @@ if($action=='newpost') {
                  <label class="col-sm-6 col-form-label" for="position">รูปโปรไฟล์</label>
                      <div class="form-group col-md-6">
                          <input class="form-control" name="single_upload_image" type="file">
+                         <input name="image_url" type="hidden" value="<?php echo $rec['image_url'];?>">
                      </div>
                  </div>
                  <div class="form-group row">
