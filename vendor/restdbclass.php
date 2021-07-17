@@ -9,8 +9,7 @@
 
 class RestDB {
 
-    CONST APIDB = 'lisaechobot-2058';
-    CONST APIKEY = '5ffc066f823229477922ca1e';
+    
 
     private $apiurl = '';
 
