@@ -143,6 +143,8 @@ if($action=='newpost') {
       $province = isset($_POST['province']) ? $_POST['province'] : "";
       $image_url = isset($_POST['image_url']) ? $_POST['image_url'] : ""; // url เดิม
     echo "<br>$ image_url is ".$image_url;
+    echo "<br>$ _FILES is ";
+    print_r($_FILES);
       //upload image to Cloudinary
       if (!empty($_FILES['single_upload_image'])) { //record_image
           $file_publicid =$telephone.$dateNow;
