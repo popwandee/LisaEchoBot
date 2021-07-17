@@ -274,7 +274,7 @@ if($action=='newpost') {
 } // end foreach
 } // end if select result
 else{
-    "ไม่เจอข้อมูลครับ";
+    "ไม่เจอข้อมูลครับ";}
 } // end update_form
 ?>
 <?php
