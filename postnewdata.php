@@ -164,14 +164,14 @@ if($action=='newpost') {
                       "image_url" => $image_url
                       );
 echo "<br> OBJ is ";print_r($obj);
-      //$updateman = new RestDB;
-      //$res = $updateman->updateDocument($collectionName, $objectId, $obj);
-      //if($res){
-        // $message= "<div align='center' class='alert alert-success'>อัพเดตข้อมูล เรียบร้อย</div>";
-        //}else{
-         //$message= "<div align='center' class='alert alert-danger'>ไม่สามารถอัพเดตข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
-        //}
-        //echo $message;
+      $updateman = new RestDB;
+      $res = $updateman->updateDocument($collectionName, $objectId, $obj);
+      if($res){
+        $message= "<div align='center' class='alert alert-success'>อัพเดตข้อมูล เรียบร้อย</div>";
+        }else{
+         $message= "<div align='center' class='alert alert-danger'>ไม่สามารถอัพเดตข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
+        }
+        echo $message;
 
 //กรณีเพิ่มข้อมูลใหม่ แสดงแบบฟอร์มการเพิ่มข้อมูล
 }elseif($action=='shownewpostform'){
