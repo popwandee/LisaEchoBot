@@ -116,8 +116,10 @@ if($action=='newpost') {
 
 //กรณีแก้ไขข้อมูล ต้องการแก้ไขข้อมูล
 }elseif($action=='showupdateform'){
+    echo "<br>$ Here is showupdateform section";
     //ตรวจสอบหมายเลขข้อมูลที่ต้องการแก้ไข
       $updateid = isset($_GET['updateid'])?$_GET['updateid']:"600011dee6f7c76000046ea";
+      echo "<br>$ updateid is ".$updateid;
       //แสดงแบบฟอร์มข้อมูลที่ต้องการแก้ไข
       show_update_form($updateid);
 
