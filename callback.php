@@ -184,7 +184,7 @@ foreach ($events as $event) {
                         array_pop($arr);
                     }
                 }
-                $replyData = new TemplateMessageBuilder('Carousel',
+                $replyData = new TemplateMessageBuilder('แสดงข้อมูลเพื่อน',
                     new CarouselTemplateBuilder(
                         $arr
                     )
@@ -262,7 +262,7 @@ foreach ($events as $event) {
                              }
                   }//end foreach
 
-                  $replyData = new TemplateMessageBuilder('Carousel',
+                  $replyData = new TemplateMessageBuilder('แสดงข้อมูลถามตอบ',
                       new CarouselTemplateBuilder(
                           $arr
                       )
@@ -351,7 +351,7 @@ foreach ($events as $event) {
                           array_pop($arr);
                       }
                    }
-                  $replyData = new TemplateMessageBuilder('Carousel',
+                  $replyData = new TemplateMessageBuilder('แสดงข้อมูลรูปภาพ',
                       new CarouselTemplateBuilder(
                           $arr
                       )
