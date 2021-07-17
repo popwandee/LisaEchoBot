@@ -54,7 +54,7 @@ require_once "vendor/restdbclass.php";
 if(isset($_GET['action'])){             $action = $_GET['action'];
     }elseif(isset($_POST['action'])){   $action = $_POST['action'];
     }else{                              $action = "";
-     }
+    }
 //ตรวจสอบว่ามีการส่งข้อมูลมาจากฟอร์มใด people or image
 $postform = isset($_POST['postform']) ? $_POST['postform'] : "";
 
@@ -135,7 +135,7 @@ if($action=='newpost') {
       $position = isset($_POST['position']) ? $_POST['position'] : "";
       $organization = isset($_POST['organization']) ? $_POST['organization'] : "";
       $province = isset($_POST['province']) ? $_POST['province'] : "";
-      $image_url = "Sample.jpg" // default
+      $image_url = "Sample.jpg"; // default
       //upload image to Cloudinary
       $file_publicid =$telephone.$dateNow;
       if (!empty($_FILES['single_upload_image'])) { //record_image
@@ -212,7 +212,7 @@ if($action=='newpost') {
      if($res){
          foreach($res as $rec){
      ?>
-     // postform people
+    <!-- postform people -->
          <div class="card bg-info px-md-5 border" align="center" style="max-width: 120rem;">
          <div class="card border-success md-12" style="max-width: 100rem;">
          <div class="card-header"align="left">ข้อมูลบุคคล</div>
@@ -291,7 +291,7 @@ function upload_image($files,$folder,$file_publicid,$tag=""){
 <?php
 function new_post_form(){ ?>
         <!-- form new people -->
-        // postform people
+        <!-- // postform people -->
     <div class="card bg-success px-md-5 border" align="center" style="max-width: 120rem;">
         <div class="card border-success md-12" style="max-width: 100rem;">
         <div class="card-body" align="left">
