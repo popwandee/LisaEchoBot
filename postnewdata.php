@@ -118,13 +118,16 @@ if($action=='newpost') {
 }elseif($action=='showupdateform'){
     echo "<br>$ Here is showupdateform section";
     //ตรวจสอบหมายเลขข้อมูลที่ต้องการแก้ไข
-      $updateid = isset($_GET['updateid'])?$_GET['updateid']:"600011dee6f7c76000046ea";
+      $updateid = isset($_GET['updateid'])?$_GET['updateid']:"600011deed6f7c76000046ea";
       echo "<br>$ updateid is ".$updateid;
       //แสดงแบบฟอร์มข้อมูลที่ต้องการแก้ไข
       show_update_form($updateid);
 
 //กรณีแก้ไขข้อมูล แก้ไขข้อมูลบุคคลมาแล้ว
 }elseif($action=='updatepeople'){
+    echo "<br>$ Here is updatepeople action";
+    //$updateid "600011deed6f7c76000046ea";
+
     //ตรวจสอบหมายเลขข้อมูลที่ต้องการแก้ไข
       $objectId = isset($_POST['_id']) ? $_POST['_id'] : "";
     //ชุดข้อมูลที่ต้องการแก้ไข
@@ -139,12 +142,13 @@ if($action=='newpost') {
       $organization = isset($_POST['organization']) ? $_POST['organization'] : "";
       $province = isset($_POST['province']) ? $_POST['province'] : "";
       $image_url = isset($_POST['image_url']) ? $_POST['image_url'] : ""; // url เดิม
+    echo "<br>$ image_url is ".$image_url;
       //upload image to Cloudinary
-      $file_publicid =$telephone.$dateNow;
       if (!empty($_FILES['single_upload_image'])) { //record_image
+          $file_publicid =$telephone.$dateNow;
           $image_url = upload_image($_FILES,"crma51",$file_publicid,$name); // files, folder , public_id, tag
         }
-
+    echo "<br>$ image_url after upload image is ".$image_url;
       //บันทึกข้อมูลในฐานข้อมูล
       $obj =  array(  "rank" => $rank,
                       "name" => $name,
@@ -156,15 +160,15 @@ if($action=='newpost') {
                       "province" => $province,
                       "image_url" => $image_url
                       );
-
-      $updateman = new RestDB;
-      $res = $updateman->updateDocument($collectionName, $objectId, $obj);
-      if($res){
-         $message= "<div align='center' class='alert alert-success'>อัพเดตข้อมูล เรียบร้อย</div>";
-        }else{
-         $message= "<div align='center' class='alert alert-danger'>ไม่สามารถอัพเดตข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
-        }
-        echo $message;
+echo "<br> OBJ is ";print_r($obj);
+      //$updateman = new RestDB;
+      //$res = $updateman->updateDocument($collectionName, $objectId, $obj);
+      //if($res){
+        // $message= "<div align='center' class='alert alert-success'>อัพเดตข้อมูล เรียบร้อย</div>";
+        //}else{
+         //$message= "<div align='center' class='alert alert-danger'>ไม่สามารถอัพเดตข้อมูลได้ โปรดติดต่อผู้ดูแลระบบ</div>";
+        //}
+        //echo $message;
 
 //กรณีเพิ่มข้อมูลใหม่ แสดงแบบฟอร์มการเพิ่มข้อมูล
 }elseif($action=='shownewpostform'){
@@ -208,7 +212,7 @@ if($action=='newpost') {
  <?php
  function show_update_form($id){
      echo "<br>$ Here is showupdateform Function";
-     //$updateid "600011dee6f7c76000046ea";
+     //$updateid "600011deed6f7c76000046ea";
      echo "<br>$ updateid is ".$id;
      $collectionName = "friend";
      echo "<br>$ collectionName is ".$collectionName;
