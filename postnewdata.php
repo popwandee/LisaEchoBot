@@ -293,8 +293,10 @@ function upload_image($files,$folder,$file_publicid,$tag=""){
         $files = $files["single_upload_image"]["tmp_name"];
         $target_file = basename($_FILES["single_upload_image"]["name"]);
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+echo "<br>imageFileType is ".$imageFileType;
         if(!empty($imageFileType)){
           $option=array("folder" => $folder,"tags"=>$tag,"public_id" => $file_publicid);
+echo "<br>option is "; print_r($option);
           $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
           $image_url ="$folder/$file_publicid.".$imageFileType;
         }else{
