@@ -55,10 +55,10 @@ if(isset($_GET['action'])){             $action = $_GET['action'];
     }elseif(isset($_POST['action'])){   $action = $_POST['action'];
     }else{                              $action = "";
     }
-echo "<br>$ action is ".$action ;
+
 //ตรวจสอบว่ามีการส่งข้อมูลมาจากฟอร์มใด people or image
 $postform = isset($_POST['postform']) ? $_POST['postform'] : "";
-echo "<br>$ postform is ".$postform ;
+
 ?>
 <div class="container theme-showcase" role="main">
     <div class="jumbotron">
@@ -116,17 +116,13 @@ if($action=='newpost') {
 
 //กรณีแก้ไขข้อมูล ต้องการแก้ไขข้อมูล
 }elseif($action=='showupdateform'){
-    echo "<br>$ Here is showupdateform section";
     //ตรวจสอบหมายเลขข้อมูลที่ต้องการแก้ไข
-      $updateid = isset($_GET['updateid'])?$_GET['updateid']:"600011deed6f7c76000046ea";
-      echo "<br>$ updateid is ".$updateid;
+      $updateid = isset($_GET['updateid'])?$_GET['updateid']:"";
       //แสดงแบบฟอร์มข้อมูลที่ต้องการแก้ไข
       show_update_form($updateid);
 
 //กรณีแก้ไขข้อมูล แก้ไขข้อมูลบุคคลมาแล้ว
 }elseif($action=='updatepeople'){
-    echo "<br>$ Here is updatepeople action";
-    //$updateid "600011deed6f7c76000046ea";
 
     //ตรวจสอบหมายเลขข้อมูลที่ต้องการแก้ไข
       $objectId = isset($_POST['_id']) ? $_POST['_id'] : "";
@@ -142,16 +138,13 @@ if($action=='newpost') {
       $organization = isset($_POST['organization']) ? $_POST['organization'] : "";
       $province = isset($_POST['province']) ? $_POST['province'] : "";
       $image_url = isset($_POST['image_url']) ? $_POST['image_url'] : ""; // url เดิม
-    echo "<br>$ image_url is ".$image_url;
-    echo "<br>$ _FILES is ";
-    print_r($_FILES);
+
       //upload image to Cloudinary
       if ($_FILES['single_upload_image']['size']>1) { //record_image
           $file_publicid =$telephone.$dateNow;
-          echo "<br>$ file_publicid is ".$file_publicid;
           $image_url = upload_image($_FILES,"crma51",$file_publicid,$name); // files, folder , public_id, tag
         }
-    echo "<br>$ image_url after upload image is ".$image_url;
+
       //บันทึกข้อมูลในฐานข้อมูล
       $obj =  array(  "rank" => $rank,
                       "name" => $name,
@@ -163,7 +156,7 @@ if($action=='newpost') {
                       "province" => $province,
                       "image_url" => $image_url
                       );
-echo "<br> OBJ is ";print_r($obj);
+
       $updateman = new RestDB;
       $res = $updateman->updateDocument($collectionName, $objectId, $obj);
       if($res){
@@ -214,16 +207,14 @@ echo "<br> OBJ is ";print_r($obj);
  ?>
  <?php
  function show_update_form($id){
-     echo "<br>$ Here is showupdateform Function";
-     //$updateid "600011deed6f7c76000046ea";
-     echo "<br>$ updateid is ".$id;
+
      $collectionName = "friend";
-     echo "<br>$ collectionName is ".$collectionName;
+
      $obj = '{"_id":"'.$id.'"}';print_r($obj);
      $sort= '';
      $data = new RestDB();
      $res = $data->selectDocument($collectionName,$obj,$sort);
-     echo "<br>$ res is ";print_r($res);
+
      if($res){
          foreach($res as $rec){
      ?>
@@ -287,8 +278,6 @@ echo "<br> OBJ is ";print_r($obj);
  <?php
 } // end foreach
 } // end if select result
-else{
-    "ไม่เจอข้อมูลครับ";}
 } // end update_form
 ?>
 <?php
@@ -296,10 +285,9 @@ function upload_image($files,$folder,$file_publicid,$tag=""){
         $files = $files["single_upload_image"]["tmp_name"];
         $target_file = basename($_FILES["single_upload_image"]["name"]);
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-echo "<br>imageFileType is ".$imageFileType;
+
         if(!empty($imageFileType)){
           $option=array("folder" => $folder,"tags"=>$tag,"public_id" => $file_publicid);
-echo "<br>option is "; print_r($option);
           $cloudUpload = \Cloudinary\Uploader::upload($files,$option);
           $image_url ="$folder/$file_publicid.".$imageFileType;
         }else{
